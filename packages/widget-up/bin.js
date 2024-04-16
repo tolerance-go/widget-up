@@ -1,35 +1,50 @@
 #!/usr/bin/env node
 
-const { Command } = require('commander');
+import { Command } from "commander";
+import { execSync } from "child_process";
+import packageJson from "./package.json" assert { type: "json" };
+
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// 现在你可以使用 __dirname，就像在 CommonJS 模块中一样
+const configFile = path.resolve(__dirname, "rollup.config.js");
+const localRollup = path.resolve(__dirname, "node_modules/.bin/rollup");
+
+
 const program = new Command();
-const { execSync } = require('child_process');
-const packageJson = require('./package.json'); // 引入 package.json
 
 // Helper function to run scripts
 function runScript(command) {
-  execSync(command, { stdio: 'inherit' });
+  execSync(command, { stdio: "inherit" });
+}
+
+function runRollup(command) {
+  runScript(`${localRollup} ${command} -c ${configFile}`);
 }
 
 program
-  .version(packageJson.version) // 使用 package.json 中的版本号
-  .description('CLI to bundle widgets using Rollup');
+  .version(packageJson.version)
+  .description("CLI to bundle widgets using Rollup");
 
 program
-  .command('build')
-  .description('Builds the widget for production')
+  .command("build")
+  .description("Builds the widget for production")
   .action(() => {
-    console.log('Running clean up...');
-    runScript('rimraf dist'); // 直接调用 rimraf 清理 dist 目录
-    console.log('Building...');
-    runScript('rollup -c');
+    console.log("Running clean up...");
+    runScript("rimraf dist");
+    console.log("Building...");
+    runRollup("");
   });
 
 program
-  .command('dev')
-  .description('Starts the widget in development mode with watch')
+  .command("dev")
+  .description("Starts the widget in development mode with watch")
   .action(() => {
-    console.log('Starting development server...');
-    runScript('rollup -c -w');
+    console.log("Starting development server...");
+    runRollup("-w");
   });
 
 program.parse(process.argv);
