@@ -6,6 +6,7 @@ import { terser } from "rollup-plugin-terser";
 import serve from "rollup-plugin-serve";
 import livereload from "rollup-plugin-livereload";
 import copy from "rollup-plugin-copy";
+import postcss from "rollup-plugin-postcss";
 
 // 确定是否处于开发模式
 const isDev = process.env.ROLLUP_WATCH;
@@ -28,6 +29,10 @@ export default {
     commonjs(),
     typescript({ useTsconfigDeclarationDir: true }),
     babel({ babelHelpers: "runtime" }),
+    postcss({
+      extract: true, // 提取 CSS 到单独的文件
+      modules: true, // 启用 CSS Modules
+    }),
     isDev &&
       serve({
         open: true, // 自动打开浏览器
