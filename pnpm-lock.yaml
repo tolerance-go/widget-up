@@ -20,6 +20,9 @@ importers:
         specifier: '16'
         version: 16.14.0(react@16.14.0)
     devDependencies:
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
       widget-up:
         specifier: workspace:^
         version: link:../widget-up

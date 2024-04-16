@@ -19,6 +19,7 @@
     "react-dom": "16"
   },
   "devDependencies": {
-    "widget-up": "workspace:^"
+    "widget-up": "workspace:^",
+    "typescript": "^5.4.5"
   }
 }
