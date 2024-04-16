@@ -42,6 +42,9 @@ importers:
         specifier: '16'
         version: 16.14.0(react@16.14.0)
     devDependencies:
+      cnpm:
+        specifier: ^9.4.0
+        version: 9.4.0
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -61,6 +64,9 @@ importers:
         specifier: '16'
         version: 16.14.0(react@16.14.0)
     devDependencies:
+      cnpm:
+        specifier: ^9.4.0
+        version: 9.4.0
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
