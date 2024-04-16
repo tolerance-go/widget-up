@@ -6,7 +6,7 @@ const Button = () => {
   const [color, setColor] = useState("red");
   return (
     <button
-      className="react16_css button"
+      className="react16_css"
       style={{
         color,
       }}
