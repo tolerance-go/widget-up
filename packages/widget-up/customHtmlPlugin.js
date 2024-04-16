@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-export function customHtmlPlugin({ globals, src, dest, dependencies }) {
+export function customHtmlPlugin({ globals, src, dest, packageConfig, config }) {
   return {
     name: "custom-html", // 插件名称
     generateBundle() {
@@ -9,9 +9,8 @@ export function customHtmlPlugin({ globals, src, dest, dependencies }) {
 
       const scriptTags = Object.entries(globals)
         .map(([key, value]) => {
-          const url = value.url;
           return [
-            `<script src="https://unpkg.com/${key}@${dependencies[key]}/umd/${key}.production.min.js"></script>`,
+            `<script src="https://unpkg.com/${key}@${packageConfig.dependencies[key]}/umd/${key}.production.min.js"></script>`,
             `<script>window.${globals[key]} = ${config.external[key]};</script>`,
           ].join("\n");
         })
@@ -19,7 +18,9 @@ export function customHtmlPlugin({ globals, src, dest, dependencies }) {
 
       const newHtml = originalHtml.replace(
         "</body>",
-        `  ${scriptTags}\n  <script src="./bundle.js"></script>\n</body>`
+        [scriptTags, '<script src="./bundle.js"></script>', "</body>"].join(
+          "\n"
+        )
       );
 
       fs.writeFileSync(path.resolve(dest, "index.html"), newHtml, "utf8");

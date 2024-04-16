@@ -1,3 +1,4 @@
+input: src/index.tsx
 external:
   react: React
   react-dom: ReactDOM

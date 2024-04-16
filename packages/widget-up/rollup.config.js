@@ -22,7 +22,7 @@ function getConfig() {
 }
 
 const config = getConfig();
-const packageJSON = JSON.parse(
+const packageConfig = JSON.parse(
   fs.readFileSync(path.resolve("package.json"), "utf8")
 );
 
@@ -31,7 +31,7 @@ const external = Object.keys(config.external || {});
 
 const globals = Object.fromEntries(
   Object.entries(config.external).map(([npmName, globalName]) => {
-    return [npmName, `${globalName}${packageJSON.dependencies[npmName]}`];
+    return [npmName, `${globalName}${packageConfig.dependencies[npmName]}`];
   })
 );
 
@@ -71,7 +71,8 @@ export default {
         globals,
         src: "index.html",
         dest: "dist",
-        dependencies: packageJSON.dependencies,
+        packageConfig,
+        config,
       }),
     isDev &&
       copy({
