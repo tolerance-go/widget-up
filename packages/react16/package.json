@@ -1,11 +1,14 @@
 {
-  "name": "react16",
+  "name": "widgets-demo-react16",
   "version": "0.0.0",
   "description": "",
   "module": "dist/esm/index.js",
   "typings": "dist/types/index.d.ts",
   "main": "dist/cjs/index.js",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "wup build",
     "dev": "wup dev"
