@@ -8,7 +8,7 @@ importers:
 
   .: {}
 
-  packages/react-16:
+  packages/react16:
     dependencies:
       '@babel/runtime':
         specifier: ^7.24.4
