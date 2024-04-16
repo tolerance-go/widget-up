@@ -13,7 +13,7 @@
     "build": "wup build",
     "dev": "wup dev",
     "prepublishOnly": "npm run build",
-    "postversion": "git add package.json && git commit -m \"chore: release\" && git push && npm publish"
+    "postversion": "git add package.json && git commit -m \"chore: release\" && git push && npm publish && cnpm sync"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +24,11 @@
     "react-dom": "16"
   },
   "devDependencies": {
+    "cnpm": "^9.4.0",
     "typescript": "^5.4.5",
     "widget-up": "workspace:^"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
