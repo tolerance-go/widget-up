@@ -12,8 +12,7 @@
   "scripts": {
     "build": "wup build",
     "dev": "wup dev",
-    "preversion": "npm run build",
-    "postversion": "bash ../../release.sh ."
+    "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "",

@@ -12,8 +12,7 @@
   "scripts": {
     "build": "wup build",
     "dev": "wup dev",
-    "release": "standard-version",
-    "preversion": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "",
