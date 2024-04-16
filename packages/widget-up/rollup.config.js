@@ -62,7 +62,7 @@ function generateOutputs() {
 
   // UMD 格式始终包含
   outputs.push({
-    file: "dist/umd/bundle.js",
+    file: "dist/umd/index.js",
     format: "umd",
     name: config.name,
     globals,
@@ -73,7 +73,7 @@ function generateOutputs() {
 
   if (config.esm ?? true) {
     outputs.push({
-      file: "dist/esm/bundle.js",
+      file: "dist/esm/index.js",
       format: "esm",
       sourcemap: isDev ? "inline" : false,
     });
@@ -82,7 +82,7 @@ function generateOutputs() {
   // 根据配置动态添加 CJS 和 ESM 格式
   if (config.cjs) {
     outputs.push({
-      file: "dist/cjs/bundle.js",
+      file: "dist/cjs/index.js",
       format: "cjs",
       sourcemap: isDev ? "inline" : false,
     });
@@ -98,7 +98,14 @@ export default {
   plugins: [
     resolve(),
     commonjs(),
-    typescript({ useTsconfigDeclarationDir: true }),
+    typescript({
+      useTsconfigDeclarationDir: true,
+      tsconfigOverride: {
+        compilerOptions: {
+          declarationDir: "dist/types",
+        },
+      },
+    }),
     babel({
       babelHelpers: "runtime",
       presets: ["@babel/preset-env", "@babel/preset-react"],

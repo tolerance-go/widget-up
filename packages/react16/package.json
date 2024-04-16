@@ -2,9 +2,9 @@
   "name": "react16",
   "version": "0.0.0",
   "description": "",
-  "module": "dist/esm/bundle.js",
-  "typings": "dist/esm/bundle.d.ts",
-  "main": "dist/cjs/bundle.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/types/index.d.ts",
+  "main": "dist/cjs/index.js",
   "type": "module",
   "scripts": {
     "build": "wup build",

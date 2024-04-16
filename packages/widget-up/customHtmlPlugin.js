@@ -26,7 +26,7 @@ export function customHtmlPlugin({
               global: `window.${globals[key]} = ${config.external[key]};`,
             };
           }),
-          bundleSrc: "./umd/bundle.js",
+          bundleSrc: "./umd/index.js",
           includeCSS: !!config.css,
         },
         (err, html) => {
