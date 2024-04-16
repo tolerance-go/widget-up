@@ -2,7 +2,8 @@
   "description": "",
   "scripts": {
     "lerna:version": "lerna version",
-    "lerna:publish": "lerna publish from-git"
+    "lerna:publish-from-git": "lerna publish from-git",
+    "lerna:publish": "lerna publish"
   },
   "keywords": [],
   "author": "",
