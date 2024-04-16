@@ -7,6 +7,9 @@
     "version": {
       "conventionalCommits": true,
       "changelogPreset": "conventionalcommits"
+    },
+    "publish": {
+      "access": "public"
     }
   }
 }
