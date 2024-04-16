@@ -78,6 +78,15 @@ export default {
     config.css &&
       postcss({
         extract: true, // 提取 CSS 到单独的文件
+        ...(config.css === "modules"
+          ? {
+              modules: true,
+            }
+          : config.css === "autoModules"
+          ? {
+              autoModules: true,
+            }
+          : {}),
       }),
     isDev &&
       serve({
