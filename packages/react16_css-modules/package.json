@@ -1,6 +1,6 @@
 {
   "name": "react16_css-modules",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "module": "dist/esm/index.js",
   "typings": "dist/types/index.d.ts",
