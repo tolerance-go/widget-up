@@ -1,7 +1,12 @@
 #!/bin/bash
 # Usage: ./release.sh <project_directory>
 
-project_dir="$1"  # Get the project directory from the command line argument
+project_dir=$(cd "$1" && pwd)  # Convert to absolute path and handle potential path issues
+
+if [ -z "$project_dir" ]; then
+  echo "Error: Invalid directory path"
+  exit 1
+fi
 
 cd "$project_dir" || exit  # Change to the project directory or exit if it fails
 
