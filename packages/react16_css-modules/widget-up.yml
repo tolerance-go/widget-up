@@ -4,4 +4,4 @@ external:
   react-dom: ReactDOM
 name: MyComponent
 # modules | autoModules
-css: autoModules 
+css: autoModules

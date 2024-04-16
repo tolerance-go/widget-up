@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "fs-extra";
 import path from "path";
 import { fileURLToPath } from "url";
 import ejs from "ejs";
@@ -26,8 +26,8 @@ export function customHtmlPlugin({
               global: `window.${globals[key]} = ${config.external[key]};`,
             };
           }),
-          bundleSrc: "./bundle.js",
-          includeCSS: !!config.css
+          bundleSrc: "./umd/bundle.js",
+          includeCSS: !!config.css,
         },
         (err, html) => {
           if (err) {
@@ -35,8 +35,11 @@ export function customHtmlPlugin({
             return;
           }
 
+          const dist = path.resolve(dest);
+
+          fs.ensureDirSync(dist);
           // 写入生成的 HTML 到目标目录
-          fs.writeFileSync(path.resolve(dest, "index.html"), html, "utf8");
+          fs.writeFileSync(path.join(dist, "index.html"), html, "utf8");
         }
       );
     },

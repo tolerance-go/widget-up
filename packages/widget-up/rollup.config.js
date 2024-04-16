@@ -56,15 +56,44 @@ const globals = Object.fromEntries(
   })
 );
 
-export default {
-  input: isDev ? devInputFile : "./src/index.tsx",
-  output: {
-    file: "dist/bundle.js",
+// 构建输出数组
+function generateOutputs() {
+  const outputs = [];
+
+  // UMD 格式始终包含
+  outputs.push({
+    file: "dist/umd/bundle.js",
     format: "umd",
     name: config.name,
     globals,
-    sourcemap: isDev ? "inline" : false, // 开发模式启用源码映射
-  },
+    sourcemap: isDev ? "inline" : false,
+  });
+
+  if (isDev) return outputs;
+
+  if (config.esm ?? true) {
+    outputs.push({
+      file: "dist/esm/bundle.js",
+      format: "esm",
+      sourcemap: isDev ? "inline" : false,
+    });
+  }
+
+  // 根据配置动态添加 CJS 和 ESM 格式
+  if (config.cjs) {
+    outputs.push({
+      file: "dist/cjs/bundle.js",
+      format: "cjs",
+      sourcemap: isDev ? "inline" : false,
+    });
+  }
+
+  return outputs;
+}
+
+export default {
+  input: isDev ? devInputFile : "./src/index.tsx",
+  output: generateOutputs(),
   external,
   plugins: [
     resolve(),
