@@ -2,9 +2,11 @@
   "name": "widgets-demos",
   "version": "0.0.0",
   "description": "",
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "cnpm": "^9.4.0"
+  }
 }

@@ -10,7 +10,7 @@
     "build": "wup build",
     "dev": "wup dev",
     "prepublishOnly": "npm run build",
-    "postversion": "git add package.json && git commit -m \"chore: release\" && git push && npm publish && cnpm sync"
+    "postversion": "bash release.sh"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +21,6 @@
     "react-dom": "16"
   },
   "devDependencies": {
-    "cnpm": "^9.4.0",
     "typescript": "^5.4.5",
     "widget-up": "workspace:^"
   },
