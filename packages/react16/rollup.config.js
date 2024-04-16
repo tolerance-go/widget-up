@@ -17,8 +17,8 @@ export default {
     format: "umd",
     name: "MyComponent",
     globals: {
-      react: "React_16",
-      "react-dom": "ReactDOM_16",
+      react: "React16",
+      "react-dom": "ReactDOM16",
     },
     sourcemap: isDev ? "inline" : false, // 开发模式启用源码映射
   },
