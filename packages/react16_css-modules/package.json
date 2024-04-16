@@ -10,7 +10,7 @@
     "build": "wup build",
     "dev": "wup dev",
     "prepublishOnly": "npm run build",
-    "postversion": "git add package.json && git commit -m \"chore: release\" && git push && npm publish && cnpm sync"
+    "postversion": "git add package.json && git commit -m \"release: $(node -p \\\"'${npm_package_name} v' + require('./package.json').version\\\")\" && git tag v$(node -p \"require('./package.json').version\") && git push && git push --tags && npm publish && cnpm sync"
   },
   "keywords": [],
   "author": "",
