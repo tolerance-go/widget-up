@@ -12,6 +12,7 @@
   "scripts": {
     "build": "wup build",
     "dev": "wup dev",
+    "prepublishOnly": "npm run build",
     "postversion": "git add package.json && git commit -m \"chore: release\" && git push && npm publish"
   },
   "keywords": [],
