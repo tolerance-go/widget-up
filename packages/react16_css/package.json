@@ -1,5 +1,5 @@
 {
-  "name": "@widget-up/demo-react16_css",
+  "name": "@widget-up-demo/react16_css",
   "version": "0.1.2",
   "description": "",
   "module": "dist/esm/index.js",
