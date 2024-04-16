@@ -5,9 +5,13 @@
   "main": "index.js",
   "type": "module",
   "bin": {
-    "widget-up": "./bin.js",
-    "wup": "./bin.js"
+    "widget-up": "./bin/index.js",
+    "wup": "./bin/index.js"
   },
+  "files": [
+    "lib",
+    "bin"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

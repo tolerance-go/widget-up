@@ -2,7 +2,7 @@
 
 import { Command } from "commander";
 import { execSync } from "child_process";
-import packageJson from "./package.json" assert { type: "json" };
+import packageJson from "../package.json" assert { type: "json" };
 
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -10,9 +10,9 @@ import path from 'path';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 现在你可以使用 __dirname，就像在 CommonJS 模块中一样
-const configFile = path.join(__dirname, "rollup.config.js");
-const localRollup = path.join(__dirname, "node_modules/.bin/rollup");
-const localRimraf = path.join(__dirname, "node_modules/.bin/rimraf");
+const configFile = path.join(__dirname, "../lib/rollup.config.js");
+const localRollup = path.join(__dirname, "../node_modules/.bin/rollup");
+const localRimraf = path.join(__dirname, "../node_modules/.bin/rimraf");
 
 
 const program = new Command();
