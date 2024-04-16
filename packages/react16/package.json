@@ -13,7 +13,7 @@
     "build": "wup build",
     "dev": "wup dev",
     "preversion": "npm run build",
-    "postversion": "bash release.sh ."
+    "postversion": "bash ../../release.sh ."
   },
   "keywords": [],
   "author": "",

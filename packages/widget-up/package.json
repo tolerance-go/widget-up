@@ -13,7 +13,7 @@
     "bin"
   ],
   "scripts": {
-    "postversion": "bash release.sh ."
+    "postversion": "bash ../../release.sh ."
   },
   "keywords": [],
   "author": "",
