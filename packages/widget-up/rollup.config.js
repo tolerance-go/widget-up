@@ -9,7 +9,13 @@ import copy from "rollup-plugin-copy";
 import yaml from "js-yaml";
 import path from "path";
 import fs from "fs";
+import postcss from "rollup-plugin-postcss";
+
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
+
+import { processEJSTemplate } from "./processEJSTemplate.js";
+import { fileURLToPath } from "url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 确定是否处于开发模式
 const isDev = process.env.ROLLUP_WATCH;
@@ -26,6 +32,21 @@ const packageConfig = JSON.parse(
   fs.readFileSync(path.resolve("package.json"), "utf8")
 );
 
+const devInputFile = "./.wup/index.tsx";
+
+const paredInput = path.parse(path.posix.join("..", config.input));
+
+if (isDev) {
+  await processEJSTemplate(
+    path.join(__dirname, "./index.tsx.ejs"),
+    path.resolve(devInputFile),
+    {
+      // 去掉后缀名
+      input: path.posix.join(paredInput.dir, paredInput.name),
+    }
+  );
+}
+
 // 从 globals 对象的键中生成 external 数组
 const external = Object.keys(config.external || {});
 
@@ -36,11 +57,11 @@ const globals = Object.fromEntries(
 );
 
 export default {
-  input: isDev ? "./index.tsx" : "src/index.tsx",
+  input: isDev ? devInputFile : "./src/index.tsx",
   output: {
     file: "dist/bundle.js",
     format: "umd",
-    name: "MyComponent",
+    name: config.name,
     globals,
     sourcemap: isDev ? "inline" : false, // 开发模式启用源码映射
   },
@@ -54,6 +75,10 @@ export default {
       presets: ["@babel/preset-env", "@babel/preset-react"],
       plugins: ["@babel/plugin-transform-runtime"],
     }),
+    config.css &&
+      postcss({
+        extract: true, // 提取 CSS 到单独的文件
+      }),
     isDev &&
       serve({
         open: true, // 自动打开浏览器
@@ -69,7 +94,7 @@ export default {
     isDev &&
       customHtmlPlugin({
         globals,
-        src: "index.html",
+        src: "index.html.ejs",
         dest: "dist",
         packageConfig,
         config,
