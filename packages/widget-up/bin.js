@@ -44,6 +44,7 @@ program
   .command("dev")
   .description("Starts the widget in development mode with watch")
   .action(() => {
+    runScript(`${localRimraf} dist`);
     console.log("Starting development server...");
     runRollup("-w");
   });

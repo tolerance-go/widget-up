@@ -101,9 +101,13 @@ export default {
     typescript({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: {
-        compilerOptions: {
-          declarationDir: "dist/types",
-        },
+        compilerOptions: isDev
+          ? {
+              declaration: false,
+            }
+          : {
+              declarationDir: "dist/types",
+            },
       },
     }),
     babel({
