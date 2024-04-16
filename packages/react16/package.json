@@ -12,8 +12,8 @@
   "scripts": {
     "build": "wup build",
     "dev": "wup dev",
-    "preversion": "npm run build",
-    "postversion": "bash ../../release.sh ."
+    "release": "standard-version",
+    "preversion": "npm run build"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,7 @@
     "react-dom": "16"
   },
   "devDependencies": {
+    "standard-version": "^9.5.0",
     "typescript": "^5.4.5",
     "widget-up": "workspace:^"
   },
