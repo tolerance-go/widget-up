@@ -2,5 +2,11 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "packages": ["packages/*"],
   "version": "independent",
-  "npmClient": "pnpm"
+  "npmClient": "pnpm",
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "changelogPreset": "conventionalcommits"
+    }
+  }
 }
