@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/tolerance-go/widget-up/compare/widget-up@0.3.0...widget-up@0.3.1) (2024-04-18)
+
+
+### Bug Fixes
+
+* **widget-up:** 支持范围版本依赖解析 ([aaf9759](https://github.com/tolerance-go/widget-up/commit/aaf97596687307b0146b0ef696cd2be5b6e38b29))
+* **widget-up:** esm 和 cjs 默认添加外部依赖 ([0428077](https://github.com/tolerance-go/widget-up/commit/04280771562709d0fdcbfb3d79603cb53c40122f))
+
+
+
 ## [0.3.0](https://github.com/tolerance-go/widget-up/compare/widget-up@0.2.0...widget-up@0.3.0) (2024-04-18)
 
 

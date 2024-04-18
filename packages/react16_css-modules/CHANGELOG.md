@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react16_css-modules@0.3.0...@widget-up-demo/react16_css-modules@0.3.1) (2024-04-18)
+
+
+### Bug Fixes
+
+* 修复 module 导出 ([b44928a](https://github.com/tolerance-go/widget-up/commit/b44928a28b3f625b82f837b27be692ce06e731ab))
+* **widget-up:** 支持范围版本依赖解析 ([aaf9759](https://github.com/tolerance-go/widget-up/commit/aaf97596687307b0146b0ef696cd2be5b6e38b29))
+
+
+
 ## [0.3.0](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react16_css-modules@0.2.0...@widget-up-demo/react16_css-modules@0.3.0) (2024-04-18)
 
 
