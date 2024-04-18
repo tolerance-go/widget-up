@@ -161,6 +161,9 @@ export default {
       copy({
         targets: [{ src: "external", dest: "dist" }],
       }),
+    copy({
+      targets: [{ src: "widget-up.yml", dest: "dist" }],
+    }),
     !isDev && terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean),
 };
