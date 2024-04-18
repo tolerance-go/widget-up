@@ -21,6 +21,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // 确定是否处于开发模式
 const isDev = process.env.ROLLUP_WATCH;
 
+const packageJson = JSON.parse(
+  fs.readFileSync(path.resolve("package.json"), "utf8")
+);
+const dependencies = Object.keys(packageJson.dependencies || {});
+const peerDependencies = Object.keys(packageJson.peerDependencies || {});
+const externalDependencies = Array.from(
+  new Set([...dependencies, ...peerDependencies])
+);
+
 // 读取和解析 YAML 配置文件
 function getConfig() {
   const configPath = path.join(process.cwd(), "./widget-up.yml");
@@ -61,14 +70,16 @@ const globals = Object.fromEntries(
 function generateOutputs() {
   const outputs = [];
 
-  // UMD 格式始终包含
-  outputs.push({
-    file: "dist/umd/index.js",
-    format: "umd",
-    name: config.umd.name,
-    globals,
-    sourcemap: isDev ? "inline" : false,
-  });
+  if (config.umd ?? true) {
+    // UMD 格式始终包含
+    outputs.push({
+      file: "dist/umd/index.js",
+      format: "umd",
+      name: config.umd.name,
+      globals,
+      sourcemap: isDev ? "inline" : false,
+    });
+  }
 
   if (isDev) return outputs;
 
@@ -107,63 +118,65 @@ const getServerConfig = async () => {
   });
 };
 
-export default {
-  input: isDev ? devInputFile : "./src/index.tsx",
-  output: generateOutputs(),
-  external,
-  plugins: [
-    resolve(),
-    commonjs(),
-    typescript({
-      useTsconfigDeclarationDir: true,
-      tsconfigOverride: {
-        compilerOptions: isDev
-          ? {
-              declaration: false,
-            }
-          : {
-              declarationDir: "dist/types",
-            },
-      },
+const plugins = [
+  resolve(),
+  commonjs(),
+  typescript({
+    useTsconfigDeclarationDir: true,
+    tsconfigOverride: {
+      compilerOptions: isDev
+        ? {
+            declaration: false,
+          }
+        : {
+            declarationDir: "dist/types",
+          },
+    },
+  }),
+  babel({
+    babelHelpers: "runtime",
+    presets: ["@babel/preset-env", "@babel/preset-react"],
+    plugins: ["@babel/plugin-transform-runtime"],
+  }),
+  config.css &&
+    postcss({
+      extract: true, // 提取 CSS 到单独的文件
+      ...(config.css === "modules"
+        ? {
+            modules: true,
+          }
+        : config.css === "autoModules"
+        ? {
+            autoModules: true,
+          }
+        : {}),
     }),
-    babel({
-      babelHelpers: "runtime",
-      presets: ["@babel/preset-env", "@babel/preset-react"],
-      plugins: ["@babel/plugin-transform-runtime"],
+  getServerConfig(),
+  isDev &&
+    livereload({
+      watch: "dist", // 监听文件夹
     }),
-    config.css &&
-      postcss({
-        extract: true, // 提取 CSS 到单独的文件
-        ...(config.css === "modules"
-          ? {
-              modules: true,
-            }
-          : config.css === "autoModules"
-          ? {
-              autoModules: true,
-            }
-          : {}),
-      }),
-    getServerConfig(),
-    isDev &&
-      livereload({
-        watch: "dist", // 监听文件夹
-      }),
-    isDev &&
-      customHtmlPlugin({
-        globals,
-        src: "index.html.ejs",
-        dest: "dist",
-        packageConfig,
-        config,
-      }),
-    isDev &&
-      copy({
-        targets: [{ src: "external", dest: "dist" }],
-      }),
+  isDev &&
+    customHtmlPlugin({
+      globals,
+      src: "index.html.ejs",
+      dest: "dist",
+      packageConfig,
+      config,
+    }),
+  isDev &&
     copy({
-      targets: [{ src: "widget-up.yml", dest: "dist" }],
+      targets: [{ src: "external", dest: "dist" }],
     }),
-    !isDev && terser(), // 仅在生产模式下压缩代码
-  ].filter(Boolean),
-};
+  copy({
+    targets: [{ src: "widget-up.yml", dest: "dist" }],
+  }),
+  !isDev && terser(), // 仅在生产模式下压缩代码
+].filter(Boolean);
+
+export default generateOutputs().map((output) => ({
+  input: isDev ? devInputFile : "./src/index.tsx",
+  output,
+  plugins,
+  external: output.format === "umd" ? external : externalDependencies,
+}));
