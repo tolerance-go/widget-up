@@ -43,7 +43,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@widget-up/utils": "workspace:^",
+    "widget-up-utils": "workspace:^",
     "net": "^1.0.2"
   }
 }

@@ -10,7 +10,7 @@ import postcss from "rollup-plugin-postcss";
 import serve from "rollup-plugin-serve";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
-import { getLatestPackageVersion, semverToIdentifier } from "@widget-up/utils";
+import { getLatestPackageVersion, semverToIdentifier } from "widget-up-utils";
 
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
 

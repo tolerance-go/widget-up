@@ -126,12 +126,12 @@ importers:
 
   packages/widget-up:
     dependencies:
-      '@widget-up/utils':
-        specifier: workspace:^
-        version: link:../utils
       net:
         specifier: ^1.0.2
         version: 1.0.2
+      widget-up-utils:
+        specifier: workspace:^
+        version: link:../utils
     devDependencies:
       '@babel/core':
         specifier: ^7.24.4

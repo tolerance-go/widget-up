@@ -1,5 +1,5 @@
 {
-  "name": "@widget-up/utils",
+  "name": "widget-up-utils",
   "version": "0.1.0",
   "description": "",
   "module": "dist/esm/index.js",
