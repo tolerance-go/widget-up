@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/tolerance-go/widget-up/compare/widget-up@0.2.0...widget-up@0.3.0) (2024-04-18)
+
+
+### Features
+
+* **widget-up:** 发布 npm 文件新增 widget-up.yml ([c5e6250](https://github.com/tolerance-go/widget-up/commit/c5e6250a8cb354eede72aad98e1b9a4c1712db30))
+* **widget-up:** umd 新增 global 下的 unpkg 路径配置 ([da6c3ce](https://github.com/tolerance-go/widget-up/commit/da6c3cec88798d30504f73a64cc18fa0cffc1f04))
+
+
+### Bug Fixes
+
+* **widget-up:** 开发模式下不启动端口检测和服务 ([c2305bc](https://github.com/tolerance-go/widget-up/commit/c2305bcf9bf05aca2dc574eb6988ef4fa2998ce1))
+
+
+
 ## [0.2.0](https://github.com/tolerance-go/widget-up/compare/widget-up@0.1.5...widget-up@0.2.0) (2024-04-18)
 
 

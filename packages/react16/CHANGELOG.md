@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react16@0.3.0...@widget-up-demo/react16@0.4.0) (2024-04-18)
+
+
+### Features
+
+* **widget-up:** umd 新增 global 下的 unpkg 路径配置 ([da6c3ce](https://github.com/tolerance-go/widget-up/commit/da6c3cec88798d30504f73a64cc18fa0cffc1f04))
+
+
+
 ## [0.3.0](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react16@0.2.10...@widget-up-demo/react16@0.3.0) (2024-04-18)
 
 
