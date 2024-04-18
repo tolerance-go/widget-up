@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/tolerance-go/widget-up/compare/widget-up@0.3.1...widget-up@0.3.2) (2024-04-18)
+
+
+### Bug Fixes
+
+* 改名 widget-up-utils ([a31f5f1](https://github.com/tolerance-go/widget-up/commit/a31f5f13b9dc60be003bd1555ab355e2a0501fad))
+
+
+
 ## [0.3.1](https://github.com/tolerance-go/widget-up/compare/widget-up@0.3.0...widget-up@0.3.1) (2024-04-18)
 
 
