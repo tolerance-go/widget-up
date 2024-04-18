@@ -95,7 +95,17 @@ function generateOutputs() {
 // Usage in Rollup config
 const PORT = 3000;
 
-const availablePort = await findAvailablePort(PORT);
+const getServerConfig = async () => {
+  if (!isDev) return undefined;
+  const availablePort = await findAvailablePort(PORT);
+  return serve({
+    open: true, // 自动打开浏览器
+    contentBase: ["dist"], // 服务器根目录，'.': 配置文件同级
+    historyApiFallback: true, // SPA页面可使用
+    host: "localhost",
+    port: availablePort,
+  });
+};
 
 export default {
   input: isDev ? devInputFile : "./src/index.tsx",
@@ -134,14 +144,7 @@ export default {
             }
           : {}),
       }),
-    isDev &&
-      serve({
-        open: true, // 自动打开浏览器
-        contentBase: ["dist"], // 服务器根目录，'.': 配置文件同级
-        historyApiFallback: true, // SPA页面可使用
-        host: "localhost",
-        port: availablePort,
-      }),
+    getServerConfig(),
     isDev &&
       livereload({
         watch: "dist", // 监听文件夹
