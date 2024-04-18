@@ -20,10 +20,10 @@ export function customHtmlPlugin({
       ejs.renderFile(
         templatePath,
         {
-          scriptTags: Object.entries(globals).map(([key, value]) => {
+          scriptTags: Object.entries(globals).map(([pkgName, value]) => {
             return {
-              src: `https://unpkg.com/${key}@${packageConfig.dependencies[key]}/umd/${key}.production.min.js`,
-              global: `window.${globals[key]} = ${config.umd.external[key]};`,
+              src: `https://unpkg.com/${pkgName}@${packageConfig.dependencies[pkgName]}${config.umd.global?.[pkgName]?.unpkg.filePath}`,
+              global: `window.${globals[pkgName]} = ${config.umd.external[pkgName]};`,
             };
           }),
           bundleSrc: "./umd/index.js",

@@ -1,7 +1,14 @@
 input: src/index.tsx
 umd:
+  name: MyComponent
   external:
     react: React
     react-dom: ReactDOM
-  name: MyComponent
+  global:
+    react:
+      unpkg:
+        filePath: /umd/react.production.min.js
+    react-dom:
+      unpkg:
+        filePath: /umd/react-dom.production.min.js
 css: true
