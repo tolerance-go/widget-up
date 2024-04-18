@@ -42,5 +42,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "net": "^1.0.2"
   }
 }

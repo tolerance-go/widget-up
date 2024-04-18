@@ -8,9 +8,6 @@ importers:
 
   .:
     devDependencies:
-      cnpm:
-        specifier: ^9.4.0
-        version: 9.4.0
       conventional-changelog-cli:
         specifier: ^4.1.0
         version: 4.1.0
@@ -82,6 +79,10 @@ importers:
         version: link:../widget-up
 
   packages/widget-up:
+    dependencies:
+      net:
+        specifier: ^1.0.2
+        version: 1.0.2
     devDependencies:
       '@babel/core':
         specifier: ^7.24.4
@@ -2832,24 +2833,6 @@ packages:
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dev: true
 
-  /cnpm@9.4.0:
-    resolution: {integrity: sha512-oxvozguyEuXp/3Ie0JEtmHKt8+OayZfNH40/B1gmtok2+0dHTS0Kt4uUn5rZ8qIYNk5UzzFVmu1pZxEn0no/iQ==}
-    engines: {node: '>= 14.18.0'}
-    hasBin: true
-    dev: true
-    bundledDependencies:
-      - auto-correct
-      - bagpipe
-      - commander
-      - cross-spawn
-      - giturl
-      - ini
-      - npm
-      - npm-request
-      - npminstall
-      - open
-      - urllib
-
   /color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
     dependencies:
@@ -5316,6 +5299,10 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /net@1.0.2:
+    resolution: {integrity: sha512-kbhcj2SVVR4caaVnGLJKmlk2+f+oLkjqdKeQlmUtz6nGzOpbcobwVIeSURNgraV/v3tlmGIX82OcPCl0K6RbHQ==}
+    dev: false
 
   /node-fetch@2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}

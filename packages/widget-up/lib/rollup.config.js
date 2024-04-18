@@ -1,20 +1,21 @@
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import typescript from "rollup-plugin-typescript2";
 import babel from "@rollup/plugin-babel";
-import { terser } from "rollup-plugin-terser";
-import serve from "rollup-plugin-serve";
-import livereload from "rollup-plugin-livereload";
-import copy from "rollup-plugin-copy";
+import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
+import fs from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import fs from "fs";
+import copy from "rollup-plugin-copy";
+import livereload from "rollup-plugin-livereload";
 import postcss from "rollup-plugin-postcss";
+import serve from "rollup-plugin-serve";
+import { terser } from "rollup-plugin-terser";
+import typescript from "rollup-plugin-typescript2";
 
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
 
-import { processEJSTemplate } from "./processEJSTemplate.js";
 import { fileURLToPath } from "url";
+import { findAvailablePort } from "./findAvailablePort.js";
+import { processEJSTemplate } from "./processEJSTemplate.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 确定是否处于开发模式
@@ -91,6 +92,11 @@ function generateOutputs() {
   return outputs;
 }
 
+// Usage in Rollup config
+const PORT = 3000;
+
+const availablePort = await findAvailablePort(PORT);
+
 export default {
   input: isDev ? devInputFile : "./src/index.tsx",
   output: generateOutputs(),
@@ -134,7 +140,7 @@ export default {
         contentBase: ["dist"], // 服务器根目录，'.': 配置文件同级
         historyApiFallback: true, // SPA页面可使用
         host: "localhost",
-        port: 3000,
+        port: availablePort,
       }),
     isDev &&
       livereload({
