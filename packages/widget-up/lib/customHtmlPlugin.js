@@ -23,7 +23,7 @@ export function customHtmlPlugin({
           scriptTags: Object.entries(globals).map(([key, value]) => {
             return {
               src: `https://unpkg.com/${key}@${packageConfig.dependencies[key]}/umd/${key}.production.min.js`,
-              global: `window.${globals[key]} = ${config.external[key]};`,
+              global: `window.${globals[key]} = ${config.umd.external[key]};`,
             };
           }),
           bundleSrc: "./umd/index.js",

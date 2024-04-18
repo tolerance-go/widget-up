@@ -1,8 +1,5 @@
-// ejsTemplateProcessor.js
-
-import fs from "fs-extra";
-import path from "path";
 import ejs from "ejs";
+import fs from "fs-extra";
 
 export async function processEJSTemplate(
   templatePath,

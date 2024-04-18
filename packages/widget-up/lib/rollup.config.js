@@ -48,10 +48,10 @@ if (isDev) {
 }
 
 // 从 globals 对象的键中生成 external 数组
-const external = Object.keys(config.external || {});
+const external = Object.keys(config.umd.external || {});
 
 const globals = Object.fromEntries(
-  Object.entries(config.external).map(([npmName, globalName]) => {
+  Object.entries(config.umd.external).map(([npmName, globalName]) => {
     return [npmName, `${globalName}${packageConfig.dependencies[npmName]}`];
   })
 );
@@ -64,7 +64,7 @@ function generateOutputs() {
   outputs.push({
     file: "dist/umd/index.js",
     format: "umd",
-    name: config.name,
+    name: config.umd.name,
     globals,
     sourcemap: isDev ? "inline" : false,
   });
