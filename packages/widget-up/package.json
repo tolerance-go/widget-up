@@ -2,7 +2,6 @@
   "name": "widget-up",
   "version": "0.3.0",
   "description": "",
-  "main": "index.js",
   "type": "module",
   "bin": {
     "widget-up": "./bin/index.js",
@@ -44,6 +43,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
+    "@widget-up/utils": "workspace:^",
     "net": "^1.0.2"
   }
 }

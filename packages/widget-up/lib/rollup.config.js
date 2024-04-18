@@ -10,6 +10,7 @@ import postcss from "rollup-plugin-postcss";
 import serve from "rollup-plugin-serve";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
+import { getLatestPackageVersion, semverToIdentifier } from "@widget-up/utils";
 
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
 
@@ -60,11 +61,22 @@ if (isDev) {
 // 从 globals 对象的键中生成 external 数组
 const external = Object.keys(config.umd.external || {});
 
-const globals = Object.fromEntries(
-  Object.entries(config.umd.external).map(([npmName, globalName]) => {
-    return [npmName, `${globalName}${packageConfig.dependencies[npmName]}`];
-  })
-);
+async function generateGlobals() {
+  const entries = Object.entries(config.umd.external);
+  const globals = {};
+
+  for (const [npmName, globalName] of entries) {
+    const version = await getLatestPackageVersion(
+      npmName,
+      packageConfig.dependencies[npmName]
+    );
+    globals[npmName] = `${globalName}${semverToIdentifier(version)}`;
+  }
+
+  return globals;
+}
+
+const globals = await generateGlobals();
 
 // 构建输出数组
 function generateOutputs() {
