@@ -15,8 +15,9 @@ import { RollupOptions } from "rollup";
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
 
 import { fileURLToPath } from "url";
-import { findAvailablePort } from "./findAvailablePort.js";
-import { processEJSTemplate } from "./processEJSTemplate.js";
+import { findAvailablePort } from "./findAvailablePort";
+import { processEJSTemplate } from "./processEJSTemplate";
+import { parseConfig } from "widget-up-utils";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 确定是否处于开发模式
@@ -35,7 +36,7 @@ const externalDependencies = Array.from(
 function getConfig() {
   const configPath = path.join(process.cwd(), "./widget-up.yml");
   const fileContents = fs.readFileSync(configPath, "utf8");
-  return yaml.load(fileContents);
+  return parseConfig(yaml.load(fileContents));
 }
 
 const config = getConfig();
@@ -59,7 +60,7 @@ if (isDev) {
 }
 
 // 从 globals 对象的键中生成 external 数组
-const external = Object.keys(config.umd.external || {});
+const externalKeys = Object.keys(config.umd.external || {});
 
 async function generateGlobals() {
   const entries = Object.entries(config.umd.external);
@@ -190,7 +191,7 @@ const rollupConfig: RollupOptions[] = generateOutputs().map((output) => ({
   input: isDev ? devInputFile : "./src/index.tsx",
   output,
   plugins,
-  external: output.format === "umd" ? external : externalDependencies,
+  external: output.format === "umd" ? externalKeys : externalDependencies,
 }));
 
 export default rollupConfig;

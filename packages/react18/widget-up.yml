@@ -3,7 +3,9 @@ umd:
   name: MyComponent
   external:
     react: React
-    react-dom: ReactDOM
+    react-dom:
+      global: ReactDOM
+      peerDependencies: react
   global:
     react:
       unpkg:
