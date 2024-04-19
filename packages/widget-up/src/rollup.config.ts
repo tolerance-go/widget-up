@@ -15,8 +15,8 @@ import { RollupOptions } from "rollup";
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
 
 import { fileURLToPath } from "url";
-import { findAvailablePort } from "./findAvailablePort";
-import { processEJSTemplate } from "./processEJSTemplate";
+import { findAvailablePort } from "./findAvailablePort.js";
+import { processEJSTemplate } from "./processEJSTemplate.js";
 import { parseConfig } from "widget-up-utils";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
