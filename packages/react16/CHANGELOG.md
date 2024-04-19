@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react16@0.5.0...@widget-up-demo/react16@0.5.1) (2024-04-19)
+
+**Note:** Version bump only for package @widget-up-demo/react16
+
+
+
+
+
 ## [0.5.0](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react16@0.4.2...@widget-up-demo/react16@0.5.0) (2024-04-19)
 
 
