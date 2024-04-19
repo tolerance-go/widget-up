@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { Axios, AxiosError, isAxiosError } from "axios";
 import semver from "semver";
 
 /**
@@ -30,8 +30,20 @@ export async function getLatestPackageVersion(
     }
 
     return latestVersion;
-  } catch (error) {
-    console.error("Failed to fetch package version:", error);
+  } catch (error: unknown) {
+    console.log(error); // Temporarily log the error to see its structure
+
+    if (isAxiosError(error)) {
+      if (error.response) {
+        console.error("HTTP error occurred: " + error.response.status);
+      } else if (error.request) {
+        console.error("No response received: " + error.request);
+      } else {
+        console.error("Axios configuration error: " + error.message);
+      }
+    } else if (error instanceof Error) {
+      console.error("Error setting up the request: " + error.message);
+    }
     throw error;
   }
 }
