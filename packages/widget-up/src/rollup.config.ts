@@ -11,7 +11,7 @@ import serve from "rollup-plugin-serve";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import { getLatestPackageVersion, semverToIdentifier } from "widget-up-utils";
-
+import { RollupOptions } from "rollup";
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
 
 import { fileURLToPath } from "url";
@@ -49,7 +49,7 @@ const paredInput = path.parse(path.posix.join("..", config.input));
 
 if (isDev) {
   await processEJSTemplate(
-    path.join(__dirname, "./index.tsx.ejs"),
+    path.join(__dirname, "../tpls/index.tsx.ejs"),
     path.resolve(devInputFile),
     {
       // 去掉后缀名
@@ -171,7 +171,7 @@ const plugins = [
   isDev &&
     customHtmlPlugin({
       globals,
-      src: "index.html.ejs",
+      src: "../tpls/index.html.ejs",
       dest: "dist",
       packageConfig,
       config,
@@ -186,9 +186,11 @@ const plugins = [
   !isDev && terser(), // 仅在生产模式下压缩代码
 ].filter(Boolean);
 
-export default generateOutputs().map((output) => ({
+const rollupConfig: RollupOptions[] = generateOutputs().map((output) => ({
   input: isDev ? devInputFile : "./src/index.tsx",
   output,
   plugins,
   external: output.format === "umd" ? external : externalDependencies,
 }));
+
+export default rollupConfig;

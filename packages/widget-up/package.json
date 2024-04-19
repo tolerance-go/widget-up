@@ -8,10 +8,14 @@
     "wup": "./bin/index.js"
   },
   "files": [
-    "lib",
+    "dist",
     "bin"
   ],
-  "scripts": {},
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "clean": "rimraf dist"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -23,6 +27,7 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@types/node": "^20.12.7",
     "@types/react": "16",
     "@types/react-dom": "16",
     "commander": "^12.0.0",
