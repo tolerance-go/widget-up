@@ -48,7 +48,7 @@ export interface Config {
   umd?: UMDConfig;
   cjs?: boolean;
   esm?: boolean;
-  css?: boolean | string;
+  css?: boolean | "modules" | "autoModules";
 }
 
 export interface ParseConfig {
@@ -56,7 +56,7 @@ export interface ParseConfig {
   umd?: ParedUMDConfig;
   cjs?: boolean;
   esm?: boolean;
-  css?: boolean | string;
+  css?: boolean | "modules" | "autoModules";
 }
 
 export { PackageJson } from "./PackageJson";

@@ -74,7 +74,7 @@ export const getPlugins = (
         targets: [{ src: "external", dest: "dist" }],
       }),
     copy({
-      targets: [{ src: "widget-up.yml", dest: "dist" }],
+      targets: [{ src: "widget-up.json", dest: "dist" }],
     }),
     !isDev && terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean);

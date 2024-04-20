@@ -12,8 +12,9 @@
     "bin"
   ],
   "scripts": {
-    "dev": "cross-env NODE_ENV=development rollup -c -w",
-    "build": "cross-env NODE_ENV=production npm run clean && rollup -c",
+    "gen-config-schema": "node ./scripts/gen-config-schema.js",
+    "dev": "cross-env NODE_ENV=development npm run gen-config-schema && rollup -c -w",
+    "build": "cross-env NODE_ENV=production npm run clean && rollup -c && npm run gen-config-schema",
     "clean": "rimraf dist",
     "test": "jest",
     "prepublishAll": "npm run build"
@@ -22,6 +23,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "typescript-json-schema": "^0.63.0",
     "@babel/core": "^7.24.4",
     "@babel/plugin-transform-runtime": "^7.24.3",
     "@babel/preset-env": "^7.24.4",

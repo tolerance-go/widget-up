@@ -25,9 +25,9 @@ const externalDependencies = Array.from(
 
 // 读取和解析 YAML 配置文件
 function getConfig() {
-  const configPath = path.join(process.cwd(), "./widget-up.yml");
+  const configPath = path.join(process.cwd(), "./widget-up.json");
   const fileContents = fs.readFileSync(configPath, "utf8");
-  return parseConfig(yaml.load(fileContents));
+  return parseConfig(JSON.parse(fileContents));
 }
 
 const config = getConfig();
