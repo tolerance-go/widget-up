@@ -13,6 +13,7 @@ import typescript from "rollup-plugin-typescript2";
 import { getLatestPackageVersion, semverToIdentifier } from "widget-up-utils";
 import { RollupOptions } from "rollup";
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
+import json from '@rollup/plugin-json'
 
 import { fileURLToPath } from "url";
 import { findAvailablePort } from "./findAvailablePort.js";
@@ -21,7 +22,7 @@ import { parseConfig } from "widget-up-utils";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 确定是否处于开发模式
-const isDev = process.env.ROLLUP_WATCH;
+const isDev = process.env.NODE_ENV === 'development';
 
 const packageJson = JSON.parse(
   fs.readFileSync(path.resolve("package.json"), "utf8")
@@ -134,6 +135,7 @@ const getServerConfig = async () => {
 const plugins = [
   resolve(),
   commonjs(),
+  json(),
   typescript({
     useTsconfigDeclarationDir: true,
     tsconfigOverride: {

@@ -10,7 +10,7 @@ import path from 'path';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 现在你可以使用 __dirname，就像在 CommonJS 模块中一样
-const configFile = path.join(__dirname, "../dist/rollup.config.js");
+const configFile = path.join(__dirname, "./rollup.config.js");
 const localRollup = path.join(__dirname, "../node_modules/.bin/rollup");
 const localRimraf = path.join(__dirname, "../node_modules/.bin/rimraf");
 
