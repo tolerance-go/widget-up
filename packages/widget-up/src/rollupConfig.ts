@@ -13,7 +13,7 @@ import typescript from "rollup-plugin-typescript2";
 import { getLatestPackageVersion, semverToIdentifier } from "widget-up-utils";
 import { RollupOptions } from "rollup";
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
-import json from '@rollup/plugin-json'
+import json from "@rollup/plugin-json";
 
 import { fileURLToPath } from "url";
 import { findAvailablePort } from "./findAvailablePort.js";
@@ -22,7 +22,7 @@ import { parseConfig } from "widget-up-utils";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 确定是否处于开发模式
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === "development";
 
 const packageJson = JSON.parse(
   fs.readFileSync(path.resolve("package.json"), "utf8")
@@ -67,12 +67,12 @@ async function generateGlobals() {
   const entries = Object.entries(config.umd.external);
   const globals = {};
 
-  for (const [npmName, globalName] of entries) {
+  for (const [npmName, config] of entries) {
     const version = await getLatestPackageVersion(
       npmName,
       packageConfig.dependencies[npmName]
     );
-    globals[npmName] = `${globalName}${semverToIdentifier(version)}`;
+    globals[npmName] = `${config.global}${semverToIdentifier(version)}`;
   }
 
   return globals;
