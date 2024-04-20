@@ -2,15 +2,15 @@ input: src/index.tsx
 umd:
   name: MyComponent
   external:
-    react: React
-    react-dom:
-      global: ReactDOM
-      peerDependencies: react
-  global:
     react:
       unpkg:
         filePath: /umd/react.production.min.js
     react-dom:
       unpkg:
         filePath: /umd/react-dom.production.min.js
+      peerDependencies: react
+  global:
+    react: React
+    react-dom: ReactDOM
+
 css: true
