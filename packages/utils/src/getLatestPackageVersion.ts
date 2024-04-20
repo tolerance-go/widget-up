@@ -14,7 +14,7 @@ export async function getLatestPackageVersion(
   try {
     // 获取包的所有版本信息
     const response = await axios.get(
-      `https://registry.npmjs.org/${packageName}`,
+      `https://registry.npmmirror.com/${packageName}`,
       {
         timeout: 5000, // 设置超时时间为 5000 毫秒
       }

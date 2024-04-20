@@ -18,7 +18,7 @@ describe("getLatestPackageVersion", () => {
     };
 
     mock
-      .onGet(`https://registry.npmjs.org/${packageName}`)
+      .onGet(`https://registry.npmmirror.com/${packageName}`)
       .reply(200, { versions });
 
     const expectedVersion = "16.14.0";
@@ -39,7 +39,7 @@ describe("getLatestPackageVersion", () => {
     };
 
     mock
-      .onGet(`https://registry.npmjs.org/${packageName}`)
+      .onGet(`https://registry.npmmirror.com/${packageName}`)
       .reply(200, { versions });
 
     const expectedVersion = "16.14.0";
@@ -60,7 +60,7 @@ describe("getLatestPackageVersion", () => {
     };
 
     mock
-      .onGet(`https://registry.npmjs.org/${packageName}`)
+      .onGet(`https://registry.npmmirror.com/${packageName}`)
       .reply(200, { versions });
 
     const expectedVersion = "16.13.0-beta.3";
@@ -77,7 +77,7 @@ describe("getLatestPackageVersion", () => {
     const versions = {};
 
     mock
-      .onGet(`https://registry.npmjs.org/${packageName}`)
+      .onGet(`https://registry.npmmirror.com/${packageName}`)
       .reply(200, { versions });
 
     await expect(
@@ -89,7 +89,7 @@ describe("getLatestPackageVersion", () => {
     const packageName = "react";
     const semverRange = "^16.13.0";
 
-    mock.onGet(`https://registry.npmjs.org/${packageName}`).networkError();
+    mock.onGet(`https://registry.npmmirror.com/${packageName}`).networkError();
 
     await expect(
       getLatestPackageVersion(packageName, semverRange)
@@ -107,7 +107,7 @@ describe("getLatestPackageVersion", () => {
     };
 
     mock
-      .onGet(`https://registry.npmjs.org/${packageName}`)
+      .onGet(`https://registry.npmmirror.com/${packageName}`)
       .reply(200, { versions });
 
     const expectedVersion = "16.13.2";
@@ -129,7 +129,7 @@ describe("getLatestPackageVersion", () => {
     };
 
     mock
-      .onGet(`https://registry.npmjs.org/${packageName}`)
+      .onGet(`https://registry.npmmirror.com/${packageName}`)
       .reply(200, { versions });
 
     const expectedVersion = "17.0.1";
