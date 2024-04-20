@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react16_css@0.5.0...@widget-up-demo/react16_css@0.6.0) (2024-04-20)
+
+
+### Features
+
+* umd 新增 globals 配置 ([d61693a](https://github.com/tolerance-go/widget-up/commit/d61693a63777131d016df1d134d9c1f076eb62d2))
+
+
+
 ## [0.5.0](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react16_css@0.4.5...@widget-up-demo/react16_css@0.5.0) (2024-04-20)
 
 

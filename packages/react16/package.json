@@ -1,6 +1,6 @@
 {
   "name": "@widget-up-demo/react16",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "",
   "module": "dist/esm/index.js",
   "typings": "dist/types/index.d.ts",
