@@ -1,28 +1,16 @@
-import babel from "@rollup/plugin-babel";
-import commonjs from "@rollup/plugin-commonjs";
-import resolve from "@rollup/plugin-node-resolve";
 import fs from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import copy from "rollup-plugin-copy";
-import livereload from "rollup-plugin-livereload";
-import postcss from "rollup-plugin-postcss";
-import serve from "rollup-plugin-serve";
-import { terser } from "rollup-plugin-terser";
-import typescript from "rollup-plugin-typescript2";
-import { getLatestPackageVersion, semverToIdentifier } from "widget-up-utils";
 import { RollupOptions } from "rollup";
-import { customHtmlPlugin } from "./customHtmlPlugin.js";
-import json from "@rollup/plugin-json";
 
 import { fileURLToPath } from "url";
-import { findAvailablePort } from "./findAvailablePort.js";
-import { processEJSTemplate } from "./processEJSTemplate.js";
 import { parseConfig } from "widget-up-utils";
+import { generateGlobals } from "./generateGlobals.js";
+import { getPlugins } from "./getPlugins.js";
+import { processEJSTemplate } from "./processEJSTemplate.js";
+import { isDev } from "./env.js";
+import { generateOutputs } from "./generateOutputs.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// 确定是否处于开发模式
-const isDev = process.env.NODE_ENV === "development";
 
 const packageJson = JSON.parse(
   fs.readFileSync(path.resolve("package.json"), "utf8")
@@ -63,133 +51,13 @@ if (isDev) {
 // 从 globals 对象的键中生成 external 数组
 const externalKeys = Object.keys(config.umd.external || {});
 
-async function generateGlobals() {
-  const entries = Object.entries(config.umd.external);
-  const globals = {};
+const globals = await generateGlobals(config, packageConfig);
 
-  for (const [npmName, config] of entries) {
-    const version = await getLatestPackageVersion(
-      npmName,
-      packageConfig.dependencies[npmName]
-    );
-    globals[npmName] = `${config.global}${semverToIdentifier(version)}`;
-  }
+const plugins = getPlugins(config, packageConfig, globals);
 
-  return globals;
-}
+const outputs = generateOutputs(config, globals);
 
-const globals = await generateGlobals();
-
-// 构建输出数组
-function generateOutputs() {
-  const outputs = [];
-
-  if (config.umd ?? true) {
-    // UMD 格式始终包含
-    outputs.push({
-      file: "dist/umd/index.js",
-      format: "umd",
-      name: config.umd.name,
-      globals,
-      sourcemap: isDev ? "inline" : false,
-    });
-  }
-
-  if (isDev) return outputs;
-
-  if (config.esm ?? true) {
-    outputs.push({
-      file: "dist/esm/index.js",
-      format: "esm",
-      sourcemap: isDev ? "inline" : false,
-    });
-  }
-
-  // 根据配置动态添加 CJS 和 ESM 格式
-  if (config.cjs) {
-    outputs.push({
-      file: "dist/cjs/index.js",
-      format: "cjs",
-      sourcemap: isDev ? "inline" : false,
-    });
-  }
-
-  return outputs;
-}
-
-// Usage in Rollup config
-const PORT = 3000;
-
-const getServerConfig = async () => {
-  if (!isDev) return undefined;
-  const availablePort = await findAvailablePort(PORT);
-  return serve({
-    open: true, // 自动打开浏览器
-    contentBase: ["dist"], // 服务器根目录，'.': 配置文件同级
-    historyApiFallback: true, // SPA页面可使用
-    host: "localhost",
-    port: availablePort,
-  });
-};
-
-const plugins = [
-  resolve(),
-  commonjs(),
-  json(),
-  typescript({
-    useTsconfigDeclarationDir: true,
-    tsconfigOverride: {
-      compilerOptions: isDev
-        ? {
-            declaration: false,
-          }
-        : {
-            declarationDir: "dist/types",
-          },
-    },
-  }),
-  babel({
-    babelHelpers: "runtime",
-    presets: ["@babel/preset-env", "@babel/preset-react"],
-    plugins: ["@babel/plugin-transform-runtime"],
-  }),
-  config.css &&
-    postcss({
-      extract: true, // 提取 CSS 到单独的文件
-      ...(config.css === "modules"
-        ? {
-            modules: true,
-          }
-        : config.css === "autoModules"
-        ? {
-            autoModules: true,
-          }
-        : {}),
-    }),
-  getServerConfig(),
-  isDev &&
-    livereload({
-      watch: "dist", // 监听文件夹
-    }),
-  isDev &&
-    customHtmlPlugin({
-      globals,
-      src: "../tpls/index.html.ejs",
-      dest: "dist",
-      packageConfig,
-      config,
-    }),
-  isDev &&
-    copy({
-      targets: [{ src: "external", dest: "dist" }],
-    }),
-  copy({
-    targets: [{ src: "widget-up.yml", dest: "dist" }],
-  }),
-  !isDev && terser(), // 仅在生产模式下压缩代码
-].filter(Boolean);
-
-const rollupConfig: RollupOptions[] = generateOutputs().map((output) => ({
+const rollupConfig: RollupOptions[] = outputs.map((output) => ({
   input: isDev ? devInputFile : "./src/index.tsx",
   output,
   plugins,
