@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.3](https://github.com/tolerance-go/widget-up/compare/widget-up-utils@0.4.2...widget-up-utils@0.4.3) (2024-04-20)
+
+
+### Bug Fixes
+
+* **widget-up-utils:** ParsedExternalLibraryConfig ([d66aac9](https://github.com/tolerance-go/widget-up/commit/d66aac9aae0cee52bb5805affd06765006a23c6c))
+
+
+
 ## [0.4.2](https://github.com/tolerance-go/widget-up/compare/widget-up-utils@0.4.1...widget-up-utils@0.4.2) (2024-04-20)
 
 
