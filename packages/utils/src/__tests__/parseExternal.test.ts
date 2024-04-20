@@ -1,5 +1,5 @@
-import { parseExternal } from "./parseExternal";
-import { ExternalConfig, ParsedExternalConfig } from "./types";
+import { parseExternal } from "../parseExternal";
+import { ExternalConfig, ParsedExternalConfig } from "../types";
 
 describe("parseExternal", () => {
   it("peerDependencies", () => {

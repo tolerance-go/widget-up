@@ -8,7 +8,7 @@
     "declaration": true,
     "outDir": "./dist",
     "declarationDir": "./dist/types",
-    "lib": ["ES2017", "dom"],
+    "lib": ["ES2017", "dom"]
   },
   "include": ["src/**/*", "./typings.d.ts"],
   "exclude": ["node_modules", "dist"]

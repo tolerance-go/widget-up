@@ -1,4 +1,4 @@
-import { semverToIdentifier } from "./semverToIdentifier"; // 确保正确引用你的函数
+import { semverToIdentifier } from "../semverToIdentifier"; // 确保正确引用你的函数
 
 describe("semverToIdentifier", () => {
   it("should convert standard semver to valid identifier", () => {

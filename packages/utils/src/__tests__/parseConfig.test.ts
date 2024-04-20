@@ -1,5 +1,5 @@
-import { parseConfig } from "./parseConfig";
-import { Config } from "./types";
+import { parseConfig } from "../parseConfig";
+import { Config } from "../types";
 
 describe("parseConfig", () => {
   it("should correctly parse a full configuration object", () => {
