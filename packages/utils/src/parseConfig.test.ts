@@ -8,13 +8,6 @@ describe("parseConfig", () => {
       umd: {
         name: "MyComponent",
         external: {
-          react: "React",
-          "react-dom": {
-            global: "ReactDOM",
-            peerDependencies: ["react"],
-          },
-        },
-        global: {
           react: {
             unpkg: {
               filePath: "/umd/react.production.min.js",
@@ -24,7 +17,12 @@ describe("parseConfig", () => {
             unpkg: {
               filePath: "/umd/react-dom.production.min.js",
             },
+            peerDependencies: ["react"],
           },
+        },
+        global: {
+          react: "React",
+          "react-dom": "ReactDOM",
         },
       },
       cjs: true,
@@ -37,13 +35,6 @@ describe("parseConfig", () => {
       umd: {
         name: "MyComponent",
         external: {
-          react: { global: "React" },
-          "react-dom": {
-            global: "ReactDOM",
-            peerDependencies: ["react"],
-          },
-        },
-        global: {
           react: {
             unpkg: {
               filePath: "/umd/react.production.min.js",
@@ -53,7 +44,12 @@ describe("parseConfig", () => {
             unpkg: {
               filePath: "/umd/react-dom.production.min.js",
             },
+            peerDependencies: ["react"],
           },
+        },
+        global: {
+          react: "React",
+          "react-dom": "ReactDOM",
         },
       },
       cjs: true,

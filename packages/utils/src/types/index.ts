@@ -1,17 +1,17 @@
 export interface ParsedExternalLibraryConfig {
-  global?: string;
   peerDependencies?: string[];
+  unpkg: UnpkgConfig;
 }
 
 // 定义外部库配置中 global 和 peerDependencies 的类型
 export interface ExternalLibraryConfig {
-  global?: string;
   peerDependencies?: string[] | string;
+  unpkg: UnpkgConfig;
 }
 
 // 定义整个 external 部分的类型
 export interface ExternalConfig {
-  [libName: string]: string | ExternalLibraryConfig;
+  [libName: string]: ExternalLibraryConfig;
 }
 
 export interface ParsedExternalConfig {
@@ -21,13 +21,12 @@ export interface ParsedExternalConfig {
 // 定义单个库在 global 中的 unpkg 配置
 export interface UnpkgConfig {
   filePath: string;
+  filePathDev?: string;
 }
 
 // 定义全局库配置的类型
 export interface GlobalConfig {
-  [libName: string]: {
-    unpkg: UnpkgConfig;
-  };
+  [libName: string]: string;
 }
 
 // 定义 UMD 配置的类型
@@ -59,3 +58,5 @@ export interface ParseConfig {
   esm?: boolean;
   css?: boolean | string;
 }
+
+export { PackageJson } from "./PackageJson";

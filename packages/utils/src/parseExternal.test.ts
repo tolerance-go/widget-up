@@ -2,27 +2,20 @@ import { parseExternal } from "./parseExternal";
 import { ExternalConfig, ParsedExternalConfig } from "./types";
 
 describe("parseExternal", () => {
-  it("should handle basic string configurations", () => {
-    const input: ExternalConfig = {
-      react: "React",
-    };
-    const expected: ParsedExternalConfig = {
-      react: {
-        global: "React",
-      },
-    };
-    const result = parseExternal(input);
-    expect(result).toEqual(expected);
-  });
-
   it("peerDependencies", () => {
     const input: ExternalConfig = {
       "react-dom": {
+        unpkg: {
+          filePath: "",
+        },
         peerDependencies: "react",
       },
     };
     const expected: ParsedExternalConfig = {
       "react-dom": {
+        unpkg: {
+          filePath: "",
+        },
         peerDependencies: ["react"],
       },
     };
@@ -33,13 +26,17 @@ describe("parseExternal", () => {
   it("should handle object configurations with global and peerDependencies", () => {
     const input: ExternalConfig = {
       "react-dom": {
-        global: "ReactDOM",
+        unpkg: {
+          filePath: "",
+        },
         peerDependencies: ["react"],
       },
     };
     const expected: ParsedExternalConfig = {
       "react-dom": {
-        global: "ReactDOM",
+        unpkg: {
+          filePath: "",
+        },
         peerDependencies: ["react"],
       },
     };
