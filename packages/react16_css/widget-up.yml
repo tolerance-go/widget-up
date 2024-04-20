@@ -5,9 +5,11 @@ umd:
     react:
       unpkg:
         filePath: /umd/react.production.min.js
+        filePathDev: /umd/react.development.js
     react-dom:
       unpkg:
         filePath: /umd/react-dom.production.min.js
+        filePathDev: /umd/react-dom.development.js
       peerDependencies: react
   global:
     react: React
