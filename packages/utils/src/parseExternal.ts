@@ -1,4 +1,4 @@
-import { ExternalConfig, ParsedExternalConfig } from "./types.js";
+import { ExternalConfig, ParsedExternalConfig } from "./types";
 
 // 改写的 TypeScript 函数，增加了类型注解
 export function parseExternal(external: ExternalConfig): ParsedExternalConfig {
