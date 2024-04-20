@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/tolerance-go/widget-up/compare/widget-up-utils@0.3.0...widget-up-utils@0.4.0) (2024-04-20)
+
+
+### Features
+
+* **widget-up-utils:** 导出额外类型 ([8aa43d1](https://github.com/tolerance-go/widget-up/commit/8aa43d1ed6edc658dc8a3c36d5a3b8ada88c5089))
+* **widget-up-utils:** peerDependencies 支持 string ([34ac160](https://github.com/tolerance-go/widget-up/commit/34ac160f2f5a329d7558c3ca00f30852604de36b))
+
+
+
 ## [0.3.0](https://github.com/tolerance-go/widget-up/compare/widget-up-utils@0.2.0...widget-up-utils@0.3.0) (2024-04-19)
 
 
