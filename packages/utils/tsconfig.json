@@ -9,7 +9,6 @@
     "outDir": "./dist",
     "declarationDir": "./dist/types",
     "lib": ["ES2017", "dom"],
-    "skipLibCheck": true // 忽略所有的声明文件（*.d.ts）的类型检查
   },
   "include": ["src/**/*", "./typings.d.ts"],
   "exclude": ["node_modules", "dist"]

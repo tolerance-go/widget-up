@@ -7,7 +7,7 @@ export function parseConfig(config: Config): ParseConfig {
     ? {
         name: config.umd.name,
         external: parseExternal(config.umd.external),
-        global: config.umd.global,
+        globals: config.umd.globals,
       }
     : undefined;
 
