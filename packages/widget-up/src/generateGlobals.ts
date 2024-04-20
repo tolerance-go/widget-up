@@ -1,24 +1,7 @@
 import {
-  ParseConfig,
-  getLatestPackageVersion,
-  semverToIdentifier,
-  PackageJson,
+  ParseConfig
 } from "widget-up-utils";
 
-export async function generateGlobals(
-  config: ParseConfig,
-  packageConfig: PackageJson
-) {
-  const entries = Object.entries(config.umd.global);
-  const globals = {};
-
-  for (const [npmName, globalVar] of entries) {
-    const version = await getLatestPackageVersion(
-      npmName,
-      packageConfig.dependencies[npmName]
-    );
-    globals[npmName] = `${globalVar}${semverToIdentifier(version)}`;
-  }
-
-  return globals;
+export async function generateGlobals(config: ParseConfig) {
+  return config.umd.globals;
 }

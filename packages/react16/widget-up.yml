@@ -12,7 +12,7 @@ umd:
         filePathDev: /umd/react-dom.development.js
       peerDependencies:
         - react
-  global:
+  globals:
     react: React
     react-dom: ReactDOM
 cjs: true

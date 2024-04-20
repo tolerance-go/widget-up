@@ -25,7 +25,7 @@ export interface UnpkgConfig {
 }
 
 // 定义全局库配置的类型
-export interface GlobalConfig {
+export interface GlobalsConfig {
   [libName: string]: string;
 }
 
@@ -33,13 +33,13 @@ export interface GlobalConfig {
 export interface UMDConfig {
   name: string;
   external: ExternalConfig;
-  global: GlobalConfig;
+  globals: GlobalsConfig;
 }
 
 export interface ParedUMDConfig {
   name: string;
   external: ParsedExternalConfig;
-  global: GlobalConfig;
+  globals: GlobalsConfig;
 }
 
 // 定义最顶层的配置对象类型

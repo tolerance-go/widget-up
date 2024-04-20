@@ -11,7 +11,7 @@ umd:
         filePath: /umd/react-dom.production.min.js
         filePathDev: /umd/react-dom.development.js
       peerDependencies: react
-  global:
+  globals:
     react: React
     react-dom: ReactDOM
 cjs: true

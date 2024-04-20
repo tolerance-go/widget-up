@@ -51,7 +51,7 @@ if (isDev) {
 // 从 globals 对象的键中生成 external 数组
 const externalKeys = Object.keys(config.umd.external || {});
 
-const globals = await generateGlobals(config, packageConfig);
+const globals = await generateGlobals(config);
 
 const plugins = getPlugins(config, packageConfig, globals);
 
