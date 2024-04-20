@@ -19,7 +19,7 @@
   "scripts": {
     "build": "wup build",
     "dev": "wup dev",
-    "prepublishOnly": "npm run build"
+    "prepublishAll": "npm run build"
   },
   "keywords": [],
   "author": "",

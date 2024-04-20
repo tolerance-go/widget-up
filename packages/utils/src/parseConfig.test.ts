@@ -20,7 +20,7 @@ describe("parseConfig", () => {
             peerDependencies: ["react"],
           },
         },
-        global: {
+        globals: {
           react: "React",
           "react-dom": "ReactDOM",
         },
@@ -47,7 +47,7 @@ describe("parseConfig", () => {
             peerDependencies: ["react"],
           },
         },
-        global: {
+        globals: {
           react: "React",
           "react-dom": "ReactDOM",
         },

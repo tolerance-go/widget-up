@@ -20,7 +20,7 @@
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "build": "cross-env NODE_ENV=production npm run clean && rollup -c",
     "test": "jest",
-    "prepublishOnly": "npm run test && npm run build",
+    "prepublishAll": "npm run test && npm run build",
     "clean": "rimraf dist"
   },
   "keywords": [],
