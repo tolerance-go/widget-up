@@ -6,9 +6,9 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "declaration": true,
-    "declarationDir": "dist/types",
     "outDir": "./dist",
     "lib": ["ES2017", "dom"],
+    "allowImportingTsExtensions": false,
     "skipLibCheck": true // 忽略所有的声明文件（*.d.ts）的类型检查
   },
   "include": ["src/**/*", "./typings.d.ts"],

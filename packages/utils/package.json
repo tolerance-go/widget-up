@@ -2,15 +2,11 @@
   "name": "widget-up-utils",
   "version": "0.4.0",
   "description": "",
-  "module": "dist/esm/index.js",
-  "typings": "dist/types/index.d.ts",
-  "main": "dist/cjs/index.js",
+  "module": "dist/index.js",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/types/index.d.ts"
+      "import": "./dist/index.js"
     }
   },
   "files": [

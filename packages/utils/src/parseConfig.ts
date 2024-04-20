@@ -1,5 +1,5 @@
-import { parseExternal } from "./parseExternal";
-import { Config, ParseConfig, ParedUMDConfig } from "./types";
+import { parseExternal } from "./parseExternal.js";
+import { Config, ParseConfig, ParedUMDConfig } from "./types.js";
 
 export function parseConfig(config: Config): ParseConfig {
   // 首先处理 UMD 配置的解析，特别是 external 字段
