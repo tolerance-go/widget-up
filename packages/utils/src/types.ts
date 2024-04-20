@@ -1,7 +1,7 @@
 // 定义外部库配置中 global 和 peerDependencies 的类型
 export interface ExternalLibraryConfig {
   global?: string;
-  peerDependencies?: string[];
+  peerDependencies?: string[] | string;
 }
 
 // 定义整个 external 部分的类型
