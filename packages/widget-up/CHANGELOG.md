@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.6](https://github.com/tolerance-go/widget-up/compare/widget-up@0.4.5...widget-up@0.4.6) (2024-04-20)
+
+
+### Bug Fixes
+
+* **widget-up:** 全局变量暴露错误 globalVar ([44e89e7](https://github.com/tolerance-go/widget-up/commit/44e89e7553b3d10e529284775ca271d1e0be38a6))
+* **widget-up:** 修复打包 global 取值错误 ([420f211](https://github.com/tolerance-go/widget-up/commit/420f21193696afa6d2680145ab01991c1e459e7b))
+
+
+
 ## [0.4.5](https://github.com/tolerance-go/widget-up/compare/widget-up@0.4.4...widget-up@0.4.5) (2024-04-20)
 
 **Note:** Version bump only for package widget-up

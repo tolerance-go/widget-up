@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/tolerance-go/widget-up/compare/widget-up-utils@0.4.3...widget-up-utils@0.5.0) (2024-04-20)
+
+
+### Features
+
+* **utils:** 修改配置格式 ([19105b5](https://github.com/tolerance-go/widget-up/commit/19105b5ccf483031f73df98e9f3de8808d53cca7))
+
+
+### Bug Fixes
+
+* **utils:** 改为淘宝源 ([72e4ce0](https://github.com/tolerance-go/widget-up/commit/72e4ce0effb94dd182417cd51c372b3e7476a521))
+
+
+
 ## [0.4.3](https://github.com/tolerance-go/widget-up/compare/widget-up-utils@0.4.2...widget-up-utils@0.4.3) (2024-04-20)
 
 

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react16_css-modules@0.4.5...@widget-up-demo/react16_css-modules@0.5.0) (2024-04-20)
+
+
+### Features
+
+* 增加 filePathDev unpkg 路径 ([4747175](https://github.com/tolerance-go/widget-up/commit/4747175eb33584b680140bfa2d2be6d59b71e6be))
+
+
+
 ## [0.4.5](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react16_css-modules@0.4.4...@widget-up-demo/react16_css-modules@0.4.5) (2024-04-20)
 
 **Note:** Version bump only for package @widget-up-demo/react16_css-modules

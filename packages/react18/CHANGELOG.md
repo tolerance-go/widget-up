@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react18@0.2.5...@widget-up-demo/react18@0.3.0) (2024-04-20)
+
+
+### Features
+
+* 增加 filePathDev unpkg 路径 ([4747175](https://github.com/tolerance-go/widget-up/commit/4747175eb33584b680140bfa2d2be6d59b71e6be))
+
+
+
 ## [0.2.5](https://github.com/tolerance-go/widget-up/compare/@widget-up-demo/react18@0.2.4...@widget-up-demo/react18@0.2.5) (2024-04-20)
 
 **Note:** Version bump only for package @widget-up-demo/react18
