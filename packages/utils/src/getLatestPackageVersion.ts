@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosError, isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import semver from "semver";
 
 /**

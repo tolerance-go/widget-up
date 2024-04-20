@@ -58,5 +58,3 @@ export interface ParseConfig {
   esm?: boolean;
   css?: boolean | "modules" | "autoModules";
 }
-
-export { PackageJson } from "./PackageJson";
