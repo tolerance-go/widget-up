@@ -17,7 +17,7 @@ export async function generateGlobals(
       npmName,
       packageConfig.dependencies[npmName]
     );
-    globals[npmName] = `${npmName}${semverToIdentifier(version)}`;
+    globals[npmName] = `${globalVar}${semverToIdentifier(version)}`;
   }
 
   return globals;
