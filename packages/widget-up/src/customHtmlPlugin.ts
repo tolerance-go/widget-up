@@ -2,6 +2,7 @@ import fs from "fs-extra";
 import path from "path";
 import { fileURLToPath } from "url";
 import ejs from "ejs";
+import { GlobalsConfig, PackageJson, ParseConfig } from "widget-up-utils";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -11,6 +12,12 @@ export function customHtmlPlugin({
   dest,
   packageConfig,
   config,
+}: {
+  config: ParseConfig;
+  packageConfig: PackageJson;
+  globals: GlobalsConfig;
+  dest: string;
+  src: string;
 }) {
   return {
     name: "custom-html", // 插件名称
@@ -22,8 +29,8 @@ export function customHtmlPlugin({
         {
           scriptTags: Object.entries(globals).map(([pkgName, value]) => {
             return {
-              src: `https://unpkg.com/${pkgName}@${packageConfig.dependencies[pkgName]}${config.umd.global?.[pkgName]?.unpkg.filePath}`,
-              global: `window.${globals[pkgName]} = ${config.umd.external[pkgName]};`,
+              src: `https://unpkg.com/${pkgName}@${packageConfig.dependencies[pkgName]}${config.umd.external?.[pkgName]?.unpkg.filePath}`,
+              global: `window.${globals[pkgName]} = ${config.umd.globals[pkgName]};`,
             };
           }),
           bundleSrc: "./umd/index.js",

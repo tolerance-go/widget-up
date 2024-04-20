@@ -11,6 +11,7 @@ import { PackageJson, ParseConfig } from "widget-up-utils";
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
 import { getServerConfig } from "./getServerConfig.js";
 import { isDev } from "./env.js";
+import replace from "@rollup/plugin-replace";
 
 export const getPlugins = (
   config: ParseConfig,
@@ -18,6 +19,10 @@ export const getPlugins = (
   globals: Record<string, string>
 ) => {
   const plugins = [
+    replace({
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+      preventAssignment: true,
+    }),
     resolve(),
     commonjs(),
     json(),

@@ -4,16 +4,14 @@ import { Command } from "commander";
 import { execSync } from "child_process";
 import packageJson from "../package.json" assert { type: "json" };
 
-import { fileURLToPath } from 'url';
-import path from 'path';
+import { fileURLToPath } from "url";
+import path from "path";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// 现在你可以使用 __dirname，就像在 CommonJS 模块中一样
 const configFile = path.join(__dirname, "./rollup.config.js");
 const localRollup = path.join(__dirname, "../node_modules/.bin/rollup");
 const localRimraf = path.join(__dirname, "../node_modules/.bin/rimraf");
-
 
 const program = new Command();
 
@@ -22,7 +20,8 @@ function runScript(command) {
   execSync(command, { stdio: "inherit" });
 }
 
-function runRollup(command) {
+function runRollup(command, env) {
+  process.env.NODE_ENV = env; // 设置环境变量
   runScript(`${localRollup} ${command} -c ${configFile}`);
 }
 
@@ -37,16 +36,16 @@ program
     console.log("Running clean up...");
     runScript(`${localRimraf} dist`);
     console.log("Building...");
-    runRollup("");
+    runRollup("", "production");
   });
 
 program
   .command("dev")
   .description("Starts the widget in development mode with watch")
   .action(() => {
-    runScript(`${localRimraf} dist`);
     console.log("Starting development server...");
-    runRollup("-w");
+    runScript(`${localRimraf} dist`);
+    runRollup("-w", "development");
   });
 
 program.parse(process.argv);

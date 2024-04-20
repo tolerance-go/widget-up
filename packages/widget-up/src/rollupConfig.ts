@@ -4,19 +4,21 @@ import path from "path";
 import { RollupOptions } from "rollup";
 
 import { fileURLToPath } from "url";
-import { parseConfig } from "widget-up-utils";
-import { generateGlobals } from "./generateGlobals.js";
-import { getPlugins } from "./getPlugins.js";
-import { processEJSTemplate } from "./processEJSTemplate.js";
-import { isDev } from "./env.js";
-import { generateOutputs } from "./generateOutputs.js";
+import { PackageJson, parseConfig } from "widget-up-utils";
+import { generateGlobals } from "./generateGlobals";
+import { getPlugins } from "./getPlugins";
+import { processEJSTemplate } from "./processEJSTemplate";
+import { isDev } from "./env";
+import { generateOutputs } from "./generateOutputs";
+import semver from "semver";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const packageJson = JSON.parse(
+const packageConfig = JSON.parse(
   fs.readFileSync(path.resolve("package.json"), "utf8")
-);
-const dependencies = Object.keys(packageJson.dependencies || {});
-const peerDependencies = Object.keys(packageJson.peerDependencies || {});
+) as PackageJson;
+const dependencies = Object.keys(packageConfig.dependencies || {});
+const peerDependencies = Object.keys(packageConfig.peerDependencies || {});
 const externalDependencies = Array.from(
   new Set([...dependencies, ...peerDependencies])
 );
@@ -29,21 +31,28 @@ function getConfig() {
 }
 
 const config = getConfig();
-const packageConfig = JSON.parse(
-  fs.readFileSync(path.resolve("package.json"), "utf8")
-);
 
 const devInputFile = "./.wup/index.tsx";
 
-const paredInput = path.parse(path.posix.join("..", config.input));
+const parsedInput = path.parse(path.posix.join("..", config.input));
+
+function cleanVersion(versionStr) {
+  return versionStr.replace(/^[^0-9]+/, "");
+}
 
 if (isDev) {
+  // 获取 React 的版本字符串并解析主版本号
+  const reactVersionStr = packageConfig.dependencies.react;
+  const cleanedVersionStr = cleanVersion(reactVersionStr);  // 清理版本字符串
+  const reactMajorVersion = semver.major(cleanedVersionStr);  // 解析主版本号
+  
   await processEJSTemplate(
     path.join(__dirname, "../tpls/index.tsx.ejs"),
     path.resolve(devInputFile),
     {
+      reactVersion: reactMajorVersion,
       // 去掉后缀名
-      input: path.posix.join(paredInput.dir, paredInput.name),
+      input: path.posix.join(parsedInput.dir, parsedInput.name),
     }
   );
 }
