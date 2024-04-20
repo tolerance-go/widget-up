@@ -1,3 +1,8 @@
+export interface ParsedExternalLibraryConfig {
+  global?: string;
+  peerDependencies?: string[];
+}
+
 // 定义外部库配置中 global 和 peerDependencies 的类型
 export interface ExternalLibraryConfig {
   global?: string;
@@ -10,7 +15,7 @@ export interface ExternalConfig {
 }
 
 export interface ParsedExternalConfig {
-  [libName: string]: ExternalLibraryConfig;
+  [libName: string]: ParsedExternalLibraryConfig;
 }
 
 // 定义单个库在 global 中的 unpkg 配置
