@@ -16,7 +16,11 @@ export function parseExternal(external: ExternalConfig): ParsedExternalConfig {
         next[libName].global = config.global;
       }
       if (config.peerDependencies) {
-        next[libName].peerDependencies = config.peerDependencies;
+        if (typeof config.peerDependencies === "string") {
+          next[libName].peerDependencies = [config.peerDependencies];
+        } else {
+          next[libName].peerDependencies = config.peerDependencies;
+        }
       }
     }
   }

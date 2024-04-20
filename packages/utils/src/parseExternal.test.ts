@@ -15,6 +15,21 @@ describe("parseExternal", () => {
     expect(result).toEqual(expected);
   });
 
+  it("peerDependencies", () => {
+    const input: ExternalConfig = {
+      "react-dom": {
+        peerDependencies: "react",
+      },
+    };
+    const expected: ParsedExternalConfig = {
+      "react-dom": {
+        peerDependencies: ["react"],
+      },
+    };
+    const result = parseExternal(input);
+    expect(result).toEqual(expected);
+  });
+
   it("should handle object configurations with global and peerDependencies", () => {
     const input: ExternalConfig = {
       "react-dom": {
