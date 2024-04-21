@@ -1,3 +1,5 @@
+import { Form } from "./form";
+
 export interface ParsedExternalLibraryConfig {
   peerDependencies?: string[];
   unpkg: UnpkgConfig;
@@ -49,6 +51,7 @@ export interface Config {
   cjs?: boolean;
   esm?: boolean;
   css?: boolean | "modules" | "autoModules";
+  form?: Form;
 }
 
 export interface ParseConfig {
@@ -57,4 +60,5 @@ export interface ParseConfig {
   cjs?: boolean;
   esm?: boolean;
   css?: boolean | "modules" | "autoModules";
+  form?: Form;
 }

@@ -1,4 +1,4 @@
-import { parseConfig } from "../parseConfig";
+import { parseConfig } from "../src/parseConfig";
 import { Config } from "../types";
 
 describe("parseConfig", () => {
@@ -28,6 +28,7 @@ describe("parseConfig", () => {
       cjs: true,
       esm: true,
       css: false,
+      form: {},
     };
 
     const expectedOutput = {
@@ -55,6 +56,7 @@ describe("parseConfig", () => {
       cjs: true,
       esm: true,
       css: false,
+      form: {},
     };
 
     const result = parseConfig(inputConfig);

@@ -1,4 +1,4 @@
-import { parseExternal } from "../parseExternal";
+import { parseExternal } from "../src/parseExternal";
 import { ExternalConfig, ParsedExternalConfig } from "../types";
 
 describe("parseExternal", () => {

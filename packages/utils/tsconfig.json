@@ -8,8 +8,12 @@
     "declaration": true,
     "outDir": "./dist",
     "declarationDir": "./dist/types",
-    "lib": ["ES2017", "dom"]
+    "lib": ["ES2017", "dom"],
+    "baseUrl": ".", // 基本目录设置为项目根目录
+    "paths": {
+      "@/*": ["*"] // 将 @ 符号映射到根目录
+    }
   },
-  "include": ["src/**/*", "./typings.d.ts"],
+  "include": ["src/**/*", "./typings.d.ts", "types", "__tests__", "../form-schema/types/index.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

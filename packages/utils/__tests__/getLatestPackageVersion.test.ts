@@ -1,6 +1,6 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { getLatestPackageVersion } from "../getLatestPackageVersion";
+import { getLatestPackageVersion } from "../src/getLatestPackageVersion";
 
 describe("getLatestPackageVersion", () => {
   const mock = new MockAdapter(axios);
