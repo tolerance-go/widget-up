@@ -4,7 +4,7 @@ import App from "<%= input %>";
 
 const rootElement = document.getElementById("root");
 
-<% if (reactVersion >= 18) { %>
+<% if (dependencies.react && major(cleanVersion(dependencies.react)) >= 18) { %>
   const root = ReactDOM.createRoot(rootElement);
   root.render(<App />);
 <% } else { %>

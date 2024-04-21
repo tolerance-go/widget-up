@@ -1,16 +1,15 @@
 import fs from "fs";
-import yaml from "js-yaml";
 import path from "path";
 import { RollupOptions } from "rollup";
 
+import semver from "semver";
 import { fileURLToPath } from "url";
 import { PackageJson, parseConfig } from "widget-up-utils";
+import { isDev } from "./env";
 import { generateGlobals } from "./generateGlobals";
+import { generateOutputs } from "./generateOutputs";
 import { getPlugins } from "./getPlugins";
 import { processEJSTemplate } from "./processEJSTemplate";
-import { isDev } from "./env";
-import { generateOutputs } from "./generateOutputs";
-import semver from "semver";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -32,7 +31,11 @@ function getConfig() {
 
 const config = getConfig();
 
-const devInputFile = "./.wup/index.tsx";
+const devInputFile = packageConfig.dependencies.react
+  ? "./.wup/index.tsx"
+  : packageConfig.dependencies.jquery
+  ? "./.wup/index.ts"
+  : "./.wup/index.ts";
 
 const parsedInput = path.parse(path.posix.join("..", config.input));
 
@@ -41,18 +44,24 @@ function cleanVersion(versionStr) {
 }
 
 if (isDev) {
-  // 获取 React 的版本字符串并解析主版本号
-  const reactVersionStr = packageConfig.dependencies.react;
-  const cleanedVersionStr = cleanVersion(reactVersionStr);  // 清理版本字符串
-  const reactMajorVersion = semver.major(cleanedVersionStr);  // 解析主版本号
-  
+  // 无论是否有 React，始终调用 processEJSTemplate
   await processEJSTemplate(
-    path.join(__dirname, "../tpls/index.tsx.ejs"),
+    path.join(
+      __dirname,
+      `../tpls/index.tsx.${
+        packageConfig.dependencies.react
+          ? "react"
+          : packageConfig.dependencies.jquery
+          ? "jquery"
+          : "default"
+      }.ejs`
+    ),
     path.resolve(devInputFile),
     {
-      reactVersion: reactMajorVersion,
-      // 去掉后缀名
-      input: path.posix.join(parsedInput.dir, parsedInput.name),
+      dependencies: packageConfig.dependencies,
+      input: path.posix.join(parsedInput.dir, parsedInput.name), // 去掉后缀名
+      major: semver.major,
+      cleanVersion,
     }
   );
 }

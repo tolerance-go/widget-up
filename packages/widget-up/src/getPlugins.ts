@@ -1,17 +1,16 @@
-import babel from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
-import copy from "rollup-plugin-copy";
+import replace from "@rollup/plugin-replace";
 import livereload from "rollup-plugin-livereload";
 import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import { PackageJson, ParseConfig } from "widget-up-utils";
 import { customHtmlPlugin } from "./customHtmlPlugin.js";
-import { getServerConfig } from "./getServerConfig.js";
 import { isDev } from "./env.js";
-import replace from "@rollup/plugin-replace";
+import { getServerConfig } from "./getServerConfig.js";
+import del from "rollup-plugin-delete";
 
 export const getPlugins = (
   config: ParseConfig,
@@ -19,6 +18,7 @@ export const getPlugins = (
   globals: Record<string, string>
 ) => {
   const plugins = [
+    del({ targets: "dist/*" }),
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       preventAssignment: true,
@@ -38,11 +38,6 @@ export const getPlugins = (
             },
       },
     }),
-    babel({
-      babelHelpers: "runtime",
-      presets: ["@babel/preset-env", "@babel/preset-react"],
-      plugins: ["@babel/plugin-transform-runtime"],
-    }),
     config.css &&
       postcss({
         extract: true, // 提取 CSS 到单独的文件
@@ -56,7 +51,7 @@ export const getPlugins = (
             }
           : {}),
       }),
-    getServerConfig(),
+    isDev && getServerConfig(),
     isDev &&
       livereload({
         watch: "dist", // 监听文件夹
@@ -68,10 +63,6 @@ export const getPlugins = (
         dest: "dist",
         packageConfig,
         config,
-      }),
-    isDev &&
-      copy({
-        targets: [{ src: "external", dest: "dist" }],
       }),
     !isDev && terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean);

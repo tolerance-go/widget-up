@@ -6,7 +6,6 @@ import { isDev } from "./env";
 const PORT = 3000;
 
 export const getServerConfig = async () => {
-  if (!isDev) return undefined;
   const availablePort = await findAvailablePort(PORT);
   return serve({
     open: true, // 自动打开浏览器

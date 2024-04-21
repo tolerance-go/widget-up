@@ -11,7 +11,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const configFile = path.join(__dirname, "./rollup.config.js");
 const localRollup = path.join(__dirname, "../node_modules/.bin/rollup");
-const localRimraf = path.join(__dirname, "../node_modules/.bin/rimraf");
 
 const program = new Command();
 
@@ -34,7 +33,6 @@ program
   .description("Builds the widget for production")
   .action(() => {
     console.log("Running clean up...");
-    runScript(`${localRimraf} dist`);
     console.log("Building...");
     runRollup("", "production");
   });
@@ -44,7 +42,6 @@ program
   .description("Starts the widget in development mode with watch")
   .action(() => {
     console.log("Starting development server...");
-    runScript(`${localRimraf} dist`);
     runRollup("-w", "development");
   });
 
