@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/widget-up/dist-schema/config-schema.json",
+  "input": "src/index.tsx",
+  "umd": {
+    "name": "MyComponent",
+    "external": {
+      "jquery": {
+        "unpkg": {
+          "filePath": "/umd/react.production.min.js",
+          "filePathDev": "/umd/react.development.js"
+        }
+      }
+    },
+    "globals": { "jquery": "$" }
+  },
+  "cjs": true,
+  "esm": true
+}

@@ -1,0 +1,39 @@
+{
+  "name": "@widget-up-demo/jquery3",
+  "version": "0.0.0",
+  "description": "",
+  "module": "dist/esm/index.js",
+  "typings": "dist/types/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "widget-up.json"
+  ],
+  "scripts": {
+    "build": "wup build",
+    "dev": "wup dev",
+    "prepublishAll": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.7.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "typescript-json-schema": "^0.63.0",
+    "widget-up": "workspace:^"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}
