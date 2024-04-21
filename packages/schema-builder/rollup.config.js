@@ -2,20 +2,10 @@ import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
-import fs from "fs";
-import path from "path";
+import { autoExternalDependencies } from "widget-up-rollup-plugins";
+import del from "rollup-plugin-delete";
 
 const isProduction = process.env.NODE_ENV === "production";
-
-const packageJson = JSON.parse(
-  fs.readFileSync(path.resolve("package.json"), "utf8")
-);
-const dependencies = Object.keys(packageJson.dependencies || {});
-const devDependencies = Object.keys(packageJson.devDependencies || {});
-const peerDependencies = Object.keys(packageJson.peerDependencies || {});
-const externalDependencies = Array.from(
-  new Set([...dependencies, ...devDependencies, ...peerDependencies])
-);
 
 export default {
   input: "src/index.ts",
@@ -23,8 +13,9 @@ export default {
     file: "dist/index.js",
     format: "esm",
   },
-  external: externalDependencies,
   plugins: [
+    del({ targets: "dist/*" }),
+    autoExternalDependencies(),
     resolve(), // 解析 node_modules 中的模块
     commonjs(), // 转换 CJS -> ESM, 主要是一些 npm 包仍然是 CJS
     typescript({
