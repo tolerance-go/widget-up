@@ -13,15 +13,13 @@ import path from "path";
 export const replaceAliasesCore = ({
   fileContent,
   paths,
-  baseUrl,
   fileDir,
   resolvePath,
 }: {
   fileContent: string;
   paths: { [key: string]: string[] };
-  baseUrl: string;
   fileDir: string;
-  resolvePath: (baseUrl: string, relativePath: string) => string;
+  resolvePath: (relativePath: string) => string;
 }): string => {
   // 遍历所有的别名
   for (const alias in paths) {
@@ -45,7 +43,7 @@ export const replaceAliasesCore = ({
         const cleanTarget = target.replace(/\*$/, "");
 
         // 使用 resolvePath 函数计算从基础 URL 到目标路径的绝对路径
-        const targetPath = resolvePath(baseUrl, cleanTarget);
+        const targetPath = resolvePath(cleanTarget);
 
         // 计算从当前文件目录到目标路径的相对路径，并确保路径使用 '/' 分隔（兼容不同操作系统）
         let relativePath = path
