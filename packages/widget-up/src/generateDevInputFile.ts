@@ -8,6 +8,16 @@ function cleanVersion(versionStr) {
   return versionStr.replace(/^[^0-9]+/, "");
 }
 
+function selectTemplateFile(packageConfig: PackageJson): string {
+  if (packageConfig.peerDependencies?.react) {
+    return "index.tsx.react.ejs";
+  } else if (packageConfig.peerDependencies?.jquery) {
+    return "index.tsx.jquery.ejs";
+  } else {
+    return "index.tsx.default.ejs";
+  }
+}
+
 export const generateDevInputFile = async ({
   rootPath,
   packageConfig,
@@ -22,17 +32,7 @@ export const generateDevInputFile = async ({
   const parsedInput = path.parse(path.posix.join("..", config.input));
   // 无论是否有 React，始终调用 processEJSTemplate
   await processEJSTemplate(
-    path.join(
-      rootPath,
-      "tpls",
-      `index.tsx.${
-        packageConfig.dependencies.react
-          ? "react"
-          : packageConfig.dependencies.jquery
-          ? "jquery"
-          : "default"
-      }.ejs`
-    ),
+    path.join(rootPath, "tpls", selectTemplateFile(packageConfig)),
     path.resolve(devInputFile),
     {
       dependencies: packageConfig.dependencies,

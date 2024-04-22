@@ -67,4 +67,55 @@ describe("replaceAliasesCore", () => {
     expect(result).toBe(expectedResult);
     expect(mockResolvePath).not.toHaveBeenCalled();
   });
+
+  // it("should replace export alias with correct relative paths", () => {
+  //   const fileContent = "export MyClass from '@/myClass';";
+  //   const paths = { "@/*": ["*"] };
+  //   const fileDir = "/root/dist";
+  //   const mockResolvePath = jest.fn((relative) => `/root/${relative}`);
+
+  //   const expectedResult = "export MyClass from '../myClass';";
+  //   const result = replaceAliasesCore({
+  //     fileContent,
+  //     paths,
+  //     fileDir,
+  //     resolvePath: mockResolvePath,
+  //   });
+
+  //   expect(result).toBe(expectedResult);
+  // });
+
+  // it("should handle 'import type' with aliases correctly", () => {
+  //   const fileContent = "import type { MyClass } from '@/myClass';";
+  //   const paths = { "@/*": ["*"] };
+  //   const fileDir = "/root/dist";
+  //   const mockResolvePath = jest.fn((relative) => `/root/${relative}`);
+
+  //   const expectedResult = "import type { MyClass } from '../myClass';";
+  //   const result = replaceAliasesCore({
+  //     fileContent,
+  //     paths,
+  //     fileDir,
+  //     resolvePath: mockResolvePath,
+  //   });
+
+  //   expect(result).toBe(expectedResult);
+  // });
+
+  // it("should handle 'export type' with aliases correctly", () => {
+  //   const fileContent = "export type { MyClass } from '@/myClass';";
+  //   const paths = { "@/*": ["*"] };
+  //   const fileDir = "/root/dist";
+  //   const mockResolvePath = jest.fn((relative) => `/root/${relative}`);
+
+  //   const expectedResult = "export type { MyClass } from '../myClass';";
+  //   const result = replaceAliasesCore({
+  //     fileContent,
+  //     paths,
+  //     fileDir,
+  //     resolvePath: mockResolvePath,
+  //   });
+
+  //   expect(result).toBe(expectedResult);
+  // });
 });

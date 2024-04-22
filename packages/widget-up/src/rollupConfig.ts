@@ -10,8 +10,9 @@ import { generateDevInputFile } from "./generateDevInputFile";
 import { generateGlobals } from "./generateGlobals";
 import { generateOutputs } from "./generateOutputs";
 import { getConfig } from "./getConfig";
-import { getDevInput } from "./getInput";
+import { getDevInput } from "./getDevInput";
 import { getPlugins } from "./getPlugins";
+import { getProdInput } from "./getProdInput";
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -19,7 +20,7 @@ const logger = new Logger(
   path.join(process.cwd(), ".logs", new Date().toISOString().substring(0, 10))
 );
 
-logger.info(`${'='.repeat(10)} ${NODE_ENV} ${'='.repeat(10)}`);
+logger.info(`${"=".repeat(10)} ${NODE_ENV} ${"=".repeat(10)}`);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -49,7 +50,7 @@ const globals = generateGlobals(config);
 const outputs = generateOutputs(config, globals);
 
 const rollupConfig: RollupOptions[] = outputs.map((output) => ({
-  input: isDev ? devInputFile : "./src/index.tsx",
+  input: isDev ? devInputFile : getProdInput(packageConfig),
   output,
   plugins: getPlugins({ config, packageConfig, globals, output }),
 }));
