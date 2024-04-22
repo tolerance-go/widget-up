@@ -5,7 +5,7 @@ import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import {
   autoExternalDependencies,
-  declarationAliasPlugin,
+  tsDeclarationAlias,
 } from "widget-up-rollup-plugins";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -33,7 +33,7 @@ export default {
     }), // TypeScript 支持
     // css({ output: "bundle.css" }), // CSS 支持，将导入的 CSS 文件捆绑到单独的文件
     isProduction && terser(), // 生产环境下压缩代码
-    declarationAliasPlugin()
+    tsDeclarationAlias()
   ].filter(Boolean), // 使用 .filter(Boolean) 去除数组中的 falsy 值，如 undefined 或 false
   // 告诉 Rollup 'jquery' 是外部依赖，不要打包进来
   watch: {

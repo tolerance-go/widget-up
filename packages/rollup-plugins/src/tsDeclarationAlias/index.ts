@@ -13,7 +13,7 @@ interface TsConfig {
   };
 }
 
-const declarationAliasPlugin = (): Plugin => {
+const tsDeclarationAlias = (): Plugin => {
   return {
     name: "declaration-alias",
     writeBundle() {
@@ -47,4 +47,4 @@ const declarationAliasPlugin = (): Plugin => {
   };
 };
 
-export default declarationAliasPlugin;
+export default tsDeclarationAlias;

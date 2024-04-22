@@ -4,6 +4,7 @@ import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import path from "path";
 import { getExternalDependencies } from "./src/autoExternalDependencies/getExternalDependencies.js";
+import del from "rollup-plugin-delete";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -25,6 +26,7 @@ export default {
   ],
   external: externalDependencies,
   plugins: [
+    del({ targets: "dist/*" }),
     resolve(), // 解析 node_modules 中的模块
     commonjs(), // 转换 CJS -> ESM, 主要是一些 npm 包仍然是 CJS
     typescript({

@@ -1,3 +1,3 @@
-export { default as declarationAliasPlugin } from "./declarationAliasPlugin";
+export { default as tsDeclarationAlias } from "./tsDeclarationAlias";
 export { default as autoExternalDependencies } from "./autoExternalDependencies";
 export { default as peerDependenciesAsExternal } from "./peerDependenciesAsExternal";
