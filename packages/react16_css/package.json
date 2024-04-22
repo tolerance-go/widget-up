@@ -25,14 +25,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "widget-up": "workspace:^",
     "@babel/runtime": "^7.24.4",
     "react": "^16.14.0",
     "react-dom": "^16.14.0"
   },
-  "devDependencies": {
-    "typescript": "^5.4.5",
-    "widget-up": "workspace:^"
+  "peerDependencies": {
+    "@babel/runtime": "^7.24.4",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

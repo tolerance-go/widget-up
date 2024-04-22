@@ -3,7 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import path from "path";
-import { getExternalDependencies } from "./src/getExternalDependencies.js";
+import { getExternalDependencies } from "./src/autoExternalDependencies/getExternalDependencies.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 

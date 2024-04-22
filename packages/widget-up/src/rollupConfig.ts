@@ -66,20 +66,14 @@ if (isDev) {
   );
 }
 
-// 从 globals 对象的键中生成 external 数组
-const externalKeys = Object.keys(config.umd.external || {});
-
 const globals = await generateGlobals(config);
-
-const plugins = getPlugins(config, packageConfig, globals);
 
 const outputs = generateOutputs(config, globals);
 
 const rollupConfig: RollupOptions[] = outputs.map((output) => ({
   input: isDev ? devInputFile : "./src/index.tsx",
   output,
-  plugins,
-  external: output.format === "umd" ? externalKeys : externalDependencies,
+  plugins: getPlugins(config, packageConfig, globals, output),
 }));
 
 export default rollupConfig;
