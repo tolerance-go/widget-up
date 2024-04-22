@@ -1,4 +1,6 @@
 import path from "path";
+import { aliasReplace } from "./aliasReplace";
+import { convertKeyToRegex } from "./convertKeyToRegex";
 
 /**
  * 替换文件内容中的别名路径为相对路径。
@@ -24,30 +26,20 @@ export const replaceAliasesCore = ({
   Object.keys(paths).forEach((alias) => {
     const targets = paths[alias]; // 获取当前别名对应的目标路径数组
 
-    console.log("alias", alias);
-
     targets.forEach((target) => {
-      // 构建正则表达式，用于匹配形如 'alias/' 的导入或导出路径
-      const aliasPattern = new RegExp(
-        `(import|export)(\\s+type)?\\s+([^\\s'"]+)\\s+from\\s+(['"])${alias.replace(
-          /\*$/,
-          ""
-        )}`,
-        "g"
-      );
-
-      // 检查并替换匹配的别名路径
-      fileContent = fileContent.replace(
-        aliasPattern,
-        (match, p1, p2, p3, p4) => {
+      fileContent = aliasReplace(
+        fileContent,
+        convertKeyToRegex(alias),
+        (dependPath) => {
+          // @/* => @/
+          const cleanAlias = alias.replace(/\*$/, "");
           const cleanTarget = target.replace(/\*$/, "");
           const targetPath = resolvePath(cleanTarget);
           let relativePath = path
             .relative(fileDir, targetPath)
             .replace(/\\/g, "/");
 
-          // 构建新的导入或导出字符串
-          return `${p1}${p2 || ""} ${p3} from ${p4}${relativePath}/`;
+          return dependPath.replace(cleanAlias, `${relativePath}/`);
         }
       );
     });

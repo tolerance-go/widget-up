@@ -11,7 +11,7 @@ export const getAliasPattern = (npmNameRegStr: string) => {
   const importsExports = `(${importAll}|${importDefaultAndNamed}|${importDefault}|${importNamed}|${importEverything})`;
 
   const from = "\\s*from\\s*"; // 'from' 前后也允许没有空格
-  const moduleName = `['"]${npmNameRegStr}['"]\\s*;?`; // 模块名后的引号和可选分号后也允许空格
+  const moduleName = `['"](${npmNameRegStr})['"]\\s*;?`; // 模块名后的引号和可选分号后也允许空格
 
   // 组合正则表达式字符串
   const pattern = [

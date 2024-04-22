@@ -1,4 +1,4 @@
-import { getAliasPattern } from "../aliasPattern";
+import { getAliasPattern } from "../getAliasPattern";
 
 describe("aliasPattern RegExp", () => {
   test("matches simple import", () => {
@@ -123,5 +123,79 @@ describe("aliasPattern RegExp", () => {
     } from 'module'; export {
       b
     } from "module"`).toMatch(getAliasPattern("module"));
+  });
+
+  test("should match default imports", () => {
+    const pattern = getAliasPattern("react");
+    const statement = "import React from 'react';";
+    expect(statement.match(pattern)).not.toBeNull();
+  });
+
+  test("should match named imports", () => {
+    const pattern = getAliasPattern("lodash");
+    const statement = "import { map, reduce } from 'lodash';";
+    expect(statement.match(pattern)).not.toBeNull();
+  });
+
+  test("should match default and named imports", () => {
+    const pattern = getAliasPattern("react");
+    const statement = "import React, { useState } from 'react';";
+    expect(statement.match(pattern)).not.toBeNull();
+  });
+
+  test("should match all imports with *", () => {
+    const pattern = getAliasPattern("react");
+    const statement = "import * as React from 'react';";
+    expect(statement.match(pattern)).not.toBeNull();
+  });
+
+  test("should match multiple module names", () => {
+    const pattern = getAliasPattern("react|lodash");
+    const statements = [
+      "import React from 'react';",
+      "import lodash from 'lodash';",
+      "import { map, reduce } from 'lodash';",
+    ];
+    statements.forEach((statement) => {
+      expect(statement.match(pattern)).not.toBeNull();
+    });
+  });
+
+  test("matches simple import2", () => {
+    expect(
+      "import React from 'react';".match(getAliasPattern("lodash|react"))
+    ).toEqual(expect.arrayContaining(["import React from 'react';"]));
+  });
+
+  test("should handle multiple different imports", () => {
+    const fileContent = `
+      import React from 'react';
+      import lodash from 'lodash';
+      import { map, reduce } from 'lodash';
+    `;
+    const pattern = getAliasPattern("lodash|react");
+
+    // 使用 match 方法获取所有匹配，并存储结果
+    const matches = fileContent.match(pattern);
+
+    console.log("matches", matches);
+
+    // 验证匹配的总数是否为3
+    expect(matches).toHaveLength(3);
+
+    // 额外验证，确保每个期望的字符串都被正确匹配
+    expect(matches).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining("import React from 'react';"),
+        expect.stringContaining("import lodash from 'lodash';"),
+        expect.stringContaining("import { map, reduce } from 'lodash';"),
+      ])
+    );
+  });
+
+  test("should not match non-matching imports", () => {
+    const pattern = getAliasPattern("react");
+    const statement = "import Vue from 'vue';";
+    expect(statement.match(pattern)).toBeNull();
   });
 });
