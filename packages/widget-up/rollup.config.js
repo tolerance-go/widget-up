@@ -17,7 +17,9 @@ export default {
   plugins: [
     del({ targets: "dist/*" }),
     autoExternalDependencies(),
-    resolve(), // 解析 node_modules 中的模块
+    resolve({
+      preferBuiltins: true,
+    }), // 解析 node_modules 中的模块
     commonjs(), // 转换 CJS -> ESM, 主要是一些 npm 包仍然是 CJS
     json(),
     typescript({

@@ -1,9 +1,8 @@
 import path from "path";
 
 import semver from "semver";
-import { isDev } from "./env";
-import { processEJSTemplate } from "./processEJSTemplate";
 import { PackageJson, ParseConfig } from "widget-up-utils";
+import { processEJSTemplate } from "./processEJSTemplate";
 
 function cleanVersion(versionStr) {
   return versionStr.replace(/^[^0-9]+/, "");
@@ -20,28 +19,26 @@ export const generateDevInputFile = async ({
   packageConfig: PackageJson;
   devInputFile: string;
 }) => {
-  if (isDev) {
-    const parsedInput = path.parse(path.posix.join("..", config.input));
-    // 无论是否有 React，始终调用 processEJSTemplate
-    await processEJSTemplate(
-      path.join(
-        rootPath,
-        "tpls",
-        `index.tsx.${
-          packageConfig.dependencies.react
-            ? "react"
-            : packageConfig.dependencies.jquery
-            ? "jquery"
-            : "default"
-        }.ejs`
-      ),
-      path.resolve(devInputFile),
-      {
-        dependencies: packageConfig.dependencies,
-        input: path.posix.join(parsedInput.dir, parsedInput.name), // 去掉后缀名
-        major: semver.major,
-        cleanVersion,
-      }
-    );
-  }
+  const parsedInput = path.parse(path.posix.join("..", config.input));
+  // 无论是否有 React，始终调用 processEJSTemplate
+  await processEJSTemplate(
+    path.join(
+      rootPath,
+      "tpls",
+      `index.tsx.${
+        packageConfig.dependencies.react
+          ? "react"
+          : packageConfig.dependencies.jquery
+          ? "jquery"
+          : "default"
+      }.ejs`
+    ),
+    path.resolve(devInputFile),
+    {
+      dependencies: packageConfig.dependencies,
+      input: path.posix.join(parsedInput.dir, parsedInput.name), // 去掉后缀名
+      major: semver.major,
+      cleanVersion,
+    }
+  );
 };

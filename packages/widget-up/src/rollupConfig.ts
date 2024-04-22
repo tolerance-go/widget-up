@@ -2,23 +2,30 @@ import fs from "fs";
 import path from "path";
 import { RollupOptions } from "rollup";
 
-import semver from "semver";
 import { fileURLToPath } from "url";
-import { PackageJson, parseConfig } from "widget-up-utils";
+import { PackageJson } from "widget-up-utils";
+import { Logger } from "./Logger";
 import { isDev } from "./env";
+import { generateDevInputFile } from "./generateDevInputFile";
 import { generateGlobals } from "./generateGlobals";
 import { generateOutputs } from "./generateOutputs";
-import { getPlugins } from "./getPlugins";
-import { processEJSTemplate } from "./processEJSTemplate";
 import { getConfig } from "./getConfig";
 import { getDevInput } from "./getInput";
-import { generateDevInputFile } from "./generateDevInputFile";
+import { getPlugins } from "./getPlugins";
+
+const NODE_ENV = process.env.NODE_ENV;
+
+const logger = new Logger(
+  path.join(process.cwd(), ".logs", new Date().toISOString().substring(0, 10))
+);
+
+logger.info(`${'='.repeat(10)} ${NODE_ENV} ${'='.repeat(10)}`);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const rootPath = path.join(__dirname, "..");
 
-console.log('rootPath', rootPath)
+logger.info(`rootPath is ${rootPath}`);
 
 const packageConfig = JSON.parse(
   fs.readFileSync(path.resolve("package.json"), "utf8")
@@ -28,12 +35,14 @@ const config = getConfig();
 
 const devInputFile = getDevInput(packageConfig);
 
-await generateDevInputFile({
-  rootPath,
-  packageConfig,
-  config,
-  devInputFile,
-});
+if (isDev) {
+  await generateDevInputFile({
+    rootPath,
+    packageConfig,
+    config,
+    devInputFile,
+  });
+}
 
 const globals = generateGlobals(config);
 
