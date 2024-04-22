@@ -29,12 +29,10 @@
   "devDependencies": {
     "typescript": "^5.4.5",
     "widget-up": "workspace:^",
-    "@babel/runtime": "^7.24.4",
     "react": "^16.14.0",
     "react-dom": "^16.14.0"
   },
   "peerDependencies": {
-    "@babel/runtime": "^7.24.4",
     "react": "^16.14.0",
     "react-dom": "^16.14.0"
   },

@@ -8,31 +8,23 @@ import livereload from "rollup-plugin-livereload";
 import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
-import {
-  autoExternalDependencies,
-  peerDependenciesAsExternal,
-} from "widget-up-rollup-plugins";
 import { PackageJson, ParseConfig } from "widget-up-utils";
-import { customHtmlPlugin } from "./customHtmlPlugin.js";
-import { isDev } from "./env.js";
-import { getServerConfig } from "./getServerConfig.js";
+import { customHtmlPlugin } from "../customHtmlPlugin.js";
+import { isDev } from "../env.js";
+import { getServerConfig } from "../getServerConfig.js";
+import { getExternalPlugin } from "./getExternalPlugin.js";
 
-const getExternalPlugin = (format: OutputOptions["format"]) => {
-  if (format === "cjs" || format === "esm") {
-    return autoExternalDependencies();
-  }
-  if (format === "umd") {
-    return peerDependenciesAsExternal();
-  }
-  return null;
-};
-
-export const getPlugins = (
-  config: ParseConfig,
-  packageConfig: PackageJson,
-  globals: Record<string, string>,
-  output: OutputOptions
-) => {
+export const getPlugins = ({
+  config,
+  packageConfig,
+  globals,
+  output,
+}: {
+  config: ParseConfig;
+  packageConfig: PackageJson;
+  globals: Record<string, string>;
+  output: OutputOptions;
+}) => {
   const plugins = [
     del({ targets: ["dist", output.format, "*"].filter(Boolean).join("/") }),
     getExternalPlugin(output.format),
