@@ -161,7 +161,7 @@ describe("aliasPattern RegExp", () => {
     });
   });
 
-  test("matches simple import2", () => {
+  test("matches simple import with |", () => {
     expect(
       "import React from 'react';".match(getAliasPattern("lodash|react"))
     ).toEqual(expect.arrayContaining(["import React from 'react';"]));
