@@ -14,6 +14,8 @@
     "tpls"
   ],
   "scripts": {
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write .",
     "schema-dev": "schema-builder dev",
     "schema-build": "schema-builder build",
     "lib-dev": "cross-env NODE_ENV=development rollup -c -w",
@@ -34,6 +36,8 @@
     "@types/react": "16",
     "@types/react-dom": "16",
     "@types/semver": "^7.5.8",
+    "prettier": "^3.2.5",
+    "prettier-plugin-ejs": "^1.0.3",
     "ts-jest": "^29.1.2",
     "typescript": "^5.4.5",
     "widget-up-rollup-plugins": "workspace:^",

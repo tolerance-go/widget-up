@@ -1,7 +1,7 @@
-import ejs from "ejs";
-import fs from "fs-extra";
-import path from "path";
-import { GlobalsSchemaConfig, PackageJson, ParseConfig } from "widget-up-utils";
+import ejs from 'ejs';
+import fs from 'fs-extra';
+import path from 'path';
+import { GlobalsSchemaConfig, PackageJson, ParseConfig } from 'widget-up-utils';
 
 export interface MenuItem {
   name: string;
@@ -26,7 +26,7 @@ export function runtimeHtmlPlugin({
   menus?: MenuItem[];
 }) {
   return {
-    name: "custom-html", // 插件名称
+    name: 'custom-html', // 插件名称
     generateBundle() {
       // 读取 EJS 模板文件
       const templatePath = path.join(rootPath, src);
@@ -49,13 +49,13 @@ export function runtimeHtmlPlugin({
                   };
                 })
               : [],
-          bundleSrc: "./umd/index.js",
+          bundleSrc: './umd/index.js',
           includeCSS: !!config.css,
           menus,
         },
         (err, html) => {
           if (err) {
-            console.error("Error rendering EJS template:", err);
+            console.error('Error rendering EJS template:', err);
             return;
           }
 
@@ -63,8 +63,8 @@ export function runtimeHtmlPlugin({
 
           fs.ensureDirSync(dist);
           // 写入生成的 HTML 到目标目录
-          fs.writeFileSync(path.join(dist, "index.html"), html, "utf8");
-        }
+          fs.writeFileSync(path.join(dist, 'index.html'), html, 'utf8');
+        },
       );
     },
   };

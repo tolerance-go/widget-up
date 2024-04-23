@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,24 +10,24 @@
   </head>
   <body>
     <% if (menus) { %>
-      <div id="menu-container" style="float: left;">
-        <ul>
-          <% function renderMenu(menus) { %>
-            <% menus.forEach(function(menu) { %>
-              <li>
-                <%= menu.name %>
-                <% if (menu.children && menu.children.length > 0) { %>
-                  <ul>
-                    <%= renderMenu(menu.children) %>
-                  </ul>
-                <% } %>
-              </li>
-            <% }); %>
+    <div id="menu-container" style="float: left">
+      <ul>
+        <% function renderMenu(menus) { %>
+        <% menus.forEach(function(menu) { %>
+        <li>
+          <%= menu.name %>
+          <% if (menu.children && menu.children.length > 0) { %>
+          <ul>
+            <%= renderMenu(menu.children) %>
+          </ul>
           <% } %>
-          <%= renderMenu(menus) %>
-        </ul>
-      </div>
-      <% } %>
+        </li>
+        <% }); %>
+        <% } %>
+        <%= renderMenu(menus) %>
+      </ul>
+    </div>
+    <% } %>
     <div id="root"></div>
     <% scriptTags.forEach(function(tag) { %>
     <script src="<%= tag.src %>"></script>
