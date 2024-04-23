@@ -16,6 +16,7 @@ export function runtimeHtmlPlugin({
   config,
   rootPath,
   menus,
+  inlineStyles,
 }: {
   rootPath: string;
   config: ParseConfig;
@@ -24,6 +25,7 @@ export function runtimeHtmlPlugin({
   dest: string;
   src: string;
   menus?: MenuItem[];
+  inlineStyles?: string;
 }) {
   return {
     name: 'custom-html', // 插件名称
@@ -52,6 +54,7 @@ export function runtimeHtmlPlugin({
           bundleSrc: './umd/index.js',
           includeCSS: !!config.css,
           menus,
+          inlineStyles,
         },
         (err, html) => {
           if (err) {

@@ -1,40 +1,45 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <% if (includeCSS) { %>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <% if (includeCSS) { %>
     <link rel="stylesheet" href="./umd/bundle.css" />
-    <% } %>
-  </head>
-  <body>
-    <% if (menus) { %>
+  <% } %>
+  <% if (inlineStyles) { %>
+    <style>
+      <%= inlineStyles %>
+    </style>
+  <% } %>
+</head>
+<body>
+  <% if (menus) { %>
     <div id="menu-container" style="float: left">
       <ul>
         <% function renderMenu(menus) { %>
-        <% menus.forEach(function(menu) { %>
-        <li>
-          <%= menu.name %>
-          <% if (menu.children && menu.children.length > 0) { %>
-          <ul>
-            <%= renderMenu(menu.children) %>
-          </ul>
-          <% } %>
-        </li>
-        <% }); %>
+          <% menus.forEach(function(menu) { %>
+            <li>
+              <%= menu.name %>
+              <% if (menu.children && menu.children.length > 0) { %>
+                <ul>
+                  <%= renderMenu(menu.children) %>
+                </ul>
+              <% } %>
+            </li>
+          <% }); %>
         <% } %>
         <%= renderMenu(menus) %>
       </ul>
     </div>
-    <% } %>
-    <div id="root"></div>
-    <% scriptTags.forEach(function(tag) { %>
+  <% } %>
+  <div id="root"></div>
+  <% scriptTags.forEach(function(tag) { %>
     <script src="<%= tag.src %>"></script>
     <script>
       <%= tag.global %>
     </script>
-    <% }); %>
-    <script src="<%= bundleSrc %>"></script>
-  </body>
+  <% }); %>
+  <script src="<%= bundleSrc %>"></script>
+</body>
 </html>
