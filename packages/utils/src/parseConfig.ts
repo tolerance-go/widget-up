@@ -1,7 +1,7 @@
-import { Config, ParedUMDConfig, ParseConfig } from "@/types";
+import { SchemaConfig, ParedUMDConfig, ParseConfig } from "@/types";
 import { parseExternal } from "./parseExternal";
 
-export function parseConfig(config: Config): ParseConfig {
+export function parseConfig(config: SchemaConfig): ParseConfig {
   // 首先处理 UMD 配置的解析，特别是 external 字段
   const parsedUMD: ParedUMDConfig | undefined = config.umd
     ? {

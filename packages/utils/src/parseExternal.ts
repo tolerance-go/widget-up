@@ -1,7 +1,7 @@
-import { ExternalConfig, ParsedExternalConfig } from "@/types";
+import { ExternalSchemaConfig, ParsedExternalConfig } from "@/types";
 
 // 改写的 TypeScript 函数，增加了类型注解
-export function parseExternal(external: ExternalConfig): ParsedExternalConfig {
+export function parseExternal(external: ExternalSchemaConfig): ParsedExternalConfig {
   const next: { [key: string]: any } = {};
 
   for (const [libName, config] of Object.entries(external)) {

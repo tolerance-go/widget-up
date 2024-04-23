@@ -1,9 +1,9 @@
 import { parseExternal } from "../src/parseExternal";
-import { ExternalConfig, ParsedExternalConfig } from "../types";
+import { ExternalSchemaConfig, ParsedExternalConfig } from "../types";
 
 describe("parseExternal", () => {
   it("peerDependencies", () => {
-    const input: ExternalConfig = {
+    const input: ExternalSchemaConfig = {
       "react-dom": {
         unpkg: {
           filePath: "",
@@ -24,7 +24,7 @@ describe("parseExternal", () => {
   });
 
   it("should handle object configurations with global and peerDependencies", () => {
-    const input: ExternalConfig = {
+    const input: ExternalSchemaConfig = {
       "react-dom": {
         unpkg: {
           filePath: "",
@@ -45,7 +45,7 @@ describe("parseExternal", () => {
   });
 
   it("should return an empty object when given an empty configuration", () => {
-    const input: ExternalConfig = {};
+    const input: ExternalSchemaConfig = {};
     const expected: ParsedExternalConfig = {};
     const result = parseExternal(input);
     expect(result).toEqual(expected);

@@ -1,9 +1,9 @@
 import { parseConfig } from "../src/parseConfig";
-import { Config } from "../types";
+import { SchemaConfig } from "../types";
 
 describe("parseConfig", () => {
   it("should correctly parse a full configuration object", () => {
-    const inputConfig: Config = {
+    const inputConfig: SchemaConfig = {
       input: "src/index.tsx",
       umd: {
         name: "MyComponent",
@@ -64,7 +64,7 @@ describe("parseConfig", () => {
   });
 
   it("should handle configurations without UMD correctly", () => {
-    const inputConfig: Config = {
+    const inputConfig: SchemaConfig = {
       input: "src/index.tsx",
       cjs: false,
       esm: true,
