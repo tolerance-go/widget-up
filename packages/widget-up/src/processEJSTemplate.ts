@@ -2,9 +2,9 @@ import ejs from "ejs";
 import fs from "fs-extra";
 
 export async function processEJSTemplate(
-  templatePath,
-  outputPath,
-  templateData
+  templatePath: string,
+  outputPath: string,
+  templateData: any
 ) {
   try {
     const data = await fs.readFile(templatePath, "utf8");

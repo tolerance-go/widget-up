@@ -9,20 +9,24 @@ import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import { PackageJson, ParseConfig } from "widget-up-utils";
-import { customHtmlPlugin } from "../customHtmlPlugin.js";
+import { MenuItem, runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
 import { isDev } from "../env.js";
 import { getServerConfig } from "../getServerConfig.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
 
 export const getPlugins = ({
+  rootPath,
   config,
   packageConfig,
   globals,
   output,
+  menus,
 }: {
+  menus?: MenuItem[];
+  rootPath: string;
   config: ParseConfig;
   packageConfig: PackageJson;
-  globals: Record<string, string>;
+  globals?: Record<string, string>;
   output: OutputOptions;
 }) => {
   const plugins = [
@@ -66,12 +70,14 @@ export const getPlugins = ({
         watch: "dist", // 监听文件夹
       }),
     isDev &&
-      customHtmlPlugin({
+      runtimeHtmlPlugin({
+        rootPath,
         globals,
-        src: "../tpls/index.html.ejs",
+        src: "tpls/index.html.ejs",
         dest: "dist",
         packageConfig,
         config,
+        menus
       }),
     !isDev && terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean);

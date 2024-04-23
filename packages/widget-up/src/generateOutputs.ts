@@ -1,16 +1,20 @@
 import { ParseConfig, GlobalsSchemaConfig } from "widget-up-utils";
 import { isDev } from "./env";
+import { RollupOptions } from "rollup";
 
 // 构建输出数组
-export function generateOutputs(config: ParseConfig, globals: GlobalsSchemaConfig) {
-  const outputs = [];
+export function generateOutputs(
+  config: ParseConfig,
+  globals?: GlobalsSchemaConfig
+) {
+  const outputs: RollupOptions["output"] = [];
 
   if (config.umd ?? true) {
     // UMD 格式始终包含
     outputs.push({
       file: "dist/umd/index.js",
       format: "umd",
-      name: config.umd.name,
+      name: config.umd?.name,
       globals,
       sourcemap: isDev ? "inline" : false,
     });

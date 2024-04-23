@@ -1,6 +1,5 @@
 import serve from "rollup-plugin-serve";
 import { findAvailablePort } from "./findAvailablePort";
-import { isDev } from "./env";
 
 // Usage in Rollup config
 const PORT = 3000;

@@ -4,7 +4,7 @@ import semver from "semver";
 import { PackageJson, ParseConfig } from "widget-up-utils";
 import { processEJSTemplate } from "./processEJSTemplate";
 
-function cleanVersion(versionStr) {
+function cleanVersion(versionStr: string) {
   return versionStr.replace(/^[^0-9]+/, "");
 }
 

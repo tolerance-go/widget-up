@@ -13,6 +13,9 @@ import { getConfig } from "./getConfig";
 import { getDevInput } from "./getDevInput";
 import { getPlugins } from "./getPlugins";
 import { getProdInput } from "./getProdInput";
+import { parseDirectoryStructure } from "./parseDirectoryStructure";
+import { MenuItem } from "./getPlugins/runtimeHtmlPlugin";
+import { convertDirectoryToMenu } from "./utils/convertDirectoryToMenu";
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -26,7 +29,23 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const rootPath = path.join(__dirname, "..");
 
+const cwdPath = process.cwd();
+
 logger.info(`rootPath is ${rootPath}`);
+logger.info(`cwdPath is ${cwdPath}`);
+
+const demosPath = path.join(cwdPath, "demos");
+logger.info(`demosPath is ${demosPath}`);
+
+let demoMenus: MenuItem[];
+
+if (fs.existsSync(demosPath)) {
+  logger.log("start demos mode");
+  const demosDirFileData = parseDirectoryStructure(demosPath);
+  logger.info(`demosDirFileData: ${JSON.stringify(demosDirFileData, null, 2)}`);
+
+  demoMenus = convertDirectoryToMenu(demosDirFileData.children ?? []);
+}
 
 const packageConfig = JSON.parse(
   fs.readFileSync(path.resolve("package.json"), "utf8")
@@ -52,7 +71,14 @@ const outputs = generateOutputs(config, globals);
 const rollupConfig: RollupOptions[] = outputs.map((output) => ({
   input: isDev ? devInputFile : getProdInput(packageConfig),
   output,
-  plugins: getPlugins({ config, packageConfig, globals, output }),
+  plugins: getPlugins({
+    rootPath,
+    config,
+    packageConfig,
+    globals,
+    output,
+    menus: demoMenus,
+  }),
 }));
 
 export default rollupConfig;

@@ -5,7 +5,7 @@ import net from "net";
  * @param {number} port 要检查的端口号
  * @returns {Promise<number>} 如果端口可用，返回Promise解析为该端口号
  */
-function checkPort(port) {
+function checkPort(port: number): Promise<number> {
   return new Promise((resolve, reject) => {
     const server = net.createServer();
     server.unref();
@@ -23,7 +23,7 @@ function checkPort(port) {
   });
 }
 
-export async function findAvailablePort(startPort) {
+export async function findAvailablePort(startPort: number) {
   try {
     return await checkPort(startPort);
   } catch (err) {
