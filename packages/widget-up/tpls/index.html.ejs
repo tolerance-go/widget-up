@@ -14,26 +14,29 @@
   <% } %>
 </head>
 <body>
-  <% if (menus) { %>
-    <div id="menu-container" style="float: left">
-      <ul>
-        <% function renderMenu(menus) { %>
-          <% menus.forEach(function(menu) { %>
-            <li>
-              <%= menu.name %>
-              <% if (menu.children && menu.children.length > 0) { %>
-                <ul>
-                  <%= renderMenu(menu.children) %>
-                </ul>
-              <% } %>
-            </li>
-          <% }); %>
-        <% } %>
-        <%= renderMenu(menus) %>
-      </ul>
-    </div>
-  <% } %>
-  <div id="root"></div>
+  <div class="container">
+    <% if (menus) { %>
+      <div id="menu-container">
+        <ul>
+          <% function renderMenu(menus) { %>
+            <% menus.forEach(function(menu) { %>
+              <li>
+                <%= menu.name %>
+                <% if (menu.children && menu.children.length > 0) { %>
+                  <ul>
+                    <%= renderMenu(menu.children) %>
+                  </ul>
+                <% } %>
+              </li>
+            <% }); %>
+          <% } %>
+          <%= renderMenu(menus) %>
+        </ul>
+      </div>
+    <% } %>
+    <div id="root"></div>
+    <div class="right-space"></div>
+  </div>
   <% scriptTags.forEach(function(tag) { %>
     <script src="<%= tag.src %>"></script>
     <script>
