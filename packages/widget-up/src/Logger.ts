@@ -1,6 +1,6 @@
-import * as fs from "fs";
-import * as util from "util";
-import * as path from "path";
+import * as fs from 'fs';
+import * as util from 'util';
+import * as path from 'path';
 
 export class Logger {
   private filePath: string;
@@ -19,46 +19,46 @@ export class Logger {
 
     // 检查文件是否存在，不存在则创建
     if (!fs.existsSync(this.filePath)) {
-      fs.closeSync(fs.openSync(this.filePath, "w"));
+      fs.closeSync(fs.openSync(this.filePath, 'w'));
     }
   }
 
   private write(message: string): void {
-    fs.appendFileSync(this.filePath, message + "\n", "utf-8");
+    fs.appendFileSync(this.filePath, message + '\n', 'utf-8');
   }
 
   public log(...args: any[]): void {
     const formattedMessage = util.format(
-      "[LOG] [%s] -",
+      '[LOG] [%s] -',
       new Date().toISOString(),
-      ...args
+      ...args,
     );
     this.write(formattedMessage);
   }
 
   public info(...args: any[]): void {
     const formattedMessage = util.format(
-      "[INFO] [%s] -",
+      '[INFO] [%s] -',
       new Date().toISOString(),
-      ...args
+      ...args,
     );
     this.write(formattedMessage);
   }
 
   public error(...args: any[]): void {
     const formattedMessage = util.format(
-      "[ERROR] [%s] -",
+      '[ERROR] [%s] -',
       new Date().toISOString(),
-      ...args
+      ...args,
     );
     this.write(formattedMessage);
   }
 
   public warn(...args: any[]): void {
     const formattedMessage = util.format(
-      "[WARN] [%s] -",
+      '[WARN] [%s] -',
       new Date().toISOString(),
-      ...args
+      ...args,
     );
     this.write(formattedMessage);
   }

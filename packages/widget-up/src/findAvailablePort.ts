@@ -1,4 +1,4 @@
-import net from "net";
+import net from 'net';
 
 /**
  * 检查指定端口是否可用
@@ -10,7 +10,7 @@ function checkPort(port: number): Promise<number> {
     const server = net.createServer();
     server.unref();
 
-    server.on("error", (err) => {
+    server.on('error', (err) => {
       console.log(`Error on port ${port}: ${err.message}`);
       server.close();
       reject(err);

@@ -1,9 +1,9 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
 export interface DirectoryStructure {
   name: string;
-  type: "file" | "directory";
+  type: 'file' | 'directory';
   children?: DirectoryStructure[];
 }
 
@@ -20,7 +20,7 @@ export function parseDirectoryStructure(dirPath: string): DirectoryStructure {
     if (entryStats.isDirectory()) {
       const directory: DirectoryStructure = {
         name: path.basename(currentPath),
-        type: "directory",
+        type: 'directory',
         children: [],
       };
       // Read all items in the directory
@@ -31,7 +31,7 @@ export function parseDirectoryStructure(dirPath: string): DirectoryStructure {
     } else {
       return {
         name: path.basename(currentPath),
-        type: "file",
+        type: 'file',
       };
     }
   }
