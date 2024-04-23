@@ -1,5 +1,7 @@
-import start from "<%= input %>";
+import App from "<%= input %>";
 
 const rootElement = document.getElementById("root");
 
-start({ rootElement });
+const appElement = App({ initialData: undefined });
+
+rootElement?.appendChild(appElement);

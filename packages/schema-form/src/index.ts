@@ -64,11 +64,11 @@ function createInput(inputConfig: InputSchemaConfig): JQuery<HTMLElement> {
 }
 
 // 定义 SchemaForm 组件
-export const SchemaForm: JQueryComponent<{ formSchema: FormSchemaConfig }> = ({
+export const SchemaForm: JQueryComponent<{ formSchema?: FormSchemaConfig }> = ({
   formSchema,
 }) => {
   const form = $("<form></form>");
-  formSchema.inputs?.forEach((inputConfig) => {
+  formSchema?.inputs?.forEach((inputConfig) => {
     const label = $("<label></label>").text(inputConfig.label + ": ");
     const inputElement = createInput(inputConfig);
     const wrapper = $("<div></div>").append(label).append(inputElement);

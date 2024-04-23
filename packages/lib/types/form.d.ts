@@ -75,6 +75,6 @@ export type InputSchemaConfig =
   | EnumInputSchemaConfig
   | MultiSelectInputSchemaConfig;
 
-export interface FormSchemaConfig<T = object> extends InputSchemaConfigBase<T> {
+export interface FormSchemaConfig<T = object> {
   inputs?: InputSchemaConfig[];
 }

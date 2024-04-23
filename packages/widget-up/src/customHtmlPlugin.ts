@@ -2,7 +2,7 @@ import fs from "fs-extra";
 import path from "path";
 import { fileURLToPath } from "url";
 import ejs from "ejs";
-import { GlobalsConfig, PackageJson, ParseConfig } from "widget-up-utils";
+import { GlobalsSchemaConfig, PackageJson, ParseConfig } from "widget-up-utils";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -15,7 +15,7 @@ export function customHtmlPlugin({
 }: {
   config: ParseConfig;
   packageConfig: PackageJson;
-  globals: GlobalsConfig;
+  globals: GlobalsSchemaConfig;
   dest: string;
   src: string;
 }) {
@@ -29,7 +29,7 @@ export function customHtmlPlugin({
         {
           scriptTags: Object.entries(globals).map(([pkgName, value]) => {
             return {
-              src: `https://unpkg.com/${pkgName}@${packageConfig.dependencies[pkgName]}${config.umd.external?.[pkgName]?.unpkg.filePath}`,
+              src: `https://unpkg.com/${pkgName}@${packageConfig.peerDependencies[pkgName]}${config.umd.external?.[pkgName]?.unpkg.filePath}`,
               global: `window.${globals[pkgName]} = ${config.umd.globals[pkgName]};`,
             };
           }),

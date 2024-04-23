@@ -1,8 +1,8 @@
-import { ParseConfig, GlobalsConfig } from "widget-up-utils";
+import { ParseConfig, GlobalsSchemaConfig } from "widget-up-utils";
 import { isDev } from "./env";
 
 // 构建输出数组
-export function generateOutputs(config: ParseConfig, globals: GlobalsConfig) {
+export function generateOutputs(config: ParseConfig, globals: GlobalsSchemaConfig) {
   const outputs = [];
 
   if (config.umd ?? true) {
