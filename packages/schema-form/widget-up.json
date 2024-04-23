@@ -6,8 +6,8 @@
     "external": {
       "jquery": {
         "unpkg": {
-          "filePath": "/umd/react.production.min.js",
-          "filePathDev": "/umd/react.development.js"
+          "filePath": "/dist/jquery.min.js",
+          "filePathDev": "/dist/jquery.js"
         }
       },
       "widget-up-lib": {

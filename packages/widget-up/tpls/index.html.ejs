@@ -18,17 +18,17 @@
   <% } %>
 </head>
 <body>
-  <div class="container">
+  <div class="widget-up-demo-container">
     <% if (menus) { %>
-      <div id="menu-container">
+      <div class="widget-up-demo-menu-container">
         <ul>
-          <% function renderMenu(menus) { %>
+          <% function renderMenu(menus, level = 0) { %>
             <% menus.forEach(function(menu) { %>
-              <li>
+              <li class="level-<%= level %>">
                 <%= menu.name %>
                 <% if (menu.children && menu.children.length > 0) { %>
                   <ul>
-                    <%= renderMenu(menu.children) %>
+                    <%= renderMenu(menu.children, level + 1) %>
                   </ul>
                 <% } %>
               </li>
@@ -38,8 +38,10 @@
         </ul>
       </div>
     <% } %>
-    <div id="root"></div>
-    <div class="right-space"></div>
+    <div class="widget-up-demo-root-container">
+      <div id="root"></div>
+    </div>
+    <div class="widget-up-demo-right-space"></div>
   </div>
   <% scriptTags.forEach(function(tag) { %>
     <script src="<%= tag.src %>"></script>
