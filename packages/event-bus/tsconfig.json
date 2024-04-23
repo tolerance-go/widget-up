@@ -8,10 +8,11 @@
     "declarationDir": "dist/types",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": ".", // 基本目录设置为项目根目录
+    "strict": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["*"] // 将 @ 符号映射到根目录
+      "@/*": ["*"]
     }
   },
-  "include": ["src/**/*", "types/**/*"]
+  "include": ["src/**/*", "types/**/*", "__tests__/**/*"]
 }
