@@ -36,7 +36,7 @@ export function runtimeHtmlPlugin({
       const stylesPath = path.join(rootPath, 'styles');
       const devFrameStylePath = path.join(stylesPath, 'index.less');
       const cssStr = await compileLessToCSS(devFrameStylePath, rootPath);
-      
+
       const dist = path.resolve(dest);
       fs.ensureDirSync(dist);
       // 写入生成的 HTML 到目标目录
