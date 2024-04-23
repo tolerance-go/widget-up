@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "ESNext",
+    "target": "es5",
+    "jsx": "react",
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "baseUrl": ".", // 基本目录设置为项目根目录
+    "paths": {
+      "@/*": ["*"] // 将 @ 符号映射到根目录
+    }
+  },
+  "include": ["src/**/*", "types/**/*"]
+}
