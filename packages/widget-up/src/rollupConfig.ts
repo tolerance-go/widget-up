@@ -4,7 +4,6 @@ import { RollupOptions } from 'rollup';
 
 import { fileURLToPath } from 'url';
 import { PackageJson } from 'widget-up-utils';
-import { Logger } from './Logger';
 import { isDev } from './env';
 import { generateDevInputFile } from './generateDevInputFile';
 import { generateGlobals } from './generateGlobals';
@@ -12,16 +11,13 @@ import { generateOutputs } from './generateOutputs';
 import { getConfig } from './getConfig';
 import { getDevInput } from './getDevInput';
 import { getPlugins } from './getPlugins';
-import { getProdInput } from './getProdInput';
-import { parseDirectoryStructure } from './parseDirectoryStructure';
 import { MenuItem } from './getPlugins/runtimeHtmlPlugin';
+import { getProdInput } from './getProdInput';
+import { logger } from './logger';
+import { parseDirectoryStructure } from './parseDirectoryStructure';
 import { convertDirectoryToMenu } from './utils/convertDirectoryToMenu';
 
 const NODE_ENV = process.env.NODE_ENV;
-
-const logger = new Logger(
-  path.join(process.cwd(), '.logs', new Date().toISOString().substring(0, 10)),
-);
 
 logger.info(`${'='.repeat(10)} ${NODE_ENV} ${'='.repeat(10)}`);
 

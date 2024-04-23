@@ -60,6 +60,7 @@
     "js-yaml": "^4.1.0",
     "less": "^4.2.0",
     "net": "^1.0.2",
+    "normalize.css": "^8.0.1",
     "rollup": "^4.14.3",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-delete": "^2.0.0",

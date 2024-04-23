@@ -13,8 +13,6 @@ import { MenuItem, runtimeHtmlPlugin } from './runtimeHtmlPlugin.js';
 import { isDev } from '../env.js';
 import { getServerConfig } from '../getServerConfig.js';
 import { getExternalPlugin } from './getExternalPlugin.js';
-import path from 'path';
-import { compileLessToCSS } from '../utils/compileLessToCSS.js';
 
 export const getPlugins = async ({
   rootPath,
@@ -31,16 +29,6 @@ export const getPlugins = async ({
   globals?: Record<string, string>;
   output: OutputOptions;
 }) => {
-  const stylesPath = path.join(rootPath, 'styles');
-
-  let inlineStyles: string | undefined;
-  if (menus) {
-    const demosStylePath = path.join(stylesPath, 'demos.less');
-    // 读取内容，然后编译为 css 样式
-    // 然后包裹为 style 内联字符串
-    inlineStyles = await compileLessToCSS(demosStylePath);
-  }
-
   const plugins = [
     del({ targets: ['dist', output.format, '*'].filter(Boolean).join('/') }),
     getExternalPlugin(output.format),
@@ -90,7 +78,6 @@ export const getPlugins = async ({
         packageConfig,
         config,
         menus,
-        inlineStyles,
       }),
     !isDev && terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean);

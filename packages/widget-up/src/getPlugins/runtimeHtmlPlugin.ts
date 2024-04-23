@@ -2,6 +2,7 @@ import ejs from 'ejs';
 import fs from 'fs-extra';
 import path from 'path';
 import { GlobalsSchemaConfig, PackageJson, ParseConfig } from 'widget-up-utils';
+import { compileLessToCSS } from '../utils/compileLessToCSS';
 
 export interface MenuItem {
   name: string;
@@ -17,6 +18,7 @@ export function runtimeHtmlPlugin({
   rootPath,
   menus,
   inlineStyles,
+  externalStylesheets = [],
 }: {
   rootPath: string;
   config: ParseConfig;
@@ -26,10 +28,20 @@ export function runtimeHtmlPlugin({
   src: string;
   menus?: MenuItem[];
   inlineStyles?: string;
+  externalStylesheets?: string[];
 }) {
   return {
     name: 'custom-html', // 插件名称
-    generateBundle() {
+    generateBundle: async () => {
+      const stylesPath = path.join(rootPath, 'styles');
+      const devFrameStylePath = path.join(stylesPath, 'index.less');
+      const cssStr = await compileLessToCSS(devFrameStylePath, rootPath);
+      
+      const dist = path.resolve(dest);
+      fs.ensureDirSync(dist);
+      // 写入生成的 HTML 到目标目录
+      fs.writeFileSync(path.join(dist, 'index.css'), cssStr, 'utf8');
+
       // 读取 EJS 模板文件
       const templatePath = path.join(rootPath, src);
       ejs.renderFile(
@@ -55,6 +67,7 @@ export function runtimeHtmlPlugin({
           includeCSS: !!config.css,
           menus,
           inlineStyles,
+          externalStylesheets,
         },
         (err, html) => {
           if (err) {
