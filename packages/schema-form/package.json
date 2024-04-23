@@ -23,13 +23,14 @@
     "prepublishAll": "npm run build"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.29",
+    "jquery": "^3.7.1",
     "widget-up": "workspace:^",
-    "widget-up-lib": "workspace:^",
-    "jquery": "^3.7.1"
+    "widget-up-lib": "workspace:^"
   },
   "peerDependencies": {
-    "widget-up-lib": "workspace:^",
-    "jquery": "^3.7.1"
+    "jquery": "^3.7.1",
+    "widget-up-lib": "workspace:^"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

@@ -1,8 +1,5 @@
-export interface JQueryComponent {
-  start?: (args: {
-    rootElement: HTMLElement;
-  }) => void;
-  update?: (args: {
-    settings: Record<string, any>;
-  }) => void;
-}
+export type JQueryComponent<T extends object> = (
+  args: { initialData?: any } & T
+) => HTMLElement;
+
+export * from "./form";

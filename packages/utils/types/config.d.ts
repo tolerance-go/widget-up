@@ -1,4 +1,4 @@
-import { Form } from "./form";
+import type { FormSchemaConfig } from "widget-up-lib";
 
 export interface ParsedExternalLibraryConfig {
   peerDependencies?: string[];
@@ -51,7 +51,7 @@ export interface Config {
   cjs?: boolean;
   esm?: boolean;
   css?: boolean | "modules" | "autoModules";
-  form?: Form;
+  form?: FormSchemaConfig;
 }
 
 export interface ParseConfig {
@@ -60,5 +60,5 @@ export interface ParseConfig {
   cjs?: boolean;
   esm?: boolean;
   css?: boolean | "modules" | "autoModules";
-  form?: Form;
+  form?: FormSchemaConfig;
 }

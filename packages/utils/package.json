@@ -31,7 +31,8 @@
   "dependencies": {
     "axios": "^1.6.8",
     "semver": "^7.6.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "widget-up-lib": "workspace:^"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^5.1.0",
