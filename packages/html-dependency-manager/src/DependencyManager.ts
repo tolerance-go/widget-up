@@ -65,45 +65,52 @@ class DependencyManager {
     // 找到所有满足版本范围的依赖，并找到最高的版本
     const versionsToRemove = this.dependencies[dependency]
       .filter((dep) => semver.satisfies(dep.version, versionRange))
-      .sort((a, b) => semver.rcompare(a.version, b.version))
-      .shift(); // 取最高版本
+      .sort((a, b) => semver.rcompare(a.version, b.version));
 
-    if (!versionsToRemove) {
+    if (versionsToRemove.length === 0) {
       console.warn("No version found matching the provided range.");
       return;
     }
 
+    // 从版本列表中选择要删除的最高版本
+    const versionToRemove = versionsToRemove.shift()!;
+
     // 检查是否有其他依赖项依赖于即将删除的版本
-    if (this.isDependedOn(dependency, versionsToRemove.version)) {
+    if (this.isDependedOn(dependency, versionToRemove.version)) {
       console.warn(
-        `Cannot remove ${dependency}@${versionsToRemove.version} as it is still required by another package.`,
+        `Cannot remove ${dependency}@${versionToRemove.version} as it is still required by another package.`,
       );
       return;
     }
 
-    // 如果没有其他依赖项依赖于它，则进行删除
+    // 删除选定版本
     this.dependencies[dependency] = this.dependencies[dependency].filter(
-      (dep) => dep.version !== versionsToRemove.version,
+      (dep) => dep.version !== versionToRemove.version,
     );
 
-    // 如果删除后依赖为空，则删除该依赖项
+    // 递归删除所有子依赖
+    Object.keys(versionToRemove.subDependencies).forEach((subDep) => {
+      this.removeDependency(
+        subDep,
+        versionToRemove.subDependencies[subDep].version,
+      );
+    });
+
+    // 如果删除后依赖为空，则从依赖项列表中完全删除该依赖
     if (this.dependencies[dependency].length === 0) {
       delete this.dependencies[dependency];
     }
   }
 
   private isDependedOn(dependency: string, version: string): boolean {
-    for (let key in this.dependencies) {
-      for (let dep of this.dependencies[key]) {
-        if (
-          dep.subDependencies[dependency] &&
-          dep.subDependencies[dependency].version === version
-        ) {
-          return true;
-        }
-      }
-    }
-    return false;
+    // 遍历所有顶级依赖项的子依赖，检查是否存在依赖于指定版本的依赖
+    return Object.values(this.dependencies).some((topLevelDeps) =>
+      topLevelDeps.some((topLevelDep) =>
+        Object.entries(topLevelDep.subDependencies).some(
+          ([key, subDep]) => key === dependency && subDep.version === version,
+        ),
+      ),
+    );
   }
 
   getDependencies() {
