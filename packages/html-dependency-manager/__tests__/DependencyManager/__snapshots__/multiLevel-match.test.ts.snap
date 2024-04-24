@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DependencyManager for multi-level dependencies should handle deep nested dependencies 1`] = `
+{
+  "react": [
+    {
+      "subDependencies": {},
+      "version": "16.8.0",
+    },
+  ],
+  "react-dom": [
+    {
+      "subDependencies": {},
+      "version": "16.8.0",
+    },
+  ],
+  "react-redux": [
+    {
+      "subDependencies": {
+        "react": {
+          "subDependencies": {},
+          "version": "16.8.0",
+        },
+        "react-dom": {
+          "subDependencies": {},
+          "version": "16.8.0",
+        },
+      },
+      "version": "7.2.0",
+    },
+  ],
+  "redux": [
+    {
+      "subDependencies": {
+        "react-redux": {
+          "subDependencies": {
+            "react": {
+              "subDependencies": {},
+              "version": "16.8.0",
+            },
+            "react-dom": {
+              "subDependencies": {},
+              "version": "16.8.0",
+            },
+          },
+          "version": "7.2.0",
+        },
+      },
+      "version": "4.0.5",
+    },
+  ],
+}
+`;
+
+exports[`DependencyManager for multi-level dependencies should handle multiple levels of subdependencies 1`] = `
+{
+  "react": [
+    {
+      "subDependencies": {
+        "react-dom": {
+          "subDependencies": {},
+          "version": "16.8.0",
+        },
+        "redux": {
+          "subDependencies": {
+            "react-redux": {
+              "subDependencies": {},
+              "version": "7.2.0",
+            },
+          },
+          "version": "4.0.5",
+        },
+      },
+      "version": "16.8.0",
+    },
+  ],
+  "react-dom": [
+    {
+      "subDependencies": {},
+      "version": "16.8.0",
+    },
+  ],
+  "react-redux": [
+    {
+      "subDependencies": {},
+      "version": "7.2.0",
+    },
+  ],
+  "redux": [
+    {
+      "subDependencies": {
+        "react-redux": {
+          "subDependencies": {},
+          "version": "7.2.0",
+        },
+      },
+      "version": "4.0.5",
+    },
+  ],
+}
+`;
