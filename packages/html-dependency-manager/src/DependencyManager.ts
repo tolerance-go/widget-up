@@ -43,13 +43,15 @@ class DependencyManager {
         let subResolvedVersion = this.addDependency(
           subDep,
           subDependencies[subDep],
-        ); // 直接以顶级依赖形式添加子依赖
+        );
         if (subResolvedVersion) {
-          // 在父依赖的subDependencies中保存对子依赖的引用
-          existingDep.subDependencies[subDep] = {
-            version: subResolvedVersion,
-            subDependencies: {},
-          };
+          const subDepInstance = this.dependencies[subDep]?.find(
+            (dep) => dep.version === subResolvedVersion,
+          );
+          if (subDepInstance) {
+            // 确保子依赖实例存在
+            existingDep.subDependencies[subDep] = subDepInstance;
+          }
         }
       }
     }
