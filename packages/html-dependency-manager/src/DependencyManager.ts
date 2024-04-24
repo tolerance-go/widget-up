@@ -67,6 +67,22 @@ class DependencyManager {
     }
   }
 
+  removeDependency(dependency: string, version: string) {
+    if (!this.dependencies[dependency]) {
+      return; // 如果没有找到这个依赖名称，直接返回
+    }
+
+    // 过滤掉要删除的特定版本
+    this.dependencies[dependency] = this.dependencies[dependency].filter(
+      (dep) => dep.version !== version,
+    );
+
+    // 如果删除后该依赖项变为空数组，则删除该属性
+    if (this.dependencies[dependency].length === 0) {
+      delete this.dependencies[dependency];
+    }
+  }
+
   getDependencies() {
     return this.dependencies;
   }
