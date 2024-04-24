@@ -6,7 +6,7 @@ interface DependencyDetail {
 }
 
 class DependencyManager {
-  private dependencies: { [key: string]: any[] };
+  private dependencies: { [key: string]: DependencyDetail[] };
   private versionList: { [key: string]: string[] };
 
   constructor(versionList: { [key: string]: string[] }) {
@@ -22,62 +22,47 @@ class DependencyManager {
     let resolvedVersion = this.resolveVersion(dependency, version);
     if (!resolvedVersion) return;
 
-    // 检查是否已存在该依赖项
     if (!this.dependencies[dependency]) {
       this.dependencies[dependency] = [];
     }
 
     let existingDep = this.dependencies[dependency].find(
-      (dep) => dep.version === resolvedVersion,
+      dep => dep.version === resolvedVersion
     );
 
-    if (existingDep) {
-      // 更新现有依赖的子依赖
-      if (subDependencies) {
-        for (let subDep in subDependencies) {
-          let subVersion = this.resolveVersion(subDep, subDependencies[subDep]);
-          if (subVersion) {
-            existingDep.subDependencies[subDep] = { version: subVersion };
-          } else {
-            // 如果找不到合适的版本，可能需要移除该子依赖
-            delete existingDep.subDependencies[subDep];
-          }
-        }
-      }
-    } else {
-      // 添加新的依赖项
-      let dependencyObject: DependencyDetail = {
+    if (!existingDep) {
+      existingDep = {
         version: resolvedVersion,
-        subDependencies: {},
+        subDependencies: {}
       };
+      this.dependencies[dependency].push(existingDep);
+    }
 
-      if (subDependencies) {
-        for (let subDep in subDependencies) {
-          let subVersion = this.resolveVersion(subDep, subDependencies[subDep]);
-          if (subVersion) {
-            dependencyObject.subDependencies[subDep] = {
-              version: subVersion,
-              subDependencies: {},
-            };
-          }
+    if (subDependencies) {
+      for (let subDep in subDependencies) {
+        let subResolvedVersion = this.addDependency(subDep, subDependencies[subDep]); // 直接以顶级依赖形式添加子依赖
+        if (subResolvedVersion) {
+          // 在父依赖的subDependencies中保存对子依赖的引用
+          existingDep.subDependencies[subDep] = {
+            version: subResolvedVersion,
+            subDependencies: {}
+          };
         }
       }
-
-      this.dependencies[dependency].push(dependencyObject);
     }
+
+    return resolvedVersion;
   }
 
   removeDependency(dependency: string, version: string) {
     if (!this.dependencies[dependency]) {
-      return; // 如果没有找到这个依赖名称，直接返回
+      return;
     }
 
-    // 过滤掉要删除的特定版本
     this.dependencies[dependency] = this.dependencies[dependency].filter(
-      (dep) => dep.version !== version,
+      dep => dep.version !== version
     );
 
-    // 如果删除后该依赖项变为空数组，则删除该属性
     if (this.dependencies[dependency].length === 0) {
       delete this.dependencies[dependency];
     }
@@ -87,20 +72,12 @@ class DependencyManager {
     return this.dependencies;
   }
 
-  private resolveVersion(
-    dependency: string,
-    versionRange: string,
-  ): string | undefined {
+  private resolveVersion(dependency: string, versionRange: string): string | undefined {
     const versions = this.versionList[dependency];
     if (!versions) return undefined;
 
     const sortedVersions = versions.sort(semver.rcompare);
-    for (let version of sortedVersions) {
-      if (semver.satisfies(version, versionRange)) {
-        return version;
-      }
-    }
-    return undefined;
+    return sortedVersions.find(version => semver.satisfies(version, versionRange));
   }
 }
 

@@ -19,6 +19,11 @@ describe("DependencyManager sub", () => {
     ).toBe("16.8.0");
   });
 
+  test("should handle subdependencies when adding a new dependency", () => {
+    dm.addDependency("react", "16.8.0", { "react-dom": "^16.0.0" });
+    expect(dm.getDependencies()["react-dom"][0].version).toBe("16.8.0");
+  });
+
   test("should update subdependencies when the main dependency version is updated", () => {
     dm.addDependency("react", "16.8.0", { "react-dom": "16.0.0" });
     dm.addDependency("react", "16.8.0", { "react-dom": "^16.0.0" }); // Updated range that includes 16.8.0
