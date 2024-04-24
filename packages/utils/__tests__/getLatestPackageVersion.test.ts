@@ -24,7 +24,7 @@ describe("getLatestPackageVersion", () => {
     const expectedVersion = "16.14.0";
     const actualVersion = await getLatestPackageVersion(
       packageName,
-      semverRange
+      semverRange,
     );
     expect(actualVersion).toBe(expectedVersion);
   });
@@ -45,7 +45,7 @@ describe("getLatestPackageVersion", () => {
     const expectedVersion = "16.14.0";
     const actualVersion = await getLatestPackageVersion(
       packageName,
-      semverRange
+      semverRange,
     );
     expect(actualVersion).toBe(expectedVersion);
   });
@@ -66,7 +66,7 @@ describe("getLatestPackageVersion", () => {
     const expectedVersion = "16.13.0-beta.3";
     const actualVersion = await getLatestPackageVersion(
       packageName,
-      semverRange
+      semverRange,
     );
     expect(actualVersion).toBe(expectedVersion);
   });
@@ -81,7 +81,7 @@ describe("getLatestPackageVersion", () => {
       .reply(200, { versions });
 
     await expect(
-      getLatestPackageVersion(packageName, semverRange)
+      getLatestPackageVersion(packageName, semverRange),
     ).rejects.toThrow("No matching version found");
   });
 
@@ -92,7 +92,7 @@ describe("getLatestPackageVersion", () => {
     mock.onGet(`https://registry.npmmirror.com/${packageName}`).networkError();
 
     await expect(
-      getLatestPackageVersion(packageName, semverRange)
+      getLatestPackageVersion(packageName, semverRange),
     ).rejects.toThrow();
   });
 
@@ -113,7 +113,7 @@ describe("getLatestPackageVersion", () => {
     const expectedVersion = "16.13.2";
     const actualVersion = await getLatestPackageVersion(
       packageName,
-      semverRange
+      semverRange,
     );
     expect(actualVersion).toBe(expectedVersion);
   });

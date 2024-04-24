@@ -9,7 +9,7 @@ import semver from "semver";
  */
 export async function getLatestPackageVersion(
   packageName: string,
-  semverRange: string
+  semverRange: string,
 ): Promise<string> {
   try {
     // 获取包的所有版本信息
@@ -17,12 +17,12 @@ export async function getLatestPackageVersion(
       `https://registry.npmmirror.com/${packageName}`,
       {
         timeout: 5000, // 设置超时时间为 5000 毫秒
-      }
+      },
     );
     const versions = response.data.versions;
     const latestVersion = getLatestVersionFromSemverRange(
       versions,
-      semverRange
+      semverRange,
     );
 
     if (!latestVersion) {
@@ -56,7 +56,7 @@ export async function getLatestPackageVersion(
  */
 function getLatestVersionFromSemverRange(
   versions: any,
-  semverRange: string
+  semverRange: string,
 ): string | undefined {
   const validVersions = Object.keys(versions)
     .filter((version) => semver.satisfies(version, semverRange))

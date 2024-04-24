@@ -47,7 +47,7 @@ describe("aliasReplace function", () => {
       import { map, reduce } from './local/lodash';
     `;
     expect(aliasReplace(fileContent, "lodash|react", replaceFunc)).toBe(
-      expected
+      expected,
     );
     expect(replaceFunc).toHaveBeenCalledWith("react");
     expect(replaceFunc).toHaveBeenCalledWith("lodash");

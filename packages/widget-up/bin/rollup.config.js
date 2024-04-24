@@ -1,3 +1,3 @@
-import { rollupConfig } from '../dist/index.js';
+import { rollupConfig } from "../dist/index.js";
 
 export default rollupConfig;

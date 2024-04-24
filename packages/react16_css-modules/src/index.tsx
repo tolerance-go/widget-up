@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import styles from "./index.module.css";
-import './global.css'
+import "./global.css";
 
 const Button = () => {
   const [color, setColor] = useState("red");

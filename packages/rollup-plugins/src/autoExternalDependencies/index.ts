@@ -25,7 +25,7 @@ function autoExternalDependencies(): Plugin {
           options.external = (
             source: string,
             importer?: string,
-            isResolved?: boolean
+            isResolved?: boolean,
           ) =>
             originalExternal(source, importer, isResolved ?? false) ||
             externalDependencies.has(source);

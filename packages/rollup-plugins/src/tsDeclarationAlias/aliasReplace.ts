@@ -3,7 +3,7 @@ import { getAliasPattern } from "./getAliasPattern";
 export const aliasReplace = (
   fileContent: string,
   dependPatternStr: string,
-  replace: (dependPath: string) => string
+  replace: (dependPath: string) => string,
 ): string => {
   const pattern = getAliasPattern(dependPatternStr);
 
@@ -15,7 +15,7 @@ export const aliasReplace = (
       // 应用替换函数
       return match.replace(
         `${moduleMatch[1]}${moduleMatch[2]}${moduleMatch[3]}`,
-        `${moduleMatch[1]}${replace(moduleMatch[2])}${moduleMatch[3]}`
+        `${moduleMatch[1]}${replace(moduleMatch[2])}${moduleMatch[3]}`,
       );
     }
     return match; // 如果没有找到匹配项，返回原始匹配

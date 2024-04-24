@@ -40,7 +40,7 @@ export const replaceAliasesCore = ({
             .replace(/\\/g, "/");
 
           return dependPath.replace(cleanAlias, `${relativePath}/`);
-        }
+        },
       );
     });
   });

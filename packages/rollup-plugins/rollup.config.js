@@ -9,7 +9,7 @@ import del from "rollup-plugin-delete";
 const isProduction = process.env.NODE_ENV === "production";
 
 const externalDependencies = Array.from(
-  getExternalDependencies(path.resolve("package.json"))
+  getExternalDependencies(path.resolve("package.json")),
 );
 
 export default {

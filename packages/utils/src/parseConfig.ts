@@ -18,7 +18,7 @@ export function parseConfig(config: SchemaConfig): ParseConfig {
     cjs: config.cjs,
     esm: config.esm,
     css: config.css,
-    form: config.form
+    form: config.form,
   };
 
   return parsedConfig;

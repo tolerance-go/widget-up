@@ -19,14 +19,14 @@ describe("semverToIdentifier", () => {
   it("should handle complex semver strings", () => {
     expect(semverToIdentifier("0.27.0-rc.2")).toBe("v0_27_0_rc_2");
     expect(semverToIdentifier("2.0.0-alpha.preview.1+build.123")).toBe(
-      "v2_0_0_alpha_preview_1_build_123"
+      "v2_0_0_alpha_preview_1_build_123",
     );
   });
 
   it("should start with a letter and use underscores for non-alphanumeric characters", () => {
     expect(semverToIdentifier("0.0.0")).toMatch(/^v\d+_\d+_\d+$/);
     expect(semverToIdentifier("3.5.1-beta.1")).toMatch(
-      /^v\d+_\d+_\d+_\w+_\d+$/
+      /^v\d+_\d+_\d+_\w+_\d+$/,
     );
   });
 });

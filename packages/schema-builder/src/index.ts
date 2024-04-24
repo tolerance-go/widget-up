@@ -9,7 +9,7 @@ import debounce from "lodash.debounce";
 const program = new Command();
 // 读取配置文件
 const config = JSON.parse(
-  fs.readFileSync(resolve("schema-builder.json"), "utf8")
+  fs.readFileSync(resolve("schema-builder.json"), "utf8"),
 );
 // 定义 TypeScript 文件的目录
 const typesDirectory = resolve(config.typesDirectory ?? "types");
@@ -37,7 +37,7 @@ const generateSchema = (watch: boolean) => {
       ts.sys,
       resolve("."),
       {},
-      tsconfigPath
+      tsconfigPath,
     );
 
     if (errors && errors.length > 0) {
@@ -47,7 +47,7 @@ const generateSchema = (watch: boolean) => {
 
     const program = TJS.getProgramFromFiles(
       [resolve(typesDirectory, "index.d.ts")],
-      options
+      options,
     );
 
     const schema = TJS.generateSchema(program, config.fullTypeName, settings);
@@ -56,7 +56,7 @@ const generateSchema = (watch: boolean) => {
       spaces: 2,
     });
     console.log(
-      `Schema generated at ${resolve(outputDirectory, config.outputFileName)}`
+      `Schema generated at ${resolve(outputDirectory, config.outputFileName)}`,
     );
   };
 

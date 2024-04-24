@@ -1,21 +1,21 @@
-import commonjs from '@rollup/plugin-commonjs';
-import json from '@rollup/plugin-json';
-import resolve from '@rollup/plugin-node-resolve';
-import del from 'rollup-plugin-delete';
-import { terser } from 'rollup-plugin-terser';
-import typescript from 'rollup-plugin-typescript2';
-import { autoExternalDependencies } from 'widget-up-rollup-plugins';
+import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
+import resolve from "@rollup/plugin-node-resolve";
+import del from "rollup-plugin-delete";
+import { terser } from "rollup-plugin-terser";
+import typescript from "rollup-plugin-typescript2";
+import { autoExternalDependencies } from "widget-up-rollup-plugins";
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === "production";
 
 export default {
-  input: 'src/index.ts',
+  input: "src/index.ts",
   output: {
-    file: 'dist/index.js',
-    format: 'esm',
+    file: "dist/index.js",
+    format: "esm",
   },
   plugins: [
-    del({ targets: 'dist/*' }),
+    del({ targets: "dist/*" }),
     autoExternalDependencies(),
     resolve({
       preferBuiltins: true,
@@ -24,7 +24,7 @@ export default {
     json(),
     typescript({
       useTsconfigDeclarationDir: true,
-      tsconfig: 'tsconfig.build.json',
+      tsconfig: "tsconfig.build.json",
     }), // TypeScript 支持
     // css({ output: "bundle.css" }), // CSS 支持，将导入的 CSS 文件捆绑到单独的文件
     isProduction && terser(), // 生产环境下压缩代码
@@ -32,6 +32,6 @@ export default {
   ].filter(Boolean), // 使用 .filter(Boolean) 去除数组中的 falsy 值，如 undefined 或 false
   // 告诉 Rollup 'jquery' 是外部依赖，不要打包进来
   watch: {
-    include: 'src/**', // 监视 src 目录下的所有文件
+    include: "src/**", // 监视 src 目录下的所有文件
   },
 };

@@ -7,7 +7,7 @@ export class EventBus<TEvents extends Record<string, any>> {
   // 注册事件监听器
   on<K extends keyof TEvents>(
     eventType: K,
-    listener: (payload: TEvents[K]) => void
+    listener: (payload: TEvents[K]) => void,
   ): void {
     if (!this.listeners[eventType]) {
       this.listeners[eventType] = [];
@@ -18,7 +18,7 @@ export class EventBus<TEvents extends Record<string, any>> {
   // 移除事件监听器
   off<K extends keyof TEvents>(
     eventType: K,
-    listener: (payload: TEvents[K]) => void
+    listener: (payload: TEvents[K]) => void,
   ): void {
     const listeners = this.listeners[eventType];
     if (listeners) {
