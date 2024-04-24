@@ -39,10 +39,17 @@
   </div>
   <!-- 所有依赖的 umd 模块 -->
   <script src="https://unpkg..."></script>
-  <!-- 开发环境的全局脚本，umd 格式，管理依赖，提供 runtime 接口 -->
-  <script src="./index.js"></script>
   <!-- 当前组件的 umd 代码 -->
   <script src="./umd/index.js"></script>
+
+  <!-- 
+    开发环境的全局脚本，umd 格式，管理依赖，提供 runtime 接口
+    把当前组件作为变量暴露出去，在 runtime 内部，给 dev-input 使用
+    创建全局 eventBus
+    监听菜单，发送事件
+   -->
+  <script src="./index.js"></script>
+
   <!-- 组件对应框架版本的入口代码，iife 格式 -->
   <script src="./dev-input.react16.js"></script>
 </body>
