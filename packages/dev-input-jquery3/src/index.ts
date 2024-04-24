@@ -1,14 +1,14 @@
-import { HTMLComponent, globalEventBus } from "widget-up-runtime";
-
-
-
+import { JQueryComponent, globalEventBus } from "widget-up-runtime";
 
 const rootElement = document.getElementById("root");
-const appElement = HTMLComponent({ initialData: undefined });
 
-rootElement?.appendChild(appElement);
+globalEventBus.on("onClickMenuItem", () => {
+  if (!rootElement) return;
 
+  // 首先清空 rootElement
+  rootElement.innerHTML = "";
 
-globalEventBus.on('onClickMenuItem', () => {
-
-})
+  // 然后创建并添加新的 JQueryComponent
+  const appElement = JQueryComponent({ initialData: undefined });
+  rootElement.appendChild(appElement[0]);
+});

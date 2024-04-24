@@ -12,8 +12,8 @@ export type JQueryComponentProps<T extends object> = { initialData?: any } & T;
 
 export const JQueryComponent = <T extends object = object>(
   props: JQueryComponentProps<T>,
-): HTMLElement => {
-  return null as unknown as HTMLElement;
+): JQuery<HTMLElement> => {
+  throw new Error("runtime code");
 };
 
 export type HTMLComponentProps<T extends object> = { initialData?: any } & T;
@@ -21,5 +21,5 @@ export type HTMLComponentProps<T extends object> = { initialData?: any } & T;
 export const HTMLComponent = <T extends object = object>(
   props: HTMLComponentProps<T>,
 ): HTMLElement => {
-  return null as unknown as HTMLElement;
+  throw new Error("runtime code");
 };
