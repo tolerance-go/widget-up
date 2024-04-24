@@ -1,4 +1,4 @@
-import EventBus from "@/src";
+import { EventBus } from "@/src";
 
 interface TestEvents {
   increment: number;

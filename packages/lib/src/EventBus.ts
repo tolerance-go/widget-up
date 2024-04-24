@@ -1,5 +1,5 @@
 // 定义 EventBus 类，支持通过泛型管理事件类型和负载
-class EventBus<TEvents extends Record<string, any>> {
+export class EventBus<TEvents extends Record<string, any>> {
   private listeners: {
     [K in keyof TEvents]?: ((payload: TEvents[K]) => void)[];
   } = {};
@@ -37,5 +37,3 @@ class EventBus<TEvents extends Record<string, any>> {
     }
   }
 }
-
-export default EventBus;
