@@ -3,7 +3,7 @@
   "version": "0.7.2",
   "description": "",
   "module": "dist/esm/index.js",
-  "typings": "dist/types/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "main": "dist/cjs/index.js",
   "type": "module",
   "exports": {
