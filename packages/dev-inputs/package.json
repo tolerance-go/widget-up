@@ -2,17 +2,7 @@
   "name": "widget-up-dev-inputs",
   "version": "0.0.0",
   "description": "",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
-  "main": "dist/cjs/index.js",
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/types/index.d.ts"
-    }
-  },
   "files": [
     "dist",
     "types"
