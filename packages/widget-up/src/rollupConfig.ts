@@ -49,23 +49,12 @@ const packageConfig = JSON.parse(
 
 const config = getConfig();
 
-const devInputFile = getDevInput(packageConfig);
-
-if (isDev) {
-  await generateDevInputFile({
-    rootPath,
-    packageConfig,
-    config,
-    devInputFile,
-  });
-}
-
 const globals = generateGlobals(config);
 
 const outputs = generateOutputs(config, globals);
 
 const rollupConfig: RollupOptions[] = outputs.map((output) => ({
-  input: isDev ? devInputFile : getProdInput(packageConfig),
+  input: getProdInput(packageConfig),
   output,
   plugins: getPlugins({
     rootPath,
