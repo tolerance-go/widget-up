@@ -68,17 +68,42 @@ class DependencyManager {
       .sort((a, b) => semver.rcompare(a.version, b.version))
       .shift(); // 取最高版本
 
-    // 如果存在需要删除的版本，则进行删除
-    if (versionsToRemove) {
-      this.dependencies[dependency] = this.dependencies[dependency].filter(
-        (dep) => dep.version !== versionsToRemove.version,
-      );
+    if (!versionsToRemove) {
+      console.warn("No version found matching the provided range.");
+      return;
     }
+
+    // 检查是否有其他依赖项依赖于即将删除的版本
+    if (this.isDependedOn(dependency, versionsToRemove.version)) {
+      console.warn(
+        `Cannot remove ${dependency}@${versionsToRemove.version} as it is still required by another package.`,
+      );
+      return;
+    }
+
+    // 如果没有其他依赖项依赖于它，则进行删除
+    this.dependencies[dependency] = this.dependencies[dependency].filter(
+      (dep) => dep.version !== versionsToRemove.version,
+    );
 
     // 如果删除后依赖为空，则删除该依赖项
     if (this.dependencies[dependency].length === 0) {
       delete this.dependencies[dependency];
     }
+  }
+
+  private isDependedOn(dependency: string, version: string): boolean {
+    for (let key in this.dependencies) {
+      for (let dep of this.dependencies[key]) {
+        if (
+          dep.subDependencies[dependency] &&
+          dep.subDependencies[dependency].version === version
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   getDependencies() {
