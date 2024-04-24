@@ -1,5 +1,5 @@
-import DevGlobalApp from 'widget-up-runtime';
+import { JQueryComponent } from "widget-up-runtime";
 const rootElement = document.getElementById("root");
-const appElement = DevGlobalApp({ initialData: undefined });
+const appElement = JQueryComponent({ initialData: undefined });
 
 rootElement?.appendChild(appElement);
