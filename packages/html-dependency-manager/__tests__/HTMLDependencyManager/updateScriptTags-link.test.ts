@@ -13,7 +13,8 @@ describe("HTMLDependencyManager", () => {
     htmlDependencyManager = new HTMLDependencyManager(
       async () => ["1.0.0", "2.0.0"],
       document,
-      (dep) => `path/to/${dep.name}@${dep.version}.js`
+      (dep) => `path/to/${dep.name}@${dep.version}.js`,
+      (dep) => `path/to/${dep.name}@${dep.version}.css`
     );
   });
 
@@ -36,6 +37,10 @@ describe("HTMLDependencyManager", () => {
     scripts = document.head.querySelectorAll("script");
     expect(scripts.length).toBe(2);
     expect(scripts[1].src).toBe("path/to/libB@2.0.0.js");
+
+    expect(document.head.innerHTML).toMatchInlineSnapshot(
+      `"<script src="path/to/libA@1.0.0.js"></script><link href="path/to/libA@1.0.0.css" rel="stylesheet"><script src="path/to/libB@2.0.0.js"></script><link href="path/to/libB@2.0.0.css" rel="stylesheet">"`
+    );
   });
 
   it("should correctly remove outdated script tags when dependencies are updated", async () => {
@@ -51,6 +56,9 @@ describe("HTMLDependencyManager", () => {
     expect(scripts.length).toBe(2);
     expect(scripts[0].src).toBe("path/to/libA@1.0.0.js");
     expect(scripts[1].src).toBe("path/to/libA@2.0.0.js");
+    expect(document.head.innerHTML).toMatchInlineSnapshot(
+      `"<script src="path/to/libA@1.0.0.js"></script><script src="path/to/libA@2.0.0.js"></script><link href="path/to/libA@2.0.0.css" rel="stylesheet">"`
+    );
   });
 
   it("should handle multiple updates correctly", async () => {
@@ -69,7 +77,7 @@ describe("HTMLDependencyManager", () => {
     expect(scripts[2].src).toBe("path/to/libA@2.0.0.js");
 
     expect(document.head.innerHTML).toMatchInlineSnapshot(
-      `"<script src="path/to/libA@1.0.0.js"></script><script src="path/to/libB@1.0.0.js"></script><script src="path/to/libA@2.0.0.js"></script>"`
+      `"<script src="path/to/libA@1.0.0.js"></script><link href="path/to/libA@1.0.0.css" rel="stylesheet"><script src="path/to/libB@1.0.0.js"></script><link href="path/to/libB@1.0.0.css" rel="stylesheet"><script src="path/to/libA@2.0.0.js"></script><link href="path/to/libA@2.0.0.css" rel="stylesheet">"`
     );
   });
 });
