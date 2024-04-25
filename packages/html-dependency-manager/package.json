@@ -47,8 +47,6 @@
     "widget-up-rollup-plugins": "workspace:^"
   },
   "dependencies": {
-    "qs": "^6.12.1",
-    "semver": "^7.6.0",
-    "widget-up-utils": "workspace:^"
+    "semver": "^7.6.0"
   }
 }

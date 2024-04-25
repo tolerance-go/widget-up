@@ -5,7 +5,6 @@ import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 // import alias from '@rollup/plugin-alias';
 import {
-  peerDependenciesAsExternal,
   autoExternalDependencies,
   tsDeclarationAlias,
 } from "widget-up-rollup-plugins";
