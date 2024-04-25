@@ -1,20 +1,24 @@
 import { DependencyManager, DependencyDetail } from "./DependencyManager";
-import semver from "semver";
 
 class HTMLDependencyManager {
   private dependencyManager: DependencyManager;
   private fetchVersionList: (dependencyName: string) => Promise<string[]>;
   private versionCache: { [key: string]: string[] };
   private document: Document;
+  private lastSortedDependencies: DependencyDetail[] = []; // 新增存储旧依赖的数组
+  private scriptSrcBuilder: (dep: DependencyDetail) => string; // 新增参数用于自定义构造 src
 
   constructor(
     fetchVersionList: (dependencyName: string) => Promise<string[]>,
     document: Document,
+    scriptSrcBuilder: (dep: DependencyDetail) => string = (dep) =>
+      `${dep.name}@${dep.version}.js` // 默认值
   ) {
     this.fetchVersionList = fetchVersionList;
     this.dependencyManager = new DependencyManager({});
     this.versionCache = {};
     this.document = document;
+    this.scriptSrcBuilder = scriptSrcBuilder;
   }
 
   // 更新依赖版本列表，如果没有缓存
@@ -30,7 +34,7 @@ class HTMLDependencyManager {
   private async collectDependencies(
     dependency: string,
     subDependencies?: { [key: string]: string },
-    collectedDependencies = new Set<string>(),
+    collectedDependencies = new Set<string>()
   ) {
     collectedDependencies.add(dependency);
 
@@ -39,7 +43,7 @@ class HTMLDependencyManager {
         this.collectDependencies(
           subDependency,
           undefined,
-          collectedDependencies,
+          collectedDependencies
         );
       }
     }
@@ -57,11 +61,11 @@ class HTMLDependencyManager {
   // 递归收集所有相关依赖并更新版本列表
   async collectAndUpdateVersionLists(
     dependency: string,
-    subDependencies?: { [key: string]: string },
+    subDependencies?: { [key: string]: string }
   ) {
     const allDependencies = await this.collectDependencies(
       dependency,
-      subDependencies,
+      subDependencies
     );
     await this.updateAllVersionLists(allDependencies);
   }
@@ -69,9 +73,9 @@ class HTMLDependencyManager {
   async addDependency(
     dependency: string,
     versionRange: string,
-    subDependencies?: { [key: string]: string },
+    subDependencies?: { [key: string]: string }
   ): Promise<string | undefined> {
-    const oldSortedDependencies = this.getSortedDependencies();
+    this.lastSortedDependencies = this.getSortedDependencies();
 
     // 确保依赖版本列表是最新的
     await this.collectAndUpdateVersionLists(dependency, subDependencies);
@@ -80,16 +84,16 @@ class HTMLDependencyManager {
     const newDependency = await this.dependencyManager.addDependency(
       dependency,
       versionRange,
-      subDependencies,
+      subDependencies
     );
-    this.updateScriptTags(oldSortedDependencies);
+    this.updateScriptTags();
     return newDependency;
   }
 
   removeDependency(dependency: string, versionRange: string) {
-    const oldSortedDependencies = this.getSortedDependencies();
+    this.lastSortedDependencies = this.getSortedDependencies();
     this.dependencyManager.removeDependency(dependency, versionRange);
-    this.updateScriptTags(oldSortedDependencies);
+    this.updateScriptTags();
   }
 
   getDependencies() {
@@ -141,16 +145,14 @@ class HTMLDependencyManager {
   }
 
   // 比较并更新 DOM 中的 <script> 标签，确保顺序正确
-  updateScriptTags(oldDependencies: DependencyDetail[]) {
+  updateScriptTags() {
     const newDependencies = this.getSortedDependencies();
     const scriptContainer = this.document.head;
 
-    const oldScripts = oldDependencies.map(
-      (dep) => `path/to/${dep.name}@${dep.version}.js`,
+    const oldScripts = this.lastSortedDependencies.map((dep) =>
+      this.scriptSrcBuilder(dep)
     );
-    const newScripts = newDependencies.map(
-      (dep) => `path/to/${dep.name}@${dep.version}.js`,
-    );
+    const newScripts = newDependencies.map((dep) => this.scriptSrcBuilder(dep));
 
     const toAdd = newScripts.filter((x) => !oldScripts.includes(x));
     const toRemove = oldScripts.filter((x) => !newScripts.includes(x));
