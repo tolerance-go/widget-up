@@ -1,6 +1,6 @@
 import semver from "semver";
 
-interface DependencyDetail {
+export interface DependencyDetail {
   version: string;
   subDependencies: Record<string, DependencyDetail>;
   isGlobal: boolean;
@@ -10,7 +10,7 @@ class DependencyManager {
   private dependencies: { [key: string]: DependencyDetail[] };
   private versionList: { [key: string]: string[] };
 
-  constructor(versionList: { [key: string]: string[] }) {
+  constructor(versionList: { [key: string]: string[] } = {}) {
     this.versionList = versionList;
     this.dependencies = {};
   }

@@ -21,6 +21,7 @@
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "build": "cross-env NODE_ENV=production rollup -c",
     "test": "jest",
+    "test-dev": "jest --watch",
     "test:update": "jest -u"
   },
   "keywords": [],
