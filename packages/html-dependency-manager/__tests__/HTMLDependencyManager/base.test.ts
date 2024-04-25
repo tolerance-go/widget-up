@@ -1,4 +1,5 @@
 import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
+import { JSDOM } from "jsdom";
 
 describe("HTMLDependencyManager base", () => {
   let htmlDependencyManager: HTMLDependencyManager;
@@ -7,7 +8,8 @@ describe("HTMLDependencyManager base", () => {
   beforeEach(() => {
     // 每个测试前重置 mock 和实例
     mockFetchVersionList.mockReset();
-    htmlDependencyManager = new HTMLDependencyManager(mockFetchVersionList);
+    const jsdom = new JSDOM(`<!DOCTYPE html>`);
+    htmlDependencyManager = new HTMLDependencyManager(mockFetchVersionList, jsdom.window.document);
   });
 
   test("addDependency adds a new dependency correctly", async () => {

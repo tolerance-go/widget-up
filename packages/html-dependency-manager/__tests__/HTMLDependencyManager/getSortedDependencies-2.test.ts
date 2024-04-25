@@ -1,4 +1,5 @@
 import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
+import { JSDOM } from "jsdom";
 
 describe("HTMLDependencyManager getSortedDependencies", () => {
   let manager: HTMLDependencyManager;
@@ -18,7 +19,8 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
       return Promise.resolve(versions[dependencyName] || []);
     });
 
-    manager = new HTMLDependencyManager(mockFetchVersionList);
+    const jsdom = new JSDOM(`<!DOCTYPE html>`);
+    manager = new HTMLDependencyManager(mockFetchVersionList, jsdom.window.document);
   });
 
   test("handles multiple layers of dependencies", async () => {
