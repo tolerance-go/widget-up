@@ -166,7 +166,7 @@ class HTMLDependencyManager {
 
     // 添加新的 <script> 标签，确保它们的顺序与 newDependencies 相匹配
     newDependencies.forEach((dep) => {
-      const src = `path/to/${dep.name}@${dep.version}.js`;
+      const src = this.scriptSrcBuilder(dep);
       if (toAdd.includes(src)) {
         const script = this.document.createElement("script");
         script.src = src;
