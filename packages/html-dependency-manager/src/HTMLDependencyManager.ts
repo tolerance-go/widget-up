@@ -147,116 +147,94 @@ class HTMLDependencyManager {
     return result;
   }
 
-  // 比较并更新 DOM 中的 <script> 标签，确保顺序正确
   updateTags() {
     const newDependencies = this.getSortedDependencies();
     const scriptContainer = this.document.head;
-    const oldScripts = this.lastSortedDependencies.map((dep) =>
-      this.scriptSrcBuilder(dep)
-    );
-    const newScripts = newDependencies.map((dep) => this.scriptSrcBuilder(dep));
 
-    const oldLinks = this.lastSortedDependencies.map((dep) =>
-      this.linkHrefBuilder(dep)
+    const currentScripts = Array.from(
+      scriptContainer.querySelectorAll("script")
     );
-    const newLinks = newDependencies.map((dep) => this.linkHrefBuilder(dep));
+    const currentLinks = Array.from(scriptContainer.querySelectorAll("link"));
 
-    const toAddScripts = newScripts
-      .filter((x) => !oldScripts.includes(x))
+    // 使用新的依赖关系构建期望的 src 和 href 列表
+    const expectedScripts = newDependencies
+      .map((dep) => this.scriptSrcBuilder(dep))
       .filter(Boolean);
-    const toRemoveScripts = oldScripts.filter((x) => !newScripts.includes(x));
-    const toAddLinks = newLinks
-      .filter((x) => !oldLinks.includes(x))
+    const expectedLinks = newDependencies
+      .map((dep) => this.linkHrefBuilder(dep))
       .filter(Boolean);
-    const toRemoveLinks = oldLinks.filter((x) => !newLinks.includes(x));
 
-    // 移除不再需要的 <script> 和 <link> 标签
-    Array.from(scriptContainer.querySelectorAll("script, link")).forEach(
-      (element) => {
-        if (
-          element.tagName.toLowerCase() === "script" &&
-          toRemoveScripts.includes((element as HTMLScriptElement).src)
-        ) {
-          element.remove();
-        }
-        if (
-          element.tagName.toLowerCase() === "link" &&
-          toRemoveLinks.includes((element as HTMLLinkElement).href)
-        ) {
-          element.remove();
-        }
-      }
+    // 更新 scripts
+    this.updateTagsInContainer(
+      scriptContainer,
+      currentScripts,
+      expectedScripts,
+      "script",
+      "src"
     );
-
-    // 添加新的 <script> 和 <link> 标签
-    newDependencies.forEach((dep) => {
-      this.addTag(
-        scriptContainer,
-        dep,
-        toAddScripts,
-        this.scriptSrcBuilder,
-        "script",
-        "src"
-      );
-      this.addTag(
-        scriptContainer,
-        dep,
-        toAddLinks,
-        this.linkHrefBuilder,
-        "link",
-        "href"
-      );
-    });
+    // 更新 links
+    this.updateTagsInContainer(
+      scriptContainer,
+      currentLinks,
+      expectedLinks,
+      "link",
+      "href"
+    );
   }
 
-  private addTag(
+  private updateTagsInContainer(
     container: HTMLElement,
-    dep: DependencyDetail,
-    toAdd: string[],
-    srcBuilder: (dep: DependencyDetail) => string,
+    currentTags: Element[],
+    expectedSources: string[],
     tagName: "script" | "link",
     srcAttr: "src" | "href"
   ) {
-    const src = srcBuilder(dep);
+    // 建立一个映射，用来快速查找现有标签
+    const srcMap = new Map<string, Element>();
+    currentTags.forEach((tag) => {
+      const src = tag.getAttribute(srcAttr);
+      if (src) srcMap.set(src, tag);
+    });
 
-    if (toAdd.includes(src)) {
-      const tag = this.document.createElement(tagName) as
-        | HTMLScriptElement
-        | HTMLLinkElement;
+    const toAdd = expectedSources.filter((src) => !srcMap.has(src));
+    const toRemove = Array.from(srcMap.keys()).filter(
+      (src) => !expectedSources.includes(src)
+    );
 
-      if (tagName === "script" && srcAttr === "src") {
-        (tag as HTMLScriptElement).src = src;
-      } else if (tagName === "link" && srcAttr === "href") {
-        (tag as HTMLLinkElement).href = src;
-        (tag as HTMLLinkElement).rel = "stylesheet";
+    // 移除不再需要的标签
+    toRemove.forEach((src) => {
+      const tag = srcMap.get(src);
+      if (tag) {
+        container.removeChild(tag);
       }
+    });
 
-      let inserted = false;
-
-      // 查找正确的插入点
-      const tags = Array.from(container.querySelectorAll(tagName)) as (
-        | HTMLScriptElement
-        | HTMLLinkElement
-      )[];
-      for (let i = 0; i < tags.length; i++) {
-        const nextTag = tags[i];
-        const nextSrc =
-          tagName === "script"
-            ? (nextTag as HTMLScriptElement).src
-            : (nextTag as HTMLLinkElement).href;
-
-        if (toAdd.indexOf(nextSrc) > toAdd.indexOf(src)) {
-          container.insertBefore(tag, tags[i]);
-          inserted = true;
-          break;
+    // 确保标签在正确的位置或添加新标签
+    expectedSources.forEach((src, index) => {
+      const tag = srcMap.get(src);
+      if (!tag) {
+        // 如果当前src需要添加，创建新的标签
+        if (toAdd.includes(src)) {
+          const newTag = this.document.createElement(tagName) as
+            | HTMLScriptElement
+            | HTMLLinkElement;
+          newTag.setAttribute(srcAttr, src);
+          if (tagName === "link") {
+            (newTag as HTMLLinkElement).rel = "stylesheet";
+          }
+          // 添加到容器中的正确位置
+          const nextSibling = container.children[index] || null;
+          container.insertBefore(newTag, nextSibling);
+          srcMap.set(src, newTag);
+        }
+      } else {
+        // 如果标签已存在，但位置不正确，则调整位置
+        const existingTag = container.children[index];
+        if (tag !== existingTag) {
+          container.insertBefore(tag, existingTag);
         }
       }
-
-      // 如果没有找到适当的位置，则添加到最后
-      if (!inserted) {
-        container.appendChild(tag);
-      }
-    }
+    });
   }
 }
 

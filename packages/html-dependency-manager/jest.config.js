@@ -19,4 +19,5 @@ export default {
     prefix: "<rootDir>/",
   }),
   moduleFileExtensions: ["ts", "js", "json", "node"],
+  testPathIgnorePatterns: ["<rootDir>/__tests__/_utils/"],
 };

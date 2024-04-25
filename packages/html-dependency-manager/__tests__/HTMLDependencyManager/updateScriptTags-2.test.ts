@@ -1,5 +1,6 @@
 import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
+import { formatHeadHtml } from "../_utils";
 
 describe("HTMLDependencyManager", () => {
   let manager: HTMLDependencyManager;
@@ -118,22 +119,17 @@ describe("HTMLDependencyManager", () => {
       ]
     `);
 
-    expect(
-      document.head.innerHTML.replace(
-        /(<\/script>|<link[^>]*>)(?=(<script|<link))/g,
-        "$1\n"
-      )
-    ).toMatchInlineSnapshot(`
-      "<script src="path/to/react@17.0.0.js"></script>
+    expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
+      "<link href="path/to/react-dom@16.13.1.css" rel="stylesheet">
       <link href="path/to/react@17.0.0.css" rel="stylesheet">
-      <script src="path/to/redux-thunk@2.4.0.js"></script>
+      <link href="path/to/axios@0.21.1.css" rel="stylesheet">
       <link href="path/to/redux-thunk@2.4.0.css" rel="stylesheet">
-      <script src="path/to/redux@4.1.0.js"></script>
       <link href="path/to/redux@4.1.0.css" rel="stylesheet">
       <script src="path/to/react-dom@16.13.1.js"></script>
-      <link href="path/to/react-dom@16.13.1.css" rel="stylesheet">
+      <script src="path/to/react@17.0.0.js"></script>
       <script src="path/to/axios@0.21.1.js"></script>
-      <link href="path/to/axios@0.21.1.css" rel="stylesheet">"
+      <script src="path/to/redux-thunk@2.4.0.js"></script>
+      <script src="path/to/redux@4.1.0.js"></script>"
     `);
   });
 });

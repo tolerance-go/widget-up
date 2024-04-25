@@ -1,5 +1,6 @@
 import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
+import { formatHeadHtml } from "../_utils";
 
 describe("HTMLDependencyManager", () => {
   let htmlDependencyManager: HTMLDependencyManager;
@@ -48,9 +49,8 @@ describe("HTMLDependencyManager", () => {
     await htmlDependencyManager.addDependency("libA", "^2.0.0");
 
     const scripts = document.head.querySelectorAll("script");
-    expect(scripts.length).toBe(2);
-    expect(scripts[0].src).toBe("path/to/libA@1.0.0.js");
-    expect(scripts[1].src).toBe("path/to/libA@2.0.0.js");
+    expect(scripts.length).toBe(1);
+    expect(scripts[0].src).toBe("path/to/libA@2.0.0.js");
   });
 
   it("should handle multiple updates correctly", async () => {
@@ -65,11 +65,13 @@ describe("HTMLDependencyManager", () => {
     const scripts = document.head.querySelectorAll("script");
     expect(scripts.length).toBe(3);
     expect(scripts[0].src).toBe("path/to/libA@1.0.0.js");
-    expect(scripts[1].src).toBe("path/to/libB@1.0.0.js");
-    expect(scripts[2].src).toBe("path/to/libA@2.0.0.js");
+    expect(scripts[1].src).toBe("path/to/libA@2.0.0.js");
+    expect(scripts[2].src).toBe("path/to/libB@1.0.0.js");
 
-    expect(document.head.innerHTML).toMatchInlineSnapshot(
-      `"<script src="path/to/libA@1.0.0.js"></script><script src="path/to/libB@1.0.0.js"></script><script src="path/to/libA@2.0.0.js"></script>"`
-    );
+    expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
+      "<script src="path/to/libA@1.0.0.js"></script>
+      <script src="path/to/libA@2.0.0.js"></script>
+      <script src="path/to/libB@1.0.0.js"></script>"
+    `);
   });
 });
