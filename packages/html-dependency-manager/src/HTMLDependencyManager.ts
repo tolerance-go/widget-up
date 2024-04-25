@@ -1,4 +1,4 @@
-import { DependencyManager } from "./DependencyManager"; // 假设你已经将上面的代码保存为DependencyManager.ts
+import { DependencyManager, DependencyDetail } from "./DependencyManager";
 import semver from "semver";
 
 class HTMLDependencyManager {
@@ -12,37 +12,73 @@ class HTMLDependencyManager {
     this.versionCache = {};
   }
 
-  async updateVersionList(dependency: string) {
+  // 更新依赖版本列表，如果没有缓存
+  private async updateVersionList(dependency: string) {
     if (!this.versionCache[dependency]) {
       const versions = await this.fetchVersionList(dependency);
       this.versionCache[dependency] = versions;
-      // 更新 DependencyManager 实例使用的版本列表
-      this.dependencyManager = new DependencyManager(this.versionCache);
+      this.dependencyManager.updateVersionList({ [dependency]: versions });
     }
+  }
+
+  // 收集并去重所有需要更新的依赖列表
+  private async collectDependencies(
+    dependency: string,
+    subDependencies?: { [key: string]: string },
+    collectedDependencies = new Set<string>(),
+  ) {
+    collectedDependencies.add(dependency);
+
+    if (subDependencies) {
+      for (const subDependency in subDependencies) {
+        this.collectDependencies(
+          subDependency,
+          undefined,
+          collectedDependencies,
+        );
+      }
+    }
+
+    return collectedDependencies;
+  }
+
+  // 更新所有收集到的依赖版本列表
+  private async updateAllVersionLists(dependencies: Set<string>) {
+    for (const dependency of dependencies) {
+      await this.updateVersionList(dependency);
+    }
+  }
+
+  // 递归收集所有相关依赖并更新版本列表
+  async collectAndUpdateVersionLists(
+    dependency: string,
+    subDependencies?: { [key: string]: string },
+  ) {
+    const allDependencies = await this.collectDependencies(
+      dependency,
+      subDependencies,
+    );
+    await this.updateAllVersionLists(allDependencies);
   }
 
   async addDependency(
     dependency: string,
     versionRange: string,
     subDependencies?: { [key: string]: string },
-    isGlobal = true,
   ): Promise<string | undefined> {
-    await this.updateVersionList(dependency);
+    // 确保依赖版本列表是最新的
+    await this.collectAndUpdateVersionLists(dependency, subDependencies);
+
+    // 添加主依赖项
     return this.dependencyManager.addDependency(
       dependency,
       versionRange,
       subDependencies,
-      isGlobal,
     );
   }
 
-  async removeDependency(
-    dependency: string,
-    versionRange: string,
-    isGlobal = true,
-  ): Promise<void> {
-    await this.updateVersionList(dependency);
-    this.dependencyManager.removeDependency(dependency, versionRange, isGlobal);
+  removeDependency(dependency: string, versionRange: string) {
+    this.dependencyManager.removeDependency(dependency, versionRange);
   }
 
   getDependencies() {

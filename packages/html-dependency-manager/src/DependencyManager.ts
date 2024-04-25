@@ -4,15 +4,32 @@ export interface DependencyDetail {
   version: string;
   subDependencies: Record<string, DependencyDetail>;
   isGlobal: boolean;
+  name: string;
 }
 
 class DependencyManager {
   private dependencies: { [key: string]: DependencyDetail[] };
-  private versionList: { [key: string]: string[] };
+  public versionList: { [key: string]: string[] };
 
   constructor(versionList: { [key: string]: string[] } = {}) {
     this.versionList = versionList;
     this.dependencies = {};
+  }
+
+  // 更新或添加新的版本信息
+  updateVersionList(newVersionList: { [dependencyName: string]: string[] }) {
+    for (const dependency in newVersionList) {
+      const newVersions = newVersionList[dependency];
+      if (this.versionList[dependency]) {
+        // 如果依赖已存在，合并新旧版本列表并去重
+        this.versionList[dependency] = Array.from(
+          new Set([...this.versionList[dependency], ...newVersions]),
+        ).sort(semver.rcompare);
+      } else {
+        // 如果依赖不存在，直接设置新版本列表
+        this.versionList[dependency] = newVersions.sort(semver.rcompare);
+      }
+    }
   }
 
   addDependency(
@@ -37,6 +54,7 @@ class DependencyManager {
         version: resolvedVersion,
         subDependencies: {},
         isGlobal,
+        name: dependency,
       };
       this.dependencies[dependency].push(existingDep);
     } else {

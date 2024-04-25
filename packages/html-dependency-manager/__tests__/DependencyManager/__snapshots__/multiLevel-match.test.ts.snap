@@ -1,10 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`DependencyManager for multi-level dependencies getSortedDependencies should sort dependencies correctly 1`] = `
+{
+  "react": [
+    {
+      "isGlobal": true,
+      "name": "react",
+      "subDependencies": {
+        "react-dom": {
+          "isGlobal": false,
+          "name": "react-dom",
+          "subDependencies": {},
+          "version": "16.8.0",
+        },
+      },
+      "version": "16.8.0",
+    },
+    {
+      "isGlobal": false,
+      "name": "react",
+      "subDependencies": {},
+      "version": "17.0.1",
+    },
+  ],
+  "react-dom": [
+    {
+      "isGlobal": false,
+      "name": "react-dom",
+      "subDependencies": {},
+      "version": "16.8.0",
+    },
+  ],
+  "redux": [
+    {
+      "isGlobal": true,
+      "name": "redux",
+      "subDependencies": {
+        "react": {
+          "isGlobal": false,
+          "name": "react",
+          "subDependencies": {},
+          "version": "17.0.1",
+        },
+      },
+      "version": "4.0.5",
+    },
+  ],
+}
+`;
+
 exports[`DependencyManager for multi-level dependencies should handle deep nested dependencies 1`] = `
 {
   "react": [
     {
       "isGlobal": false,
+      "name": "react",
       "subDependencies": {},
       "version": "16.8.0",
     },
@@ -12,6 +62,7 @@ exports[`DependencyManager for multi-level dependencies should handle deep neste
   "react-dom": [
     {
       "isGlobal": false,
+      "name": "react-dom",
       "subDependencies": {},
       "version": "16.8.0",
     },
@@ -19,14 +70,17 @@ exports[`DependencyManager for multi-level dependencies should handle deep neste
   "react-redux": [
     {
       "isGlobal": true,
+      "name": "react-redux",
       "subDependencies": {
         "react": {
           "isGlobal": false,
+          "name": "react",
           "subDependencies": {},
           "version": "16.8.0",
         },
         "react-dom": {
           "isGlobal": false,
+          "name": "react-dom",
           "subDependencies": {},
           "version": "16.8.0",
         },
@@ -37,17 +91,21 @@ exports[`DependencyManager for multi-level dependencies should handle deep neste
   "redux": [
     {
       "isGlobal": true,
+      "name": "redux",
       "subDependencies": {
         "react-redux": {
           "isGlobal": true,
+          "name": "react-redux",
           "subDependencies": {
             "react": {
               "isGlobal": false,
+              "name": "react",
               "subDependencies": {},
               "version": "16.8.0",
             },
             "react-dom": {
               "isGlobal": false,
+              "name": "react-dom",
               "subDependencies": {},
               "version": "16.8.0",
             },
@@ -66,17 +124,21 @@ exports[`DependencyManager for multi-level dependencies should handle multiple l
   "react": [
     {
       "isGlobal": true,
+      "name": "react",
       "subDependencies": {
         "react-dom": {
           "isGlobal": false,
+          "name": "react-dom",
           "subDependencies": {},
           "version": "16.8.0",
         },
         "redux": {
           "isGlobal": true,
+          "name": "redux",
           "subDependencies": {
             "react-redux": {
               "isGlobal": false,
+              "name": "react-redux",
               "subDependencies": {},
               "version": "7.2.0",
             },
@@ -90,6 +152,7 @@ exports[`DependencyManager for multi-level dependencies should handle multiple l
   "react-dom": [
     {
       "isGlobal": false,
+      "name": "react-dom",
       "subDependencies": {},
       "version": "16.8.0",
     },
@@ -97,6 +160,7 @@ exports[`DependencyManager for multi-level dependencies should handle multiple l
   "react-redux": [
     {
       "isGlobal": false,
+      "name": "react-redux",
       "subDependencies": {},
       "version": "7.2.0",
     },
@@ -104,9 +168,11 @@ exports[`DependencyManager for multi-level dependencies should handle multiple l
   "redux": [
     {
       "isGlobal": true,
+      "name": "redux",
       "subDependencies": {
         "react-redux": {
           "isGlobal": false,
+          "name": "react-redux",
           "subDependencies": {},
           "version": "7.2.0",
         },
@@ -122,6 +188,7 @@ exports[`DependencyManager for multi-level dependencies should handle multiple l
   "react-redux": [
     {
       "isGlobal": false,
+      "name": "react-redux",
       "subDependencies": {},
       "version": "7.2.0",
     },
@@ -129,9 +196,11 @@ exports[`DependencyManager for multi-level dependencies should handle multiple l
   "redux": [
     {
       "isGlobal": true,
+      "name": "redux",
       "subDependencies": {
         "react-redux": {
           "isGlobal": false,
+          "name": "react-redux",
           "subDependencies": {},
           "version": "7.2.0",
         },

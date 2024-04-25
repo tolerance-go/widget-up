@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "module": "ESNext",
-    "target": "es5",
+    "target": "ES2017",
     "jsx": "react",
     "lib": ["DOM", "ES2019"],
     "declaration": true,
