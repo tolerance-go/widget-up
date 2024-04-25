@@ -3,6 +3,7 @@ import semver from "semver";
 interface DependencyDetail {
   version: string;
   subDependencies: Record<string, DependencyDetail>;
+  isGlobal: boolean;
 }
 
 class DependencyManager {
@@ -18,6 +19,7 @@ class DependencyManager {
     dependency: string,
     versionRange: string,
     subDependencies?: { [key: string]: string },
+    isGlobal = true,
   ) {
     let resolvedVersion = this.resolveVersion(dependency, versionRange);
     if (!resolvedVersion) return;
@@ -34,8 +36,12 @@ class DependencyManager {
       existingDep = {
         version: resolvedVersion,
         subDependencies: {},
+        isGlobal,
       };
       this.dependencies[dependency].push(existingDep);
+    } else {
+      // 更新是否为全局依赖
+      existingDep.isGlobal = isGlobal;
     }
 
     if (subDependencies) {
@@ -43,6 +49,8 @@ class DependencyManager {
         let subResolvedVersion = this.addDependency(
           subDep,
           subDependencies[subDep],
+          undefined,
+          false,
         );
         if (subResolvedVersion) {
           const subDepInstance = this.dependencies[subDep]?.find(
@@ -59,7 +67,7 @@ class DependencyManager {
     return resolvedVersion;
   }
 
-  removeDependency(dependency: string, versionRange: string) {
+  removeDependency(dependency: string, versionRange: string, isGlobal = true) {
     if (!this.dependencies[dependency]) {
       return;
     }
@@ -76,6 +84,10 @@ class DependencyManager {
 
     // 从版本列表中选择要删除的最高版本
     const versionToRemove = versionsToRemove.shift()!;
+
+    if (!isGlobal) {
+      if (versionToRemove.isGlobal) return;
+    }
 
     // 检查是否有其他依赖项依赖于即将删除的版本
     if (this.isDependedOn(dependency, versionToRemove.version)) {
@@ -95,6 +107,7 @@ class DependencyManager {
       this.removeDependency(
         subDep,
         versionToRemove.subDependencies[subDep].version,
+        false,
       );
     });
 
