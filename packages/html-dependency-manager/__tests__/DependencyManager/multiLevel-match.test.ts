@@ -24,7 +24,69 @@ describe("DependencyManager for multi-level dependencies", () => {
 
     const dependencies = dm.getDependencies();
 
-    expect(dependencies).toMatchSnapshot();
+    expect(dependencies).toMatchInlineSnapshot(`
+      {
+        "react": [
+          {
+            "isGlobal": true,
+            "name": "react",
+            "subDependencies": {
+              "react-dom": {
+                "isGlobal": false,
+                "name": "react-dom",
+                "subDependencies": {},
+                "version": "16.8.0",
+              },
+              "redux": {
+                "isGlobal": true,
+                "name": "redux",
+                "subDependencies": {
+                  "react-redux": {
+                    "isGlobal": false,
+                    "name": "react-redux",
+                    "subDependencies": {},
+                    "version": "7.2.0",
+                  },
+                },
+                "version": "4.0.5",
+              },
+            },
+            "version": "16.8.0",
+          },
+        ],
+        "react-dom": [
+          {
+            "isGlobal": false,
+            "name": "react-dom",
+            "subDependencies": {},
+            "version": "16.8.0",
+          },
+        ],
+        "react-redux": [
+          {
+            "isGlobal": false,
+            "name": "react-redux",
+            "subDependencies": {},
+            "version": "7.2.0",
+          },
+        ],
+        "redux": [
+          {
+            "isGlobal": true,
+            "name": "redux",
+            "subDependencies": {
+              "react-redux": {
+                "isGlobal": false,
+                "name": "react-redux",
+                "subDependencies": {},
+                "version": "7.2.0",
+              },
+            },
+            "version": "4.0.5",
+          },
+        ],
+      }
+    `);
   });
 
   test("should handle deep nested dependencies", () => {
@@ -38,7 +100,75 @@ describe("DependencyManager for multi-level dependencies", () => {
 
     const dependencies = dm.getDependencies();
 
-    expect(dependencies).toMatchSnapshot();
+    expect(dependencies).toMatchInlineSnapshot(`
+      {
+        "react": [
+          {
+            "isGlobal": false,
+            "name": "react",
+            "subDependencies": {},
+            "version": "16.8.0",
+          },
+        ],
+        "react-dom": [
+          {
+            "isGlobal": false,
+            "name": "react-dom",
+            "subDependencies": {},
+            "version": "16.8.0",
+          },
+        ],
+        "react-redux": [
+          {
+            "isGlobal": true,
+            "name": "react-redux",
+            "subDependencies": {
+              "react": {
+                "isGlobal": false,
+                "name": "react",
+                "subDependencies": {},
+                "version": "16.8.0",
+              },
+              "react-dom": {
+                "isGlobal": false,
+                "name": "react-dom",
+                "subDependencies": {},
+                "version": "16.8.0",
+              },
+            },
+            "version": "7.2.0",
+          },
+        ],
+        "redux": [
+          {
+            "isGlobal": true,
+            "name": "redux",
+            "subDependencies": {
+              "react-redux": {
+                "isGlobal": true,
+                "name": "react-redux",
+                "subDependencies": {
+                  "react": {
+                    "isGlobal": false,
+                    "name": "react",
+                    "subDependencies": {},
+                    "version": "16.8.0",
+                  },
+                  "react-dom": {
+                    "isGlobal": false,
+                    "name": "react-dom",
+                    "subDependencies": {},
+                    "version": "16.8.0",
+                  },
+                },
+                "version": "7.2.0",
+              },
+            },
+            "version": "4.0.5",
+          },
+        ],
+      }
+    `);
   });
 
   test("should handle multiple levels of subdependencies remove", () => {
@@ -54,7 +184,33 @@ describe("DependencyManager for multi-level dependencies", () => {
 
     const dependencies = dm.getDependencies();
 
-    expect(dependencies).toMatchSnapshot();
+    expect(dependencies).toMatchInlineSnapshot(`
+      {
+        "react-redux": [
+          {
+            "isGlobal": false,
+            "name": "react-redux",
+            "subDependencies": {},
+            "version": "7.2.0",
+          },
+        ],
+        "redux": [
+          {
+            "isGlobal": true,
+            "name": "redux",
+            "subDependencies": {
+              "react-redux": {
+                "isGlobal": false,
+                "name": "react-redux",
+                "subDependencies": {},
+                "version": "7.2.0",
+              },
+            },
+            "version": "4.0.5",
+          },
+        ],
+      }
+    `);
   });
 
   test("getSortedDependencies should sort dependencies correctly", () => {
@@ -68,6 +224,53 @@ describe("DependencyManager for multi-level dependencies", () => {
 
     manager.addDependency("react", "^16.8.0", { "react-dom": "^16.8.0" });
     manager.addDependency("redux", "^4.0.5", { react: "^17.0.0" });
-    expect(manager.getDependencies()).toMatchSnapshot();
+    expect(manager.getDependencies()).toMatchInlineSnapshot(`
+      {
+        "react": [
+          {
+            "isGlobal": true,
+            "name": "react",
+            "subDependencies": {
+              "react-dom": {
+                "isGlobal": false,
+                "name": "react-dom",
+                "subDependencies": {},
+                "version": "16.8.0",
+              },
+            },
+            "version": "16.8.0",
+          },
+          {
+            "isGlobal": false,
+            "name": "react",
+            "subDependencies": {},
+            "version": "17.0.1",
+          },
+        ],
+        "react-dom": [
+          {
+            "isGlobal": false,
+            "name": "react-dom",
+            "subDependencies": {},
+            "version": "16.8.0",
+          },
+        ],
+        "redux": [
+          {
+            "isGlobal": true,
+            "name": "redux",
+            "subDependencies": {
+              "react": {
+                "isGlobal": false,
+                "name": "react",
+                "subDependencies": {},
+                "version": "17.0.1",
+              },
+            },
+            "version": "4.0.5",
+          },
+        ],
+      }
+    `);
   });
 });

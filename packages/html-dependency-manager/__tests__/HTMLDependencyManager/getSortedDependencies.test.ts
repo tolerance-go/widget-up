@@ -18,59 +18,52 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
     });
 
     manager = new HTMLDependencyManager(mockFetchVersionList);
-    await manager.addDependency(
-      "react",
-      "^16.8.0",
-      { "react-dom": "^16.8.0" },
-    );
-    await manager.addDependency("redux", "^4.0.5", { react: "^17.0.0" });
   });
 
-  test("getSortedDependencies should sort dependencies correctly", () => {
-
-    expect(manager.getDependencies()).toMatchSnapshot();
-
-    // const sortedDependencies = manager.getSortedDependencies();
-
-    // expect(sortedDependencies).toEqual([
-    //   {
-    //     name: "react-dom",
-    //     version: "16.13.1",
-    //     isGlobal: false,
-    //     subDependencies: {},
-    //   },
-    //   {
-    //     name: "react",
-    //     version: "16.13.1",
-    //     isGlobal: true,
-    //     subDependencies: {
-    //       "react-dom": {
-    //         name: "react-dom",
-    //         version: "16.13.1",
-    //         isGlobal: false,
-    //         subDependencies: {},
-    //       },
-    //     },
-    //   },
-    //   {
-    //     name: "react",
-    //     version: "17.0.0",
-    //     isGlobal: false,
-    //     subDependencies: {},
-    //   },
-    //   {
-    //     name: "redux",
-    //     version: "4.1.0",
-    //     isGlobal: true,
-    //     subDependencies: {
-    //       react: {
-    //         name: 'react',
-    //         version: "17.0.0",
-    //         isGlobal: false,
-    //         subDependencies: {},
-    //       },
-    //     },
-    //   },
-    // ]);
+  test("getSortedDependencies should sort dependencies correctly", async () => {
+    await manager.addDependency("react", "^16.8.0", { "react-dom": "^16.8.0" });
+    await manager.addDependency("redux", "^4.0.5", { react: "^17.0.0" });
+    expect(manager.getSortedDependencies()).toMatchInlineSnapshot(`
+      [
+        {
+          "isGlobal": false,
+          "name": "react-dom",
+          "subDependencies": {},
+          "version": "16.13.1",
+        },
+        {
+          "isGlobal": true,
+          "name": "react",
+          "subDependencies": {
+            "react-dom": {
+              "isGlobal": false,
+              "name": "react-dom",
+              "subDependencies": {},
+              "version": "16.13.1",
+            },
+          },
+          "version": "16.13.1",
+        },
+        {
+          "isGlobal": false,
+          "name": "react",
+          "subDependencies": {},
+          "version": "17.0.0",
+        },
+        {
+          "isGlobal": true,
+          "name": "redux",
+          "subDependencies": {
+            "react": {
+              "isGlobal": false,
+              "name": "react",
+              "subDependencies": {},
+              "version": "17.0.0",
+            },
+          },
+          "version": "4.1.0",
+        },
+      ]
+    `);
   });
 });

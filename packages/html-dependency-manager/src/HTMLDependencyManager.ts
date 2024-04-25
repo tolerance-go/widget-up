@@ -84,6 +84,50 @@ class HTMLDependencyManager {
   getDependencies() {
     return this.dependencyManager.getDependencies();
   }
+
+  // getSortedDependencies 方法用于获取排序后的依赖列表
+  getSortedDependencies() {
+    // 获取当前所有依赖项的信息
+    const dependencies = this.getDependencies();
+    const allDependencies: DependencyDetail[] = [];
+    const visited: { [key: string]: boolean } = {};
+    const result: DependencyDetail[] = [];
+
+    // 将依赖项从嵌套的结构转换为单个数组，方便处理
+    for (const depKey in dependencies) {
+      allDependencies.push(...dependencies[depKey]);
+    }
+
+    // DFS 助手函数，用于递归访问每一个依赖及其子依赖
+    const dfs = (dep: DependencyDetail) => {
+      // 生成唯一标识符，格式为“名称@版本”
+      const depIdentifier = dep.name + "@" + dep.version;
+      // 如果已访问过，则跳过
+      if (visited[depIdentifier]) return;
+      visited[depIdentifier] = true;
+
+      // 递归地访问所有子依赖
+      if (dep.subDependencies) {
+        for (const subDepKey in dep.subDependencies) {
+          dfs(dep.subDependencies[subDepKey]);
+        }
+      }
+
+      // 所有子依赖访问完后，将当前依赖加入结果列表
+      result.push(dep);
+    };
+
+    // 遍历所有依赖项，使用DFS确保每个依赖及其子依赖都被访问
+    allDependencies.forEach((dep) => {
+      if (!visited[dep.name + "@" + dep.version]) {
+        dfs(dep);
+      }
+    });
+
+    // 由于依赖关系的特性，我们需要反转结果数组，以确保依赖的正确安装顺序
+    // 即：子依赖项应该在父依赖项之前出现在列表中
+    return result;
+  }
 }
 
 export { HTMLDependencyManager };
