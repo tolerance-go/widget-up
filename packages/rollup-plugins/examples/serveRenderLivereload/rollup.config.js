@@ -5,6 +5,7 @@ import typescript from "rollup-plugin-typescript2";
 import path from "path";
 import del from "rollup-plugin-delete";
 import {
+  htmlRender,
   autoExternalDependencies,
   peerDependenciesAsExternal,
   serveLivereload,
@@ -39,6 +40,11 @@ export default {
     }),
     isProduction && terser(),
     peerDependenciesAsExternal(),
+    !isProduction &&
+      htmlRender({
+        dest: "dist",
+        src: "index.html.ejs",
+      }),
     !isProduction &&
       serveLivereload({
         contentBase: "dist",
