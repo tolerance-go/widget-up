@@ -30,6 +30,8 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@types/ejs": "^3.1.5",
+    "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
     "cross-env": "^7.0.3",
@@ -46,8 +48,13 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
+    "ejs": "^3.1.10",
+    "fs-extra": "^11.2.0",
     "glob": "^10.3.12",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-serve": "^3.0.0",
     "strip-json-comments": "^5.0.1",
-    "tsc-alias": "^1.8.8"
+    "tsc-alias": "^1.8.8",
+    "widget-up-utils": "workspace:^"
   }
 }

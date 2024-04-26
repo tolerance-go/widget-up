@@ -1,6 +1,6 @@
-import * as fs from "fs";
-import * as util from "util";
-import * as path from "path";
+import fs from "fs";
+import util from "util";
+import path from "path";
 
 export class Logger {
   private filePath: string;
@@ -31,7 +31,7 @@ export class Logger {
     const formattedMessage = util.format(
       "[LOG] [%s] -",
       new Date().toISOString(),
-      ...args,
+      ...args
     );
     this.write(formattedMessage);
   }
@@ -40,7 +40,7 @@ export class Logger {
     const formattedMessage = util.format(
       "[INFO] [%s] -",
       new Date().toISOString(),
-      ...args,
+      ...args
     );
     this.write(formattedMessage);
   }
@@ -49,7 +49,7 @@ export class Logger {
     const formattedMessage = util.format(
       "[ERROR] [%s] -",
       new Date().toISOString(),
-      ...args,
+      ...args
     );
     this.write(formattedMessage);
   }
@@ -58,7 +58,7 @@ export class Logger {
     const formattedMessage = util.format(
       "[WARN] [%s] -",
       new Date().toISOString(),
-      ...args,
+      ...args
     );
     this.write(formattedMessage);
   }

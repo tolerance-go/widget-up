@@ -8,6 +8,6 @@
     "esModuleInterop": true,
     "strict": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../utils/src/Logger.ts"],
   "exclude": ["node_modules", "dist"]
 }
