@@ -1,7 +1,7 @@
 export { getLatestPackageVersion } from "./getLatestPackageVersion";
 export { semverToIdentifier } from "./semverToIdentifier";
 export { parseConfig } from "./parseConfig";
-export { Logger } from "./rollup-plugins/_utils/Logger";
+export { Logger } from "./Logger";
 export * from "./HTMLDependencyManager";
 
 export type {

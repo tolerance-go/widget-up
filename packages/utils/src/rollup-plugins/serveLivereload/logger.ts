@@ -1,5 +1,5 @@
+import { Logger } from "@/src/Logger";
 import path from "path";
-import { Logger } from "../_utils";
 
 export const logger = new Logger(
   path.join(

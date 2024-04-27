@@ -1,11 +1,11 @@
 import { Plugin } from "rollup";
-import { start } from "./start";
+import { main } from "./main";
 
 const tsDeclarationAlias = (): Plugin => {
   return {
     name: "declaration-alias",
     writeBundle() {
-      start();
+      main();
     },
   };
 };
