@@ -3,14 +3,10 @@
   "version": "0.6.2",
   "description": "",
   "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
-  "main": "dist/cjs/index.js",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/types/index.d.ts"
+      "import": "./dist/esm/index.js"
     }
   },
   "files": [
@@ -18,11 +14,12 @@
     "types"
   ],
   "scripts": {
-    "plg-build": "tsc --project tsconfig.rollup.json && ts-node ./scripts/addJsExtension",
     "schema-dev": "schema-builder dev",
     "schema-build": "schema-builder build",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "npm run build:js && npm run build:types",
+    "build:js": "cross-env NODE_ENV=production babel src --config-file ./babel.config.json --out-dir dist --extensions \".ts\" --ignore \"**/*.test.ts\"",
+    "build:types": "tsc --project tsconfig.build.json --emitDeclarationOnly",
     "test": "jest",
     "prepublishAll": "npm run test && npm run build"
   },
@@ -43,6 +40,10 @@
     "widget-up-utils": "workspace:^"
   },
   "devDependencies": {
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-typescript": "^7.24.1",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -56,6 +57,7 @@
     "@types/node": "^20.12.7",
     "@types/semver": "^7.5.8",
     "axios-mock-adapter": "^1.22.0",
+    "babel-plugin-add-import-extension": "^1.6.0",
     "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "jsdom": "^24.0.0",
