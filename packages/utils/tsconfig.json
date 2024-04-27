@@ -5,9 +5,8 @@
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "declaration": true,
+    "declaration": false,
     "outDir": "./dist",
-    "declarationDir": "./dist/types",
     "lib": ["ES2017", "dom"],
     "baseUrl": ".",
     "paths": {

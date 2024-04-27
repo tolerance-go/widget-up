@@ -10,20 +10,12 @@ export default function htmlRender(options: { src: string; dest: string }) {
   const outputPath = path.resolve(process.cwd(), dest, "index.html");
   const outputDir = path.dirname(outputPath);
 
-  // 确保目标目录存在
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-  
   // 渲染并写入 HTML
   function renderAndWrite() {
     const template = fs.readFileSync(templatePath, "utf-8");
     const renderedHtml = ejs.render(template, {});
     fs.writeFileSync(outputPath, renderedHtml);
   }
-
-  // 初始化时渲染并写入 HTML
-  renderAndWrite();
 
   // 使用 chokidar 监听文件变化
   const watcher = chokidar.watch(templatePath, {
@@ -39,7 +31,15 @@ export default function htmlRender(options: { src: string; dest: string }) {
   // 插件对象
   return {
     name: "html-render",
-    buildStart() {},
+    buildStart() {
+      // 确保目标目录存在
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+      }
+
+      // 初始化时渲染并写入 HTML
+      renderAndWrite();
+    },
     // 其他 Rollup 插件钩子...
   };
 }
