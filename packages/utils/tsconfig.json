@@ -14,6 +14,12 @@
       "@/*": ["*"]
     }
   },
-  "include": ["src/**/*", "./typings.d.ts", "types/**/*", "__tests__/**/*"],
+  "include": [
+    "src/**/*",
+    "scripts/**/*",
+    "./typings.d.ts",
+    "types/**/*",
+    "__tests__/**/*"
+  ],
   "exclude": ["node_modules", "dist"]
 }

@@ -6,7 +6,7 @@ import typescript from "rollup-plugin-typescript2";
 import {
   autoExternalDependencies,
   tsDeclarationAlias,
-} from "./src";
+} from "./rollup-plugins/rollup-plugins/index.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 

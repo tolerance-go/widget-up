@@ -18,7 +18,7 @@
     "types"
   ],
   "scripts": {
-    "plg-build": "tsc --project tsconfig.rollup.json",
+    "plg-build": "tsc --project tsconfig.rollup.json && ts-node ./scripts/addJsExtension",
     "schema-dev": "schema-builder dev",
     "schema-build": "schema-builder build",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
@@ -64,6 +64,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
     "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.8",
     "typescript": "^5.4.5",
     "widget-up-utils": "workspace:^"

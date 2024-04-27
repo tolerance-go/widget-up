@@ -1,0 +1,36 @@
+# 依赖项目录
+node_modules/
+.pnpm-store/
+
+# 构建输出
+dist/
+dist-images/
+build/
+out/
+*.tsbuildinfo
+
+# 日志文件
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 编辑器目录和文件
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 操作系统生成的文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+tmp/
+temp/
+
+/certbot
+/domains.conf
+/docker-compose.override.yml
+
+/.logs
+/rollup-plugins
