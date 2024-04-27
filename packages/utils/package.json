@@ -20,8 +20,8 @@
   "scripts": {
     "schema-dev": "schema-builder dev",
     "schema-build": "schema-builder build",
-    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.ts -w --configPlugin @rollup/plugin-typescript --tsconfig tsconfig.rollup.json",
-    "build": "cross-env NODE_ENV=production rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript --tsconfig tsconfig.rollup.json",
+    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.ts -w --configPlugin typescript --tsconfig tsconfig.rollup.json",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.ts --configPlugin typescript --tsconfig tsconfig.rollup.json",
     "test": "jest",
     "prepublishAll": "npm run test && npm run build"
   },
