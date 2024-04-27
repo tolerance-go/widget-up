@@ -1,4 +1,4 @@
-import { DependencyManager } from "@/src/DependencyManager";
+import { DependencyManager } from "@/src/HTMLDependencyManager/DependencyManager";
 import semver from "semver";
 
 describe("DependencyManager updateVersionList", () => {

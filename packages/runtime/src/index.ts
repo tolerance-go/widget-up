@@ -1,4 +1,4 @@
-import { EventBus } from "widget-up-lib";
+import { EventBus } from "widget-up-utils";
 
 export type GlobalEvents = {
   onClickMenuItem: {

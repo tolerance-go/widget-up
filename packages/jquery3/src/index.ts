@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { JQueryComponent } from "widget-up-lib";
+import { JQueryComponent } from "widget-up-utils";
 
 const component: JQueryComponent = {
   start({ rootElement, settings }) {},

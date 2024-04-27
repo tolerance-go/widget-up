@@ -26,11 +26,11 @@
     "@types/jquery": "^3.5.29",
     "jquery": "^3.7.1",
     "widget-up": "workspace:^",
-    "widget-up-lib": "workspace:^"
+    "widget-up-utils": "workspace:^"
   },
   "peerDependencies": {
     "jquery": "^3.7.1",
-    "widget-up-lib": "workspace:^"
+    "widget-up-utils": "workspace:^"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

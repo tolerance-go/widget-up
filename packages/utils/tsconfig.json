@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2017",
     "module": "ESNext",
     "strict": true,
     "esModuleInterop": true,
@@ -9,9 +9,9 @@
     "outDir": "./dist",
     "declarationDir": "./dist/types",
     "lib": ["ES2017", "dom"],
-    "baseUrl": ".", // 基本目录设置为项目根目录
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["*"] // 将 @ 符号映射到根目录
+      "@/*": ["*"]
     }
   },
   "include": ["src/**/*", "./typings.d.ts", "types/**/*", "__tests__/**/*"],

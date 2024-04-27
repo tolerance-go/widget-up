@@ -10,7 +10,7 @@
           "filePathDev": "/dist/jquery.js"
         }
       },
-      "widget-up-lib": {
+      "widget-up-utils": {
         "unpkg": {
           "filePath": "/umd/index.production.min.js",
           "filePathDev": "/umd/index.development.js"

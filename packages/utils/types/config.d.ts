@@ -1,4 +1,4 @@
-import type { FormSchemaConfig } from "widget-up-lib";
+import type { FormSchemaConfig } from "widget-up-utils";
 
 export interface ParsedExternalLibraryConfig {
   peerDependencies?: string[];

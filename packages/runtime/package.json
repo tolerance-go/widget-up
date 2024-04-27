@@ -42,6 +42,6 @@
     "widget-up-rollup-plugins": "workspace:^"
   },
   "dependencies": {
-    "widget-up-lib": "workspace:^"
+    "widget-up-utils": "workspace:^"
   }
 }

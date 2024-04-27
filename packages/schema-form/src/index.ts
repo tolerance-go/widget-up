@@ -6,7 +6,7 @@ import {
   InputSchemaConfig,
   JQueryComponent,
   ObjectInputSchemaConfig,
-} from "widget-up-lib";
+} from "widget-up-utils";
 
 // 创建具体的输入元素
 function createInput(inputConfig: InputSchemaConfig): JQuery<HTMLElement> {

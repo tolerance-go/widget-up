@@ -1,4 +1,4 @@
-import { DependencyManager } from "@/src/DependencyManager";
+import { DependencyManager } from "@/src/HTMLDependencyManager/DependencyManager";
 
 describe("DependencyManager with SubDependencies", () => {
   let depManager: DependencyManager;
