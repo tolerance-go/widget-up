@@ -18,10 +18,11 @@
     "types"
   ],
   "scripts": {
+    "plg-build": "tsc --project tsconfig.rollup.json",
     "schema-dev": "schema-builder dev",
     "schema-build": "schema-builder build",
-    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.ts -w --configPlugin typescript --tsconfig tsconfig.rollup.json",
-    "build": "cross-env NODE_ENV=production rollup -c rollup.config.ts --configPlugin typescript --tsconfig tsconfig.rollup.json",
+    "dev": "cross-env NODE_ENV=development rollup -c -w",
+    "build": "cross-env NODE_ENV=production rollup -c",
     "test": "jest",
     "prepublishAll": "npm run test && npm run build"
   },

@@ -1,4 +1,11 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["rollup.config.ts"]
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src/rollup-plugins",
+    "module": "ESNext",
+    "target": "ES2017",
+    "strict": true
+  },
+  "include": ["src/rollup-plugins/**/*", "types/**/*"]
 }
