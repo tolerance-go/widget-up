@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export const getExternalDependencies = (packageJsonPath) => {
+export const getExternalDependencies = (packageJsonPath: string) => {
   // 读取并解析 package.json 文件
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 

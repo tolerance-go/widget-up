@@ -4,10 +4,17 @@ import path from "path";
 
 export class Logger {
   private filePath: string;
+  private initialized: boolean = false; // 添加标志来跟踪日志文件是否已初始化
 
   constructor(filePath: string) {
     this.filePath = filePath;
-    this.initializeLogFile();
+  }
+
+  private ensureInitialized(): void {
+    if (!this.initialized) {
+      this.initializeLogFile();
+      this.initialized = true; // 标记为已初始化
+    }
   }
 
   private initializeLogFile(): void {
@@ -24,6 +31,7 @@ export class Logger {
   }
 
   private write(message: string): void {
+    this.ensureInitialized(); // 确保日志文件在写入前已初始化
     fs.appendFileSync(this.filePath, message + "\n", "utf-8");
   }
 

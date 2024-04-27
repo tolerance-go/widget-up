@@ -13,14 +13,10 @@ interface ServeLivereloadOptions {
   livereloadPort?: number;
 }
 
-const serveLivereload = (
-  options: ServeLivereloadOptions
-): Plugin => {
+const serveLivereload = (options: ServeLivereloadOptions): Plugin => {
   const { contentBase, port = 3000, livereloadPort = 35729 } = options; // 默认 livereload 端口是 35729
 
   const contentBasePath = path.resolve(contentBase);
-
-  logger.info(`contentBasePath: ${contentBasePath}`);
 
   let liveReloadServer = livereload.createServer({ port: livereloadPort });
   liveReloadServer.watch(contentBasePath);
@@ -33,6 +29,8 @@ const serveLivereload = (
   return {
     name: "serve-livereload",
     async buildStart() {
+      logger.info(`contentBasePath: ${contentBasePath}`);
+
       if (server) return;
 
       server = app.listen(await findAvailablePort(port), () => {

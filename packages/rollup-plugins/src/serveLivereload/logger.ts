@@ -1,5 +1,5 @@
 import path from "path";
-import { Logger } from "widget-up-utils";
+import { Logger } from "../Logger";
 
 export const logger = new Logger(
   path.join(

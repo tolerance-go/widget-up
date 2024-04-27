@@ -17,8 +17,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "cross-env NODE_ENV=development rollup -c -w",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.ts -w --configPlugin @rollup/plugin-typescript",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "test": "jest",
     "prepublishAll": "npm run test && npm run build"
   },
@@ -64,7 +64,6 @@
     "rollup-plugin-serve": "^3.0.0",
     "strip-json-comments": "^5.0.1",
     "tsc-alias": "^1.8.8",
-    "widget-up-utils": "workspace:^",
     "ws": "^8.16.0"
   }
 }

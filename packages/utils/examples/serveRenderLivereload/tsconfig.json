@@ -5,12 +5,10 @@
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "declaration": true,
     "allowJs": true,
     "outDir": "./dist",
-    "declarationDir": "./dist/types",
     "lib": ["ES2017", "dom"]
   },
-  "include": ["src/**/*", "./typings.d.ts", "types/**/*", "rollup.config.ts"],
+  "include": ["src/**/*", "./typings.d.ts", "types/**/*"],
   "exclude": ["node_modules", "dist"]
 }
