@@ -37,7 +37,7 @@
     "@types/semver": "^7.5.8",
     "ts-jest": "^29.1.2",
     "typescript": "^5.4.5",
-    "widget-up-rollup-plugins": "workspace:^",
+    "widget-up-utils": "workspace:^",
     "widget-up-schema-builder": "workspace:^"
   },
   "publishConfig": {

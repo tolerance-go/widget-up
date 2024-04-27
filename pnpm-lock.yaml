@@ -62,12 +62,12 @@ importers:
       ts-jest:
         specifier: ^29.1.2
         version: 29.1.2(@babel/core@7.24.4)(jest@29.7.0)(typescript@5.4.5)
-      widget-up-rollup-plugins:
-        specifier: workspace:^
-        version: link:../rollup-plugins
       widget-up-runtime:
         specifier: workspace:^
         version: link:../runtime
+      widget-up-utils:
+        specifier: workspace:^
+        version: link:../utils
 
   packages/dev-input-react16:
     devDependencies:
@@ -107,12 +107,12 @@ importers:
       ts-jest:
         specifier: ^29.1.2
         version: 29.1.2(@babel/core@7.24.4)(jest@29.7.0)(typescript@5.4.5)
-      widget-up-rollup-plugins:
-        specifier: workspace:^
-        version: link:../rollup-plugins
       widget-up-runtime:
         specifier: workspace:^
         version: link:../runtime
+      widget-up-utils:
+        specifier: workspace:^
+        version: link:../utils
 
   packages/jquery3:
     devDependencies:
@@ -197,112 +197,6 @@ importers:
         specifier: workspace:^
         version: link:../widget-up
 
-  packages/rollup-plugins:
-    dependencies:
-      '@rollup/plugin-html':
-        specifier: ^1.0.3
-        version: 1.0.3(rollup@4.14.3)
-      chokidar:
-        specifier: ^3.6.0
-        version: 3.6.0
-      connect-livereload:
-        specifier: ^0.6.1
-        version: 0.6.1
-      ejs:
-        specifier: ^3.1.10
-        version: 3.1.10
-      express:
-        specifier: ^4.19.2
-        version: 4.19.2
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.2.0
-      glob:
-        specifier: ^10.3.12
-        version: 10.3.12
-      livereload:
-        specifier: ^0.9.3
-        version: 0.9.3
-      rollup-plugin-livereload:
-        specifier: ^2.0.5
-        version: 2.0.5
-      rollup-plugin-serve:
-        specifier: ^3.0.0
-        version: 3.0.0
-      strip-json-comments:
-        specifier: ^5.0.1
-        version: 5.0.1
-      tsc-alias:
-        specifier: ^1.8.8
-        version: 1.8.8
-      ws:
-        specifier: ^8.16.0
-        version: 8.16.0
-    devDependencies:
-      '@rollup/plugin-alias':
-        specifier: ^5.1.0
-        version: 5.1.0(rollup@4.14.3)
-      '@rollup/plugin-commonjs':
-        specifier: ^25.0.7
-        version: 25.0.7(rollup@4.14.3)
-      '@rollup/plugin-node-resolve':
-        specifier: ^15.2.3
-        version: 15.2.3(rollup@4.14.3)
-      '@rollup/plugin-typescript':
-        specifier: ^11.1.6
-        version: 11.1.6(rollup@4.14.3)(tslib@2.6.2)(typescript@5.4.5)
-      '@types/connect-livereload':
-        specifier: ^0.6.3
-        version: 0.6.3
-      '@types/ejs':
-        specifier: ^3.1.5
-        version: 3.1.5
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.21
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
-      '@types/jest':
-        specifier: ^29.5.12
-        version: 29.5.12
-      '@types/livereload':
-        specifier: ^0.9.5
-        version: 0.9.5
-      '@types/node':
-        specifier: ^20.12.7
-        version: 20.12.7
-      '@types/ws':
-        specifier: ^8.5.10
-        version: 8.5.10
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.12.7)
-      rimraf:
-        specifier: ^5.0.5
-        version: 5.0.5
-      rollup:
-        specifier: ^4.14.3
-        version: 4.14.3
-      rollup-plugin-delete:
-        specifier: ^2.0.0
-        version: 2.0.0
-      rollup-plugin-terser:
-        specifier: ^7.0.2
-        version: 7.0.2(rollup@4.14.3)
-      rollup-plugin-typescript2:
-        specifier: ^0.36.0
-        version: 0.36.0(rollup@4.14.3)(typescript@5.4.5)
-      ts-jest:
-        specifier: ^29.1.2
-        version: 29.1.2(@babel/core@7.24.4)(jest@29.7.0)(typescript@5.4.5)
-      typescript:
-        specifier: ^5.4.5
-        version: 5.4.5
-
   packages/runtime:
     dependencies:
       widget-up-utils:
@@ -348,9 +242,6 @@ importers:
       ts-jest:
         specifier: ^29.1.2
         version: 29.1.2(@babel/core@7.24.4)(jest@29.7.0)(typescript@5.4.5)
-      widget-up-rollup-plugins:
-        specifier: workspace:^
-        version: link:../rollup-plugins
 
   packages/schema-builder:
     dependencies:
@@ -412,9 +303,9 @@ importers:
       ts-jest:
         specifier: ^29.1.2
         version: 29.1.2(jest@29.7.0)(typescript@5.4.5)
-      widget-up-rollup-plugins:
+      widget-up-utils:
         specifier: workspace:^
-        version: link:../rollup-plugins
+        version: link:../utils
 
   packages/schema-form:
     devDependencies:
@@ -436,9 +327,30 @@ importers:
       axios:
         specifier: ^1.6.8
         version: 1.6.8
+      chokidar:
+        specifier: ^3.6.0
+        version: 3.6.0
+      connect-livereload:
+        specifier: ^0.6.1
+        version: 0.6.1
+      ejs:
+        specifier: ^3.1.10
+        version: 3.1.10
+      express:
+        specifier: ^4.19.2
+        version: 4.19.2
+      glob:
+        specifier: ^10.3.12
+        version: 10.3.12
+      livereload:
+        specifier: ^0.9.3
+        version: 0.9.3
       semver:
         specifier: ^7.6.0
         version: 7.6.0
+      strip-json-comments:
+        specifier: ^5.0.1
+        version: 5.0.1
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
@@ -458,12 +370,24 @@ importers:
       '@rollup/plugin-typescript':
         specifier: ^11.1.6
         version: 11.1.6(rollup@4.14.3)(tslib@2.6.2)(typescript@5.4.5)
+      '@types/connect-livereload':
+        specifier: ^0.6.3
+        version: 0.6.3
+      '@types/ejs':
+        specifier: ^3.1.5
+        version: 3.1.5
+      '@types/express':
+        specifier: ^4.17.21
+        version: 4.17.21
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
       '@types/jsdom':
         specifier: ^21.1.6
         version: 21.1.6
+      '@types/livereload':
+        specifier: ^0.9.5
+        version: 0.9.5
       '@types/node':
         specifier: ^20.12.7
         version: 20.12.7
@@ -503,9 +427,6 @@ importers:
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
-      widget-up-rollup-plugins:
-        specifier: workspace:^
-        version: link:../rollup-plugins
 
   packages/widget-up:
     dependencies:
@@ -612,9 +533,6 @@ importers:
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
-      widget-up-rollup-plugins:
-        specifier: workspace:^
-        version: link:../rollup-plugins
       widget-up-schema-builder:
         specifier: workspace:^
         version: link:../schema-builder
@@ -1671,18 +1589,6 @@ packages:
       is-reference: 1.2.1
       magic-string: 0.30.9
       rollup: 4.14.3
-
-  /@rollup/plugin-html@1.0.3(rollup@4.14.3):
-    resolution: {integrity: sha512-bbjQciNXitHX+Bgk0xsW3/0wFWih/356/r7/kvmdz4wzWhAU/a0zYBWTczihrlzz/6Qpw/kZ0yXqOJwsETgg7A==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      rollup: 4.14.3
-    dev: false
 
   /@rollup/plugin-json@6.1.0(rollup@4.14.3):
     resolution: {integrity: sha512-EGI2te5ENk1coGeADSIwZ7G2Q8CJS2sF120T7jLw4xFw9n7wIOXHo+kIYRAoVpJAN+kmqZSoO3Fp4JtoNF4ReA==}
@@ -2942,6 +2848,7 @@ packages:
   /commander@9.5.0:
     resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
     engines: {node: ^12.20.0 || >=14}
+    dev: true
 
   /commondir@1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
@@ -4233,6 +4140,7 @@ packages:
       ignore: 5.3.1
       merge2: 1.4.1
       slash: 3.0.0
+    dev: true
 
   /gopd@1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
@@ -6058,6 +5966,7 @@ packages:
   /mylas@2.1.13:
     resolution: {integrity: sha512-+MrqnJRtxdF+xngFfUUkIMQrUUL0KsxbADUkn23Z/4ibGg192Q+z+CQyiYwvWTsYjJygmMR8+w3ZDa98Zh6ESg==}
     engines: {node: '>=12.0.0'}
+    dev: true
 
   /nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
@@ -6759,6 +6668,7 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       queue-lit: 1.5.2
+    dev: true
 
   /postcss-calc@8.2.4(postcss@8.4.38):
     resolution: {integrity: sha512-SmWMSJmB8MRnnULldx0lQIyhSNvuDl9HfrZkaqqE/WHAhToYsAvDq+yAsA/kIyINDszOp3Rh0GFoNuH5Ypsm3Q==}
@@ -7218,6 +7128,7 @@ packages:
   /queue-lit@1.5.2:
     resolution: {integrity: sha512-tLc36IOPeMAubu8BkW8YDBV+WyIgKlYU7zUNs0J5Vk9skSZ4JfGlPOqplP0aHdfv7HL0B2Pg6nwiq60Qc6M2Hw==}
     engines: {node: '>=12'}
+    dev: true
 
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -7493,14 +7404,6 @@ packages:
     hasBin: true
     dependencies:
       glob: 9.3.5
-    dev: true
-
-  /rimraf@5.0.5:
-    resolution: {integrity: sha512-CqDakW+hMe/Bz202FPEymy68P+G50RfMQK+Qo5YUqc9SPipvbGjCGKd0RSKEelbsfQuw3g5NZDSrlZZAJurH1A==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dependencies:
-      glob: 10.3.12
     dev: true
 
   /rollup-plugin-copy@3.5.0:
@@ -8279,7 +8182,7 @@ packages:
       '@babel/core': 7.24.4
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.7.0
+      jest: 29.7.0(@types/node@20.12.7)
       jest-util: 29.7.0
       json5: 2.2.3
       lodash.memoize: 4.1.2
@@ -8363,6 +8266,7 @@ packages:
       mylas: 2.1.13
       normalize-path: 3.0.0
       plimit-lit: 1.6.1
+    dev: true
 
   /tsconfig-paths@4.2.0:
     resolution: {integrity: sha512-NoZ4roiN7LnbKn9QqE1amc9DJfzvZXxF4xDavcOWt1BPkdx+m+0gJuPM+S0vCe7zTJMYUP0R8pO2XMr+Y8oLIg==}
@@ -8769,6 +8673,7 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+    dev: true
 
   /xml-name-validator@5.0.0:
     resolution: {integrity: sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==}

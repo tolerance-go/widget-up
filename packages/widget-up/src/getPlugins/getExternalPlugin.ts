@@ -2,7 +2,7 @@ import { OutputOptions } from "rollup";
 import {
   autoExternalDependencies,
   peerDependenciesAsExternal,
-} from "widget-up-rollup-plugins";
+} from "widget-up-utils";
 
 export const getExternalPlugin = (format: OutputOptions["format"]) => {
   if (format === "cjs" || format === "esm") {

@@ -20,8 +20,8 @@
   "scripts": {
     "schema-dev": "schema-builder dev",
     "schema-build": "schema-builder build",
-    "dev": "cross-env NODE_ENV=development rollup -c -w",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.ts -w --configPlugin @rollup/plugin-typescript",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "test": "jest",
     "prepublishAll": "npm run test && npm run build"
   },
@@ -30,7 +30,14 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.6.8",
+    "chokidar": "^3.6.0",
+    "connect-livereload": "^0.6.1",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "glob": "^10.3.12",
+    "livereload": "^0.9.3",
     "semver": "^7.6.0",
+    "strip-json-comments": "^5.0.1",
     "tslib": "^2.6.2",
     "widget-up-utils": "workspace:^"
   },
@@ -39,8 +46,12 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@types/connect-livereload": "^0.6.3",
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
     "@types/jsdom": "^21.1.6",
+    "@types/livereload": "^0.9.5",
     "@types/node": "^20.12.7",
     "@types/semver": "^7.5.8",
     "axios-mock-adapter": "^1.22.0",
@@ -54,7 +65,7 @@
     "ts-jest": "^29.1.2",
     "tsc-alias": "^1.8.8",
     "typescript": "^5.4.5",
-    "widget-up-rollup-plugins": "workspace:^"
+    "widget-up-utils": "workspace:^"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

@@ -6,7 +6,7 @@ import typescript from "rollup-plugin-typescript2";
 import {
   peerDependenciesAsExternal,
   tsDeclarationAlias,
-} from "widget-up-rollup-plugins";
+} from "widget-up-utils";
 
 const isProduction = process.env.NODE_ENV === "production";
 

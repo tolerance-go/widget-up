@@ -2,7 +2,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
-import { autoExternalDependencies } from "widget-up-rollup-plugins";
+import { autoExternalDependencies } from "widget-up-utils";
 import del from "rollup-plugin-delete";
 
 const isProduction = process.env.NODE_ENV === "production";
