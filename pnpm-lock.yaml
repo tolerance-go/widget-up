@@ -412,6 +412,9 @@ importers:
       babel-plugin-add-import-extension:
         specifier: ^1.6.0
         version: 1.6.0(@babel/core@7.24.4)
+      babel-plugin-alias:
+        specifier: ^1.2.1
+        version: 1.2.1(typescript@5.4.5)
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -3397,6 +3400,14 @@ packages:
     dependencies:
       '@babel/core': 7.24.4
       '@babel/helper-plugin-utils': 7.24.0
+    dev: true
+
+  /babel-plugin-alias@1.2.1(typescript@5.4.5):
+    resolution: {integrity: sha512-X8BZtSD1zQNQYz2xO6pPWhwkSoIi19/lirqS0O9pWBN1ePkOVihCr2L+5IXVcwBKpNHhdL312N2n46L2vzz8uQ==}
+    peerDependencies:
+      typescript: '>=1.0.0'
+    dependencies:
+      typescript: 5.4.5
     dev: true
 
   /babel-plugin-istanbul@6.1.1:

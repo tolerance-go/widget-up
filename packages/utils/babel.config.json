@@ -4,14 +4,21 @@
       "@babel/preset-env",
       {
         "targets": {
-          // 可以是具体的浏览器版本或 ES 版本
-          "esmodules": true // 为支持 ES 模块的现代浏览器优化
-          // 或者更具体的目标，如 "chrome": "58", "ie": "11"
+          "browsers": [">0.25%", "not dead"],
+          "node": "16"
         },
-        "modules": "auto"
+        "modules": false
       }
     ],
     "@babel/preset-typescript"
   ],
-  "plugins": [["add-import-extension", { "extension": "js" }]]
+  "plugins": [
+    ["add-import-extension", { "extension": "js" }],
+    [
+      "alias",
+      {
+        "@": "."
+      }
+    ]
+  ]
 }
