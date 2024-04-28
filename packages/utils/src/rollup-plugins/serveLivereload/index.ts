@@ -6,15 +6,22 @@ import { Server as HttpServer } from "http";
 import path from "path";
 import { logger } from "./logger";
 import { findAvailablePort } from "./findAvailablePort";
+import open from "open";
 
 interface ServeLivereloadOptions {
   contentBase: string;
   port: number;
   livereloadPort?: number;
+  openBrowser?: boolean; // 控制是否在服务器启动时自动打开浏览器
 }
 
 const serveLivereload = (options: ServeLivereloadOptions): Plugin => {
-  const { contentBase, port = 3000, livereloadPort = 35729 } = options; // 默认 livereload 端口是 35729
+  const {
+    contentBase,
+    port = 3000,
+    livereloadPort = 35729,
+    openBrowser = true,
+  } = options; // 默认 livereload 端口是 35729
 
   const contentBasePath = path.resolve(contentBase);
 
@@ -32,9 +39,16 @@ const serveLivereload = (options: ServeLivereloadOptions): Plugin => {
       logger.info(`contentBasePath: ${contentBasePath}`);
 
       if (server) return;
+      const actualPort = await findAvailablePort(port);
+      server = app.listen(actualPort, () => {
+        const url = `http://localhost:${actualPort}`;
+        console.log(`Server listening on ${url}`);
 
-      server = app.listen(await findAvailablePort(port), () => {
-        console.log(`Server listening on http://localhost:${port}`);
+        if (openBrowser) {
+          open(url).catch((err) =>
+            logger.error(`Failed to open browser: ${err}`)
+          );
+        }
       });
     },
   };
