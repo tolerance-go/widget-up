@@ -19,6 +19,9 @@ import { MenuItem, runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
 import { BuildEnvIsDev } from "../env.js";
 import { getServerConfig } from "../getServerConfig.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
+import { genTempAssert } from "../rollup-plugins/genTempAssert/index.js";
+import path from "path";
+import { TempWupFolderName } from "../constants.js";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -62,9 +65,15 @@ export const getDevPlugins = async ({
             }
           : {}),
       }),
+    genTempAssert({
+      src: path.join(rootPath, "tpls/index.html.ejs"),
+    }),
     htmlRender({
       dest: "dist/server",
-      src: "index.html.ejs",
+      src: path.join(TempWupFolderName, "index.html.ejs"),
+      data: {
+        menus: []
+      }
     }),
     serveLivereload({
       contentBase: "dist/server",

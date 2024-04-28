@@ -12,12 +12,9 @@
 
 # 如何使用
 
+- 支持传入 options 参数，在 ejs 模板渲染的时候可以使用
+
 ```js
-import commonjs from "@rollup/plugin-commonjs";
-import resolve from "@rollup/plugin-node-resolve";
-import { terser } from "rollup-plugin-terser";
-import typescript from "rollup-plugin-typescript2";
-import del from "rollup-plugin-delete";
 import serveRenderLivereload from "serveRenderLivereload";
 import htmlRender from "html-render";
 
@@ -30,14 +27,6 @@ export default {
     format: "umd",
   },
   plugins: [
-    isProduction && del({ targets: "dist/*" }),
-    resolve(),
-    commonjs(),
-    typescript({
-      useTsconfigDeclarationDir: true,
-    }),
-    isProduction && terser(),
-    peerDependenciesAsExternal(),
     !isProduction &&
       htmlRender({
         dest: "dist",

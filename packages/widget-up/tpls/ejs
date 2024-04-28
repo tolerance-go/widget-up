@@ -4,6 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
+  <link rel="stylesheet" href="./index.css" />
+  <% externalStylesheets.forEach(function(stylesheet) { %>
+    <link rel="stylesheet" href="<%= stylesheet %>" />
+  <% }); %>
+  <% if (includeCSS) { %>
+    <link rel="stylesheet" href="./umd/bundle.css" />
+  <% } %>
+  <% if (inlineStyles) { %>
+    <style>
+      <%= inlineStyles %>
+    </style>
+  <% } %>
 </head>
 <body>
   <div class="widget-up-demo-container">
@@ -31,5 +43,12 @@
     </div>
     <div class="widget-up-demo-right-space"></div>
   </div>
+  <% scriptTags.forEach(function(tag) { %>
+    <script src="<%= tag.src %>"></script>
+    <script>
+      <%= tag.global %>
+    </script>
+  <% }); %>
+  <script src="<%= bundleSrc %>"></script>
 </body>
 </html>
