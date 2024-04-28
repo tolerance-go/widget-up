@@ -8,30 +8,32 @@ import livereload from "rollup-plugin-livereload";
 import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
-import { PackageJson, ParseConfig } from "widget-up-utils";
+import {
+  PackageJson,
+  ParseConfig,
+  htmlRender,
+  peerDependenciesAsExternal,
+  serveLivereload,
+} from "widget-up-utils";
 import { MenuItem, runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
 import { BuildEnvIsDev } from "../env.js";
 import { getServerConfig } from "../getServerConfig.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
 
-export const getPlugins = async ({
+export const getDevPlugins = async ({
   rootPath,
   config,
   packageConfig,
   globals,
-  output,
-  menus,
 }: {
-  menus?: MenuItem[];
   rootPath: string;
   config: ParseConfig;
   packageConfig: PackageJson;
   globals?: Record<string, string>;
-  output: OutputOptions;
 }) => {
   const plugins = [
-    del({ targets: ["dist", output.format, "*"].filter(Boolean).join("/") }),
-    getExternalPlugin(output.format),
+    del({ targets: "dist/*", runOnce: true }),
+    peerDependenciesAsExternal(),
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       preventAssignment: true,
@@ -42,13 +44,9 @@ export const getPlugins = async ({
     typescript({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: {
-        compilerOptions: BuildEnvIsDev
-          ? {
-              declaration: false,
-            }
-          : {
-              declarationDir: "dist/types",
-            },
+        compilerOptions: {
+          declaration: false,
+        },
       },
     }),
     config.css &&
@@ -59,27 +57,19 @@ export const getPlugins = async ({
               modules: true,
             }
           : config.css === "autoModules"
-            ? {
-                autoModules: true,
-              }
-            : {}),
+          ? {
+              autoModules: true,
+            }
+          : {}),
       }),
-    BuildEnvIsDev && getServerConfig(),
-    BuildEnvIsDev &&
-      livereload({
-        watch: "dist", // 监听文件夹
-      }),
-    BuildEnvIsDev &&
-      runtimeHtmlPlugin({
-        rootPath,
-        globals,
-        src: "tpls/index.html.ejs",
-        dest: "dist",
-        packageConfig,
-        config,
-        menus,
-      }),
-    !BuildEnvIsDev && terser(), // 仅在生产模式下压缩代码
+    htmlRender({
+      dest: "dist/server",
+      src: "index.html.ejs",
+    }),
+    serveLivereload({
+      contentBase: "dist/server",
+      port: 3000,
+    }),
   ].filter(Boolean);
 
   return plugins;

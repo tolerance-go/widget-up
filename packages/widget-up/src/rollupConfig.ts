@@ -13,6 +13,8 @@ import { getProdInput } from "./getProdInput";
 import { logger } from "./logger";
 import { parseDirectoryStructure } from "./parseDirectoryStructure";
 import { convertDirectoryToMenu } from "./utils/convertDirectoryToMenu";
+import { BuildEnvIsDev } from "./env";
+import { getDevPlugins } from "./getPlugins/getDevPlugins";
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -41,7 +43,7 @@ if (fs.existsSync(demosPath)) {
 }
 
 const packageConfig = JSON.parse(
-  fs.readFileSync(path.resolve("package.json"), "utf8"),
+  fs.readFileSync(path.resolve("package.json"), "utf8")
 ) as PackageJson;
 
 const config = getConfig();
@@ -50,17 +52,38 @@ const globals = generateGlobals(config);
 
 const outputs = generateOutputs(config, globals);
 
-const rollupConfig: RollupOptions[] = outputs.map((output) => ({
-  input: getProdInput(packageConfig),
-  output,
-  plugins: getPlugins({
-    rootPath,
-    config,
-    packageConfig,
-    globals,
+let rollupConfig: RollupOptions[] | RollupOptions = [];
+
+if (BuildEnvIsDev) {
+  rollupConfig = {
+    input: getProdInput(packageConfig),
+    output: {
+      file: "dist/umd/index.js",
+      format: "umd",
+      name: config.umd?.name,
+      globals,
+      sourcemap: BuildEnvIsDev ? "inline" : false,
+    },
+    plugins: getDevPlugins({
+      rootPath,
+      config,
+      packageConfig,
+      globals,
+    }),
+  };
+} else {
+  rollupConfig = outputs.map((output) => ({
+    input: getProdInput(packageConfig),
     output,
-    menus: demoMenus,
-  }),
-}));
+    plugins: getPlugins({
+      rootPath,
+      config,
+      packageConfig,
+      globals,
+      output,
+      menus: demoMenus,
+    }),
+  }));
+}
 
 export default rollupConfig;

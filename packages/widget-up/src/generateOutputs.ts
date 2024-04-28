@@ -1,5 +1,5 @@
 import { ParseConfig, GlobalsSchemaConfig } from "widget-up-utils";
-import { isDev } from "./env";
+import { BuildEnvIsDev } from "./env";
 import { RollupOptions } from "rollup";
 
 // 构建输出数组
@@ -16,17 +16,17 @@ export function generateOutputs(
       format: "umd",
       name: config.umd?.name,
       globals,
-      sourcemap: isDev ? "inline" : false,
+      sourcemap: BuildEnvIsDev ? "inline" : false,
     });
   }
 
-  if (isDev) return outputs;
+  if (BuildEnvIsDev) return outputs;
 
   if (config.esm ?? true) {
     outputs.push({
       file: "dist/esm/index.js",
       format: "esm",
-      sourcemap: isDev ? "inline" : false,
+      sourcemap: BuildEnvIsDev ? "inline" : false,
     });
   }
 
@@ -35,7 +35,7 @@ export function generateOutputs(
     outputs.push({
       file: "dist/cjs/index.js",
       format: "cjs",
-      sourcemap: isDev ? "inline" : false,
+      sourcemap: BuildEnvIsDev ? "inline" : false,
     });
   }
 

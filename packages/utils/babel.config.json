@@ -13,12 +13,12 @@
     "@babel/preset-typescript"
   ],
   "plugins": [
-    ["add-import-extension", { "extension": "js" }],
     [
       "alias",
       {
         "@": "."
       }
-    ]
+    ],
+    ["add-import-extension", { "extension": "js" }]
   ]
 }

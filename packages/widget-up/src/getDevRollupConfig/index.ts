@@ -1,6 +1,6 @@
 import path from "path";
 import { RollupOptions } from "rollup";
-import { isDev } from "../env";
+import { BuildEnvIsDev } from "../env";
 import del from "rollup-plugin-delete";
 
 export const getDevRollupConfig = ({
@@ -13,7 +13,7 @@ export const getDevRollupConfig = ({
     output: {
       file: "dist/server/index.js",
       format: "iife",
-      sourcemap: isDev ? "inline" : false,
+      sourcemap: BuildEnvIsDev ? "inline" : false,
     },
     plugins: [del({ targets: "dist/server/*" })],
   };
