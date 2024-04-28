@@ -3,11 +3,7 @@ import fs from "fs-extra";
 import path from "path";
 import { GlobalsSchemaConfig, PackageJson, ParseConfig } from "widget-up-utils";
 import { compileLessToCSS } from "../utils/compileLessToCSS";
-
-export interface MenuItem {
-  name: string;
-  children?: MenuItem[];
-}
+import { MenuItem } from "@/types";
 
 export function runtimeHtmlPlugin({
   globals,
@@ -80,7 +76,7 @@ export function runtimeHtmlPlugin({
           fs.ensureDirSync(dist);
           // 写入生成的 HTML 到目标目录
           fs.writeFileSync(path.join(dist, "index.html"), html, "utf8");
-        },
+        }
       );
     },
   };

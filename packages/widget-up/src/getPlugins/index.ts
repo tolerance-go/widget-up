@@ -9,10 +9,11 @@ import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import { PackageJson, ParseConfig } from "widget-up-utils";
-import { MenuItem, runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
+import { runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
 import { BuildEnvIsDev } from "../env.js";
 import { getServerConfig } from "../getServerConfig.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
+import { MenuItem } from "@/types";
 
 export const getPlugins = async ({
   rootPath,
@@ -59,10 +60,10 @@ export const getPlugins = async ({
               modules: true,
             }
           : config.css === "autoModules"
-            ? {
-                autoModules: true,
-              }
-            : {}),
+          ? {
+              autoModules: true,
+            }
+          : {}),
       }),
     BuildEnvIsDev && getServerConfig(),
     BuildEnvIsDev &&

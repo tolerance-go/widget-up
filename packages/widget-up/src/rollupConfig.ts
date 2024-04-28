@@ -4,17 +4,17 @@ import { RollupOptions } from "rollup";
 
 import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
+import { BuildEnvIsDev } from "./env";
 import { generateGlobals } from "./generateGlobals";
 import { generateOutputs } from "./generateOutputs";
 import { getConfig } from "./getConfig";
 import { getPlugins } from "./getPlugins";
-import { MenuItem } from "./getPlugins/runtimeHtmlPlugin";
+import { getDevPlugins } from "./getPlugins/getDevPlugins";
 import { getProdInput } from "./getProdInput";
 import { logger } from "./logger";
 import { parseDirectoryStructure } from "./parseDirectoryStructure";
 import { convertDirectoryToMenu } from "./utils/convertDirectoryToMenu";
-import { BuildEnvIsDev } from "./env";
-import { getDevPlugins } from "./getPlugins/getDevPlugins";
+import { MenuItem } from "@/types";
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -32,7 +32,7 @@ logger.info(`cwdPath is ${cwdPath}`);
 const demosPath = path.join(cwdPath, "demos");
 logger.info(`demosPath is ${demosPath}`);
 
-let demoMenus: MenuItem[];
+let demoMenus: MenuItem[] = [];
 
 if (fs.existsSync(demosPath)) {
   logger.log("start demos mode");
@@ -68,7 +68,7 @@ if (BuildEnvIsDev) {
       rootPath,
       config,
       packageConfig,
-      globals,
+      menus: demoMenus,
     }),
   };
 } else {

@@ -6,8 +6,12 @@
     "declaration": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["*"]
+    }
   },
-  "include": ["src/**/*", "../utils/src/Logger.ts"],
+  "include": ["src/**/*", "types/**/*"],
   "exclude": ["node_modules", "dist"]
 }

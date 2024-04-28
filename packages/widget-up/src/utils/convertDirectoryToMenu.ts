@@ -1,4 +1,4 @@
-import { MenuItem } from "../getPlugins/runtimeHtmlPlugin";
+import { MenuItem } from "@/types";
 import { DirectoryStructure } from "../parseDirectoryStructure";
 
 export function convertDirectoryToMenu(

@@ -15,17 +15,18 @@ import {
 } from "widget-up-utils";
 import { WupFolderName } from "../constants.js";
 import { genAssert } from "../rollup-plugins/genAssert/index.js";
+import { MenuItem } from "@/types";
 
 export const getDevPlugins = async ({
   rootPath,
   config,
   packageConfig,
-  globals,
+  menus,
 }: {
+  menus?: MenuItem[];
   rootPath: string;
   config: ParseConfig;
   packageConfig: PackageJson;
-  globals?: Record<string, string>;
 }) => {
   const plugins = [
     deleteDist({
@@ -69,6 +70,20 @@ export const getDevPlugins = async ({
       file: {
         name: "packageConfig.json",
         content: JSON.stringify(packageConfig),
+      },
+    }),
+    genAssert({
+      dest: "dist/server",
+      file: {
+        name: "config.json",
+        content: JSON.stringify(config),
+      },
+    }),
+    genAssert({
+      dest: "dist/server",
+      file: {
+        name: "menus.json",
+        content: JSON.stringify(menus ?? []),
       },
     }),
     htmlRender({
