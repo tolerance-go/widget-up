@@ -22,6 +22,7 @@ import { getExternalPlugin } from "./getExternalPlugin.js";
 import { genTempAssert } from "../rollup-plugins/genTempAssert/index.js";
 import path from "path";
 import { TempWupFolderName } from "../constants.js";
+import { deleteDist } from "widget-up-utils";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -35,7 +36,10 @@ export const getDevPlugins = async ({
   globals?: Record<string, string>;
 }) => {
   const plugins = [
-    // del({ targets: "dist/*", runOnce: true }),
+    deleteDist({
+      dist: "dist",
+      once: true,
+    }),
     peerDependenciesAsExternal(),
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
@@ -72,8 +76,8 @@ export const getDevPlugins = async ({
       dest: "dist/server",
       src: path.join(TempWupFolderName, "index.html.ejs"),
       data: {
-        menus: []
-      }
+        menus: [],
+      },
     }),
     serveLivereload({
       contentBase: "dist/server",
