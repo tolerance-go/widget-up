@@ -23,3 +23,7 @@ export const HTMLComponent = <T extends object = object>(
 ): HTMLElement => {
   throw new Error("runtime code");
 };
+
+export const main = () => {
+  // 请求跟目录下的 menus.json 然后渲染左边栏菜单
+}
