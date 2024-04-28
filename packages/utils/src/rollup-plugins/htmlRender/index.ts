@@ -3,6 +3,7 @@ import ejs from "ejs";
 import fs from "fs";
 import path from "path";
 import chokidar from "chokidar";
+import { logger } from "./logger";
 
 export default function htmlRender(options: {
   src: string;
@@ -35,6 +36,7 @@ export default function htmlRender(options: {
   return {
     name: "html-render",
     buildStart() {
+      logger.info(`outputDir: ${outputDir}`);
       // 确保目标目录存在
       if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
