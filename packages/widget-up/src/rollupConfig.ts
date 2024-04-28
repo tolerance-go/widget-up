@@ -4,12 +4,9 @@ import { RollupOptions } from "rollup";
 
 import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
-import { isDev } from "./env";
-import { generateDevInputFile } from "./generateDevInputFile";
 import { generateGlobals } from "./generateGlobals";
 import { generateOutputs } from "./generateOutputs";
 import { getConfig } from "./getConfig";
-import { getDevInput } from "./getDevInput";
 import { getPlugins } from "./getPlugins";
 import { MenuItem } from "./getPlugins/runtimeHtmlPlugin";
 import { getProdInput } from "./getProdInput";

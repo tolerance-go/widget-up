@@ -14,18 +14,13 @@ const isProduction = process.env.NODE_ENV === "production";
 export default [
   {
     input: "src/index.ts",
-    output: [
-      {
-        file: "dist/esm/index.js",
-        format: "esm",
-      },
-      {
-        file: "dist/cjs/index.js",
-        format: "cjs",
-      },
-    ],
+    output: {
+      file: "dist/umd/index.js",
+      format: "umd",
+      name: "WidgetUpRuntime",
+    },
     plugins: [
-      del({ targets: "dist/{esm,cjs}/*" }),
+      del({ targets: "dist/*" }),
       autoExternalDependencies(),
       // alias({ entries: createAliases() }), // 使用 alias 插件处理路径别名
       resolve(), // 解析 node_modules 中的模块

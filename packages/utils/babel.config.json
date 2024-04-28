@@ -5,7 +5,7 @@
       {
         "targets": {
           "browsers": [">0.25%", "not dead"],
-          "node": "16"
+          "node": "16.8"
         },
         "modules": false
       }
