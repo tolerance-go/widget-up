@@ -1,1 +1,1 @@
-export const TempWupFolderName = ".wup";
+export const WupFolderName = ".wup";

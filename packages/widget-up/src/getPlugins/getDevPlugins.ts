@@ -2,27 +2,19 @@ import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
-import { OutputOptions } from "rollup";
-import del from "rollup-plugin-delete";
-import livereload from "rollup-plugin-livereload";
+import path from "path";
 import postcss from "rollup-plugin-postcss";
-import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import {
   PackageJson,
   ParseConfig,
+  deleteDist,
   htmlRender,
   peerDependenciesAsExternal,
   serveLivereload,
 } from "widget-up-utils";
-import { MenuItem, runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
-import { BuildEnvIsDev } from "../env.js";
-import { getServerConfig } from "../getServerConfig.js";
-import { getExternalPlugin } from "./getExternalPlugin.js";
-import { genTempAssert } from "../rollup-plugins/genTempAssert/index.js";
-import path from "path";
-import { TempWupFolderName } from "../constants.js";
-import { deleteDist } from "widget-up-utils";
+import { WupFolderName } from "../constants.js";
+import { genAssert } from "../rollup-plugins/genAssert/index.js";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -37,7 +29,7 @@ export const getDevPlugins = async ({
 }) => {
   const plugins = [
     deleteDist({
-      dist: "dist",
+      dist: ["dist", WupFolderName],
       once: true,
     }),
     peerDependenciesAsExternal(),
@@ -69,12 +61,19 @@ export const getDevPlugins = async ({
             }
           : {}),
       }),
-    genTempAssert({
+    genAssert({
       src: path.join(rootPath, "tpls/index.html.ejs"),
+    }),
+    genAssert({
+      dest: "dist/server",
+      file: {
+        name: "packageConfig.json",
+        content: JSON.stringify(packageConfig),
+      },
     }),
     htmlRender({
       dest: "dist/server",
-      src: path.join(TempWupFolderName, "index.html.ejs"),
+      src: path.join(WupFolderName, "index.html.ejs"),
       data: {
         menus: [],
       },
