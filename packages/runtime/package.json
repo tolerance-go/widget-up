@@ -4,6 +4,7 @@
   "description": "",
   "types": "dist/index.d.ts",
   "type": "module",
+  "main": "dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts"
@@ -42,7 +43,6 @@
     "ts-jest": "^29.1.2"
   },
   "dependencies": {
-    "normalize.css": "^8.0.1",
     "widget-up-utils": "workspace:^"
   }
 }
