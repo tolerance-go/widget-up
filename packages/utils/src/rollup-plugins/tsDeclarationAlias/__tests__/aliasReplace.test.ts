@@ -14,6 +14,13 @@ describe("aliasReplace function", () => {
     expect(replaceFunc).toHaveBeenCalledWith("react");
   });
 
+  test("@/styles/index.less", () => {
+    const fileContent = `import 'styles/index.less';`;
+    const expected = `import './local/styles/index.less';`;
+    expect(aliasReplace(fileContent, "styles/index.less", replaceFunc)).toBe(expected);
+    expect(replaceFunc).toHaveBeenCalledWith("styles/index.less");
+  });
+
   test("should replace named imports", () => {
     const fileContent = `import { useState, useEffect } from 'react';`;
     const expected = `import { useState, useEffect } from './local/react';`;

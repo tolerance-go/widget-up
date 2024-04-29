@@ -7,10 +7,11 @@ export const getAliasPattern = (npmNameRegStr: string) => {
   const importDefault = "\\w+"; // 匹配单个默认导出或导入
   const importNamed = "\\{[^}]*\\}"; // 匹配 '{ namedExport }'
   const importEverything = "\\*"; // 匹配 '*' (全部导入)
+  const noImport = "\\s*"; // 匹配 '*' (全部导入)
 
-  const importsExports = `(${importAll}|${importDefaultAndNamed}|${importDefault}|${importNamed}|${importEverything})`;
+  const importsExports = `(${importAll}|${importDefaultAndNamed}|${importDefault}|${importNamed}|${importEverything}|${noImport})`;
 
-  const from = "\\s*from\\s*"; // 'from' 前后也允许没有空格
+  const from = "(\\s*from\\s*)?"; // 'from' 前后也允许没有空格
   const moduleName = `['"](${npmNameRegStr})['"]\\s*;?`; // 模块名后的引号和可选分号后也允许空格
 
   // 组合正则表达式字符串

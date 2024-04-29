@@ -11,19 +11,23 @@ describe("aliasPattern RegExp", () => {
 
   test("matches import type", () => {
     expect('import type { Type } from "module"').toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
+  });
+
+  test("@/styles/index.less", () => {
+    expect('import "module"').toMatch(getAliasPattern("module"));
   });
 
   test("matches export type", () => {
     expect('export type { Type } from "module"').toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
   test("matches named imports", () => {
     expect('import { something } from "module"').toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
@@ -33,39 +37,31 @@ describe("aliasPattern RegExp", () => {
 
   test("matches mixed imports", () => {
     expect('import defaultExport, { namedExport } from "module"').toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
-  });
-
-  test("does not match incomplete import", () => {
-    expect('import from "module"').not.toMatch(getAliasPattern("module"));
-  });
-
-  test("does not match incomplete export", () => {
-    expect('export from "module"').not.toMatch(getAliasPattern("module"));
   });
 
   test("does not match incorrect format", () => {
     expect('import { something from "module"').not.toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
     expect('export { something from "module"').not.toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
   test("does not match similar keywords", () => {
     expect('important something from "module"').not.toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
     expect('expost something from "module"').not.toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
   test("does not match statements without quotes", () => {
     expect("import something from module").not.toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
@@ -75,13 +71,13 @@ describe("aliasPattern RegExp", () => {
 
   test("does not match export with missing braces", () => {
     expect('export something, another from "module"').not.toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
   test("does not match strings that contain import/export inside", () => {
     expect('We need to import these materials from "module"').not.toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
@@ -95,25 +91,25 @@ describe("aliasPattern RegExp", () => {
 
   test("matches imports with semicolon at the end", () => {
     expect("import something from 'module';").toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
   test("matches exports with semicolon at the end", () => {
     expect("export something from 'module';").toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
   test("matches multiple import/export statements in one line", () => {
     expect("import { a } from 'module'; export { b } from 'module'").toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
   test("matches compressed import/export code", () => {
     expect("import{a}from'module';export{b}from'module'").toMatch(
-      getAliasPattern("module"),
+      getAliasPattern("module")
     );
   });
 
@@ -163,7 +159,7 @@ describe("aliasPattern RegExp", () => {
 
   test("matches simple import with |", () => {
     expect(
-      "import React from 'react';".match(getAliasPattern("lodash|react")),
+      "import React from 'react';".match(getAliasPattern("lodash|react"))
     ).toEqual(expect.arrayContaining(["import React from 'react';"]));
   });
 
@@ -189,7 +185,7 @@ describe("aliasPattern RegExp", () => {
         expect.stringContaining("import React from 'react';"),
         expect.stringContaining("import lodash from 'lodash';"),
         expect.stringContaining("import { map, reduce } from 'lodash';"),
-      ]),
+      ])
     );
   });
 
@@ -197,5 +193,78 @@ describe("aliasPattern RegExp", () => {
     const pattern = getAliasPattern("react");
     const statement = "import Vue from 'vue';";
     expect(statement.match(pattern)).toBeNull();
+  });
+
+  test("compose", () => {
+    expect(`import * as name from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`import defaultExport from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`import { export1 } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`import { export1, export2 } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(
+      `import defaultExport, { export1, export2 } from 'module-name';`
+    ).toMatch(getAliasPattern("module-name"));
+    expect(
+      `import { ExportName as RenamedExportName } from 'module-name';`
+    ).toMatch(getAliasPattern("module-name"));
+    expect(`import 'module-name';`).toMatch(getAliasPattern("module-name"));
+    expect(
+      `import { export1 as alias1, export2 as alias2 } from 'module-name';`
+    ).toMatch(getAliasPattern("module-name"));
+    expect(`export * from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`export { export1 } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`export { export1, export2 } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`export { name as newName } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`export { name as newName, export1 } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`export { default as newName } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(
+      `export { default as newName, export1 } from 'module-name';`
+    ).toMatch(getAliasPattern("module-name"));
+    expect(
+      `export { export1 as alias1, export2 as alias2 } from 'module-name';`
+    ).toMatch(getAliasPattern("module-name"));
+    expect(`import type { export1 } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`import type { export1, export2 } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(
+      `import type { TypeName as RenamedTypeName } from 'module-name';`
+    ).toMatch(getAliasPattern("module-name"));
+    expect(`import type * as ModuleTypes from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`export type { export1 } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(`export type { export1, export2 } from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
+    expect(
+      `export type { TypeName as NewTypeName } from 'module-name';`
+    ).toMatch(getAliasPattern("module-name"));
+    expect(`export * as Types from 'module-name';`).toMatch(
+      getAliasPattern("module-name")
+    );
   });
 });

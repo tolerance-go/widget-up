@@ -1,4 +1,5 @@
 import { EventBus } from "widget-up-utils";
+import '@/styles/index.less'
 
 export type GlobalEvents = {
   onClickMenuItem: {

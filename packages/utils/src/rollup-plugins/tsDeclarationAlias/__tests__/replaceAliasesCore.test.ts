@@ -22,6 +22,27 @@ describe("replaceAliasesCore", () => {
     expect(mockResolvePath).toHaveBeenCalledWith("");
   });
 
+  it("@/styles/index.less", () => {
+    const fileContent = "import '@/styles/index.less';";
+    const paths = {
+      "@/*": ["*"],
+    };
+    const baseUrl = "/root";
+    const fileDir = "/root/dist";
+    const mockResolvePath = jest.fn((relative) => `${baseUrl}/${relative}`);
+
+    const expectedResult = "import '../styles/index.less';";
+    const result = replaceAliasesCore({
+      fileContent,
+      paths,
+      fileDir,
+      resolvePath: mockResolvePath,
+    });
+
+    expect(result).toBe(expectedResult);
+    expect(mockResolvePath).toHaveBeenCalledWith("");
+  });
+
   // 测试嵌套路径;
   it("should replace nested directory paths correctly", () => {
     const fileContent =
