@@ -4,8 +4,8 @@ import { HTMLDependencyManager, DependencyDetail } from "widget-up-utils";
 export interface DependencyTreeNode {
   name: string;
   version: string;
-  scriptSrc?: string;
-  linkHref?: string;
+  scriptSrc?: (dep: DependencyDetail) => string;
+  linkHref?: (dep: DependencyDetail) => string;
   depends?: DependencyTreeNode[];
 }
 
@@ -25,10 +25,16 @@ export async function install(
   };
 
   // 创建一个映射来存储scriptSrc和linkHref
-  const srcMap = new Map<string, { scriptSrc?: string; linkHref?: string }>();
+  const srcMap = new Map<
+    string,
+    {
+      scriptSrc?: (dep: DependencyDetail) => string;
+      linkHref?: (dep: DependencyDetail) => string;
+    }
+  >();
 
   const fillSrcMap = (node: DependencyTreeNode) => {
-    const key = node.name;
+    const key = `${node.name}@${node.version}`;
     srcMap.set(key, {
       scriptSrc: node.scriptSrc,
       linkHref: node.linkHref,
@@ -46,12 +52,12 @@ export async function install(
     fetchVersionList,
     document,
     scriptSrcBuilder: (dep: DependencyDetail) => {
-      const key = dep.name;
-      return srcMap.get(key)?.scriptSrc || "";
+      const key = `${dep.name}@${dep.versionRange}`;
+      return srcMap.get(key)?.scriptSrc?.(dep) || "";
     },
     linkHrefBuilder: (dep: DependencyDetail) => {
-      const key = dep.name;
-      return srcMap.get(key)?.linkHref || "";
+      const key = `${dep.name}@${dep.versionRange}`;
+      return srcMap.get(key)?.linkHref?.(dep) || "";
     },
   });
 

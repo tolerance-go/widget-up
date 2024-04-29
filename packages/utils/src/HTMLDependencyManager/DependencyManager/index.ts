@@ -1,6 +1,8 @@
 import semver from "semver";
 
 export interface DependencyDetail {
+  versionRange: string;
+  // 精确 version
   version: string;
   subDependencies: Record<string, DependencyDetail>;
   isGlobal: boolean;
@@ -51,6 +53,7 @@ class DependencyManager {
 
     if (!existingDep) {
       existingDep = {
+        versionRange,
         version: resolvedVersion,
         subDependencies: {},
         isGlobal,
