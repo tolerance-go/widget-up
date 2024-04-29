@@ -5,7 +5,6 @@ export function renderFrame({ leftPanelId }: { leftPanelId: string }): void {
   const htmlContent = `
     <div class="flex flex-col min-h-screen">
       <div id="top-panel" class="w-full bg-blue-500 p-4 text-white">
-        <h1 class="text-2xl font-bold">顶部区域</h1>
       </div>
       <div class="flex flex-1">
         <div id="${leftPanelId}" class="w-1/4 bg-gray-200 p-4">
