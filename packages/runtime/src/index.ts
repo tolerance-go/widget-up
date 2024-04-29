@@ -55,7 +55,13 @@ export const install = async () => {
 
       return versions[dependencyName];
     },
-    window.document
+    window.document,
+    (dep) => {
+      return "";
+    },
+    (dep) => {
+      return "";
+    }
   );
 
   await manager.addDependency("redux", "^4.0.5", {
