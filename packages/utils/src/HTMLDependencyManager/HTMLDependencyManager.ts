@@ -1,27 +1,28 @@
 import { DependencyManager, DependencyDetail } from "./DependencyManager";
 
+interface ConstructorOptions {
+  fetchVersionList: (dependencyName: string) => Promise<string[]>;
+  document: Document;
+  scriptSrcBuilder?: (dep: DependencyDetail) => string;
+  linkHrefBuilder?: (dep: DependencyDetail) => string;
+}
+
 class HTMLDependencyManager {
   private dependencyManager: DependencyManager;
   private fetchVersionList: (dependencyName: string) => Promise<string[]>;
   private versionCache: { [key: string]: string[] };
   private document: Document;
-  private lastSortedDependencies: DependencyDetail[] = []; // 新增存储旧依赖的数组
   private scriptSrcBuilder: (dep: DependencyDetail) => string; // 新增参数用于自定义构造 src
   private linkHrefBuilder: (dep: DependencyDetail) => string; // 现在是可选的，返回 string 或 false
 
-  constructor(
-    fetchVersionList: (dependencyName: string) => Promise<string[]>,
-    document: Document,
-    scriptSrcBuilder: (dep: DependencyDetail) => string = (dep) =>
-      `${dep.name}@${dep.version}.js`, // 默认值
-    linkHrefBuilder: (dep: DependencyDetail) => string = (dep) => ""
-  ) {
-    this.fetchVersionList = fetchVersionList;
+  constructor(options: ConstructorOptions) {
+    this.fetchVersionList = options.fetchVersionList;
     this.dependencyManager = new DependencyManager({});
     this.versionCache = {};
-    this.document = document;
-    this.scriptSrcBuilder = scriptSrcBuilder;
-    this.linkHrefBuilder = linkHrefBuilder;
+    this.document = options.document;
+    this.scriptSrcBuilder =
+      options.scriptSrcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
+    this.linkHrefBuilder = options.linkHrefBuilder || (() => "");
   }
 
   // 更新依赖版本列表，如果没有缓存
@@ -78,7 +79,6 @@ class HTMLDependencyManager {
     versionRange: string,
     subDependencies?: { [key: string]: string }
   ): Promise<string | undefined> {
-    this.lastSortedDependencies = this.getSortedDependencies();
 
     // 确保依赖版本列表是最新的
     await this.collectAndUpdateVersionLists(dependency, subDependencies);
@@ -94,7 +94,6 @@ class HTMLDependencyManager {
   }
 
   removeDependency(dependency: string, versionRange: string) {
-    this.lastSortedDependencies = this.getSortedDependencies();
     this.dependencyManager.removeDependency(dependency, versionRange);
     this.updateTags();
   }

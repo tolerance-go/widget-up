@@ -9,7 +9,10 @@ describe("HTMLDependencyManager base", () => {
     // 每个测试前重置 mock 和实例
     mockFetchVersionList.mockReset();
     const jsdom = new JSDOM(`<!DOCTYPE html>`);
-    htmlDependencyManager = new HTMLDependencyManager(mockFetchVersionList, jsdom.window.document);
+    htmlDependencyManager = new HTMLDependencyManager({
+      fetchVersionList: mockFetchVersionList,
+      document: jsdom.window.document,
+    });
   });
 
   test("addDependency adds a new dependency correctly", async () => {
@@ -22,7 +25,7 @@ describe("HTMLDependencyManager base", () => {
 
     const resolvedVersion = await htmlDependencyManager.addDependency(
       dependency,
-      versionRange,
+      versionRange
     );
 
     expect(resolvedVersion).toBe("16.8.6");

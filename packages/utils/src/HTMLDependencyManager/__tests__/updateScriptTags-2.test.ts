@@ -11,8 +11,8 @@ describe("HTMLDependencyManager", () => {
     document = new JSDOM(`<html><head></head><body></body></html>`).window
       .document;
     // 创建 HTMLDependencyManager 的实例
-    manager = new HTMLDependencyManager(
-      async (dependencyName) => {
+    manager = new HTMLDependencyManager({
+      fetchVersionList: async (dependencyName) => {
         const versions: Record<string, string[]> = {
           react: ["16.8.0", "16.13.1", "17.0.0"],
           "react-dom": ["16.8.0", "16.13.1", "17.0.0"],
@@ -26,9 +26,9 @@ describe("HTMLDependencyManager", () => {
         return versions[dependencyName] || [];
       },
       document,
-      (dep) => `path/to/${dep.name}@${dep.version}.js`,
-      (dep) => `path/to/${dep.name}@${dep.version}.css`
-    );
+      scriptSrcBuilder: (dep) => `path/to/${dep.name}@${dep.version}.js`,
+      linkHrefBuilder: (dep) => `path/to/${dep.name}@${dep.version}.css`,
+    });
   });
 
   it("should correctly update script tags when dependencies are added", async () => {

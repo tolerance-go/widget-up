@@ -11,12 +11,12 @@ describe("HTMLDependencyManager", () => {
     document = new JSDOM(`<html><head></head><body></body></html>`).window
       .document;
     // 创建 HTMLDependencyManager 的实例
-    htmlDependencyManager = new HTMLDependencyManager(
-      async () => ["1.0.0", "2.0.0"],
+    htmlDependencyManager = new HTMLDependencyManager({
+      fetchVersionList: async () => ["1.0.0", "2.0.0"],
       document,
-      (dep) => `path/to/${dep.name}@${dep.version}.js`,
-      (dep) => `path/to/${dep.name}@${dep.version}.css`
-    );
+      scriptSrcBuilder: (dep) => `path/to/${dep.name}@${dep.version}.js`,
+      linkHrefBuilder: (dep) => `path/to/${dep.name}@${dep.version}.css`,
+    });
   });
 
   it("should correctly update script tags when dependencies are added", async () => {

@@ -40,8 +40,8 @@ export const start = () => {
 };
 
 export const install = async () => {
-  const manager = new HTMLDependencyManager(
-    async (dependencyName: string) => {
+  const manager = new HTMLDependencyManager({
+    fetchVersionList: async (dependencyName: string) => {
       const versions: Record<string, string[]> = {
         react: ["16.8.0", "16.13.1", "17.0.0"],
         "react-dom": ["16.8.0", "16.13.1", "17.0.0"],
@@ -55,14 +55,14 @@ export const install = async () => {
 
       return versions[dependencyName];
     },
-    window.document,
-    (dep) => {
+    document: window.document,
+    scriptSrcBuilder: (dep) => {
       return "";
     },
-    (dep) => {
+    linkHrefBuilder: (dep) => {
       return "";
-    }
-  );
+    },
+  });
 
   await manager.addDependency("redux", "^4.0.5", {
     react: "^17.0.0", // Second level

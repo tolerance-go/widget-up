@@ -18,7 +18,10 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
       return Promise.resolve(versions[dependencyName] || []);
     });
     const jsdom = new JSDOM(`<!DOCTYPE html>`);
-    manager = new HTMLDependencyManager(mockFetchVersionList, jsdom.window.document);
+    manager = new HTMLDependencyManager({
+      fetchVersionList: mockFetchVersionList,
+      document: jsdom.window.document,
+    });
   });
 
   test("getSortedDependencies should sort dependencies correctly", async () => {

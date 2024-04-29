@@ -22,7 +22,10 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
     });
 
     const jsdom = new JSDOM(`<!DOCTYPE html>`);
-    manager = new HTMLDependencyManager(mockFetchVersionList, jsdom.window.document);
+    manager = new HTMLDependencyManager({
+      fetchVersionList: mockFetchVersionList,
+      document: jsdom.window.document,
+    });
   });
 
   test("handles three levels of dependencies", async () => {

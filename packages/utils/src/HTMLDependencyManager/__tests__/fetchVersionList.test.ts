@@ -9,7 +9,10 @@ describe("HTMLDependencyManager fetchVersionList", () => {
     // 每个测试前重置 mock 和实例
     mockFetchVersionList.mockReset();
     const jsdom = new JSDOM(`<!DOCTYPE html>`);
-    htmlDependencyManager = new HTMLDependencyManager(mockFetchVersionList, jsdom.window.document);
+    htmlDependencyManager = new HTMLDependencyManager({
+      fetchVersionList: mockFetchVersionList,
+      document: jsdom.window.document,
+    });
   });
 
   test("fetchVersionList is called with the correct argument", async () => {
