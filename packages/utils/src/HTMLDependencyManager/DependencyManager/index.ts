@@ -23,7 +23,7 @@ class DependencyManager {
       if (this.versionList[dependency]) {
         // 如果依赖已存在，合并新旧版本列表并去重
         this.versionList[dependency] = Array.from(
-          new Set([...this.versionList[dependency], ...newVersions]),
+          new Set([...this.versionList[dependency], ...newVersions])
         ).sort(semver.rcompare);
       } else {
         // 如果依赖不存在，直接设置新版本列表
@@ -36,7 +36,7 @@ class DependencyManager {
     dependency: string,
     versionRange: string,
     subDependencies?: { [key: string]: string },
-    isGlobal = true,
+    isGlobal = true
   ) {
     let resolvedVersion = this.resolveVersion(dependency, versionRange);
     if (!resolvedVersion) return;
@@ -46,7 +46,7 @@ class DependencyManager {
     }
 
     let existingDep = this.dependencies[dependency].find(
-      (dep) => dep.version === resolvedVersion,
+      (dep) => dep.version === resolvedVersion
     );
 
     if (!existingDep) {
@@ -68,11 +68,11 @@ class DependencyManager {
           subDep,
           subDependencies[subDep],
           undefined,
-          false,
+          false
         );
         if (subResolvedVersion) {
           const subDepInstance = this.dependencies[subDep]?.find(
-            (dep) => dep.version === subResolvedVersion,
+            (dep) => dep.version === subResolvedVersion
           );
           if (subDepInstance) {
             // 确保子依赖实例存在
@@ -110,14 +110,14 @@ class DependencyManager {
     // 检查是否有其他依赖项依赖于即将删除的版本
     if (this.isDependedOn(dependency, versionToRemove.version)) {
       console.warn(
-        `Cannot remove ${dependency}@${versionToRemove.version} as it is still required by another package.`,
+        `Cannot remove ${dependency}@${versionToRemove.version} as it is still required by another package.`
       );
       return;
     }
 
     // 删除选定版本
     this.dependencies[dependency] = this.dependencies[dependency].filter(
-      (dep) => dep.version !== versionToRemove.version,
+      (dep) => dep.version !== versionToRemove.version
     );
 
     // 递归删除所有子依赖
@@ -125,7 +125,7 @@ class DependencyManager {
       this.removeDependency(
         subDep,
         versionToRemove.subDependencies[subDep].version,
-        false,
+        false
       );
     });
 
@@ -135,31 +135,31 @@ class DependencyManager {
     }
   }
 
+  getDependencies() {
+    return this.dependencies;
+  }
+
   private isDependedOn(dependency: string, version: string): boolean {
     // 遍历所有顶级依赖项的子依赖，检查是否存在依赖于指定版本的依赖
     return Object.values(this.dependencies).some((topLevelDeps) =>
       topLevelDeps.some((topLevelDep) =>
         Object.entries(topLevelDep.subDependencies).some(
-          ([key, subDep]) => key === dependency && subDep.version === version,
-        ),
-      ),
+          ([key, subDep]) => key === dependency && subDep.version === version
+        )
+      )
     );
-  }
-
-  getDependencies() {
-    return this.dependencies;
   }
 
   private resolveVersion(
     dependency: string,
-    versionRange: string,
+    versionRange: string
   ): string | undefined {
     const versions = this.versionList[dependency];
     if (!versions) return undefined;
 
     const sortedVersions = versions.sort(semver.rcompare);
     return sortedVersions.find((version) =>
-      semver.satisfies(version, versionRange),
+      semver.satisfies(version, versionRange)
     );
   }
 }
