@@ -12,6 +12,8 @@
 
 # 如何使用
 
+- contentBase 可以设置为数组
+
 ```js
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
