@@ -40,10 +40,10 @@ describe("HTMLDependencyManager", () => {
     expect(scripts[1].src).toBe("path/to/libB@2.0.0.js");
 
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<link href="path/to/libA@1.0.0.css" rel="stylesheet">
-      <link href="path/to/libB@2.0.0.css" rel="stylesheet">
-      <script src="path/to/libA@1.0.0.js"></script>
-      <script src="path/to/libB@2.0.0.js"></script>"
+      "<link href="path/to/libA@1.0.0.css" data-managed="true" rel="stylesheet">
+      <link href="path/to/libB@2.0.0.css" data-managed="true" rel="stylesheet">
+      <script src="path/to/libA@1.0.0.js" data-managed="true"></script>
+      <script src="path/to/libB@2.0.0.js" data-managed="true"></script>"
     `);
   });
 
@@ -57,11 +57,12 @@ describe("HTMLDependencyManager", () => {
     await htmlDependencyManager.addDependency("libA", "^2.0.0");
 
     const scripts = document.head.querySelectorAll("script");
-    expect(scripts.length).toBe(1);
+    expect(scripts.length).toBe(2);
     expect(scripts[0].src).toBe("path/to/libA@2.0.0.js");
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<link href="path/to/libA@2.0.0.css" rel="stylesheet">
-      <script src="path/to/libA@2.0.0.js"></script>"
+      "<link href="path/to/libA@2.0.0.css" data-managed="true" rel="stylesheet">
+      <script src="path/to/libA@2.0.0.js" data-managed="true"></script>
+      <script src="path/to/libA@1.0.0.js"></script>"
     `);
   });
 
@@ -86,12 +87,12 @@ describe("HTMLDependencyManager", () => {
         "$1\n"
       )
     ).toMatchInlineSnapshot(`
-      "<link href="path/to/libA@1.0.0.css" rel="stylesheet">
-      <link href="path/to/libA@2.0.0.css" rel="stylesheet">
-      <link href="path/to/libB@1.0.0.css" rel="stylesheet">
-      <script src="path/to/libA@1.0.0.js"></script>
-      <script src="path/to/libA@2.0.0.js"></script>
-      <script src="path/to/libB@1.0.0.js"></script>"
+      "<link href="path/to/libA@1.0.0.css" data-managed="true" rel="stylesheet">
+      <link href="path/to/libA@2.0.0.css" data-managed="true" rel="stylesheet">
+      <link href="path/to/libB@1.0.0.css" data-managed="true" rel="stylesheet">
+      <script src="path/to/libA@1.0.0.js" data-managed="true"></script>
+      <script src="path/to/libA@2.0.0.js" data-managed="true"></script>
+      <script src="path/to/libB@1.0.0.js" data-managed="true"></script>"
     `);
   });
 });

@@ -149,11 +149,6 @@ class HTMLDependencyManager {
     const newDependencies = this.getSortedDependencies();
     const scriptContainer = this.document.head;
 
-    const currentScripts = Array.from(
-      scriptContainer.querySelectorAll("script")
-    );
-    const currentLinks = Array.from(scriptContainer.querySelectorAll("link"));
-
     // 使用新的依赖关系构建期望的 src 和 href 列表
     const expectedScripts = newDependencies
       .map((dep) => this.scriptSrcBuilder(dep))
@@ -165,31 +160,27 @@ class HTMLDependencyManager {
     // 更新 scripts
     this.updateTagsInContainer(
       scriptContainer,
-      currentScripts,
       expectedScripts,
       "script",
       "src"
     );
     // 更新 links
-    this.updateTagsInContainer(
-      scriptContainer,
-      currentLinks,
-      expectedLinks,
-      "link",
-      "href"
-    );
+    this.updateTagsInContainer(scriptContainer, expectedLinks, "link", "href");
   }
 
   private updateTagsInContainer(
     container: HTMLElement,
-    currentTags: Element[],
     expectedSources: string[],
     tagName: "script" | "link",
     srcAttr: "src" | "href"
   ) {
+    const managedTags = Array.from(
+      container.querySelectorAll(`${tagName}[data-managed="true"]`)
+    );
+
     // 建立一个映射，用来快速查找现有标签
     const srcMap = new Map<string, Element>();
-    currentTags.forEach((tag) => {
+    managedTags.forEach((tag) => {
       const src = tag.getAttribute(srcAttr);
       if (src) srcMap.set(src, tag);
     });
@@ -204,6 +195,7 @@ class HTMLDependencyManager {
       const tag = srcMap.get(src);
       if (tag) {
         container.removeChild(tag);
+        srcMap.delete(src);
       }
     });
 
@@ -217,6 +209,7 @@ class HTMLDependencyManager {
             | HTMLScriptElement
             | HTMLLinkElement;
           newTag.setAttribute(srcAttr, src);
+          newTag.setAttribute("data-managed", "true"); // 添加标记
           if (tagName === "link") {
             (newTag as HTMLLinkElement).rel = "stylesheet";
           }

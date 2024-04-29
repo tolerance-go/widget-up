@@ -49,7 +49,7 @@ describe("HTMLDependencyManager", () => {
     await htmlDependencyManager.addDependency("libA", "^2.0.0");
 
     const scripts = document.head.querySelectorAll("script");
-    expect(scripts.length).toBe(1);
+    expect(scripts.length).toBe(2);
     expect(scripts[0].src).toBe("path/to/libA@2.0.0.js");
   });
 
@@ -69,9 +69,9 @@ describe("HTMLDependencyManager", () => {
     expect(scripts[2].src).toBe("path/to/libB@1.0.0.js");
 
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<script src="path/to/libA@1.0.0.js"></script>
-      <script src="path/to/libA@2.0.0.js"></script>
-      <script src="path/to/libB@1.0.0.js"></script>"
+      "<script src="path/to/libA@1.0.0.js" data-managed="true"></script>
+      <script src="path/to/libA@2.0.0.js" data-managed="true"></script>
+      <script src="path/to/libB@1.0.0.js" data-managed="true"></script>"
     `);
   });
 });
