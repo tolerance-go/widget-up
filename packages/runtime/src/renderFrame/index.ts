@@ -1,6 +1,6 @@
 import { insertHtml } from "../utils/insertHtml";
 
-export function renderFrame(): void {
+export function renderFrame({ leftPanelId }: { leftPanelId: string }): void {
   // 构建要插入的 HTML 字符串
   const htmlContent = `
     <div class="flex flex-col min-h-screen">
@@ -8,7 +8,7 @@ export function renderFrame(): void {
         <h1 class="text-2xl font-bold">顶部区域</h1>
       </div>
       <div class="flex flex-1">
-        <div id="left-panel" class="w-1/4 bg-gray-200 p-4">
+        <div id="${leftPanelId}" class="w-1/4 bg-gray-200 p-4">
           <h1 class="text-xl font-bold">左侧区域</h1>
         </div>
         <div id="main-content" class="flex-1 bg-white p-4">

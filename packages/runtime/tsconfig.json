@@ -2,12 +2,13 @@
   "compilerOptions": {
     "outDir": "./dist",
     "module": "ESNext",
-    "target": "es5",
+    "target": "ESNext",
     "jsx": "react",
     "declaration": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "strict": true,
+    "lib": ["ESNext", "DOM"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["*"]

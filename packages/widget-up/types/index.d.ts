@@ -1,4 +1,1 @@
-export interface MenuItem {
-  name: string;
-  children?: MenuItem[];
-}
+export type { MenuItem } from "widget-up-utils";

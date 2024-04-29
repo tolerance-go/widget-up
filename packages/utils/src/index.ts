@@ -3,6 +3,8 @@ export { semverToIdentifier } from "./semverToIdentifier";
 export { parseConfig } from "./parseConfig";
 export { Logger } from "./Logger";
 export * from "./HTMLDependencyManager";
+export { EventBus } from "./EventBus";
+export * from "./rollup-plugins";
 
 export type {
   ParseConfig,
@@ -13,6 +15,4 @@ export type {
   JQueryComponentProps,
 } from "@/types";
 export type * from "@/types/form";
-export { EventBus } from "./EventBus";
-
-export * from "./rollup-plugins";
+export type * from "@/types/runtime";

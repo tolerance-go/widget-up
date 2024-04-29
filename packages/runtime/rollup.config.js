@@ -73,7 +73,7 @@ export default {
       }),
     buildEnvIsDevelopment &&
       serveLivereload({
-        contentBase: "dist",
+        contentBase: ["dist", "server"],
         port: 3000,
       }),
   ].filter(Boolean), // 使用 .filter(Boolean) 去除数组中的 falsy 值，如 undefined 或 false
