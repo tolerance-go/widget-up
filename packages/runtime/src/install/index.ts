@@ -17,9 +17,11 @@ export async function install(
   const fetchVersionList = async (
     dependencyName: string
   ): Promise<string[]> => {
-    const response = await fetch(
-      `https://registry.npm.taobao.org/${dependencyName}`
-    );
+    const baseUrl = "https://registry.npmjs.org";
+    const response = await fetch(`${baseUrl}/${dependencyName}`, {});
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
     const data = await response.json();
     return Object.keys(data.versions);
   };

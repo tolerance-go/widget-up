@@ -4,7 +4,7 @@
     : "function" == typeof define && define.amd
     ? define(["react"], t)
     : ((e =
-        "undefined" != typeof globalThis ? globalThis : e || self).MyComponent =
+        "undefined" != typeof globalThis ? globalThis : e || self).Component =
         t(e.React));
 })(this, function (e) {
   "use strict";
