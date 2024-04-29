@@ -166,12 +166,27 @@ importers:
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
+      '@types/react':
+        specifier: '16'
+        version: 16.14.60
+      '@types/react-dom':
+        specifier: '16'
+        version: 16.9.24
+      '@widget-up-demo/react16':
+        specifier: workspace:^
+        version: link:../../components/react16
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
       jest:
         specifier: ^29.7.0
         version: 29.7.0
+      react:
+        specifier: ^16.14.0
+        version: 16.14.0
+      react-dom:
+        specifier: ^16.14.0
+        version: 16.14.0(react@16.14.0)
       rollup:
         specifier: ^4.14.3
         version: 4.14.3
@@ -190,9 +205,6 @@ importers:
       ts-jest:
         specifier: ^29.1.2
         version: 29.1.2(@babel/core@7.24.4)(jest@29.7.0)(typescript@5.4.5)
-      widget-up-runtime:
-        specifier: workspace:^
-        version: link:../../runtime
       widget-up-utils:
         specifier: workspace:^
         version: link:../../utils

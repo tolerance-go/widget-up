@@ -4,6 +4,7 @@
     "module": "ESNext",
     "target": "es5",
     "jsx": "react",
+    "declaration": false,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "strict": true,
