@@ -1,3 +1,4 @@
+import { isExactVersion } from "@/src/isExactVersion";
 import semver from "semver";
 
 export interface DependencyDetail {
@@ -29,7 +30,7 @@ class DependencyManager {
         ).sort(semver.rcompare);
       } else {
         // 如果依赖不存在，直接设置新版本列表
-        this.versionList[dependency] = newVersions.sort(semver.rcompare);
+        this.versionList[dependency] = [...newVersions].sort(semver.rcompare);
       }
     }
   }
@@ -153,10 +154,15 @@ class DependencyManager {
     );
   }
 
-  private resolveVersion(
+   resolveVersion(
     dependency: string,
     versionRange: string
   ): string | undefined {
+    // 如果版本范围是一个精确的版本号
+    if (isExactVersion(versionRange)) {
+      return versionRange;
+    }
+
     const versions = this.versionList[dependency];
     if (!versions) return undefined;
 

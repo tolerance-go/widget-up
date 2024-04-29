@@ -42,6 +42,7 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "name": "react-dom",
           "subDependencies": {},
           "version": "16.13.1",
+          "versionRange": "^16.8.0",
         },
         {
           "isGlobal": true,
@@ -52,15 +53,18 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "name": "react-dom",
               "subDependencies": {},
               "version": "16.13.1",
+              "versionRange": "^16.8.0",
             },
           },
           "version": "16.13.1",
+          "versionRange": "^16.8.0",
         },
         {
           "isGlobal": false,
           "name": "react-dom",
           "subDependencies": {},
           "version": "17.0.2",
+          "versionRange": "^17.0.0",
         },
         {
           "isGlobal": true,
@@ -71,9 +75,11 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "name": "react-dom",
               "subDependencies": {},
               "version": "17.0.2",
+              "versionRange": "^17.0.0",
             },
           },
           "version": "17.0.2",
+          "versionRange": "^17.0.0",
         },
       ]
     `);
@@ -94,12 +100,14 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "name": "lodash",
           "subDependencies": {},
           "version": "4.17.20",
+          "versionRange": "^4.17.15",
         },
         {
           "isGlobal": false,
           "name": "lodash",
           "subDependencies": {},
           "version": "3.0.0",
+          "versionRange": "^3.0.0",
         },
         {
           "isGlobal": true,
@@ -110,9 +118,11 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "name": "lodash",
               "subDependencies": {},
               "version": "3.0.0",
+              "versionRange": "^3.0.0",
             },
           },
           "version": "4.1.0",
+          "versionRange": "^4.0.5",
         },
       ]
     `);
@@ -133,12 +143,14 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "name": "react",
           "subDependencies": {},
           "version": "16.13.1",
+          "versionRange": "^16.8.0",
         },
         {
           "isGlobal": false,
           "name": "react",
           "subDependencies": {},
           "version": "17.0.2",
+          "versionRange": "^17.0.0",
         },
         {
           "isGlobal": true,
@@ -149,9 +161,11 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "name": "react",
               "subDependencies": {},
               "version": "17.0.2",
+              "versionRange": "^17.0.0",
             },
           },
           "version": "4.1.0",
+          "versionRange": "^4.0.5",
         },
       ]
     `);

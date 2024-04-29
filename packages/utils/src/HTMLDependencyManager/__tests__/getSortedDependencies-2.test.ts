@@ -41,12 +41,14 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "name": "react-dom",
           "subDependencies": {},
           "version": "16.13.1",
+          "versionRange": "^16.8.0",
         },
         {
           "isGlobal": false,
           "name": "lodash",
           "subDependencies": {},
           "version": "4.17.19",
+          "versionRange": "^4.17.15",
         },
         {
           "isGlobal": true,
@@ -57,9 +59,11 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "name": "lodash",
               "subDependencies": {},
               "version": "4.17.19",
+              "versionRange": "^4.17.15",
             },
           },
           "version": "5.2.0",
+          "versionRange": "^5.1.2",
         },
         {
           "isGlobal": true,
@@ -70,6 +74,7 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "name": "react-dom",
               "subDependencies": {},
               "version": "16.13.1",
+              "versionRange": "^16.8.0",
             },
             "react-router": {
               "isGlobal": true,
@@ -80,12 +85,15 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
                   "name": "lodash",
                   "subDependencies": {},
                   "version": "4.17.19",
+                  "versionRange": "^4.17.15",
                 },
               },
               "version": "5.2.0",
+              "versionRange": "^5.1.2",
             },
           },
           "version": "16.13.1",
+          "versionRange": "^16.8.0",
         },
       ]
     `);
@@ -101,6 +109,7 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "name": "lodash",
           "subDependencies": {},
           "version": "4.17.19",
+          "versionRange": "^4.17.15",
         },
       ]
     `);
@@ -119,12 +128,14 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "name": "react",
           "subDependencies": {},
           "version": "17.0.0",
+          "versionRange": "^17.0.0",
         },
         {
           "isGlobal": false,
           "name": "lodash",
           "subDependencies": {},
           "version": "4.17.19",
+          "versionRange": "^4.17.19",
         },
         {
           "isGlobal": false,
@@ -135,15 +146,18 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "name": "lodash",
               "subDependencies": {},
               "version": "4.17.19",
+              "versionRange": "^4.17.19",
             },
             "react": {
               "isGlobal": false,
               "name": "react",
               "subDependencies": {},
               "version": "17.0.0",
+              "versionRange": "^17.0.0",
             },
           },
           "version": "4.1.0",
+          "versionRange": "^4.0.5",
         },
         {
           "isGlobal": true,
@@ -158,18 +172,22 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
                   "name": "lodash",
                   "subDependencies": {},
                   "version": "4.17.19",
+                  "versionRange": "^4.17.19",
                 },
                 "react": {
                   "isGlobal": false,
                   "name": "react",
                   "subDependencies": {},
                   "version": "17.0.0",
+                  "versionRange": "^17.0.0",
                 },
               },
               "version": "4.1.0",
+              "versionRange": "^4.0.5",
             },
           },
           "version": "16.13.1",
+          "versionRange": "^16.8.0",
         },
       ]
     `);
@@ -185,6 +203,7 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "name": "moment",
           "subDependencies": {},
           "version": "2.25.0",
+          "versionRange": "^2.24.0",
         },
       ]
     `);

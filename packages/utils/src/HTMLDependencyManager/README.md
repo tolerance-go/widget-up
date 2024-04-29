@@ -4,6 +4,7 @@
 - ts 编写的 类
 - 传入 dom，自动维护网页的 script 和 link 依赖标签
 - fetchVersionList 自带缓存机制
+  - 如果是精确版本号添加的依赖，不会触发
 
 # 解决什么需求
 

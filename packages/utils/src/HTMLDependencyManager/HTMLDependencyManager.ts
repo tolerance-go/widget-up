@@ -1,3 +1,4 @@
+import { isExactVersion } from "../isExactVersion";
 import { DependencyManager, DependencyDetail } from "./DependencyManager";
 
 interface ConstructorOptions {
@@ -30,8 +31,11 @@ class HTMLDependencyManager {
     versionRange: string,
     subDependencies?: { [key: string]: string }
   ): Promise<string | undefined> {
-    // 确保依赖版本列表是最新的
-    await this.collectAndUpdateVersionLists(dependency, subDependencies);
+    // 只有当版本号不是精确版本时，才进行版本列表的更新
+    if (!isExactVersion(versionRange)) {
+      // 确保依赖版本列表是最新的
+      await this.collectAndUpdateVersionLists(dependency, subDependencies);
+    }
 
     // 添加主依赖项
     const newDependency = await this.dependencyManager.addDependency(
