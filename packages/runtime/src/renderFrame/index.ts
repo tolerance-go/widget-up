@@ -9,13 +9,11 @@ export function renderFrame({ leftPanelId }: { leftPanelId: string }): void {
       </div>
       <div class="flex flex-1">
         <div id="${leftPanelId}" class="w-1/4 bg-gray-200 p-4">
-          <h1 class="text-xl font-bold">左侧区域</h1>
         </div>
         <div id="main-content" class="flex-1 bg-white p-4">
-          <h1 class="text-2xl font-bold">中间区域</h1>
+          <div id='root'></div>
         </div>
         <div id="right-panel" class="w-1/4 bg-gray-200 p-4">
-          <h1 class="text-xl font-bold">右侧区域</h1>
         </div>
       </div>
     </div>

@@ -17,7 +17,7 @@ export async function install(
   const fetchVersionList = async (
     dependencyName: string
   ): Promise<string[]> => {
-    const baseUrl = "https://registry.npmjs.org";
+    const baseUrl = "https://registry.npmmirror.com";
     const response = await fetch(`${baseUrl}/${dependencyName}`, {});
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
