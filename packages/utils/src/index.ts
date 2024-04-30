@@ -2,7 +2,7 @@ export { getLatestPackageVersion } from "./getLatestPackageVersion";
 export { semverToIdentifier } from "./semverToIdentifier";
 export { parseConfig } from "./parseConfig";
 export { Logger } from "./Logger";
-export * from "./HTMLDependencyManager";
+export * from "./HtmlDependencyManager";
 export { EventBus } from "./EventBus";
 export * from "./rollup-plugins";
 
@@ -16,4 +16,4 @@ export type {
 } from "@/types";
 export type * from "@/types/form";
 export type * from "@/types/runtime";
-export type { DependencyDetail } from "./HTMLDependencyManager/DependencyManager";
+export type { DependencyDetail } from "./HtmlDependencyManager/DependencyManager";

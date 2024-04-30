@@ -308,4 +308,4 @@ class HtmlDependencyManager {
   }
 }
 
-export { HtmlDependencyManager as HTMLDependencyManager };
+export { HtmlDependencyManager as HtmlDependencyManager };

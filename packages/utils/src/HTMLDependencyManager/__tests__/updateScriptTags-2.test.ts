@@ -1,17 +1,17 @@
-import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
+import { HtmlDependencyManager } from "@/src/HtmlDependencyManager";
 import { JSDOM } from "jsdom";
 import { formatHeadHtml } from "@/__tests__/_utils";
 
-describe("HTMLDependencyManager", () => {
-  let manager: HTMLDependencyManager;
+describe("HtmlDependencyManager", () => {
+  let manager: HtmlDependencyManager;
   let document: Document;
 
   beforeEach(() => {
     // 使用 JSDOM 创建一个新的 Document 对象
     document = new JSDOM(`<html><head></head><body></body></html>`).window
       .document;
-    // 创建 HTMLDependencyManager 的实例
-    manager = new HTMLDependencyManager({
+    // 创建 HtmlDependencyManager 的实例
+    manager = new HtmlDependencyManager({
       fetchVersionList: async (dependencyName) => {
         const versions: Record<string, string[]> = {
           react: ["16.8.0", "16.13.1", "17.0.0"],

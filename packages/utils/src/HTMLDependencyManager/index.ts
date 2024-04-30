@@ -1,1 +1,1 @@
-export { HTMLDependencyManager } from "./HtmlDependencyManager";
+export { HtmlDependencyManager } from "./HtmlDependencyManager";
