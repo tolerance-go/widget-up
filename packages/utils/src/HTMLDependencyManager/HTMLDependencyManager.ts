@@ -1,31 +1,12 @@
 import { isExactVersion } from "../isExactVersion";
 import { DependencyManager, DependencyDetail } from "./DependencyManager";
+import { DependencyTag, TagDiff } from "./types";
 
 interface ConstructorOptions {
   fetchVersionList: (dependencyName: string) => Promise<string[]>;
   document: Document;
   scriptSrcBuilder?: (dep: DependencyDetail) => string;
   linkHrefBuilder?: (dep: DependencyDetail) => string;
-}
-
-interface TagDiff {
-  insert: InsertionDetail[]; // 插入的标签及其位置
-  remove: DependencyTag[]; // 需要删除的标签
-  update: DependencyTag[]; // 需要更新的标签（如果有）
-}
-
-interface InsertionDetail {
-  tag: DependencyTag;
-  beforeSrc: string | null; // 插入在哪个标签之前，null 表示添加到末尾
-}
-
-interface DependencyTag {
-  type: "script" | "link"; // 标识标签类型
-  src: string; // script 的 src 或 link 的 href
-  attributes: {
-    // 其他需要管理的属性
-    [key: string]: string;
-  };
 }
 
 class HTMLDependencyManager {
@@ -221,7 +202,7 @@ class HTMLDependencyManager {
 
       if (!oldTag) {
         // 新增标签，需要确定具体位置
-        diff.insert.push({ tag: tag, beforeSrc: prevSrc });
+        diff.insert.push({ tag: tag, prevSrc: prevSrc });
       } else {
         // 更新已有标签的属性，如果有变化
         if (
@@ -255,10 +236,10 @@ class HTMLDependencyManager {
     // 处理插入的标签
     diff.insert.forEach((detail) => {
       const element = this.createElementFromTag(detail.tag);
-      if (detail.beforeSrc) {
+      if (detail.prevSrc) {
         // 寻找指定的前一个元素
         const referenceElement = head.querySelector(
-          `[src="${detail.beforeSrc}"]`
+          `[src="${detail.prevSrc}"]`
         );
         const beforeElement = referenceElement
           ? referenceElement.nextSibling
