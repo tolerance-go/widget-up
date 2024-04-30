@@ -1,10 +1,10 @@
-// HtmlDependencyManager.test.ts
+// HTMLDependencyManager.test.ts
 import { JSDOM } from "jsdom";
 
-import { HtmlDependencyManager } from "@/src/HtmlDependencyManager";
+import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 
-describe("HtmlDependencyManager getSortedDependencies", () => {
-  let manager: HtmlDependencyManager;
+describe("HTMLDependencyManager getSortedDependencies", () => {
+  let manager: HTMLDependencyManager;
   const mockFetchVersionList = jest.fn();
 
   beforeEach(async () => {
@@ -18,7 +18,7 @@ describe("HtmlDependencyManager getSortedDependencies", () => {
       return Promise.resolve(versions[dependencyName] || []);
     });
     const jsdom = new JSDOM(`<!DOCTYPE html>`);
-    manager = new HtmlDependencyManager({
+    manager = new HTMLDependencyManager({
       fetchVersionList: mockFetchVersionList,
       document: jsdom.window.document,
     });

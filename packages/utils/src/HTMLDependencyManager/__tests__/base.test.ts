@@ -1,15 +1,15 @@
-import { HtmlDependencyManager } from "@/src/HtmlDependencyManager";
+import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
 
-describe("HtmlDependencyManager base", () => {
-  let HtmlDependencyManager: HtmlDependencyManager;
+describe("HTMLDependencyManager base", () => {
+  let HTMLDependencyManager: HTMLDependencyManager;
   const mockFetchVersionList = jest.fn();
 
   beforeEach(() => {
     // 每个测试前重置 mock 和实例
     mockFetchVersionList.mockReset();
     const jsdom = new JSDOM(`<!DOCTYPE html>`);
-    HtmlDependencyManager = new HtmlDependencyManager({
+    HTMLDependencyManager = new HTMLDependencyManager({
       fetchVersionList: mockFetchVersionList,
       document: jsdom.window.document,
     });
@@ -23,7 +23,7 @@ describe("HtmlDependencyManager base", () => {
     // 设置 mock 返回值
     mockFetchVersionList.mockResolvedValue(versions);
 
-    const resolvedVersion = await HtmlDependencyManager.addDependency(
+    const resolvedVersion = await HTMLDependencyManager.addDependency(
       dependency,
       versionRange
     );
@@ -31,7 +31,7 @@ describe("HtmlDependencyManager base", () => {
     expect(resolvedVersion).toBe("16.8.6");
     expect(mockFetchVersionList).toHaveBeenCalledWith(dependency);
     expect(mockFetchVersionList).toHaveBeenCalledTimes(1);
-    expect(HtmlDependencyManager.getDependencies()).toHaveProperty(dependency);
+    expect(HTMLDependencyManager.getDependencies()).toHaveProperty(dependency);
   });
 
   test("removeDependency removes a specific version correctly", async () => {
@@ -41,13 +41,13 @@ describe("HtmlDependencyManager base", () => {
 
     // 初始添加依赖
     mockFetchVersionList.mockResolvedValue(versions);
-    await HtmlDependencyManager.addDependency(dependency, versionRange);
+    await HTMLDependencyManager.addDependency(dependency, versionRange);
 
     // 移除依赖
-    await HtmlDependencyManager.removeDependency(dependency, versionRange);
+    await HTMLDependencyManager.removeDependency(dependency, versionRange);
 
     // 检查依赖是否被移除
-    const deps = HtmlDependencyManager.getDependencies();
+    const deps = HTMLDependencyManager.getDependencies();
     expect(deps[dependency]).toBeUndefined();
   });
 });

@@ -9,7 +9,7 @@ interface ConstructorOptions {
   linkHrefBuilder?: (dep: DependencyDetail) => string;
 }
 
-class HtmlDependencyManager {
+class HTMLDependencyManager {
   private dependencyManager: DependencyManager;
   private fetchVersionList: (dependencyName: string) => Promise<string[]>;
   private versionCache: { [key: string]: string[] };
@@ -308,4 +308,4 @@ class HtmlDependencyManager {
   }
 }
 
-export { HtmlDependencyManager as HtmlDependencyManager };
+export { HTMLDependencyManager as HTMLDependencyManager };

@@ -1,8 +1,8 @@
-import { HtmlDependencyManager } from "../HtmlDependencyManager";
+import { HTMLDependencyManager } from "../HTMLDependencyManager";
 import { JSDOM } from "jsdom";
 
-describe("HtmlDependencyManager addDependency", () => {
-  let manager: HtmlDependencyManager;
+describe("HTMLDependencyManager addDependency", () => {
+  let manager: HTMLDependencyManager;
   const mockFetchVersionList = jest.fn();
 
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe("HtmlDependencyManager addDependency", () => {
     });
 
     const jsdom = new JSDOM(`<!DOCTYPE html>`);
-    manager = new HtmlDependencyManager({
+    manager = new HTMLDependencyManager({
       fetchVersionList: mockFetchVersionList,
       document: jsdom.window.document,
       scriptSrcBuilder: (dep) => `${dep.name}@${dep.version}.js`,

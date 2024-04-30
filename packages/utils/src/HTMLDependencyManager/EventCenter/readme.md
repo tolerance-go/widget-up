@@ -2,7 +2,7 @@
 
 - 一个 ts 编写的类
 - 内部维护一个事件中心，来接受和派发事件
-- 他每次都从 HtmlDependencyManager 接收到更新 diff，通过 calculateDiffs 返回，然后根据 diff 去维护内部的 tags 列表包括其加载状态，然后在适当的时候发送事件
+- 他每次都从 HTMLDependencyManager 接收到更新 diff，通过 calculateDiffs 返回，然后根据 diff 去维护内部的 tags 列表包括其加载状态，然后在适当的时候发送事件
 - tags 的依赖顺序是从前到后的，后面的依赖前面的，保证一个 tag 执行的时候，排在前面的所有 tag 都已经执行过了
 
 # 解决什么需求

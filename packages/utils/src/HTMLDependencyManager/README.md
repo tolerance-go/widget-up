@@ -19,7 +19,7 @@
 # 如何使用
 
 ```ts
-const HtmlDependencyManager = new HtmlDependencyManager({
+const HTMLDependencyManager = new HTMLDependencyManager({
   fetchVersionList: async () => ["1.0.0", "2.0.0"],
   document,
   scriptSrcBuilder: (dep) => `path/to/${dep.name}@${dep.version}.js`,

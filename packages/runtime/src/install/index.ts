@@ -1,4 +1,4 @@
-import { HtmlDependencyManager, DependencyDetail } from "widget-up-utils";
+import { HTMLDependencyManager, DependencyDetail } from "widget-up-utils";
 
 // 定义一个类型来表示依赖树的节点
 export interface DependencyTreeNode {
@@ -49,8 +49,8 @@ export async function install(
   // 递归填充映射
   dependencies.forEach(fillSrcMap);
 
-  // 实例化HtmlDependencyManager
-  const manager = new HtmlDependencyManager({
+  // 实例化HTMLDependencyManager
+  const manager = new HTMLDependencyManager({
     fetchVersionList,
     document,
     scriptSrcBuilder: (dep: DependencyDetail) => {

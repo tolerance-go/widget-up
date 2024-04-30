@@ -1,17 +1,17 @@
-import { HtmlDependencyManager } from "@/src/HtmlDependencyManager";
+import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
 import { formatHeadHtml } from "@/__tests__/_utils";
 
-describe("HtmlDependencyManager", () => {
-  let HtmlDependencyManager: HtmlDependencyManager;
+describe("HTMLDependencyManager", () => {
+  let HTMLDependencyManager: HTMLDependencyManager;
   let document: Document;
 
   beforeEach(() => {
     // 使用 JSDOM 创建一个新的 Document 对象
     document = new JSDOM(`<html><head></head><body></body></html>`).window
       .document;
-    // 创建 HtmlDependencyManager 的实例
-    HtmlDependencyManager = new HtmlDependencyManager({
+    // 创建 HTMLDependencyManager 的实例
+    HTMLDependencyManager = new HTMLDependencyManager({
       fetchVersionList: async () => ["1.0.0", "2.0.0"],
       document,
       scriptSrcBuilder: (dep) => `path/to/${dep.name}@${dep.version}.js`,
@@ -23,7 +23,7 @@ describe("HtmlDependencyManager", () => {
     expect(document.head.querySelectorAll("script").length).toBe(0);
 
     // 添加依赖
-    await HtmlDependencyManager.addDependency("libA", "^1.0.0");
+    await HTMLDependencyManager.addDependency("libA", "^1.0.0");
 
     // 验证脚本标签被添加
     let scripts = document.head.querySelectorAll("script");
@@ -31,7 +31,7 @@ describe("HtmlDependencyManager", () => {
     expect(scripts[0].src).toBe("path/to/libA@1.0.0.js");
 
     // 添加另一个依赖
-    await HtmlDependencyManager.addDependency("libB", "^2.0.0");
+    await HTMLDependencyManager.addDependency("libB", "^2.0.0");
 
     // 验证新脚本标签被添加
     scripts = document.head.querySelectorAll("script");
@@ -49,7 +49,7 @@ describe("HtmlDependencyManager", () => {
     document.head.appendChild(script);
 
     // 添加依赖并触发更新
-    await HtmlDependencyManager.addDependency("libA", "^2.0.0");
+    await HTMLDependencyManager.addDependency("libA", "^2.0.0");
 
     const scripts = document.head.querySelectorAll("script");
     expect(scripts.length).toBe(2);
@@ -61,11 +61,11 @@ describe("HtmlDependencyManager", () => {
 
   it("should handle multiple updates correctly", async () => {
     // 添加初始依赖
-    await HtmlDependencyManager.addDependency("libA", "^1.0.0");
-    await HtmlDependencyManager.addDependency("libB", "^1.0.0");
+    await HTMLDependencyManager.addDependency("libA", "^1.0.0");
+    await HTMLDependencyManager.addDependency("libB", "^1.0.0");
 
     // 更新一个依赖版本
-    await HtmlDependencyManager.addDependency("libA", "^2.0.0");
+    await HTMLDependencyManager.addDependency("libA", "^2.0.0");
 
     // 验证正确的脚本更新
     const scripts = document.head.querySelectorAll("script");

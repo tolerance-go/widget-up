@@ -1,15 +1,15 @@
-import { HtmlDependencyManager } from "@/src/HtmlDependencyManager";
+import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
 
-describe("HtmlDependencyManager fetchVersionList", () => {
-  let HtmlDependencyManager: HtmlDependencyManager;
+describe("HTMLDependencyManager fetchVersionList", () => {
+  let HTMLDependencyManager: HTMLDependencyManager;
   const mockFetchVersionList = jest.fn();
 
   beforeEach(() => {
     // 每个测试前重置 mock 和实例
     mockFetchVersionList.mockReset();
     const jsdom = new JSDOM(`<!DOCTYPE html>`);
-    HtmlDependencyManager = new HtmlDependencyManager({
+    HTMLDependencyManager = new HTMLDependencyManager({
       fetchVersionList: mockFetchVersionList,
       document: jsdom.window.document,
     });
@@ -23,7 +23,7 @@ describe("HtmlDependencyManager fetchVersionList", () => {
     // 设置 mock 返回值
     mockFetchVersionList.mockResolvedValue(versions);
 
-    await HtmlDependencyManager.addDependency(dependency, versionRange);
+    await HTMLDependencyManager.addDependency(dependency, versionRange);
 
     // 检查 fetchVersionList 是否用正确的参数调用
     expect(mockFetchVersionList).toHaveBeenCalledWith(dependency);
