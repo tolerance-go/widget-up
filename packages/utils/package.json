@@ -10,6 +10,9 @@
       "import": "./dist/index.js"
     }
   },
+  "bin": {
+    "wrapScriptAndWaitExec": "./dist/wrapScriptAndWaitExec/index.js"
+  },
   "sideEffects": false,
   "files": [
     "dist",
@@ -41,7 +44,8 @@
     "semver": "^7.6.0",
     "strip-json-comments": "^5.0.1",
     "tslib": "^2.6.2",
-    "widget-up-utils": "workspace:^"
+    "widget-up-utils": "workspace:^",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.1",
@@ -60,6 +64,7 @@
     "@types/livereload": "^0.9.5",
     "@types/node": "^20.12.7",
     "@types/semver": "^7.5.8",
+    "@types/yargs": "^17.0.32",
     "axios-mock-adapter": "^1.22.0",
     "babel-plugin-add-import-extension": "^1.6.0",
     "babel-plugin-alias": "^1.2.1",

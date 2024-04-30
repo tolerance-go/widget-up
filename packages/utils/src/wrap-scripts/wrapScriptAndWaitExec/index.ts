@@ -1,4 +1,4 @@
-type WrapScriptOptions = {
+export type WrapScriptOptions = {
   scriptContent: string;
   eventName: string;
   eventBusPath?: string; // 可选参数，提供EventBus在window对象上的自定义路径
@@ -13,8 +13,8 @@ export function wrapScriptAndWaitExec(options: WrapScriptOptions): string {
     globalObjectVarName = "window",
   } = options;
 
-  const readyEvent = `${eventName}-ready`;
-  const execEvent = `${eventName}-execute`;
+  const readyEvent = `${eventName}:ready`;
+  const execEvent = `${eventName}:execute`;
 
   // 动态生成EventBus的全局访问路径
   const eventBusAccessor = `global${eventBusPath
