@@ -37,8 +37,8 @@ describe("HTMLDependencyManager", () => {
     scripts = document.head.querySelectorAll("script");
     expect(scripts.length).toBe(2);
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<script src="path/to/libA@1.0.0.js" data-managed="true" defer="true"></script>
-      <script src="path/to/libB@2.0.0.js" data-managed="true" defer="true"></script>"
+      "<script src="path/to/libA@1.0.0.js" async="true" data-managed="true"></script>
+      <script src="path/to/libB@2.0.0.js" async="true" data-managed="true"></script>"
     `);
   });
 
@@ -54,7 +54,7 @@ describe("HTMLDependencyManager", () => {
     const scripts = document.head.querySelectorAll("script");
     expect(scripts.length).toBe(2);
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<script src="path/to/libA@2.0.0.js" data-managed="true" defer="true"></script>
+      "<script src="path/to/libA@2.0.0.js" async="true" data-managed="true"></script>
       <script src="path/to/libA@1.0.0.js"></script>"
     `);
   });
@@ -72,9 +72,9 @@ describe("HTMLDependencyManager", () => {
     expect(scripts.length).toBe(3);
 
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<script src="path/to/libA@1.0.0.js" data-managed="true" defer="true"></script>
-      <script src="path/to/libA@2.0.0.js" data-managed="true" defer="true"></script>
-      <script src="path/to/libB@1.0.0.js" data-managed="true" defer="true"></script>"
+      "<script src="path/to/libA@1.0.0.js" async="true" data-managed="true"></script>
+      <script src="path/to/libA@2.0.0.js" async="true" data-managed="true"></script>
+      <script src="path/to/libB@1.0.0.js" async="true" data-managed="true"></script>"
     `);
   });
 });

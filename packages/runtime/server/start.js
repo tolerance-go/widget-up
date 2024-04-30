@@ -12,13 +12,13 @@ WidgetUpRuntime.start({
           depends: [
             {
               name: "react-dom",
-              version: "^16.14.0",
+              version: "16.14.0",
               scriptSrc: (dep) =>
                 `/react-dom.development.js`,
               depends: [
                 {
                   name: "react",
-                  version: "^16.14.0",
+                  version: "16.14.0",
                   scriptSrc: (dep) =>
                     `/react.development.js`,
                 },

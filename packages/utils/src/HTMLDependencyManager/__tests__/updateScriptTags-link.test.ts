@@ -39,10 +39,10 @@ describe("HTMLDependencyManager", () => {
     expect(scripts.length).toBe(2);
 
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<link src="path/to/libA@1.0.0.css" rel="stylesheet" data-managed="true">
-      <script src="path/to/libA@1.0.0.js" data-managed="true" defer="true"></script>
-      <link src="path/to/libB@2.0.0.css" rel="stylesheet" data-managed="true">
-      <script src="path/to/libB@2.0.0.js" data-managed="true" defer="true"></script>"
+      "<link href="path/to/libA@1.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libA@1.0.0.js" async="true" data-managed="true"></script>
+      <link href="path/to/libB@2.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libB@2.0.0.js" async="true" data-managed="true"></script>"
     `);
   });
 
@@ -58,9 +58,9 @@ describe("HTMLDependencyManager", () => {
     const scripts = document.head.querySelectorAll("script");
     expect(scripts.length).toBe(2);
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<link src="path/to/libA@2.0.0.css" rel="stylesheet" data-managed="true">
-      <script src="path/to/libA@2.0.0.js" data-managed="true" defer="true"></script>
-      <script src="path/to/libA@1.0.0.js"></script>"
+      "<link href="path/to/libA@2.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libA@1.0.0.js"></script>
+      <script src="path/to/libA@2.0.0.js" async="true" data-managed="true"></script>"
     `);
   });
 
@@ -77,12 +77,12 @@ describe("HTMLDependencyManager", () => {
     expect(scripts.length).toBe(3);
 
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<link src="path/to/libA@1.0.0.css" rel="stylesheet" data-managed="true">
-      <script src="path/to/libA@1.0.0.js" data-managed="true" defer="true"></script>
-      <link src="path/to/libA@2.0.0.css" rel="stylesheet" data-managed="true">
-      <script src="path/to/libA@2.0.0.js" data-managed="true" defer="true"></script>
-      <link src="path/to/libB@1.0.0.css" rel="stylesheet" data-managed="true">
-      <script src="path/to/libB@1.0.0.js" data-managed="true" defer="true"></script>"
+      "<link href="path/to/libA@1.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libA@1.0.0.js" async="true" data-managed="true"></script>
+      <link href="path/to/libA@2.0.0.css" rel="stylesheet" data-managed="true">
+      <link href="path/to/libB@1.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libB@1.0.0.js" async="true" data-managed="true"></script>
+      <script src="path/to/libA@2.0.0.js" async="true" data-managed="true"></script>"
     `);
   });
 });

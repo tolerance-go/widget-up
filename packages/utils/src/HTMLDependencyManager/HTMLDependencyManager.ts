@@ -186,14 +186,14 @@ class HTMLDependencyManager {
         tags.push({
           type: "link",
           src: this.linkHrefBuilder(dep),
-          attributes: { rel: "stylesheet", "data-managed": "true" },
+          attributes: { rel: "stylesheet" },
         });
       }
       if (this.scriptSrcBuilder(dep)) {
         tags.push({
           type: "script",
           src: this.scriptSrcBuilder(dep),
-          attributes: { "data-managed": "true", defer: "true" }, // 示例属性，可根据需求添加更多
+          attributes: { async: "true" }, // 示例属性，可根据需求添加更多
         });
       }
     });
@@ -308,7 +308,16 @@ class HTMLDependencyManager {
     const element = this.document.createElement(tag.type) as
       | HTMLScriptElement
       | HTMLLinkElement;
-    element.setAttribute("src", tag.src); // 设置 src 或 href
+
+    // 根据标签类型设置对应的资源属性
+    if (tag.type === "script") {
+      const scriptEl = element as HTMLScriptElement;
+      scriptEl.src = tag.src; // 为script设置src
+    } else if (tag.type === "link") {
+      const linkEl = element as HTMLLinkElement;
+      linkEl.href = tag.src;
+    }
+
     // 添加额外的属性
     Object.keys(tag.attributes).forEach((attr) => {
       element.setAttribute(attr, tag.attributes[attr]);

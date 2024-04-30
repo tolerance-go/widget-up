@@ -13,7 +13,8 @@
 - 已经存在的 head 中的 link 和 script 在更新时不受影响
   - 生成的 tag 在已经存在的 tag 的前面插入
 - 生成的样式在脚本前面
-- 脚本使用 async 异步加载，通过 load 事件保证依赖执行顺序
+- 网页动态生成的 script 无法保证执行顺序，哪怕是 fragment 批量更新，哪怕是 defer 属性，哪怕是同步更新标签
+
 
 # 如何使用
 
@@ -25,3 +26,9 @@ const htmlDependencyManager = new HTMLDependencyManager({
   linkHrefBuilder: (dep) => `path/to/${dep.name}@${dep.version}.css`,
 });
 ```
+
+# 参考资料
+
+## defer 和 async 的行为
+- defer: 仅对**静态 HTML** 文档中出现的 `<script>` 标签有效。它保证脚本在整个文档解析完毕后、DOMContentLoaded 事件触发前执行，且脚本执行顺序与文档中出现的顺序一致。
+- async: 对于静态和动态添加的 `<script>` 标签都有效。异步脚本不保证按照特定顺序执行，仅保证会在加载完成后尽快执行。
