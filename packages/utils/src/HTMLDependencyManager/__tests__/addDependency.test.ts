@@ -1,4 +1,4 @@
-import { HTMLDependencyManager } from "../HTMLDependencyManager";
+import { HTMLDependencyManager } from "../HtmlDependencyManager";
 import { JSDOM } from "jsdom";
 
 describe("HTMLDependencyManager addDependency", () => {
