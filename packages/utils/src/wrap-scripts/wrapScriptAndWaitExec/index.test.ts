@@ -22,10 +22,10 @@ describe("wrapScriptAndWaitExec", () => {
     eval(wrappedScript);
 
     expect(mockEnv.EventBus.on).toHaveBeenCalledWith(
-      `${eventName}-execute`,
+      `${eventName}:execute`,
       expect.any(Function)
     );
-    expect(mockEnv.EventBus.emit).toHaveBeenCalledWith(`${eventName}-ready`);
+    expect(mockEnv.EventBus.emit).toHaveBeenCalledWith(`${eventName}:ready`);
   });
 
   it("should not execute script if event is not emitted", () => {

@@ -29,8 +29,10 @@ export function wrapScriptAndWaitExec(options: WrapScriptOptions): string {
   
       // 监听执行事件
       eventBus.on('${execEvent}', function() {
-          // 执行原始脚本内容
+        (function() {
+          // 'this' is explicitly set to 'null' or 'global' to avoid any unintended scope issues
           ${scriptContent}
+        }).call(global);
       });
   
       // 脚本加载完毕，发送就绪事件

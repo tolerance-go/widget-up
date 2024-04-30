@@ -33,3 +33,4 @@ temp/
 /docker-compose.override.yml
 
 /.logs
+/server/**/*.wrap.*

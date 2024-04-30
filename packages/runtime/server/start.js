@@ -3,24 +3,24 @@ WidgetUpRuntime.start({
     {
       name: "widget-up-input-react16",
       version: "0.0.0",
-      scriptSrc: () => "/input.react16.js",
+      scriptSrc: () => "/input.react16.wrap.js",
       depends: [
         {
           name: "@widget-up-demo/react16",
           version: "0.0.0",
-          scriptSrc: () => "/comp.react16.js",
+          scriptSrc: () => "/comp.react16.wrap.js",
           depends: [
             {
               name: "react-dom",
               version: "16.14.0",
               scriptSrc: (dep) =>
-                `/react-dom.development.js`,
+                `/react-dom.development.wrap.js`,
               depends: [
                 {
                   name: "react",
                   version: "16.14.0",
                   scriptSrc: (dep) =>
-                    `/react.development.js`,
+                    `/react.development.wrap.js`,
                 },
               ],
             },
