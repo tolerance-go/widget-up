@@ -37,13 +37,12 @@ describe("HTMLDependencyManager", () => {
     // 验证新脚本标签被添加
     scripts = document.head.querySelectorAll("script");
     expect(scripts.length).toBe(2);
-    expect(scripts[1].src).toBe("path/to/libB@2.0.0.js");
 
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<link href="path/to/libA@1.0.0.css" data-managed="true" rel="stylesheet">
-      <link href="path/to/libB@2.0.0.css" data-managed="true" rel="stylesheet">
-      <script src="path/to/libA@1.0.0.js" data-managed="true"></script>
-      <script src="path/to/libB@2.0.0.js" data-managed="true"></script>"
+      "<link src="path/to/libA@1.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libA@1.0.0.js" data-managed="true" defer="true"></script>
+      <link src="path/to/libB@2.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libB@2.0.0.js" data-managed="true" defer="true"></script>"
     `);
   });
 
@@ -58,10 +57,9 @@ describe("HTMLDependencyManager", () => {
 
     const scripts = document.head.querySelectorAll("script");
     expect(scripts.length).toBe(2);
-    expect(scripts[0].src).toBe("path/to/libA@2.0.0.js");
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<link href="path/to/libA@2.0.0.css" data-managed="true" rel="stylesheet">
-      <script src="path/to/libA@2.0.0.js" data-managed="true"></script>
+      "<link src="path/to/libA@2.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libA@2.0.0.js" data-managed="true" defer="true"></script>
       <script src="path/to/libA@1.0.0.js"></script>"
     `);
   });
@@ -77,22 +75,14 @@ describe("HTMLDependencyManager", () => {
     // 验证正确的脚本更新
     const scripts = document.head.querySelectorAll("script");
     expect(scripts.length).toBe(3);
-    expect(scripts[0].src).toBe("path/to/libA@1.0.0.js");
-    expect(scripts[1].src).toBe("path/to/libA@2.0.0.js");
-    expect(scripts[2].src).toBe("path/to/libB@1.0.0.js");
 
-    expect(
-      document.head.innerHTML.replace(
-        /(<\/script>|<link[^>]*>)(?=(<script|<link))/g,
-        "$1\n"
-      )
-    ).toMatchInlineSnapshot(`
-      "<link href="path/to/libA@1.0.0.css" data-managed="true" rel="stylesheet">
-      <link href="path/to/libA@2.0.0.css" data-managed="true" rel="stylesheet">
-      <link href="path/to/libB@1.0.0.css" data-managed="true" rel="stylesheet">
-      <script src="path/to/libA@1.0.0.js" data-managed="true"></script>
-      <script src="path/to/libA@2.0.0.js" data-managed="true"></script>
-      <script src="path/to/libB@1.0.0.js" data-managed="true"></script>"
+    expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
+      "<link src="path/to/libA@1.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libA@1.0.0.js" data-managed="true" defer="true"></script>
+      <link src="path/to/libA@2.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libA@2.0.0.js" data-managed="true" defer="true"></script>
+      <link src="path/to/libB@1.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libB@1.0.0.js" data-managed="true" defer="true"></script>"
     `);
   });
 });

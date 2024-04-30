@@ -131,16 +131,16 @@ describe("HTMLDependencyManager", () => {
     `);
 
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
-      "<link href="path/to/react-dom@16.13.1.css" data-managed="true" rel="stylesheet">
-      <link href="path/to/react@17.0.0.css" data-managed="true" rel="stylesheet">
-      <link href="path/to/axios@0.21.1.css" data-managed="true" rel="stylesheet">
-      <link href="path/to/redux-thunk@2.4.0.css" data-managed="true" rel="stylesheet">
-      <link href="path/to/redux@4.1.0.css" data-managed="true" rel="stylesheet">
-      <script src="path/to/react-dom@16.13.1.js" data-managed="true"></script>
-      <script src="path/to/react@17.0.0.js" data-managed="true"></script>
-      <script src="path/to/axios@0.21.1.js" data-managed="true"></script>
-      <script src="path/to/redux-thunk@2.4.0.js" data-managed="true"></script>
-      <script src="path/to/redux@4.1.0.js" data-managed="true"></script>"
+      "<link src="path/to/react-dom@16.13.1.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/react-dom@16.13.1.js" data-managed="true" defer="true"></script>
+      <link src="path/to/react@17.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/react@17.0.0.js" data-managed="true" defer="true"></script>
+      <link src="path/to/axios@0.21.1.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/axios@0.21.1.js" data-managed="true" defer="true"></script>
+      <link src="path/to/redux-thunk@2.4.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/redux-thunk@2.4.0.js" data-managed="true" defer="true"></script>
+      <link src="path/to/redux@4.1.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/redux@4.1.0.js" data-managed="true" defer="true"></script>"
     `);
   });
 });

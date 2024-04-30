@@ -7,6 +7,7 @@
         "undefined" != typeof globalThis ? globalThis : e || self).Component =
         t(e.React));
 })(this, function (e) {
+  console.log('comp.react16.js')
   "use strict";
   return function () {
     var t = e.useState("red"),

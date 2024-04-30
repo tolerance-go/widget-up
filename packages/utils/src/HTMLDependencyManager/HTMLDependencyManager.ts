@@ -8,11 +8,32 @@ interface ConstructorOptions {
   linkHrefBuilder?: (dep: DependencyDetail) => string;
 }
 
+interface TagDiff {
+  insert: InsertionDetail[]; // 插入的标签及其位置
+  remove: DependencyTag[]; // 需要删除的标签
+  update: DependencyTag[]; // 需要更新的标签（如果有）
+}
+
+interface InsertionDetail {
+  tag: DependencyTag;
+  beforeSrc: string | null; // 插入在哪个标签之前，null 表示添加到末尾
+}
+
+interface DependencyTag {
+  type: "script" | "link"; // 标识标签类型
+  src: string; // script 的 src 或 link 的 href
+  attributes: {
+    // 其他需要管理的属性
+    [key: string]: string;
+  };
+}
+
 class HTMLDependencyManager {
   private dependencyManager: DependencyManager;
   private fetchVersionList: (dependencyName: string) => Promise<string[]>;
   private versionCache: { [key: string]: string[] };
   private document: Document;
+  private lastTags: DependencyTag[] = []; // 上次的标签列表
   private scriptSrcBuilder: (dep: DependencyDetail) => string; // 新增参数用于自定义构造 src
   private linkHrefBuilder: (dep: DependencyDetail) => string; // 现在是可选的，返回 string 或 false
 
@@ -38,7 +59,7 @@ class HTMLDependencyManager {
     }
 
     // 添加主依赖项
-    const newDependency = await this.dependencyManager.addDependency(
+    const newDependency = this.dependencyManager.addDependency(
       dependency,
       versionRange,
       subDependencies
@@ -149,87 +170,151 @@ class HTMLDependencyManager {
     await this.updateAllVersionLists(allDependencies);
   }
 
-  private updateTags() {
-    const newDependencies = this.getSortedDependencies();
-    const scriptContainer = this.document.head;
-
-    // 使用新的依赖关系构建期望的 src 和 href 列表
-    const expectedScripts = newDependencies
-      .map((dep) => this.scriptSrcBuilder(dep))
-      .filter(Boolean);
-    const expectedLinks = newDependencies
-      .map((dep) => this.linkHrefBuilder(dep))
-      .filter(Boolean);
-
-    // 更新 scripts
-    this.updateTagsInContainer(
-      scriptContainer,
-      expectedScripts,
-      "script",
-      "src"
-    );
-    // 更新 links
-    this.updateTagsInContainer(scriptContainer, expectedLinks, "link", "href");
+  updateTags() {
+    const diffs = this.calculateDiffs(); // 计算标签的差异
+    this.applyDiffs(diffs); // 应用差异更新 DOM
   }
 
-  private updateTagsInContainer(
-    container: HTMLElement,
-    expectedSources: string[],
-    tagName: "script" | "link",
-    srcAttr: "src" | "href"
-  ) {
-    const managedTags = Array.from(
-      container.querySelectorAll(`${tagName}[data-managed="true"]`)
-    );
+  // 新方法：转换依赖项到 DependencyTag 列表
+  getDependencyTags(): DependencyTag[] {
+    const dependencies = this.getSortedDependencies();
+    const tags: DependencyTag[] = [];
 
-    // 建立一个映射，用来快速查找现有标签
-    const srcMap = new Map<string, Element>();
-    managedTags.forEach((tag) => {
-      const src = tag.getAttribute(srcAttr);
-      if (src) srcMap.set(src, tag);
-    });
-
-    const toAdd = expectedSources.filter((src) => !srcMap.has(src));
-    const toRemove = Array.from(srcMap.keys()).filter(
-      (src) => !expectedSources.includes(src)
-    );
-
-    // 移除不再需要的标签
-    toRemove.forEach((src) => {
-      const tag = srcMap.get(src);
-      if (tag) {
-        container.removeChild(tag);
-        srcMap.delete(src);
+    // 遍历排序后的依赖列表，创建对应的 tag 对象
+    dependencies.forEach((dep) => {
+      if (this.linkHrefBuilder(dep)) {
+        tags.push({
+          type: "link",
+          src: this.linkHrefBuilder(dep),
+          attributes: { rel: "stylesheet", "data-managed": "true" },
+        });
+      }
+      if (this.scriptSrcBuilder(dep)) {
+        tags.push({
+          type: "script",
+          src: this.scriptSrcBuilder(dep),
+          attributes: { "data-managed": "true", defer: "true" }, // 示例属性，可根据需求添加更多
+        });
       }
     });
 
-    // 确保标签在正确的位置或添加新标签
-    expectedSources.forEach((src, index) => {
-      const tag = srcMap.get(src);
-      if (!tag) {
-        // 如果当前src需要添加，创建新的标签
-        if (toAdd.includes(src)) {
-          const newTag = this.document.createElement(tagName) as
-            | HTMLScriptElement
-            | HTMLLinkElement;
-          newTag.setAttribute(srcAttr, src);
-          newTag.setAttribute("data-managed", "true"); // 添加标记
-          if (tagName === "link") {
-            (newTag as HTMLLinkElement).rel = "stylesheet";
-          }
-          // 添加到容器中的正确位置
-          const nextSibling = container.children[index] || null;
-          container.insertBefore(newTag, nextSibling);
-          srcMap.set(src, newTag);
+    return tags;
+  }
+
+  // 新方法：计算依赖标签的差异
+  calculateDiffs(): TagDiff {
+    const currentTags = this.getDependencyTags();
+    const oldTagsMap = new Map(this.lastTags.map((tag) => [tag.src, tag]));
+    const currentTagsMap = new Map(currentTags.map((tag) => [tag.src, tag]));
+
+    const diff: TagDiff = {
+      insert: [],
+      remove: [],
+      update: [],
+    };
+
+    // 跟踪前一个标签的 src，用于确定插入位置
+    let prevSrc: string | null = null;
+
+    currentTags.forEach((tag, index) => {
+      const oldTag = oldTagsMap.get(tag.src);
+
+      if (!oldTag) {
+        // 新增标签，需要确定具体位置
+        diff.insert.push({ tag: tag, beforeSrc: prevSrc });
+      } else {
+        // 更新已有标签的属性，如果有变化
+        if (
+          JSON.stringify(tag.attributes) !== JSON.stringify(oldTag.attributes)
+        ) {
+          diff.update.push(tag);
+        }
+      }
+
+      // 更新前一个标签的 src
+      prevSrc = tag.src;
+    });
+
+    // 查找需要删除的标签
+    this.lastTags.forEach((tag) => {
+      if (!currentTagsMap.has(tag.src)) {
+        diff.remove.push(tag);
+      }
+    });
+
+    // 更新 lastTags 以用于下一次比较
+    this.lastTags = currentTags;
+
+    return diff;
+  }
+
+  // 新方法：根据差异信息更新 head 中的标签
+  applyDiffs(diff: TagDiff): void {
+    const head = this.document.head;
+
+    // 处理插入的标签
+    diff.insert.forEach((detail) => {
+      const element = this.createElementFromTag(detail.tag);
+      if (detail.beforeSrc) {
+        // 寻找指定的前一个元素
+        const referenceElement = head.querySelector(
+          `[src="${detail.beforeSrc}"]`
+        );
+        const beforeElement = referenceElement
+          ? referenceElement.nextSibling
+          : null;
+        // 如果找到位置，则插入到该位置
+        if (beforeElement) {
+          head.insertBefore(element, beforeElement);
+        } else {
+          // 如果没有找到前一个元素，插入到最后
+          head.appendChild(element);
         }
       } else {
-        // 如果标签已存在，但位置不正确，则调整位置
-        const existingTag = container.children[index];
-        if (tag !== existingTag) {
-          container.insertBefore(tag, existingTag);
+        // 如果没有指定 beforeSrc，即插入位置为第一个
+        const firstChild = head.firstChild;
+        if (firstChild) {
+          head.insertBefore(element, firstChild);
+        } else {
+          // 如果头部容器为空，直接添加
+          head.appendChild(element);
         }
       }
     });
+
+    // Handling the removal of tags
+    diff.remove.forEach((tag) => {
+      const elements = head.querySelectorAll(`${tag.type}[src="${tag.src}"]`);
+      elements.forEach((el) => {
+        if (el.parentNode) {
+          el.parentNode.removeChild(el);
+        }
+      });
+    });
+
+    // Handle tag updates
+    diff.update.forEach((tag) => {
+      const elements = head.querySelectorAll(`${tag.type}[src="${tag.src}"]`);
+      elements.forEach((el) => {
+        Object.keys(tag.attributes).forEach((attr) => {
+          el.setAttribute(attr, tag.attributes[attr]);
+        });
+      });
+    });
+  }
+
+  // 辅助方法：从 DependencyTag 创建 DOM 元素
+  private createElementFromTag(tag: DependencyTag): HTMLElement {
+    const element = this.document.createElement(tag.type) as
+      | HTMLScriptElement
+      | HTMLLinkElement;
+    element.setAttribute("src", tag.src); // 设置 src 或 href
+    // 添加额外的属性
+    Object.keys(tag.attributes).forEach((attr) => {
+      element.setAttribute(attr, tag.attributes[attr]);
+    });
+    element.setAttribute("data-managed", "true"); // 标记管理的元素
+    return element;
   }
 }
 
