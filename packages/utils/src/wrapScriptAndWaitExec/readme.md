@@ -12,5 +12,5 @@
 # 如何使用
 
 ```bash
-widget-up-utils wrapScriptAndWaitExec ./comp.react16.js --eventBusPath EventBus --eventName comp.react16
+wrapScriptAndWaitExec ./comp.react16.js --eventBusPath EventBus --eventName comp.react16
 ```

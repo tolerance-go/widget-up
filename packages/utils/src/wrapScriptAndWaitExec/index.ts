@@ -1,32 +1,33 @@
-import * as fs from "fs";
-import * as yargs from "yargs";
+import fs from "fs";
+import path from "path";
+import yargs from "yargs/yargs";
+import { hideBin } from "yargs/helpers";
 import { wrapScriptAndWaitExec } from "../wrap-scripts/wrapScriptAndWaitExec";
-import * as path from "path";
 
-// 使用 yargs 解析命令行参数
-const argv = yargs
-  .scriptName("widget-up-utils")
-  .usage("$0 <cmd> [args]")
+// 初始化 yargs
+const argv = yargs(hideBin(process.argv))
   .command(
     "wrapScriptAndWaitExec <file> --eventBusPath [string] --eventName [string]",
     "Wrap a JavaScript file with script wrapper",
-    {
-      file: {
-        type: "string",
-        describe: "The JavaScript file to wrap",
-      },
-      eventBusPath: {
-        alias: "e",
-        type: "string",
-        description: "The EventBus access path",
-        default: "EventBus",
-      },
-      eventName: {
-        alias: "n",
-        type: "string",
-        description: "The event name to use",
-        demandOption: true,
-      },
+    (yargs) => {
+      return yargs.options({
+        file: {
+          type: "string",
+          describe: "The JavaScript file to wrap",
+        },
+        eventBusPath: {
+          alias: "e",
+          type: "string",
+          description: "The EventBus access path",
+          default: "EventBus",
+        },
+        eventName: {
+          alias: "n",
+          type: "string",
+          description: "The event name to use",
+          demandOption: true,
+        },
+      });
     },
     (args) => {
       const { file, eventBusPath, eventName } = args;
@@ -62,4 +63,4 @@ const argv = yargs
       });
     }
   )
-  .help().argv;
+  .parse();
