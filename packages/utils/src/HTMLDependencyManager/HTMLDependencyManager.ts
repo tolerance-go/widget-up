@@ -1,6 +1,6 @@
 import { isExactVersion } from "../isExactVersion";
 import { DependencyManager, DependencyDetail } from "./DependencyManager";
-import { TagManager } from "./EventCenter";
+import { TagManager } from "./TagManager";
 import { DependencyTag, DependencyDiff } from "./types";
 
 interface ConstructorOptions {

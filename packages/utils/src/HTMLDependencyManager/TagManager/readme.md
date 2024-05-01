@@ -22,7 +22,7 @@
 # 如何使用
 
 ```ts
-const eventCenter = new EventCenter();
+const TagManager = new TagManager();
 
-eventCenter.applyDiffs(diffs)
+TagManager.applyDiffs(diffs)
 ```
