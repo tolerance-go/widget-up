@@ -7,7 +7,7 @@ export interface DependencyTagDiff {
 
 export interface InsertionDetail {
   tag: DependencyTag;
-  prevSrc: string | null; // 插入在哪个标签之前，null 表示添加到末尾
+  prevSrc: string | null; // 插入在哪个标签之后，null 表示添加到开头
 }
 
 export interface DependencyTag {
