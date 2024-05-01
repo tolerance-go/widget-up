@@ -21,6 +21,7 @@ describe("TagManager", () => {
       ],
       remove: [],
       update: [],
+      move: []
     };
 
     tagManager.applyDependencyDiffs(diffs);
@@ -50,11 +51,13 @@ describe("TagManager", () => {
       ],
       remove: [],
       update: [],
+      move: []
     });
     tagManager.applyDependencyDiffs({
       insert: [],
       remove: [{ type: "script", src: "script1.js", attributes: {} }],
       update: [],
+      move: []
     });
     expect(tagManager.getTags()).toMatchInlineSnapshot(`[]`);
     expect(tagManager["tags"]).toHaveLength(0);
@@ -71,6 +74,7 @@ describe("TagManager", () => {
       ],
       remove: [],
       update: [],
+      move: []
     });
     tagManager.applyDependencyDiffs({
       insert: [],
@@ -78,6 +82,7 @@ describe("TagManager", () => {
       update: [
         { type: "script", src: "script1.js", attributes: { async: "true" } },
       ],
+      move: []
     });
     expect(tagManager.getTags()).toMatchInlineSnapshot(`
       [
@@ -110,6 +115,7 @@ describe("TagManager", () => {
       ],
       remove: [],
       update: [],
+      move: []
     });
     tagManager.applyDependencyDiffs({
       insert: [
@@ -120,6 +126,7 @@ describe("TagManager", () => {
       ],
       remove: [],
       update: [],
+      move: []
     });
     tagManager.applyDependencyDiffs({
       insert: [
@@ -130,6 +137,7 @@ describe("TagManager", () => {
       ],
       remove: [],
       update: [],
+      move: []
     });
     expect(tagManager.getTags()).toMatchInlineSnapshot(`
       [

@@ -15,7 +15,7 @@ class HTMLDependencyManager {
   private fetchVersionList: (dependencyName: string) => Promise<string[]>;
   private versionCache: { [key: string]: string[] };
   private tagManager: TagManager;
-  private lastTags: DependencyTag[] = []; // 上次的标签列表
+  public lastTags: DependencyTag[] = []; // 上次的标签列表
   private scriptSrcBuilder: (dep: DependencyDetail) => string; // 新增参数用于自定义构造 src
   private linkHrefBuilder: (dep: DependencyDetail) => string; // 现在是可选的，返回 string 或 false
 
@@ -30,7 +30,6 @@ class HTMLDependencyManager {
       document: options.document,
     });
   }
-
   async addDependency(
     dependency: string,
     versionRange: string,
@@ -195,39 +194,46 @@ class HTMLDependencyManager {
       insert: [],
       remove: [],
       update: [],
+      move: [],
     };
 
-    // 跟踪前一个标签的 src，用于确定插入位置
-    let prevSrc: string | null = null;
+    let lastMovedIndex = -1; // 记录上次移动的索引位置，帮助确定最少移动次数
 
+    // 判断是否需要移动
     currentTags.forEach((tag, index) => {
       const oldTag = oldTagsMap.get(tag.src);
+      const oldIndex = this.lastTags.findIndex((t) => t.src === tag.src);
 
       if (!oldTag) {
-        // 新增标签，需要确定具体位置
-        diff.insert.push({ tag: tag, prevSrc: prevSrc });
+        diff.insert.push({
+          tag,
+          prevSrc: index > 0 ? currentTags[index - 1].src : null,
+        });
       } else {
-        // 更新已有标签的属性，如果有变化
+        const isMoved = oldIndex >= 0 && oldIndex !== index;
+        if (isMoved && oldIndex > lastMovedIndex) {
+          diff.move.push({
+            tag,
+            prevSrc: index > 0 ? currentTags[index - 1].src : null,
+          });
+          lastMovedIndex = index;
+        }
         if (
           JSON.stringify(tag.attributes) !== JSON.stringify(oldTag.attributes)
         ) {
           diff.update.push(tag);
         }
       }
-
-      // 更新前一个标签的 src
-      prevSrc = tag.src;
     });
 
-    // 查找需要删除的标签
+    // 判断是否需要删除
     this.lastTags.forEach((tag) => {
       if (!currentTagsMap.has(tag.src)) {
         diff.remove.push(tag);
       }
     });
 
-    // 更新 lastTags 以用于下一次比较
-    this.lastTags = currentTags;
+    this.lastTags = currentTags; // 更新 lastTags
 
     return diff;
   }
