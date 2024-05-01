@@ -1,7 +1,7 @@
 import { isExactVersion } from "../isExactVersion";
 import { DependencyManager, DependencyDetail } from "./DependencyManager";
 import { TagManager } from "./TagManager";
-import { DependencyTag, DependencyDiff } from "./types";
+import { DependencyTag, DependencyTagDiff } from "./types";
 
 interface ConstructorOptions {
   fetchVersionList: (dependencyName: string) => Promise<string[]>;
@@ -186,12 +186,12 @@ class HTMLDependencyManager {
   }
 
   // 新方法：计算依赖标签的差异
-  calculateDiffs(): DependencyDiff {
+  calculateDiffs(): DependencyTagDiff {
     const currentTags = this.getDependencyTags();
     const oldTagsMap = new Map(this.lastTags.map((tag) => [tag.src, tag]));
     const currentTagsMap = new Map(currentTags.map((tag) => [tag.src, tag]));
 
-    const diff: DependencyDiff = {
+    const diff: DependencyTagDiff = {
       insert: [],
       remove: [],
       update: [],
@@ -233,7 +233,7 @@ class HTMLDependencyManager {
   }
 
   // 新方法：根据差异信息更新 head 中的标签
-  applyDiffs(diff: DependencyDiff): void {
+  applyDiffs(diff: DependencyTagDiff): void {
     this.tagManager.applyDependencyDiffs(diff);
   }
 }

@@ -1,5 +1,5 @@
 import { EventBus } from "@/src/EventBus";
-import { RuntimeDependencyTag, DependencyDiff, DependencyTag } from "../types";
+import { RuntimeDependencyTag, DependencyTagDiff, DependencyTag } from "../types";
 
 export interface TagEvents {
   loaded: { id: string };
@@ -29,7 +29,7 @@ export class TagManager {
   }
 
   // 处理传入的标签差异
-  applyDependencyDiffs(diffs: DependencyDiff) {
+  applyDependencyDiffs(diffs: DependencyTagDiff) {
     this.updateTags(diffs);
 
     if (this.document) {
@@ -40,7 +40,7 @@ export class TagManager {
     this.checkExecute();
   }
 
-  private updateTags(diffs: DependencyDiff) {
+  private updateTags(diffs: DependencyTagDiff) {
     // 处理插入
     diffs.insert.forEach((insertDetail) => {
       this.insertTag(insertDetail.tag, insertDetail.prevSrc);
@@ -138,7 +138,7 @@ export class TagManager {
     }
   }
 
-  private syncHtml(diff: DependencyDiff, document: Document) {
+  private syncHtml(diff: DependencyTagDiff, document: Document) {
     const head = document.head;
 
     // 处理插入的标签

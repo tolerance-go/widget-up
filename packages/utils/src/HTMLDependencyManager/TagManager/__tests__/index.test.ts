@@ -1,6 +1,6 @@
 import { EventBus } from "@/src/EventBus";
 import { TagEvents, TagManager } from "..";
-import { DependencyDiff } from "../../types";
+import { DependencyTagDiff } from "../../types";
 
 describe("TagManager", () => {
   let eventBus: EventBus<TagEvents>;
@@ -12,7 +12,7 @@ describe("TagManager", () => {
   });
 
   it("should handle insertion correctly", () => {
-    const diffs: DependencyDiff = {
+    const diffs: DependencyTagDiff = {
       insert: [
         {
           tag: { type: "script", src: "script1.js", attributes: {} },
