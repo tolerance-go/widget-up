@@ -82,10 +82,10 @@ describe("HTMLDependencyManager", () => {
     expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
       "<link href="path/to/libA@1.0.0.css" rel="stylesheet" data-managed="true">
       <script src="path/to/libA@1.0.0.js" async="true" data-managed="true"></script>
-      <link href="path/to/libA@2.0.0.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/libB@1.0.0.css" rel="stylesheet" data-managed="true">
       <script src="path/to/libB@1.0.0.js" async="true" data-managed="true"></script>
-      <script src="path/to/libA@2.0.0.js" async="true" data-managed="true"></script>"
+      <link href="path/to/libA@2.0.0.css" rel="stylesheet" data-managed="true">
+      <script src="path/to/libA@2.0.0.js" async="true" data-managed="true"></script>
+      <link href="path/to/libB@1.0.0.css" rel="stylesheet" data-managed="true">"
     `);
   });
 });
