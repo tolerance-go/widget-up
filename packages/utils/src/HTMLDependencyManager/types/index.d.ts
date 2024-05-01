@@ -1,4 +1,4 @@
-export interface TagDiff {
+export interface DependencyDiff {
   insert: InsertionDetail[]; // 插入的标签及其位置
   remove: DependencyTag[]; // 需要删除的标签
   update: DependencyTag[]; // 需要更新的标签（如果有）

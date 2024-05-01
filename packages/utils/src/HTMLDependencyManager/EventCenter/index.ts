@@ -1,5 +1,5 @@
 import { EventBus } from "@/src/EventBus";
-import { RuntimeDependencyTag, TagDiff } from "../types";
+import { RuntimeDependencyTag, DependencyDiff, DependencyTag } from "../types";
 
 export interface TagEvents {
   loaded: { id: string };
@@ -10,10 +10,18 @@ export interface TagEvents {
 export class TagManager {
   private tags: RuntimeDependencyTag[] = [];
   private eventBus: EventBus<TagEvents>;
+  private document?: Document;
 
-  constructor(eventBus: EventBus<TagEvents>) {
-    this.eventBus = eventBus;
+  constructor({
+    eventBus,
+    document,
+  }: {
+    eventBus?: EventBus<TagEvents>;
+    document?: Document;
+  }) {
+    this.eventBus = eventBus || new EventBus<TagEvents>();
     this.eventBus.on("executed", (payload) => this.onTagExecuted(payload.id));
+    this.document = document;
   }
 
   getTags() {
@@ -21,7 +29,18 @@ export class TagManager {
   }
 
   // 处理传入的标签差异
-  applyDiffs(diffs: TagDiff) {
+  applyDependencyDiffs(diffs: DependencyDiff) {
+    this.updateTags(diffs);
+
+    if (this.document) {
+      this.syncHtml(diffs, this.document);
+    }
+
+    // 检查是否有标签需要执行
+    this.checkExecute();
+  }
+
+  private updateTags(diffs: DependencyDiff) {
     // 处理插入
     diffs.insert.forEach((insertDetail) => {
       this.insertTag(insertDetail.tag, insertDetail.prevSrc);
@@ -32,9 +51,6 @@ export class TagManager {
 
     // 处理更新
     diffs.update.forEach((tag) => this.updateTag(tag));
-
-    // 检查是否有标签需要执行
-    this.checkExecute();
   }
 
   // 插入标签
@@ -120,5 +136,85 @@ export class TagManager {
       }
       allPreviousLoadedAndExecuted = tag.executed;
     }
+  }
+
+  private syncHtml(diff: DependencyDiff, document: Document) {
+    const head = document.head;
+
+    // 处理插入的标签
+    diff.insert.forEach((detail) => {
+      const element = this.createElementFromTag(detail.tag, document);
+      if (detail.prevSrc) {
+        // 寻找指定的前一个元素
+        const referenceElement = head.querySelector(
+          `[src="${detail.prevSrc}"]`
+        );
+        const beforeElement = referenceElement
+          ? referenceElement.nextSibling
+          : null;
+        // 如果找到位置，则插入到该位置
+        if (beforeElement) {
+          head.insertBefore(element, beforeElement);
+        } else {
+          // 如果没有找到前一个元素，插入到最后
+          head.appendChild(element);
+        }
+      } else {
+        // 如果没有指定 beforeSrc，即插入位置为第一个
+        const firstChild = head.firstChild;
+        if (firstChild) {
+          head.insertBefore(element, firstChild);
+        } else {
+          // 如果头部容器为空，直接添加
+          head.appendChild(element);
+        }
+      }
+    });
+
+    // Handling the removal of tags
+    diff.remove.forEach((tag) => {
+      const elements = head.querySelectorAll(`${tag.type}[src="${tag.src}"]`);
+      elements.forEach((el) => {
+        if (el.parentNode) {
+          el.parentNode.removeChild(el);
+        }
+      });
+    });
+
+    // Handle tag updates
+    diff.update.forEach((tag) => {
+      const elements = head.querySelectorAll(`${tag.type}[src="${tag.src}"]`);
+      elements.forEach((el) => {
+        Object.keys(tag.attributes).forEach((attr) => {
+          el.setAttribute(attr, tag.attributes[attr]);
+        });
+      });
+    });
+  }
+
+  // 辅助方法：从 DependencyTag 创建 DOM 元素
+  private createElementFromTag(
+    tag: DependencyTag,
+    document: Document
+  ): HTMLElement {
+    const element = document.createElement(tag.type) as
+      | HTMLScriptElement
+      | HTMLLinkElement;
+
+    // 根据标签类型设置对应的资源属性
+    if (tag.type === "script") {
+      const scriptEl = element as HTMLScriptElement;
+      scriptEl.src = tag.src; // 为script设置src
+    } else if (tag.type === "link") {
+      const linkEl = element as HTMLLinkElement;
+      linkEl.href = tag.src;
+    }
+
+    // 添加额外的属性
+    Object.keys(tag.attributes).forEach((attr) => {
+      element.setAttribute(attr, tag.attributes[attr]);
+    });
+    element.setAttribute("data-managed", "true"); // 标记管理的元素
+    return element;
   }
 }

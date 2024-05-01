@@ -1,6 +1,6 @@
 import { EventBus } from "@/src/EventBus";
 import { TagEvents, TagManager } from "..";
-import { TagDiff } from "../../types";
+import { DependencyDiff } from "../../types";
 
 describe("TagManager", () => {
   let eventBus: EventBus<TagEvents>;
@@ -8,11 +8,11 @@ describe("TagManager", () => {
 
   beforeEach(() => {
     eventBus = new EventBus<TagEvents>();
-    tagManager = new TagManager(eventBus);
+    tagManager = new TagManager({ eventBus });
   });
 
   it("should handle insertion correctly", () => {
-    const diffs: TagDiff = {
+    const diffs: DependencyDiff = {
       insert: [
         {
           tag: { type: "script", src: "script1.js", attributes: {} },
@@ -23,7 +23,7 @@ describe("TagManager", () => {
       update: [],
     };
 
-    tagManager.applyDiffs(diffs);
+    tagManager.applyDependencyDiffs(diffs);
     expect(tagManager["tags"]).toHaveLength(1);
     expect(tagManager.getTags()).toMatchInlineSnapshot(`
       [
@@ -41,7 +41,7 @@ describe("TagManager", () => {
 
   it("should handle removal correctly", () => {
     // 先插入一个标签，然后移除
-    tagManager.applyDiffs({
+    tagManager.applyDependencyDiffs({
       insert: [
         {
           tag: { type: "script", src: "script1.js", attributes: {} },
@@ -51,7 +51,7 @@ describe("TagManager", () => {
       remove: [],
       update: [],
     });
-    tagManager.applyDiffs({
+    tagManager.applyDependencyDiffs({
       insert: [],
       remove: [{ type: "script", src: "script1.js", attributes: {} }],
       update: [],
@@ -62,7 +62,7 @@ describe("TagManager", () => {
 
   it("should handle updates correctly", () => {
     // 先插入，再更新
-    tagManager.applyDiffs({
+    tagManager.applyDependencyDiffs({
       insert: [
         {
           tag: { type: "script", src: "script1.js", attributes: {} },
@@ -72,7 +72,7 @@ describe("TagManager", () => {
       remove: [],
       update: [],
     });
-    tagManager.applyDiffs({
+    tagManager.applyDependencyDiffs({
       insert: [],
       remove: [],
       update: [
@@ -97,7 +97,7 @@ describe("TagManager", () => {
 
   it("should maintain execution order across multiple inserts", () => {
     // 插入多个依次依赖的标签
-    tagManager.applyDiffs({
+    tagManager.applyDependencyDiffs({
       insert: [
         {
           tag: { type: "script", src: "script1.js", attributes: {} },
@@ -111,7 +111,7 @@ describe("TagManager", () => {
       remove: [],
       update: [],
     });
-    tagManager.applyDiffs({
+    tagManager.applyDependencyDiffs({
       insert: [
         {
           tag: { type: "script", src: "script3.js", attributes: {} },
@@ -121,7 +121,7 @@ describe("TagManager", () => {
       remove: [],
       update: [],
     });
-    tagManager.applyDiffs({
+    tagManager.applyDependencyDiffs({
       insert: [
         {
           tag: { type: "script", src: "script2.1.js", attributes: {} },

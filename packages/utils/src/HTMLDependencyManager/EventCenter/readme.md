@@ -1,5 +1,11 @@
 # 是什么
 
+- 内存当中的 tag 列表管理器
+- 他根据 HTMLDependencyManager 的 getSortedDependencies 的 2 次结果的 diff 的数据集，自动维护 tagList
+- 处理，新增，删除，移动，更新
+- 内部维护 tag 的加载和执行状态
+- 内部维护 tag 数组到 dom 的标签的映射关系
+
 - 一个 ts 编写的类
 - 内部维护一个事件中心，来接受和派发事件
 - 他每次都从 HTMLDependencyManager 接收到更新 diff，通过 calculateDiffs 返回，然后根据 diff 去维护内部的 tags 列表包括其加载状态，然后在适当的时候发送事件

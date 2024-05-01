@@ -1,6 +1,7 @@
 import { isExactVersion } from "../isExactVersion";
 import { DependencyManager, DependencyDetail } from "./DependencyManager";
-import { DependencyTag, TagDiff } from "./types";
+import { TagManager } from "./EventCenter";
+import { DependencyTag, DependencyDiff } from "./types";
 
 interface ConstructorOptions {
   fetchVersionList: (dependencyName: string) => Promise<string[]>;
@@ -13,7 +14,7 @@ class HTMLDependencyManager {
   private dependencyManager: DependencyManager;
   private fetchVersionList: (dependencyName: string) => Promise<string[]>;
   private versionCache: { [key: string]: string[] };
-  private document: Document;
+  private tagManager: TagManager;
   private lastTags: DependencyTag[] = []; // 上次的标签列表
   private scriptSrcBuilder: (dep: DependencyDetail) => string; // 新增参数用于自定义构造 src
   private linkHrefBuilder: (dep: DependencyDetail) => string; // 现在是可选的，返回 string 或 false
@@ -22,10 +23,12 @@ class HTMLDependencyManager {
     this.fetchVersionList = options.fetchVersionList;
     this.dependencyManager = new DependencyManager({});
     this.versionCache = {};
-    this.document = options.document;
     this.scriptSrcBuilder =
       options.scriptSrcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
     this.linkHrefBuilder = options.linkHrefBuilder || (() => "");
+    this.tagManager = new TagManager({
+      document: options.document,
+    });
   }
 
   async addDependency(
@@ -45,13 +48,13 @@ class HTMLDependencyManager {
       versionRange,
       subDependencies
     );
-    this.updateTags();
+    this.triggerDiffs();
     return newDependency;
   }
 
   removeDependency(dependency: string, versionRange: string) {
     this.dependencyManager.removeDependency(dependency, versionRange);
-    this.updateTags();
+    this.triggerDiffs();
   }
 
   getDependencies() {
@@ -151,7 +154,7 @@ class HTMLDependencyManager {
     await this.updateAllVersionLists(allDependencies);
   }
 
-  updateTags() {
+  triggerDiffs() {
     const diffs = this.calculateDiffs(); // 计算标签的差异
     this.applyDiffs(diffs); // 应用差异更新 DOM
   }
@@ -183,12 +186,12 @@ class HTMLDependencyManager {
   }
 
   // 新方法：计算依赖标签的差异
-  calculateDiffs(): TagDiff {
+  calculateDiffs(): DependencyDiff {
     const currentTags = this.getDependencyTags();
     const oldTagsMap = new Map(this.lastTags.map((tag) => [tag.src, tag]));
     const currentTagsMap = new Map(currentTags.map((tag) => [tag.src, tag]));
 
-    const diff: TagDiff = {
+    const diff: DependencyDiff = {
       insert: [],
       remove: [],
       update: [],
@@ -230,82 +233,9 @@ class HTMLDependencyManager {
   }
 
   // 新方法：根据差异信息更新 head 中的标签
-  applyDiffs(diff: TagDiff): void {
-    const head = this.document.head;
-
-    // 处理插入的标签
-    diff.insert.forEach((detail) => {
-      const element = this.createElementFromTag(detail.tag);
-      if (detail.prevSrc) {
-        // 寻找指定的前一个元素
-        const referenceElement = head.querySelector(
-          `[src="${detail.prevSrc}"]`
-        );
-        const beforeElement = referenceElement
-          ? referenceElement.nextSibling
-          : null;
-        // 如果找到位置，则插入到该位置
-        if (beforeElement) {
-          head.insertBefore(element, beforeElement);
-        } else {
-          // 如果没有找到前一个元素，插入到最后
-          head.appendChild(element);
-        }
-      } else {
-        // 如果没有指定 beforeSrc，即插入位置为第一个
-        const firstChild = head.firstChild;
-        if (firstChild) {
-          head.insertBefore(element, firstChild);
-        } else {
-          // 如果头部容器为空，直接添加
-          head.appendChild(element);
-        }
-      }
-    });
-
-    // Handling the removal of tags
-    diff.remove.forEach((tag) => {
-      const elements = head.querySelectorAll(`${tag.type}[src="${tag.src}"]`);
-      elements.forEach((el) => {
-        if (el.parentNode) {
-          el.parentNode.removeChild(el);
-        }
-      });
-    });
-
-    // Handle tag updates
-    diff.update.forEach((tag) => {
-      const elements = head.querySelectorAll(`${tag.type}[src="${tag.src}"]`);
-      elements.forEach((el) => {
-        Object.keys(tag.attributes).forEach((attr) => {
-          el.setAttribute(attr, tag.attributes[attr]);
-        });
-      });
-    });
-  }
-
-  // 辅助方法：从 DependencyTag 创建 DOM 元素
-  private createElementFromTag(tag: DependencyTag): HTMLElement {
-    const element = this.document.createElement(tag.type) as
-      | HTMLScriptElement
-      | HTMLLinkElement;
-
-    // 根据标签类型设置对应的资源属性
-    if (tag.type === "script") {
-      const scriptEl = element as HTMLScriptElement;
-      scriptEl.src = tag.src; // 为script设置src
-    } else if (tag.type === "link") {
-      const linkEl = element as HTMLLinkElement;
-      linkEl.href = tag.src;
-    }
-
-    // 添加额外的属性
-    Object.keys(tag.attributes).forEach((attr) => {
-      element.setAttribute(attr, tag.attributes[attr]);
-    });
-    element.setAttribute("data-managed", "true"); // 标记管理的元素
-    return element;
+  applyDiffs(diff: DependencyDiff): void {
+    this.tagManager.applyDependencyDiffs(diff);
   }
 }
 
-export { HTMLDependencyManager as HTMLDependencyManager };
+export { HTMLDependencyManager };
