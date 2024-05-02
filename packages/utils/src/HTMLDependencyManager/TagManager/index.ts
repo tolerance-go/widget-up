@@ -46,6 +46,7 @@ export class TagManager {
 
   // 处理传入的标签差异
   applyDependencyDiffs(diffs: DependencyListDiff) {
+    this.linkTagManager.applyDependencyDiffs(diffs);
     this.scriptTagManager.applyDependencyDiffs(diffs);
   }
 }
