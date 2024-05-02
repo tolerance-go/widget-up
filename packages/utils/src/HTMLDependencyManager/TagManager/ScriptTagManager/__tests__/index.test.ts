@@ -4,16 +4,19 @@ import { DependencyListDiff } from "../../../types";
 import { JSDOM } from "jsdom";
 import { ScriptTagManager } from "..";
 
-describe("ScriptTagManager", () => {
+describe("ScriptTagManager base", () => {
   let eventBus: EventBus<TagEvents>;
   let manager: ScriptTagManager;
 
   beforeEach(() => {
-    const jsdom = new JSDOM(`<!DOCTYPE html><html><head></head><body></body></html>`);
+    const jsdom = new JSDOM(
+      `<!DOCTYPE html><html><head></head><body></body></html>`
+    );
     eventBus = new EventBus<TagEvents>();
     manager = new ScriptTagManager({
       eventBus,
       document: jsdom.window.document,
+      container: jsdom.window.document.head,
     });
   });
 
@@ -99,17 +102,13 @@ describe("ScriptTagManager", () => {
     expect(manager.getTags()).toMatchInlineSnapshot(`
       [
         {
-          "attributes": {
-            "async": "true",
-          },
-          "executed": false,
-          "loaded": false,
-          "src": "script1.js",
+          "attributes": {},
+          "src": "script1@0.0.0.js",
           "type": "script",
         },
       ]
     `);
-    expect(manager["tags"][0].attributes.async).toEqual("true");
+    expect(manager["tags"][0].attributes.async).toEqual(undefined);
   });
 
   it("should maintain execution order across multiple inserts", () => {

@@ -60,8 +60,8 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
 
     return {
       insert: diff.insert.map(dependencyListInsertionDetailToTag),
-      remove: diff.remove.map(this.dependencyListItemToTagItem),
-      update: diff.update.map(this.dependencyListItemToTagItem),
+      remove: diff.remove.map((item) => this.dependencyListItemToTagItem(item)),
+      update: diff.update.map((item) => this.dependencyListItemToTagItem(item)),
       move: diff.move.map(dependencyListInsertionDetailToTag),
     };
   }
