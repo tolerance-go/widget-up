@@ -140,7 +140,7 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     }
   }
 
-  protected updateHtml(diff: TagDiff<TTag>) {
+  public updateHtml(diff: TagDiff<TTag>) {
     // 处理插入的标签
     diff.insert.forEach((detail) => {
       const element = this.createElementFromTag(detail.tag);

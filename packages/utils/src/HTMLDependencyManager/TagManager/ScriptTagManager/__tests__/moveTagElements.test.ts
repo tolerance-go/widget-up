@@ -1,10 +1,14 @@
 import { JSDOM } from "jsdom";
-import { TagManager } from "../..";
-import { DependencyListInsertionDetail } from "../../../types";
+import {
+  DependencyListInsertionDetail,
+  ScriptTag,
+  TagListInsertionDetail,
+} from "../../../types";
 import { formatHeadHtml } from "@/__tests__/_utils";
+import { ScriptTagManager } from "..";
 
-describe("TagManager", () => {
-  let tagManager: TagManager;
+describe("ScriptTagManager moveTagElements", () => {
+  let manager: ScriptTagManager;
   let mockDocument: Document;
   let head: HTMLHeadElement;
 
@@ -15,7 +19,7 @@ describe("TagManager", () => {
     ).window.document;
     head = mockDocument.head;
     // 实例化 TagManager
-    tagManager = new TagManager({ document: mockDocument });
+    manager = new ScriptTagManager({ document: mockDocument });
   });
 
   it("should move an existing tag to a new position based on prevSrc", () => {
@@ -28,13 +32,13 @@ describe("TagManager", () => {
     script2.src = "script2.js";
     head.appendChild(script2);
 
-    const moveDetail: DependencyListInsertionDetail = {
-      dep: { src: "script2.js", type: "script", attributes: {} },
-      prevDep: null, // 将 script2 移动到第一个位置
+    const moveDetail: TagListInsertionDetail<ScriptTag> = {
+      tag: { type: "script", src: "script2.js", attributes: {} },
+      prevTag: null, // 将 script2 移动到第一个位置
     };
 
     // 模拟移动操作
-    tagManager.syncHtml({
+    manager.updateHtml({
       insert: [],
       move: [moveDetail],
       remove: [],
