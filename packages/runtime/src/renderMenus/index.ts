@@ -24,7 +24,9 @@ function buildMenuHtml(menus: MenuItem[]): string {
           ? `<ul class="ml-4">${buildMenuItems(item.children)}</ul>`
           : "";
         return `<li class="${childrenHtml ? "mb-2" : ""}">
-          <a data-id="${item.name}" class="text-blue-500 hover:text-blue-700">${item.name}</a>
+          <a data-id="${item.name}" class="text-blue-500 hover:text-blue-700">${
+          item.name
+        }</a>
           ${childrenHtml}
         </li>`;
       })
