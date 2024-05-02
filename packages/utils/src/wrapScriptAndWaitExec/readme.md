@@ -2,7 +2,7 @@
 
 - 命令行工具
 - 用 ts 编写
-- eventName 默认用 file 的文件名
+- eventId 默认用 file 的文件名
 
 # 解决什么需求
 
@@ -12,5 +12,5 @@
 # 如何使用
 
 ```bash
-wrapScriptAndWaitExec ./comp.react16.js --eventBusPath EventBus --eventName comp.react16
+wrapScriptAndWaitExec ./comp.react16.js --eventBusPath EventBus --eventId comp.react16
 ```

@@ -9,21 +9,21 @@ import {
 
 interface ProcessOptions {
   eventBusPath: string;
-  eventName?: string;
+  eventId?: string;
   verbose: boolean;
 }
 
 function processFile(filePath: string, options: ProcessOptions): void {
-  const { eventBusPath, eventName, verbose } = options;
+  const { eventBusPath, eventId, verbose } = options;
   try {
     const data = fs.readFileSync(filePath, "utf8");
     if (verbose) console.log(`File read successfully: ${filePath}`);
 
-    const finalEventName =
-      eventName || path.basename(filePath, path.extname(filePath));
+    const finalEventId =
+      eventId || path.basename(filePath, path.extname(filePath));
     const wrappedScript = wrapScriptAndWaitExec({
       scriptContent: data,
-      eventId: finalEventName,
+      eventId: finalEventId,
       eventBusPath: eventBusPath,
     });
 
@@ -72,7 +72,7 @@ yargs(hideBin(process.argv))
           type: "string",
         })
         .options({
-          eventName: {
+          eventId: {
             describe: "The event name to use",
             type: "string",
           },
@@ -90,9 +90,13 @@ yargs(hideBin(process.argv))
           },
         }),
     (args: any) => {
-      const { file, eventBusPath, eventName, verbose } = args;
+      const { file, eventBusPath, eventId, verbose } = args;
       const stats = fs.statSync(file);
-      const options: ProcessOptions = { eventBusPath, eventName, verbose };
+      const options: ProcessOptions = {
+        eventBusPath,
+        eventId,
+        verbose,
+      };
 
       if (stats.isDirectory()) {
         processDirectory(file, options);
