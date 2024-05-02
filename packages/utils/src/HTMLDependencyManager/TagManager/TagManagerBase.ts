@@ -10,16 +10,20 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
   public tags: TTag[] = [];
   protected document: Document;
   protected container: HTMLElement;
+  protected debug: boolean;
 
   constructor({
     document,
     container,
+    debug = false,
   }: {
     document: Document;
     container: HTMLElement;
+    debug?: boolean;
   }) {
     this.document = document;
     this.container = container; // 设置容器元素
+    this.debug = debug;
   }
 
   public applyDependencyDiffs(diffs: DependencyListDiff) {

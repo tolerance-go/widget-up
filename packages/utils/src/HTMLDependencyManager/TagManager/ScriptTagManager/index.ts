@@ -1,5 +1,9 @@
 import { EventBus } from "@/src/EventBus";
-import { DependencyListDiff, DependencyListItem, ScriptTag } from "../../../../types/HTMLDependencyManager";
+import {
+  DependencyListDiff,
+  DependencyListItem,
+  ScriptTag,
+} from "../../../../types/HTMLDependencyManager";
 import { TagManagerBase } from "../TagManagerBase";
 
 export interface TagEvents {
@@ -19,13 +23,13 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     document,
     container,
     srcBuilder,
-    debug = false
+    debug = false,
   }: {
     eventBus?: EventBus<TagEvents>;
     document: Document;
     container?: HTMLElement;
     srcBuilder?: (dep: DependencyListItem) => string;
-    debug?: boolean
+    debug?: boolean;
   }) {
     if (!container) {
       container = document.createElement("div");
@@ -33,7 +37,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
       document.body.appendChild(container);
     }
 
-    super({ document, container });
+    super({ document, container, debug });
     this.eventBus = eventBus || new EventBus<TagEvents>(debug);
     this.eventBus.on("executed", (payload) => this.onTagExecuted(payload.id));
 
@@ -61,8 +65,10 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   }
 
   // 标签加载完成处理
-  public onTagLoaded(src: string) {
-    const tag = this.tags.find((t) => t.src === src);
+  public onTagLoaded(id: string) {
+    this.debug && console.log(`onTagLoaded id: ${id}`);
+    this.debug && console.log(`this.tags: `, this.tags);
+    const tag = this.tags.find((t) => t.src === id);
     if (tag) {
       tag.loaded = true; // 标记为加载完成
       this.checkExecute();
