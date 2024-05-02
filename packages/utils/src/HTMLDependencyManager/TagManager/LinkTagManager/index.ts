@@ -26,6 +26,11 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
       ((dep) => `https://cdn.example.com/${dep.name}@${dep.version}.css`);
   }
 
+  createSelectorForTag(tag: LinkTag): string {
+    // 使用 href 属性作为选择器
+    return `link[href="${tag.src}"]`;
+  }
+
   applyDependencyDiffs(diffs: DependencyListDiff) {
     const tagDiffs = this.convertDependencyListDiffToTagDiff(diffs);
 
@@ -43,80 +48,5 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
         rel: "stylesheet",
       },
     };
-  }
-
-  public updateHtml(diff: LinkTagDiff) {
-    if (!this.document) return;
-
-    const head = this.document.head;
-    diff.insert.forEach((detail) => {
-      const element = this.createElementFromTag(detail.tag, this.document!);
-      this.insertElementInHead(element, detail.prevTag?.src ?? null, head);
-    });
-
-    diff.move.forEach((moveDetail) => {
-      const selector = `[href="${moveDetail.tag.src}"]`;
-      const element = head.querySelector(selector);
-      if (element) {
-        this.insertElementInHead(
-          element,
-          moveDetail.prevTag?.src ?? null,
-          head
-        );
-      }
-    });
-
-    diff.remove.forEach((tag) => {
-      const selector = `[href="${tag.src}"]`;
-      const elements = head.querySelectorAll(selector);
-      elements.forEach((el) => el.parentNode?.removeChild(el));
-    });
-
-    diff.update.forEach((tag) => {
-      const selector = `[href="${tag.src}"]`;
-      const elements = head.querySelectorAll(selector);
-      elements.forEach((el) => {
-        Object.keys(tag.attributes).forEach((attr) => {
-          el.setAttribute(attr, tag.attributes[attr]);
-        });
-      });
-    });
-  }
-
-  private createElementFromTag(
-    tag: DependencyTag,
-    document: Document
-  ): HTMLElement {
-    const element = document.createElement(tag.type);
-    if (tag.type === "link") {
-      const linkEl = element as HTMLLinkElement;
-      linkEl.href = tag.src;
-      linkEl.rel = "stylesheet";
-    }
-
-    Object.keys(tag.attributes).forEach((attr) => {
-      element.setAttribute(attr, tag.attributes[attr]);
-    });
-
-    element.setAttribute("data-managed", "true");
-    return element;
-  }
-
-  private insertElementInHead(
-    element: Element,
-    prevSrc: string | null,
-    head: HTMLHeadElement
-  ) {
-    let referenceElement = null;
-    if (prevSrc) {
-      referenceElement = head.querySelector(`[href="${prevSrc}"]`);
-    }
-
-    if (referenceElement) {
-      const nextSibling = referenceElement.nextSibling;
-      head.insertBefore(element, nextSibling);
-    } else {
-      head.insertBefore(element, head.firstChild);
-    }
   }
 }
