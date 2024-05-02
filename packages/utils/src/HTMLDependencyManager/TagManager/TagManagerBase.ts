@@ -140,7 +140,7 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     // 处理插入的标签
     diff.insert.forEach((detail) => {
       const element = this.createElementFromTag(detail.tag, this.document!);
-      this.insertElementInHead(element, detail.prevTag?.src ?? null, head);
+      this.insertElementInHead(element, detail.prevTag, head);
     });
 
     // 处理移动的标签
@@ -150,7 +150,7 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
       if (element) {
         this.insertElementInHead(
           element,
-          moveDetail.prevTag?.src ?? null,
+          moveDetail.prevTag,
           head
         );
       }
@@ -178,30 +178,30 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
   // 辅助方法：在头部中正确地插入元素
   protected insertElementInHead(
     element: Element,
-    prevSrc: string | null,
-    head: HTMLHeadElement
+    prevTag: TTag | null,
+    container: HTMLElement
   ) {
     let referenceElement: Element | null = null;
 
     // 找到参考元素
-    if (prevSrc) {
+    if (prevTag) {
       // 需要根据 element 的类型决定是使用 src 还是 href 作为属性选择器
-      const attr = element.tagName.toLowerCase() === "link" ? "href" : "src";
-      referenceElement = head.querySelector(`[${attr}="${prevSrc}"]`);
+      const selector = this.createSelectorForTag(prevTag)
+      referenceElement = container.querySelector(selector);
     }
 
     if (referenceElement) {
       // 在 referenceElement 的后面插入元素
       const nextSibling = referenceElement.nextSibling;
-      head.insertBefore(element, nextSibling); // 如果 nextSibling 为 null，自动插入到列表末尾
+      container.insertBefore(element, nextSibling); // 如果 nextSibling 为 null，自动插入到列表末尾
     } else {
       // 如果没有找到 prevSrc 对应的元素或 prevSrc 为 null，插入到头部的第一个位置
-      const firstChild = head.firstChild;
-      if (prevSrc === null || !firstChild) {
-        head.insertBefore(element, firstChild);
+      const firstChild = container.firstChild;
+      if (prevTag === null || !firstChild) {
+        container.insertBefore(element, firstChild);
       } else {
         // 如果未找到参考元素且 prevSrc 不是 null，则插入到末尾
-        head.appendChild(element);
+        container.appendChild(element);
       }
     }
   }
