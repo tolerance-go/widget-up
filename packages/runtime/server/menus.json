@@ -1,1 +1,9 @@
-[{"name":"demo1.ts"},{"name":"demo2.ts"},{"name":"group","children":[{"name":"demo3.ts"}]}]
+[
+  { "name": "@widget-up-demo/react16", "global": "Comp_React16" },
+  {
+    "name": "group",
+    "children": [
+      { "name": "@widget-up-demo/react16-2", "global": "Comp_React16_2" }
+    ]
+  }
+]

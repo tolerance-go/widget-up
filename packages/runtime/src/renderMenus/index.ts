@@ -24,9 +24,9 @@ function buildMenuHtml(menus: MenuItem[]): string {
           ? `<ul class="ml-4">${buildMenuItems(item.children)}</ul>`
           : "";
         return `<li class="${childrenHtml ? "mb-2" : ""}">
-          <a data-id="${item.name}" class="text-blue-500 hover:text-blue-700">${
-          item.name
-        }</a>
+          <a data-name="${item.name}" data-global="${
+          item.global
+        }" class="text-blue-500 hover:text-blue-700">${item.name}</a>
           ${childrenHtml}
         </li>`;
       })
@@ -53,8 +53,25 @@ export async function renderMenus({
     // 为容器内的所有菜单项绑定点击事件监听器
     container?.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
-      if (target.tagName === "A" && target.dataset.id) {
-        eventBus.emit("menuClick", { id: target.dataset.id });
+      if (
+        target.tagName === "A" &&
+        target.dataset.name &&
+        target.dataset.global
+      ) {
+        eventBus.emit("menuClick", {
+          name: target.dataset.name,
+          global: target.dataset.global,
+        });
+      }
+    });
+
+    eventBus.on("menuClick", ({ global, name }) => {
+      // 监听菜单点击，然后动态把全局的 Component 组件替换为
+      const component = (window as any)[global];
+      if (component) {
+        window.Component = component;
+      } else {
+        console.error(`Global component ${global} not found on window`);
       }
     });
   } catch (error) {
