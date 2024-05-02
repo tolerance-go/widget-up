@@ -6,6 +6,8 @@ import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 describe("HTMLDependencyManager getSortedDependencies", () => {
   let manager: HTMLDependencyManager;
   const mockFetchVersionList = jest.fn();
+  let scriptContainer: HTMLElement;
+  let linkContainer: HTMLElement;
 
   beforeEach(async () => {
     mockFetchVersionList.mockReset();
@@ -22,6 +24,8 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
       fetchVersionList: mockFetchVersionList,
       document: jsdom.window.document,
     });
+    scriptContainer = manager.tagManager.getScriptContainer();
+    linkContainer = manager.tagManager.getLinkContainer();
   });
 
   test("getSortedDependencies should sort dependencies correctly", async () => {

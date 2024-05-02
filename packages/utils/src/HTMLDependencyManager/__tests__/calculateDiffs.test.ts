@@ -16,30 +16,26 @@ describe("HTMLDependencyManager calculateDiffs", () => {
 
   test("should detect moved dependencies", async () => {
     // 初始标签
-    manager.lastTags = [
+    manager.lastDependencies = [
       {
-        src: "https://cdn.example.com/lib1@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        version: "1.0.0",
+        name: "lib1",
       },
       {
-        src: "https://cdn.example.com/lib2@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        version: "1.0.0",
+        name: "lib2",
       },
     ];
 
     // 新标签列表，改变顺序
-    manager.getDependencyTags = jest.fn().mockReturnValue([
+    manager.getDependencyList = jest.fn().mockReturnValue([
       {
-        src: "https://cdn.example.com/lib2@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib2",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib1@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib1",
+        version: "1.0.0",
       },
     ]);
 
@@ -65,40 +61,34 @@ describe("HTMLDependencyManager calculateDiffs", () => {
 
   test("should detect moved dependencies 2", async () => {
     // 初始标签
-    manager.lastTags = [
+    manager.lastDependencies = [
       {
-        src: "https://cdn.example.com/lib1@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib1",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib2@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib2",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib3@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib3",
+        version: "1.0.0",
       },
     ];
 
     // 新标签列表，改变顺序
-    manager.getDependencyTags = jest.fn().mockReturnValue([
+    manager.getDependencyList = jest.fn().mockReturnValue([
       {
-        src: "https://cdn.example.com/lib1@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib1",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib3@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib3",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib2@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib2",
+        version: "1.0.0",
       },
     ]);
 
@@ -127,40 +117,34 @@ describe("HTMLDependencyManager calculateDiffs", () => {
 
   test("should detect moved dependencies 3", async () => {
     // 初始标签
-    manager.lastTags = [
+    manager.lastDependencies = [
       {
-        src: "https://cdn.example.com/lib1@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib1",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib2@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib2",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib3@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib3",
+        version: "1.0.0",
       },
     ];
 
     // 新标签列表，改变顺序
-    manager.getDependencyTags = jest.fn().mockReturnValue([
+    manager.getDependencyList = jest.fn().mockReturnValue([
       {
-        src: "https://cdn.example.com/lib2@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib2",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib1@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib1",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib3@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib3",
+        version: "1.0.0",
       },
     ]);
 
@@ -189,50 +173,42 @@ describe("HTMLDependencyManager calculateDiffs", () => {
 
   test("should detect moved dependencies 4", async () => {
     // 初始标签
-    manager.lastTags = [
+    manager.lastDependencies = [
       {
-        src: "https://cdn.example.com/lib1@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib1",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib2@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib2",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib3@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib3",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib4@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib4",
+        version: "1.0.0",
       },
     ];
 
     // 新标签列表，改变顺序
-    manager.getDependencyTags = jest.fn().mockReturnValue([
+    manager.getDependencyList = jest.fn().mockReturnValue([
       {
-        src: "https://cdn.example.com/lib2@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib2",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib1@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib1",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib4@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib4",
+        version: "1.0.0",
       },
       {
-        src: "https://cdn.example.com/lib3@1.0.0.js",
-        attributes: { async: "true" },
-        type: "script",
+        name: "lib3",
+        version: "1.0.0",
       },
     ]);
 
