@@ -144,12 +144,12 @@ export class LinkTagManager {
 
     const head = this.document.head;
     diff.insert.forEach((detail) => {
-      const element = this.createElementFromTag(detail.tag, this.document);
+      const element = this.createElementFromTag(detail.tag, this.document!);
       this.insertElementInHead(element, detail.prevTag?.src ?? null, head);
     });
 
     diff.move.forEach((moveDetail) => {
-      const selector = `[src="${moveDetail.tag.src}"]`;
+      const selector = `[href="${moveDetail.tag.src}"]`;
       const element = head.querySelector(selector);
       if (element) {
         this.insertElementInHead(
@@ -161,13 +161,13 @@ export class LinkTagManager {
     });
 
     diff.remove.forEach((tag) => {
-      const selector = `[src="${tag.src}"]`;
+      const selector = `[href="${tag.src}"]`;
       const elements = head.querySelectorAll(selector);
       elements.forEach((el) => el.parentNode?.removeChild(el));
     });
 
     diff.update.forEach((tag) => {
-      const selector = `[src="${tag.src}"]`;
+      const selector = `[href="${tag.src}"]`;
       const elements = head.querySelectorAll(selector);
       elements.forEach((el) => {
         Object.keys(tag.attributes).forEach((attr) => {
