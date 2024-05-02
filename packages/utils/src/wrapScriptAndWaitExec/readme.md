@@ -12,5 +12,5 @@
 # 如何使用
 
 ```bash
-wrapScriptAndWaitExec ./comp.react16.js --eventBusPath EventBus --eventId comp.react16
+pnpm wrapScriptAndWaitExec exec ./comp.react16.js --eventBusPath EventBus --eventId comp.react16
 ```
