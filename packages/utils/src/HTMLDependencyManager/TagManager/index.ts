@@ -1,8 +1,13 @@
 import { EventBus } from "@/src/EventBus";
 import {
-  RuntimeDependencyTag,
-  DependencyTagDiff,
+  ScriptTag,
+  DependencyListDiff,
   DependencyTag,
+  DependencyListItem,
+  DependencyDetail,
+  ScriptTagDiff,
+  ScriptTagListInsertionDetail,
+  DependencyListInsertionDetail,
 } from "../types";
 
 export interface TagEvents {
@@ -12,20 +17,25 @@ export interface TagEvents {
 }
 
 export class TagManager {
-  private tags: RuntimeDependencyTag[] = [];
+  private tags: ScriptTag[] = [];
   private eventBus: EventBus<TagEvents>;
   private document?: Document;
+  private scriptSrcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
 
   constructor({
     eventBus,
     document,
+    scriptSrcBuilder,
   }: {
     eventBus?: EventBus<TagEvents>;
     document?: Document;
+    scriptSrcBuilder?: (dep: DependencyListItem) => string;
   }) {
     this.eventBus = eventBus || new EventBus<TagEvents>();
     this.eventBus.on("executed", (payload) => this.onTagExecuted(payload.id));
     this.document = document;
+    this.scriptSrcBuilder =
+      scriptSrcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
   }
 
   getTags() {
@@ -33,19 +43,51 @@ export class TagManager {
   }
 
   // 处理传入的标签差异
-  applyDependencyDiffs(diffs: DependencyTagDiff) {
-    this.updateTags(diffs);
+  applyDependencyDiffs(diffs: DependencyListDiff) {
+    const tagDiffs = this.dependencyListDiffToTagDiff(diffs);
 
-    this.syncHtml(diffs);
+    this.updateTags(tagDiffs);
+
+    this.syncHtml(tagDiffs);
 
     // 检查是否有标签需要执行
     this.checkExecute();
   }
 
-  private updateTags(diffs: DependencyTagDiff) {
+  private dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
+    return {
+      type: "script",
+      src: this.scriptSrcBuilder(item),
+      attributes: {
+        "data-managed": "true",
+      },
+    };
+  }
+
+  private dependencyListInsertionDetailToScript(
+    detail: DependencyListInsertionDetail
+  ): ScriptTagListInsertionDetail {
+    return {
+      tag: this.dependencyListItemToTagItem(detail.dep),
+      prevTag: detail.prevDep
+        ? this.dependencyListItemToTagItem(detail.prevDep)
+        : null,
+    };
+  }
+
+  private dependencyListDiffToTagDiff(diff: DependencyListDiff): ScriptTagDiff {
+    return {
+      insert: diff.insert.map(this.dependencyListInsertionDetailToScript),
+      move: diff.move.map(this.dependencyListInsertionDetailToScript),
+      remove: diff.remove.map(this.dependencyListItemToTagItem),
+      update: diff.update.map(this.dependencyListItemToTagItem),
+    };
+  }
+
+  private updateTags(diffs: ScriptTagDiff) {
     // 处理插入
     diffs.insert.forEach((insertDetail) => {
-      this.insertTag(insertDetail.tag, insertDetail.prevSrc);
+      this.insertTag(insertDetail.tag, insertDetail.prevTag?.src ?? null);
     });
 
     // 处理移动
@@ -58,7 +100,7 @@ export class TagManager {
     diffs.update.forEach((tag) => this.updateTag(tag));
   }
 
-  private moveTags(diffs: DependencyTagDiff) {
+  private moveTags(diffs: ScriptTagDiff) {
     // 遍历 move 数组，对每个需要移动的标签进行处理
     diffs.move.forEach((moveDetail) => {
       // 首先找到需要移动的标签的当前位置
@@ -72,13 +114,13 @@ export class TagManager {
       const [movingTag] = this.tags.splice(currentIndex, 1);
 
       // 确定新的插入位置
-      if (moveDetail.prevSrc === null) {
+      if (moveDetail.prevTag === null) {
         // 如果 prevSrc 为 null，插入到数组的第一个位置
         this.tags.unshift(movingTag);
       } else {
         // 找到 prevSrc 对应的标签的索引，然后在其后面插入新标签
         const beforeIndex = this.tags.findIndex(
-          (t) => t.src === moveDetail.prevSrc
+          (t) => t.src === moveDetail.prevTag!.src
         );
         if (beforeIndex >= 0) {
           this.tags.splice(beforeIndex + 1, 0, movingTag);
@@ -86,7 +128,7 @@ export class TagManager {
           // 如果找不到 prevSrc 指定的标签，可以选择抛出错误或者默认行为（如插入到末尾）
           // 这里选择抛出错误
           throw new Error(
-            `prevSrc tag "${moveDetail.prevSrc}" not found in the tags list.`
+            `prevSrc tag "${moveDetail.prevTag.src}" not found in the tags list.`
           );
         }
       }
@@ -94,13 +136,13 @@ export class TagManager {
   }
 
   // 插入标签
-  private insertTag(tag: RuntimeDependencyTag, beforeSrc: string | null) {
-    if (beforeSrc === null) {
+  private insertTag(tag: ScriptTag, prevSrc: string | null) {
+    if (prevSrc === null) {
       // 如果 beforeSrc 为 null，插入到数组的第一个位置
       this.tags.unshift({ ...tag, loaded: false, executed: false });
     } else {
       // 找到 beforeSrc 对应的标签的索引，然后在其后面插入新标签
-      const beforeIndex = this.tags.findIndex((t) => t.src === beforeSrc);
+      const beforeIndex = this.tags.findIndex((t) => t.src === prevSrc);
       if (beforeIndex >= 0) {
         this.tags.splice(beforeIndex + 1, 0, {
           ...tag,
@@ -111,7 +153,7 @@ export class TagManager {
         // 如果找不到 beforeSrc 指定的标签，可以选择抛出错误或者默认行为（如插入到末尾）
         // 这里选择抛出错误
         throw new Error(
-          `beforeSrc tag "${beforeSrc}" not found in the tags list.`
+          `beforeSrc tag "${prevSrc}" not found in the tags list.`
         );
       }
     }
@@ -135,7 +177,7 @@ export class TagManager {
   }
 
   // 更新标签
-  private updateTag(tag: RuntimeDependencyTag) {
+  private updateTag(tag: ScriptTag) {
     const index = this.tags.findIndex((t) => t.src === tag.src);
     if (index !== -1) {
       this.tags[index] = {
@@ -178,7 +220,7 @@ export class TagManager {
     }
   }
 
-  public syncHtml(diff: DependencyTagDiff) {
+  public syncHtml(diff: ScriptTagDiff) {
     if (!this.document) return;
 
     const head = this.document.head;
@@ -186,33 +228,32 @@ export class TagManager {
     // 处理插入的标签
     diff.insert.forEach((detail) => {
       const element = this.createElementFromTag(detail.tag, this.document!);
-      this.insertElementInHead(element, detail.prevSrc, head);
+      this.insertElementInHead(element, detail.prevTag?.src ?? null, head);
     });
 
     // 处理移动的标签
     diff.move.forEach((moveDetail) => {
-      const selector =
-        moveDetail.tag.type === "link"
-          ? `[href="${moveDetail.tag.src}"]`
-          : `[src="${moveDetail.tag.src}"]`;
+      const selector = `[src="${moveDetail.tag.src}"]`;
       const element = head.querySelector(selector);
       if (element) {
-        this.insertElementInHead(element, moveDetail.prevSrc, head);
+        this.insertElementInHead(
+          element,
+          moveDetail.prevTag?.src ?? null,
+          head
+        );
       }
     });
 
     // 处理移除的标签
     diff.remove.forEach((tag) => {
-      const selector =
-        tag.type === "link" ? `[href="${tag.src}"]` : `[src="${tag.src}"]`;
+      const selector = `[src="${tag.src}"]`;
       const elements = head.querySelectorAll(selector);
       elements.forEach((el) => el.parentNode?.removeChild(el));
     });
 
     // 处理更新的标签
     diff.update.forEach((tag) => {
-      const selector =
-        tag.type === "link" ? `[href="${tag.src}"]` : `[src="${tag.src}"]`;
+      const selector = `[src="${tag.src}"]`;
       const elements = head.querySelectorAll(selector);
       elements.forEach((el) => {
         Object.keys(tag.attributes).forEach((attr) => {

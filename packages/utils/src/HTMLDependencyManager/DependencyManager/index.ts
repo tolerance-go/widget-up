@@ -1,14 +1,6 @@
 import { isExactVersion } from "@/src/isExactVersion";
 import semver from "semver";
-
-export interface DependencyDetail {
-  versionRange: string;
-  // 精确 version
-  version: string;
-  subDependencies: Record<string, DependencyDetail>;
-  isGlobal: boolean;
-  name: string;
-}
+import { DependencyDetail } from "../types";
 
 class DependencyManager {
   private dependencies: { [key: string]: DependencyDetail[] };

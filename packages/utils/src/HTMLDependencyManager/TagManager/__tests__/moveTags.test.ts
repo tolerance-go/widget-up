@@ -15,16 +15,16 @@ describe("TagManager moveTags", () => {
     tagManager.applyDependencyDiffs({
       insert: [
         {
-          tag: { type: "script", src: "script1.js", attributes: {} },
-          prevSrc: null,
+          dep: { type: "script", src: "script1.js", attributes: {} },
+          prevDep: null,
         },
         {
-          tag: { type: "script", src: "script2.js", attributes: {} },
-          prevSrc: "script1.js",
+          dep: { type: "script", src: "script2.js", attributes: {} },
+          prevDep: "script1.js",
         },
         {
-          tag: { type: "script", src: "script3.js", attributes: {} },
-          prevSrc: "script2.js",
+          dep: { type: "script", src: "script3.js", attributes: {} },
+          prevDep: "script2.js",
         },
       ],
       remove: [],
@@ -65,8 +65,8 @@ describe("TagManager moveTags", () => {
       update: [],
       move: [
         {
-          tag: { type: "script", src: "script2.js", attributes: {} },
-          prevSrc: "script3.js",
+          dep: { type: "script", src: "script2.js", attributes: {} },
+          prevDep: "script3.js",
         },
       ],
     });
@@ -104,8 +104,8 @@ describe("TagManager moveTags", () => {
       update: [],
       move: [
         {
-          tag: { type: "script", src: "script3.js", attributes: {} },
-          prevSrc: null,
+          dep: { type: "script", src: "script3.js", attributes: {} },
+          prevDep: null,
         },
       ],
     });

@@ -1,7 +1,12 @@
 import { isExactVersion } from "../isExactVersion";
-import { DependencyManager, DependencyDetail } from "./DependencyManager";
+import { DependencyManager } from "./DependencyManager";
 import { TagManager } from "./TagManager";
-import { DependencyTag, DependencyTagDiff } from "./types";
+import {
+  DependencyTag,
+  DependencyListDiff,
+  DependencyDetail,
+  DependencyListItem,
+} from "./types";
 
 interface ConstructorOptions {
   fetchVersionList: (dependencyName: string) => Promise<string[]>;
@@ -15,7 +20,7 @@ class HTMLDependencyManager {
   private fetchVersionList: (dependencyName: string) => Promise<string[]>;
   private versionCache: { [key: string]: string[] };
   private tagManager: TagManager;
-  public lastTags: DependencyTag[] = []; // 上次的标签列表
+  public lastDependencies: DependencyListItem[] = []; // 上次的依赖详情列表
   private scriptSrcBuilder: (dep: DependencyDetail) => string; // 新增参数用于自定义构造 src
   private linkHrefBuilder: (dep: DependencyDetail) => string; // 现在是可选的，返回 string 或 false
 
@@ -159,87 +164,82 @@ class HTMLDependencyManager {
   }
 
   // 新方法：转换依赖项到 DependencyTag 列表
-  getDependencyTags(): DependencyTag[] {
+  getDependencyList(): DependencyListItem[] {
     const dependencies = this.getSortedDependencies();
-    const tags: DependencyTag[] = [];
 
     // 遍历排序后的依赖列表，创建对应的 tag 对象
-    dependencies.forEach((dep) => {
-      if (this.linkHrefBuilder(dep)) {
-        tags.push({
-          type: "link",
-          src: this.linkHrefBuilder(dep),
-          attributes: { rel: "stylesheet" },
-        });
-      }
-      if (this.scriptSrcBuilder(dep)) {
-        tags.push({
-          type: "script",
-          src: this.scriptSrcBuilder(dep),
-          attributes: { async: "true" }, // 示例属性，可根据需求添加更多
-        });
-      }
+    return dependencies.map((dep) => {
+      return {
+        version: dep.version,
+        name: dep.name,
+      };
     });
-
-    return tags;
   }
 
   // 新方法：计算依赖标签的差异
-  calculateDiffs(): DependencyTagDiff {
-    const currentTags = this.getDependencyTags();
-    const oldTagsMap = new Map(this.lastTags.map((tag) => [tag.src, tag]));
-    const currentTagsMap = new Map(currentTags.map((tag) => [tag.src, tag]));
+  // 新方法：计算依赖详情的差异
+  calculateDiffs(): DependencyListDiff {
+    const currentDependencies = this.getDependencyList(); // 获取当前排序后的依赖详情
+    const oldDependenciesMap = new Map(
+      this.lastDependencies.map((dep) => [dep.name + "@" + dep.version, dep])
+    ); // 创建映射以快速访问旧依赖
+    const currentDependenciesMap = new Map(
+      currentDependencies.map((dep) => [dep.name + "@" + dep.version, dep])
+    ); // 创建映射以快速访问当前依赖
 
-    const diff: DependencyTagDiff = {
+    const diff: DependencyListDiff = {
       insert: [],
       remove: [],
       update: [],
       move: [],
     };
 
-    let lastMovedIndex = -1; // 记录上次移动的索引位置，帮助确定最少移动次数
+    let lastMovedIndex = -1; // 上次移动的索引，用于优化移动操作的识别
 
-    // 判断是否需要移动
-    currentTags.forEach((tag, index) => {
-      const oldTag = oldTagsMap.get(tag.src);
-      const oldIndex = this.lastTags.findIndex((t) => t.src === tag.src);
+    // 遍历当前依赖详情，判断每个依赖的状态（新增、移动、更新）
+    currentDependencies.forEach((dep, index) => {
+      const oldDep = oldDependenciesMap.get(dep.name + "@" + dep.version);
+      const oldIndex = this.lastDependencies.findIndex(
+        (d) => d.name + "@" + d.version === dep.name + "@" + dep.version
+      );
 
-      if (!oldTag) {
+      if (!oldDep) {
+        // 如果旧依赖中不存在，表示为新增
         diff.insert.push({
-          tag,
-          prevSrc: index > 0 ? currentTags[index - 1].src : null,
+          dep,
+          prevDep: index > 0 ? currentDependencies[index - 1] : null,
         });
       } else {
         const isMoved = oldIndex >= 0 && oldIndex !== index;
         if (isMoved && oldIndex > lastMovedIndex) {
+          // 如果位置改变，并且该改变是必需的（非重复移动）
           diff.move.push({
-            tag,
-            prevSrc: index > 0 ? currentTags[index - 1].src : null,
+            dep,
+            prevDep: index > 0 ? currentDependencies[index - 1] : null,
           });
           lastMovedIndex = index;
         }
-        if (
-          JSON.stringify(tag.attributes) !== JSON.stringify(oldTag.attributes)
-        ) {
-          diff.update.push(tag);
+        if (JSON.stringify(dep.data) !== JSON.stringify(oldDep.data)) {
+          // 如果子依赖有更新
+          diff.update.push(dep);
         }
       }
     });
 
-    // 判断是否需要删除
-    this.lastTags.forEach((tag) => {
-      if (!currentTagsMap.has(tag.src)) {
-        diff.remove.push(tag);
+    // 遍历旧依赖详情，判断是否有依赖需要移除
+    this.lastDependencies.forEach((dep) => {
+      if (!currentDependenciesMap.has(dep.name + "@" + dep.version)) {
+        diff.remove.push(dep);
       }
     });
 
-    this.lastTags = currentTags; // 更新 lastTags
+    this.lastDependencies = currentDependencies; // 更新依赖详情缓存，供下次差异计算使用
 
     return diff;
   }
 
   // 新方法：根据差异信息更新 head 中的标签
-  applyDiffs(diff: DependencyTagDiff): void {
+  applyDiffs(diff: DependencyListDiff): void {
     this.tagManager.applyDependencyDiffs(diff);
   }
 }

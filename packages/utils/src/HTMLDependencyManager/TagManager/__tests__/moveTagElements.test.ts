@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom";
 import { TagManager } from "..";
-import { InsertionDetail } from "../../types";
+import { DependencyListInsertionDetail } from "../../types";
 import { formatHeadHtml } from "@/__tests__/_utils";
 
 describe("TagManager", () => {
@@ -28,9 +28,9 @@ describe("TagManager", () => {
     script2.src = "script2.js";
     head.appendChild(script2);
 
-    const moveDetail: InsertionDetail = {
-      tag: { src: "script2.js", type: "script", attributes: {} },
-      prevSrc: null, // 将 script2 移动到第一个位置
+    const moveDetail: DependencyListInsertionDetail = {
+      dep: { src: "script2.js", type: "script", attributes: {} },
+      prevDep: null, // 将 script2 移动到第一个位置
     };
 
     // 模拟移动操作

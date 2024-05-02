@@ -1,6 +1,6 @@
 import { EventBus } from "@/src/EventBus";
 import { TagEvents, TagManager } from "..";
-import { DependencyTagDiff } from "../../types";
+import { DependencyListDiff } from "../../types";
 
 describe("TagManager", () => {
   let eventBus: EventBus<TagEvents>;
@@ -12,11 +12,11 @@ describe("TagManager", () => {
   });
 
   it("should handle insertion correctly", () => {
-    const diffs: DependencyTagDiff = {
+    const diffs: DependencyListDiff = {
       insert: [
         {
-          tag: { type: "script", src: "script1.js", attributes: {} },
-          prevSrc: null,
+          dep: { type: "script", src: "script1.js", attributes: {} },
+          prevDep: null,
         },
       ],
       remove: [],
@@ -45,8 +45,8 @@ describe("TagManager", () => {
     tagManager.applyDependencyDiffs({
       insert: [
         {
-          tag: { type: "script", src: "script1.js", attributes: {} },
-          prevSrc: null,
+          dep: { type: "script", src: "script1.js", attributes: {} },
+          prevDep: null,
         },
       ],
       remove: [],
@@ -68,8 +68,8 @@ describe("TagManager", () => {
     tagManager.applyDependencyDiffs({
       insert: [
         {
-          tag: { type: "script", src: "script1.js", attributes: {} },
-          prevSrc: null,
+          dep: { type: "script", src: "script1.js", attributes: {} },
+          prevDep: null,
         },
       ],
       remove: [],
@@ -105,23 +105,12 @@ describe("TagManager", () => {
     tagManager.applyDependencyDiffs({
       insert: [
         {
-          tag: { type: "script", src: "script1.js", attributes: {} },
-          prevSrc: null,
+          dep: { type: "script", src: "script1.js", attributes: {} },
+          prevDep: null,
         },
         {
-          tag: { type: "script", src: "script2.js", attributes: {} },
-          prevSrc: "script1.js",
-        },
-      ],
-      remove: [],
-      update: [],
-      move: []
-    });
-    tagManager.applyDependencyDiffs({
-      insert: [
-        {
-          tag: { type: "script", src: "script3.js", attributes: {} },
-          prevSrc: "script2.js",
+          dep: { type: "script", src: "script2.js", attributes: {} },
+          prevDep: "script1.js",
         },
       ],
       remove: [],
@@ -131,8 +120,19 @@ describe("TagManager", () => {
     tagManager.applyDependencyDiffs({
       insert: [
         {
-          tag: { type: "script", src: "script2.1.js", attributes: {} },
-          prevSrc: "script2.js",
+          dep: { type: "script", src: "script3.js", attributes: {} },
+          prevDep: "script2.js",
+        },
+      ],
+      remove: [],
+      update: [],
+      move: []
+    });
+    tagManager.applyDependencyDiffs({
+      insert: [
+        {
+          dep: { type: "script", src: "script2.1.js", attributes: {} },
+          prevDep: "script2.js",
         },
       ],
       remove: [],
