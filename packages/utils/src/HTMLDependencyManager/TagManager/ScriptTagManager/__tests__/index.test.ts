@@ -95,7 +95,7 @@ describe("ScriptTagManager base", () => {
           name: "script1",
           version: "0.0.0",
           data: {
-            async: "true",
+            key1: "true",
           },
         },
       ],
@@ -112,7 +112,7 @@ describe("ScriptTagManager base", () => {
         },
       ]
     `);
-    expect(manager["tags"][0].attributes.async).toEqual(undefined);
+    expect(manager["tags"][0].attributes.key1).toEqual(undefined);
   });
 
   it("should maintain execution order across multiple inserts", () => {
