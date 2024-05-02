@@ -30,7 +30,7 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     item: DependencyListItem
   ): TTag;
 
-  protected getTags(): TTag[] {
+  getTags(): TTag[] {
     return this.tags;
   }
 

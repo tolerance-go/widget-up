@@ -20,7 +20,7 @@ export class TagManager {
     linkSrcBuilder,
   }: {
     eventBus?: EventBus<TagEvents>;
-    document?: Document;
+    document: Document;
     scriptSrcBuilder?: (dep: DependencyListItem) => string;
     linkSrcBuilder?: (dep: DependencyListItem) => string;
   }) {

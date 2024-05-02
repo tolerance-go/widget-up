@@ -1,12 +1,7 @@
-import { EventBus } from "@/src/EventBus";
 import {
-  LinkTag,
-  DependencyListItem,
   DependencyListDiff,
-  DependencyListInsertionDetail,
-  LinkTagInsertionDetail,
-  LinkTagDiff,
-  DependencyTag,
+  DependencyListItem,
+  LinkTag
 } from "../../types";
 import { TagManagerBase } from "../TagManagerBase";
 

@@ -2,9 +2,7 @@ import { EventBus } from "@/src/EventBus";
 import {
   DependencyListDiff,
   DependencyListItem,
-  DependencyTag,
-  ScriptTag,
-  ScriptTagDiff,
+  ScriptTag
 } from "../../types";
 import { TagManagerBase } from "../TagManagerBase";
 
