@@ -24,10 +24,14 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     srcBuilder,
   }: {
     eventBus?: EventBus<TagEvents>;
-    document?: Document;
+    document: Document;
     srcBuilder?: (dep: DependencyListItem) => string;
   }) {
-    super({ document });
+    const container = document.createElement("div");
+    container.setAttribute("id", "script-tag-manager-container");
+    document.body.appendChild(container);
+
+    super({ document, container });
     this.eventBus = eventBus || new EventBus<TagEvents>();
     this.eventBus.on("executed", (payload) => this.onTagExecuted(payload.id));
     this.srcBuilder = srcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);

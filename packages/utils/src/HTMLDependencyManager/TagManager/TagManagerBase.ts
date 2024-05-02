@@ -8,10 +8,18 @@ import {
 
 export abstract class TagManagerBase<TTag extends DependencyTag> {
   protected tags: TTag[] = [];
-  protected document?: Document;
+  protected document: Document;
+  protected container: HTMLElement;
 
-  constructor({ document }: { document?: Document }) {
+  constructor({
+    document,
+    container,
+  }: {
+    document: Document;
+    container: HTMLElement;
+  }) {
     this.document = document;
+    this.container = container; // 设置容器元素
   }
 
   abstract applyDependencyDiffs(diffs: DependencyListDiff): void;
@@ -133,40 +141,32 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
   }
 
   protected updateHtml(diff: TagDiff<TTag>) {
-    if (!this.document) return;
-
-    const head = this.document.head;
-
     // 处理插入的标签
     diff.insert.forEach((detail) => {
-      const element = this.createElementFromTag(detail.tag, this.document!);
-      this.insertElementInHead(element, detail.prevTag, head);
+      const element = this.createElementFromTag(detail.tag);
+      this.insertElementInHead(element, detail.prevTag, this.container);
     });
 
     // 处理移动的标签
     diff.move.forEach((moveDetail) => {
       const selector = this.createSelectorForTag(moveDetail.tag);
-      const element = head.querySelector(selector);
+      const element = this.container.querySelector(selector);
       if (element) {
-        this.insertElementInHead(
-          element,
-          moveDetail.prevTag,
-          head
-        );
+        this.insertElementInHead(element, moveDetail.prevTag, this.container);
       }
     });
 
     // 处理移除的标签
     diff.remove.forEach((tag) => {
       const selector = this.createSelectorForTag(tag);
-      const elements = head.querySelectorAll(selector);
+      const elements = this.container.querySelectorAll(selector);
       elements.forEach((el) => el.parentNode?.removeChild(el));
     });
 
     // 处理更新的标签
     diff.update.forEach((tag) => {
       const selector = this.createSelectorForTag(tag);
-      const elements = head.querySelectorAll(selector);
+      const elements = this.container.querySelectorAll(selector);
       elements.forEach((el) => {
         Object.keys(tag.attributes).forEach((attr) => {
           el.setAttribute(attr, tag.attributes[attr]);
@@ -186,7 +186,7 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     // 找到参考元素
     if (prevTag) {
       // 需要根据 element 的类型决定是使用 src 还是 href 作为属性选择器
-      const selector = this.createSelectorForTag(prevTag)
+      const selector = this.createSelectorForTag(prevTag);
       referenceElement = container.querySelector(selector);
     }
 
@@ -207,11 +207,8 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
   }
 
   // 辅助方法：从 DependencyTag 创建 DOM 元素
-  protected createElementFromTag(
-    tag: DependencyTag,
-    document: Document
-  ): HTMLElement {
-    const element = document.createElement(tag.type) as
+  protected createElementFromTag(tag: DependencyTag): HTMLElement {
+    const element = this.document.createElement(tag.type) as
       | HTMLScriptElement
       | HTMLLinkElement;
 
