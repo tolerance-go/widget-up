@@ -53,21 +53,27 @@ describe("ScriptTagManager moveTags", () => {
     expect(tagManager.getTags()).toMatchInlineSnapshot(`
       [
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script1.js@.js",
           "type": "script",
         },
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script2.js@.js",
           "type": "script",
         },
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script3.js@.js",
@@ -92,21 +98,27 @@ describe("ScriptTagManager moveTags", () => {
     expect(tagManager.getTags()).toMatchInlineSnapshot(`
       [
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script1.js@.js",
           "type": "script",
         },
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script3.js@.js",
           "type": "script",
         },
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script2.js@.js",
@@ -131,21 +143,27 @@ describe("ScriptTagManager moveTags", () => {
     expect(tagManager.getTags()).toMatchInlineSnapshot(`
       [
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script3.js@.js",
           "type": "script",
         },
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script1.js@.js",
           "type": "script",
         },
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script2.js@.js",

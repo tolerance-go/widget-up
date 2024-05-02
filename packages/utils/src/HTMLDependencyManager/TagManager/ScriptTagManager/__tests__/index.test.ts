@@ -38,7 +38,9 @@ describe("ScriptTagManager base", () => {
     expect(manager.getTags()).toMatchInlineSnapshot(`
       [
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script1@0.0.0.js",
@@ -102,7 +104,9 @@ describe("ScriptTagManager base", () => {
     expect(manager.getTags()).toMatchInlineSnapshot(`
       [
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "src": "script1@0.0.0.js",
           "type": "script",
         },
@@ -153,28 +157,36 @@ describe("ScriptTagManager base", () => {
     expect(manager.getTags()).toMatchInlineSnapshot(`
       [
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script1.js@0.0.0.js",
           "type": "script",
         },
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script2.js@0.0.0.js",
           "type": "script",
         },
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script2.1.js@0.0.0.js",
           "type": "script",
         },
         {
-          "attributes": {},
+          "attributes": {
+            "async": "true",
+          },
           "executed": false,
           "loaded": false,
           "src": "script3.js@0.0.0.js",
