@@ -34,6 +34,12 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     super({ document, container });
     this.eventBus = eventBus || new EventBus<TagEvents>();
     this.eventBus.on("executed", (payload) => this.onTagExecuted(payload.id));
+
+    // 设置事件监听，准备处理标签加载完成的事件
+    this.eventBus.on("loaded", (payload) => {
+      this.onTagLoaded(payload.id);
+    });
+
     this.srcBuilder = srcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
   }
 
@@ -52,30 +58,8 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     };
   }
 
-  // 插入标签
-  protected insertTag(tag: ScriptTag, prevTag: ScriptTag | null) {
-    super.insertTag(tag, prevTag);
-
-    // 设置事件监听，准备处理标签加载完成的事件
-    this.eventBus.on("loaded", (payload) => {
-      if (payload.id === tag.src) {
-        this.onTagLoaded(tag.src);
-      }
-    });
-  }
-
-  // 移除标签
-  protected removeTag(src: string) {
-    super.removeTag(src);
-    this.eventBus.off("loaded", (payload) => {
-      if (payload.id === src) {
-        this.onTagLoaded(src);
-      }
-    });
-  }
-
   // 标签加载完成处理
-  private onTagLoaded(src: string) {
+  public onTagLoaded(src: string) {
     const tag = this.tags.find((t) => t.src === src);
     if (tag) {
       tag.loaded = true; // 标记为加载完成
@@ -84,7 +68,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   }
 
   // 标签执行完成处理
-  private onTagExecuted(id: string) {
+  public onTagExecuted(id: string) {
     const tag = this.tags.find((t) => t.src === id);
     if (tag) {
       tag.executed = true; // 标记为执行完成
@@ -93,16 +77,14 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   }
 
   // 检查并执行标签
-  private checkExecute() {
+  public checkExecute() {
     let allPreviousLoadedAndExecuted = true;
     for (const tag of this.tags) {
-      if (!tag.loaded || !tag.executed) {
-        if (allPreviousLoadedAndExecuted && tag.loaded) {
-          this.eventBus.emit("execute", { id: tag.src });
-        }
+      if (tag.loaded && !tag.executed && allPreviousLoadedAndExecuted) {
+        this.eventBus.emit("execute", { id: tag.src });
         break;
       }
-      allPreviousLoadedAndExecuted = tag.executed;
+      allPreviousLoadedAndExecuted = !!tag.loaded && !!tag.executed;
     }
   }
 }

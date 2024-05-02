@@ -7,7 +7,7 @@ import {
 } from "../types";
 
 export abstract class TagManagerBase<TTag extends DependencyTag> {
-  protected tags: TTag[] = [];
+  public tags: TTag[] = [];
   protected document: Document;
   protected container: HTMLElement;
 
@@ -22,7 +22,7 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     this.container = container; // 设置容器元素
   }
 
-  protected applyDependencyDiffs(diffs: DependencyListDiff) {
+  public applyDependencyDiffs(diffs: DependencyListDiff) {
     const tagDiffs = this.convertDependencyListDiffToTagDiff(diffs);
 
     this.updateTags(tagDiffs);
