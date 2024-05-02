@@ -36,6 +36,14 @@ export class TagManager {
     });
   }
 
+  getScriptContainer() {
+    return this.scriptTagManager.getContainer();
+  }
+
+  getLinkContainer() {
+    return this.linkTagManager.getContainer();
+  }
+
   getScriptTags() {
     return this.scriptTagManager.getTags();
   }

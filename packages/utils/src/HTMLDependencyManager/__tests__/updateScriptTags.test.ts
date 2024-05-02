@@ -1,10 +1,11 @@
 import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
-import { formatHeadHtml } from "@/__tests__/_utils";
+import { formatElementHtml } from "@/__tests__/_utils";
 
 describe("HTMLDependencyManager", () => {
   let manager: HTMLDependencyManager;
   let document: Document;
+  let container: HTMLElement;
 
   beforeEach(() => {
     // 使用 JSDOM 创建一个新的 Document 对象
@@ -16,17 +17,18 @@ describe("HTMLDependencyManager", () => {
       document,
       scriptSrcBuilder: (dep) => `path/to/${dep.name}@${dep.version}.js`,
     });
+    container = manager.tagManager.getScriptContainer();
   });
 
   it("should correctly update script tags when dependencies are added", async () => {
     // 依赖更新前，确保无脚本标签
-    expect(document.head.querySelectorAll("script").length).toBe(0);
+    expect(container.querySelectorAll("script").length).toBe(0);
 
     // 添加依赖
     await manager.addDependency("libA", "^1.0.0");
 
     // 验证脚本标签被添加
-    let scripts = document.head.querySelectorAll("script");
+    let scripts = container.querySelectorAll("script");
     expect(scripts.length).toBe(1);
     expect(scripts[0].src).toBe("path/to/libA@1.0.0.js");
 
@@ -34,9 +36,9 @@ describe("HTMLDependencyManager", () => {
     await manager.addDependency("libB", "^2.0.0");
 
     // 验证新脚本标签被添加
-    scripts = document.head.querySelectorAll("script");
+    scripts = container.querySelectorAll("script");
     expect(scripts.length).toBe(2);
-    expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
+    expect(formatElementHtml(container)).toMatchInlineSnapshot(`
       "<script src="path/to/libA@1.0.0.js" async="true" data-managed="true"></script>
       <script src="path/to/libB@2.0.0.js" async="true" data-managed="true"></script>"
     `);
@@ -46,14 +48,14 @@ describe("HTMLDependencyManager", () => {
     // 首先添加一个脚本标签
     const script = document.createElement("script");
     script.src = "path/to/libA@1.0.0.js";
-    document.head.appendChild(script);
+    container.appendChild(script);
 
     // 添加依赖并触发更新
     await manager.addDependency("libA", "^2.0.0");
 
-    const scripts = document.head.querySelectorAll("script");
+    const scripts = container.querySelectorAll("script");
     expect(scripts.length).toBe(2);
-    expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
+    expect(formatElementHtml(container)).toMatchInlineSnapshot(`
       "<script src="path/to/libA@2.0.0.js" async="true" data-managed="true"></script>
       <script src="path/to/libA@1.0.0.js"></script>"
     `);
@@ -68,10 +70,10 @@ describe("HTMLDependencyManager", () => {
     await manager.addDependency("libA", "^2.0.0");
 
     // 验证正确的脚本更新
-    const scripts = document.head.querySelectorAll("script");
+    const scripts = container.querySelectorAll("script");
     expect(scripts.length).toBe(3);
 
-    expect(formatHeadHtml(document)).toMatchInlineSnapshot(`
+    expect(formatElementHtml(container)).toMatchInlineSnapshot(`
       "<script src="path/to/libA@1.0.0.js" async="true" data-managed="true"></script>
       <script src="path/to/libA@2.0.0.js" async="true" data-managed="true"></script>
       <script src="path/to/libB@1.0.0.js" async="true" data-managed="true"></script>"

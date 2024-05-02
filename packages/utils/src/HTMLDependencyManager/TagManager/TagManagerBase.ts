@@ -30,6 +30,10 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     item: DependencyListItem
   ): TTag;
 
+  getContainer(): HTMLElement {
+    return this.container;
+  }
+
   getTags(): TTag[] {
     return this.tags;
   }

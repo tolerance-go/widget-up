@@ -19,7 +19,7 @@ class HTMLDependencyManager {
   private dependencyManager: DependencyManager;
   private fetchVersionList: (dependencyName: string) => Promise<string[]>;
   private versionCache: { [key: string]: string[] };
-  private tagManager: TagManager;
+  public tagManager: TagManager;
   public lastDependencies: DependencyListItem[] = []; // 上次的依赖详情列表
   private scriptSrcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
   private linkHrefBuilder: (dep: DependencyListItem) => string; // 现在是可选的，返回 string 或 false
