@@ -11,21 +11,14 @@ interface ProcessOptions {
   eventBusPath: string;
   eventId?: string;
   verbose: boolean;
+  serverBase?: string;
 }
 
 function processFile(filePath: string, options: ProcessOptions): void {
-  const { eventBusPath, eventId, verbose } = options;
+  const { eventBusPath, eventId, verbose, serverBase = "" } = options;
   try {
     const data = fs.readFileSync(filePath, "utf8");
     if (verbose) console.log(`File read successfully: ${filePath}`);
-
-    const finalEventId =
-      eventId || path.basename(filePath, path.extname(filePath));
-    const wrappedScript = wrapScriptAndWaitExec({
-      scriptContent: data,
-      eventId: finalEventId,
-      eventBusPath: eventBusPath,
-    });
 
     const outputFile = path.join(
       path.dirname(filePath),
@@ -33,6 +26,19 @@ function processFile(filePath: string, options: ProcessOptions): void {
         ".wrap" +
         path.extname(filePath)
     );
+
+    let relativePath = outputFile;
+    if (outputFile.startsWith(serverBase)) {
+      relativePath = outputFile.substring(serverBase.length);
+      relativePath = path.normalize(relativePath).replace(/\\/g, "/");
+    }
+
+    const finalEventId = eventId || relativePath;
+    const wrappedScript = wrapScriptAndWaitExec({
+      scriptContent: data,
+      eventId: finalEventId,
+      eventBusPath: eventBusPath,
+    });
 
     fs.writeFileSync(outputFile, wrappedScript);
     if (verbose) console.log(`Wrapped script written to ${outputFile}`);
@@ -76,6 +82,10 @@ yargs(hideBin(process.argv))
             describe: "The event name to use",
             type: "string",
           },
+          serverBase: {
+            describe: "服务器根路径",
+            type: "string",
+          },
           eventBusPath: {
             alias: "e",
             describe: "The EventBus access path",
@@ -90,12 +100,13 @@ yargs(hideBin(process.argv))
           },
         }),
     (args: any) => {
-      const { file, eventBusPath, eventId, verbose } = args;
+      const { file, eventBusPath, eventId, verbose, serverBase } = args;
       const stats = fs.statSync(file);
       const options: ProcessOptions = {
         eventBusPath,
         eventId,
         verbose,
+        serverBase,
       };
 
       if (stats.isDirectory()) {

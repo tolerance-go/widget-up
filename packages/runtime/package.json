@@ -15,6 +15,7 @@
     "types"
   ],
   "scripts": {
+    "gen:wrap": "wrapScriptAndWaitExec exec server/libs --serverBase server --eventBusPath WidgetUpRuntime.globalEventBus",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "build": "cross-env NODE_ENV=production rollup -c",
     "test": "jest"
