@@ -56,6 +56,8 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
 
   protected dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
     return {
+      name: item.name,
+      version: item.version,
       type: "script",
       src: this.srcBuilder(item),
       attributes: {

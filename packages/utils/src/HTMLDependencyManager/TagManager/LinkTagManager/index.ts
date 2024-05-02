@@ -34,6 +34,8 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
   protected dependencyListItemToTagItem(item: DependencyListItem): LinkTag {
     return {
       type: "link",
+      name: item.name,
+      version: item.version,
       src: this.hrefBuilder(item),
       attributes: {
         rel: "stylesheet",

@@ -33,7 +33,13 @@ describe("ScriptTagManager moveTagElements", () => {
     head.appendChild(script2);
 
     const moveDetail: TagListInsertionDetail<ScriptTag> = {
-      tag: { type: "script", src: "script2.js", attributes: {} },
+      tag: {
+        type: "script",
+        src: "script2.js",
+        attributes: {},
+        name: "script2",
+        version: "",
+      },
       prevTag: null, // 将 script2 移动到第一个位置
     };
 

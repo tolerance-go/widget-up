@@ -239,6 +239,9 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     Object.keys(tag.attributes).forEach((attr) => {
       element.setAttribute(attr, tag.attributes[attr]);
     });
+
+    // 使用 name 和 version 创建 data-dependency-id 属性
+    element.setAttribute("data-dependency-id", `${tag.name}@${tag.version}`);
     element.setAttribute("data-managed", "true"); // 标记管理的元素
     return element;
   }

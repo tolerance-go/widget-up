@@ -58,8 +58,10 @@ describe("ScriptTagManager moveTags", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script1.js",
           "src": "script1.js@.js",
           "type": "script",
+          "version": "",
         },
         {
           "attributes": {
@@ -67,8 +69,10 @@ describe("ScriptTagManager moveTags", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script2.js",
           "src": "script2.js@.js",
           "type": "script",
+          "version": "",
         },
         {
           "attributes": {
@@ -76,8 +80,10 @@ describe("ScriptTagManager moveTags", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script3.js",
           "src": "script3.js@.js",
           "type": "script",
+          "version": "",
         },
       ]
     `);
@@ -103,8 +109,10 @@ describe("ScriptTagManager moveTags", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script1.js",
           "src": "script1.js@.js",
           "type": "script",
+          "version": "",
         },
         {
           "attributes": {
@@ -112,8 +120,10 @@ describe("ScriptTagManager moveTags", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script3.js",
           "src": "script3.js@.js",
           "type": "script",
+          "version": "",
         },
         {
           "attributes": {
@@ -121,8 +131,10 @@ describe("ScriptTagManager moveTags", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script2.js",
           "src": "script2.js@.js",
           "type": "script",
+          "version": "",
         },
       ]
     `);
@@ -148,8 +160,10 @@ describe("ScriptTagManager moveTags", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script3.js",
           "src": "script3.js@.js",
           "type": "script",
+          "version": "",
         },
         {
           "attributes": {
@@ -157,8 +171,10 @@ describe("ScriptTagManager moveTags", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script1.js",
           "src": "script1.js@.js",
           "type": "script",
+          "version": "",
         },
         {
           "attributes": {
@@ -166,8 +182,10 @@ describe("ScriptTagManager moveTags", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script2.js",
           "src": "script2.js@.js",
           "type": "script",
+          "version": "",
         },
       ]
     `);

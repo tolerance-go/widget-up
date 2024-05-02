@@ -32,6 +32,8 @@ describe("ScriptTagManager", () => {
 
     manager.tags = [
       {
+        name: 'script1',
+        version: '',
         type: "script",
         attributes: {},
         src: "script1.js",
@@ -39,6 +41,8 @@ describe("ScriptTagManager", () => {
         executed: false,
       },
       {
+        name: 'script2',
+        version: '',
         type: "script",
         attributes: {},
         src: "script2.js",
@@ -46,6 +50,8 @@ describe("ScriptTagManager", () => {
         executed: false,
       },
       {
+        name: 'script3',
+        version: '',
         type: "script",
         attributes: {},
         src: "script3.js",
@@ -66,6 +72,8 @@ describe("ScriptTagManager", () => {
   it("当脚本加载完成但前一个脚本尚未执行时不应执行当前脚本", () => {
     manager.tags = [
       {
+        name: 'script1',
+        version: '',
         attributes: {},
         type: "script",
         src: "script1.js",
@@ -73,6 +81,8 @@ describe("ScriptTagManager", () => {
         executed: false,
       },
       {
+        name: 'script2',
+        version: '',
         attributes: {},
         type: "script",
         src: "script2.js",
@@ -80,6 +90,8 @@ describe("ScriptTagManager", () => {
         executed: false,
       },
       {
+        name: 'script3',
+        version: '',
         attributes: {},
         type: "script",
         src: "script3.js",

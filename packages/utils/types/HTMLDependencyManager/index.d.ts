@@ -26,6 +26,8 @@ export interface DependencyListInsertionDetail {
 }
 
 export interface DependencyTag {
+  name: string;
+  version: string;
   type: "script" | "link"; // 标识标签类型
   src: string; // script 的 src 或 link 的 href
   attributes: {

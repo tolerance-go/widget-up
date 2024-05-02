@@ -43,8 +43,10 @@ describe("ScriptTagManager base", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script1",
           "src": "script1@0.0.0.js",
           "type": "script",
+          "version": "0.0.0",
         },
       ]
     `);
@@ -107,8 +109,10 @@ describe("ScriptTagManager base", () => {
           "attributes": {
             "async": "true",
           },
+          "name": "script1",
           "src": "script1@0.0.0.js",
           "type": "script",
+          "version": "0.0.0",
         },
       ]
     `);
@@ -162,8 +166,10 @@ describe("ScriptTagManager base", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script1.js",
           "src": "script1.js@0.0.0.js",
           "type": "script",
+          "version": "0.0.0",
         },
         {
           "attributes": {
@@ -171,8 +177,10 @@ describe("ScriptTagManager base", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script2.js",
           "src": "script2.js@0.0.0.js",
           "type": "script",
+          "version": "0.0.0",
         },
         {
           "attributes": {
@@ -180,8 +188,10 @@ describe("ScriptTagManager base", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script2.1.js",
           "src": "script2.1.js@0.0.0.js",
           "type": "script",
+          "version": "0.0.0",
         },
         {
           "attributes": {
@@ -189,8 +199,10 @@ describe("ScriptTagManager base", () => {
           },
           "executed": false,
           "loaded": false,
+          "name": "script3.js",
           "src": "script3.js@0.0.0.js",
           "type": "script",
+          "version": "0.0.0",
         },
       ]
     `);
