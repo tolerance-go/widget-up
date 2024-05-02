@@ -49,11 +49,6 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     this.srcBuilder = srcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
   }
 
-  createSelectorForTag(tag: ScriptTag): string {
-    // 使用 src 属性作为选择器
-    return `script[src="${tag.src}"]`;
-  }
-
   protected dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
     return {
       name: item.name,

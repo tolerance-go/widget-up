@@ -34,7 +34,9 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     this.updateHtml(tagDiffs);
   }
 
-  abstract createSelectorForTag(tag: TTag): string;
+  protected createSelectorForTag(tag: TTag) {
+    return `${tag.type}[data-dependency-id="${tag.name}@${tag.version}"][data-managed="true"]`;
+  }
 
   protected abstract dependencyListItemToTagItem(
     item: DependencyListItem

@@ -51,10 +51,10 @@ describe("ScriptTagManager moveTagElements", () => {
       update: [],
     });
 
-    // 检查 script2 是否被正确移动到第一个位置
+    // 这里不会进行移动，因为不是内部创建的，没有加上 tag
     expect(formatHeadHtml(mockDocument)).toMatchInlineSnapshot(`
-      "<script src="script2.js"></script>
-      <script src="script1.js"></script>"
+      "<script src="script1.js"></script>
+      <script src="script2.js"></script>"
     `);
   });
 });

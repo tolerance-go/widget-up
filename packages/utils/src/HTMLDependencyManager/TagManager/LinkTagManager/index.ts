@@ -1,4 +1,8 @@
-import { DependencyListDiff, DependencyListItem, LinkTag } from "../../../../types/HTMLDependencyManager";
+import {
+  DependencyListDiff,
+  DependencyListItem,
+  LinkTag,
+} from "../../../../types/HTMLDependencyManager";
 import { TagManagerBase } from "../TagManagerBase";
 
 export const LinkTagManagerContainerId = "link-tag-manager-container";
@@ -24,11 +28,6 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
     this.hrefBuilder =
       hrefBuilder ||
       ((dep) => `https://cdn.example.com/${dep.name}@${dep.version}.css`);
-  }
-
-  createSelectorForTag(tag: LinkTag): string {
-    // 使用 href 属性作为选择器
-    return `link[href="${tag.src}"]`;
   }
 
   protected dependencyListItemToTagItem(item: DependencyListItem): LinkTag {
