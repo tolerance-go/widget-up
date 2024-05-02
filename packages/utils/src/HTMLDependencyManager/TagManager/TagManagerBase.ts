@@ -22,7 +22,13 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     this.container = container; // 设置容器元素
   }
 
-  abstract applyDependencyDiffs(diffs: DependencyListDiff): void;
+  protected applyDependencyDiffs(diffs: DependencyListDiff) {
+    const tagDiffs = this.convertDependencyListDiffToTagDiff(diffs);
+
+    this.updateTags(tagDiffs);
+
+    this.updateHtml(tagDiffs);
+  }
 
   abstract createSelectorForTag(tag: TTag): string;
 

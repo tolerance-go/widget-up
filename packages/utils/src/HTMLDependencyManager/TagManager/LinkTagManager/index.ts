@@ -31,14 +31,6 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
     return `link[href="${tag.src}"]`;
   }
 
-  applyDependencyDiffs(diffs: DependencyListDiff) {
-    const tagDiffs = this.convertDependencyListDiffToTagDiff(diffs);
-
-    this.updateTags(tagDiffs);
-
-    this.updateHtml(tagDiffs);
-  }
-
   protected dependencyListItemToTagItem(item: DependencyListItem): LinkTag {
     return {
       type: "link",

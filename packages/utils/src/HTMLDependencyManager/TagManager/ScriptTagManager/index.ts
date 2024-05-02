@@ -42,18 +42,6 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     return `script[src="${tag.src}"]`;
   }
 
-  // 处理传入的标签差异
-  applyDependencyDiffs(diffs: DependencyListDiff) {
-    const tagDiffs = this.convertDependencyListDiffToTagDiff(diffs);
-
-    this.updateTags(tagDiffs);
-
-    this.updateHtml(tagDiffs);
-
-    // 检查是否有标签需要执行
-    this.checkExecute();
-  }
-
   protected dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
     return {
       type: "script",
