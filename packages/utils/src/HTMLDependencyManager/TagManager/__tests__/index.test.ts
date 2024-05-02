@@ -1,14 +1,14 @@
 import { EventBus } from "@/src/EventBus";
-import { TagEvents, ScriptTagManager } from "..";
+import { TagEvents, TagManager } from "..";
 import { DependencyListDiff } from "../../types";
 
 describe("TagManager", () => {
   let eventBus: EventBus<TagEvents>;
-  let tagManager: ScriptTagManager;
+  let tagManager: TagManager;
 
   beforeEach(() => {
     eventBus = new EventBus<TagEvents>();
-    tagManager = new ScriptTagManager({ eventBus });
+    tagManager = new TagManager({ eventBus });
   });
 
   it("should handle insertion correctly", () => {
@@ -26,7 +26,7 @@ describe("TagManager", () => {
 
     tagManager.applyDependencyDiffs(diffs);
     expect(tagManager["tags"]).toHaveLength(1);
-    expect(tagManager.getTags()).toMatchInlineSnapshot(`
+    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {},
@@ -59,7 +59,7 @@ describe("TagManager", () => {
       update: [],
       move: []
     });
-    expect(tagManager.getTags()).toMatchInlineSnapshot(`[]`);
+    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`[]`);
     expect(tagManager["tags"]).toHaveLength(0);
   });
 
@@ -84,7 +84,7 @@ describe("TagManager", () => {
       ],
       move: []
     });
-    expect(tagManager.getTags()).toMatchInlineSnapshot(`
+    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {
@@ -139,7 +139,7 @@ describe("TagManager", () => {
       update: [],
       move: []
     });
-    expect(tagManager.getTags()).toMatchInlineSnapshot(`
+    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {},

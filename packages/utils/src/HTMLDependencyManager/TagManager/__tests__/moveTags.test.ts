@@ -1,13 +1,13 @@
 import { EventBus } from "@/src/EventBus";
-import { TagEvents, ScriptTagManager } from "..";
+import { TagEvents, TagManager } from "..";
 
 describe("TagManager moveTags", () => {
   let eventBus: EventBus<TagEvents>;
-  let tagManager: ScriptTagManager;
+  let tagManager: TagManager;
 
   beforeEach(() => {
     eventBus = new EventBus<TagEvents>();
-    tagManager = new ScriptTagManager({ eventBus });
+    tagManager = new TagManager({ eventBus });
   });
 
   it("should handle tag movements correctly", () => {
@@ -32,7 +32,7 @@ describe("TagManager moveTags", () => {
       move: [],
     });
 
-    expect(tagManager.getTags()).toMatchInlineSnapshot(`
+    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {},
@@ -71,7 +71,7 @@ describe("TagManager moveTags", () => {
       ],
     });
 
-    expect(tagManager.getTags()).toMatchInlineSnapshot(`
+    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {},
@@ -110,7 +110,7 @@ describe("TagManager moveTags", () => {
       ],
     });
 
-    expect(tagManager.getTags()).toMatchInlineSnapshot(`
+    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {},

@@ -1,10 +1,10 @@
 import { JSDOM } from "jsdom";
-import { ScriptTagManager } from "..";
+import { TagManager } from "..";
 import { DependencyListInsertionDetail } from "../../types";
 import { formatHeadHtml } from "@/__tests__/_utils";
 
 describe("TagManager", () => {
-  let tagManager: ScriptTagManager;
+  let tagManager: TagManager;
   let mockDocument: Document;
   let head: HTMLHeadElement;
 
@@ -15,7 +15,7 @@ describe("TagManager", () => {
     ).window.document;
     head = mockDocument.head;
     // 实例化 TagManager
-    tagManager = new ScriptTagManager({ document: mockDocument });
+    tagManager = new TagManager({ document: mockDocument });
   });
 
   it("should move an existing tag to a new position based on prevSrc", () => {
