@@ -1,13 +1,25 @@
 import { EventBus } from "@/src/EventBus";
 import { TagEvents, TagManager } from "../..";
+import { JSDOM } from "jsdom";
+import { ScriptTagManager } from "..";
 
-describe("TagManager moveTags", () => {
+describe("ScriptTagManager moveTags", () => {
   let eventBus: EventBus<TagEvents>;
-  let tagManager: TagManager;
+  let tagManager: ScriptTagManager;
+  let mockDocument: Document;
+  let head: HTMLHeadElement;
 
   beforeEach(() => {
     eventBus = new EventBus<TagEvents>();
-    tagManager = new TagManager({ eventBus });
+    mockDocument = new JSDOM(
+      "<!DOCTYPE html><html><head></head><body></body></html>"
+    ).window.document;
+    head = mockDocument.head;
+    tagManager = new ScriptTagManager({
+      eventBus,
+      document: mockDocument,
+      container: head,
+    });
   });
 
   it("should handle tag movements correctly", () => {
@@ -15,16 +27,22 @@ describe("TagManager moveTags", () => {
     tagManager.applyDependencyDiffs({
       insert: [
         {
-          dep: { type: "script", src: "script1.js", attributes: {} },
+          dep: { name: "script1.js", version: "" },
           prevDep: null,
         },
         {
-          dep: { type: "script", src: "script2.js", attributes: {} },
-          prevDep: "script1.js",
+          dep: { name: "script2.js", version: "" },
+          prevDep: {
+            name: "script1.js",
+            version: "",
+          },
         },
         {
-          dep: { type: "script", src: "script3.js", attributes: {} },
-          prevDep: "script2.js",
+          dep: { name: "script3.js", version: "" },
+          prevDep: {
+            name: "script2.js",
+            version: "",
+          },
         },
       ],
       remove: [],
@@ -32,7 +50,7 @@ describe("TagManager moveTags", () => {
       move: [],
     });
 
-    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
+    expect(tagManager.getTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {},
@@ -65,13 +83,13 @@ describe("TagManager moveTags", () => {
       update: [],
       move: [
         {
-          dep: { type: "script", src: "script2.js", attributes: {} },
-          prevDep: "script3.js",
+          dep: { name: "script2.js", version: "" },
+          prevDep: { name: "script3.js", version: "" },
         },
       ],
     });
 
-    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
+    expect(tagManager.getTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {},
@@ -104,13 +122,13 @@ describe("TagManager moveTags", () => {
       update: [],
       move: [
         {
-          dep: { type: "script", src: "script3.js", attributes: {} },
+          dep: { name: "script3.js", version: "" },
           prevDep: null,
         },
       ],
     });
 
-    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
+    expect(tagManager.getTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {},
