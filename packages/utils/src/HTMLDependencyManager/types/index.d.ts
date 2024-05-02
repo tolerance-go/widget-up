@@ -44,31 +44,22 @@ export interface ScriptTag extends DependencyTag {
   executed?: boolean;
 }
 
-export interface TagListInsertionDetail {
-  tag: DependencyTag;
-  prevTag: DependencyTag | null; // 插入在哪个标签之后，null 表示添加到开头
+export type ScriptTagInsertionDetail = TagListInsertionDetail<ScriptTag>;
+
+export type LinkTagInsertionDetail = TagListInsertionDetail<LinkTag>;
+
+export interface TagListInsertionDetail<T extends DependencyTag> {
+  tag: T;
+  prevTag: T | null;
 }
 
-export interface ScriptTagInsertionDetail {
-  tag: ScriptTag;
-  prevTag: ScriptTag | null; // 插入在哪个标签之后，null 表示添加到开头
+export interface TagDiff<T extends DependencyTag> {
+  insert: TagListInsertionDetail<T>[]; // 插入的标签及其位置
+  remove: T[]; // 需要删除的标签
+  update: T[]; // 需要更新的标签（如果有）
+  move: TagListInsertionDetail<T>[]; // 需要移动的标签（如果有）
 }
 
-export interface LinkTagInsertionDetail {
-  tag: LinkTag;
-  prevTag: LinkTag | null; // 插入在哪个标签之后，null 表示添加到开头
-}
+export type ScriptTagDiff = TagDiff<ScriptTag>;
 
-export interface ScriptTagDiff {
-  insert: ScriptTagInsertionDetail[]; // 插入的标签及其位置
-  remove: ScriptTag[]; // 需要删除的标签
-  update: ScriptTag[]; // 需要更新的标签（如果有）
-  move: ScriptTagInsertionDetail[]; // 需要更新的标签（如果有）
-}
-
-export interface LinkTagDiff {
-  insert: LinkTagInsertionDetail[]; // 插入的标签及其位置
-  remove: LinkTag[]; // 需要删除的标签
-  update: LinkTag[]; // 需要更新的标签（如果有）
-  move: LinkTagInsertionDetail[]; // 需要更新的标签（如果有）
-}
+export type LinkTagDiff = TagDiff<LinkTag>;

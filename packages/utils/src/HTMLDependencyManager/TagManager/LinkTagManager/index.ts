@@ -8,10 +8,9 @@ import {
   LinkTagDiff,
   DependencyTag,
 } from "../../types";
+import { TagManagerBase } from "../TagManagerBase";
 
-export class LinkTagManager {
-  private tags: LinkTag[] = [];
-  private document?: Document;
+export class LinkTagManager extends TagManagerBase<LinkTag> {
   private hrefBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 href
 
   constructor({
@@ -21,25 +20,21 @@ export class LinkTagManager {
     document?: Document;
     hrefBuilder?: (dep: DependencyListItem) => string;
   }) {
-    this.document = document;
+    super({ document }); // 调用基类构造函数
     this.hrefBuilder =
       hrefBuilder ||
       ((dep) => `https://cdn.example.com/${dep.name}@${dep.version}.css`);
   }
 
-  getTags() {
-    return this.tags;
-  }
-
   applyDependencyDiffs(diffs: DependencyListDiff) {
-    const tagDiffs = this.dependencyListDiffToTagDiff(diffs);
+    const tagDiffs = this.convertDependencyListDiffToTagDiff(diffs);
 
     this.updateTags(tagDiffs);
 
     this.syncHtml(tagDiffs);
   }
 
-  private dependencyListItemToTagItem(item: DependencyListItem): LinkTag {
+  protected dependencyListItemToTagItem(item: DependencyListItem): LinkTag {
     return {
       type: "link",
       src: this.hrefBuilder(item),
@@ -47,26 +42,6 @@ export class LinkTagManager {
         "data-managed": "true",
         rel: "stylesheet",
       },
-    };
-  }
-
-  private dependencyListInsertionDetailToLink(
-    detail: DependencyListInsertionDetail
-  ): LinkTagInsertionDetail {
-    return {
-      tag: this.dependencyListItemToTagItem(detail.dep),
-      prevTag: detail.prevDep
-        ? this.dependencyListItemToTagItem(detail.prevDep)
-        : null,
-    };
-  }
-
-  private dependencyListDiffToTagDiff(diff: DependencyListDiff): LinkTagDiff {
-    return {
-      insert: diff.insert.map(this.dependencyListInsertionDetailToLink),
-      move: diff.move.map(this.dependencyListInsertionDetailToLink),
-      remove: diff.remove.map(this.dependencyListItemToTagItem),
-      update: diff.update.map(this.dependencyListItemToTagItem),
     };
   }
 

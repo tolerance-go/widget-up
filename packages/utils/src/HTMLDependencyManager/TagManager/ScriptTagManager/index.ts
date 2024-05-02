@@ -1,13 +1,12 @@
 import { EventBus } from "@/src/EventBus";
 import {
-  ScriptTag,
-  DependencyListItem,
   DependencyListDiff,
-  DependencyListInsertionDetail,
-  ScriptTagInsertionDetail,
-  ScriptTagDiff,
+  DependencyListItem,
   DependencyTag,
+  ScriptTag,
+  ScriptTagDiff
 } from "../../types";
+import { TagManagerBase } from "../TagManagerBase";
 
 export interface TagEvents {
   loaded: { id: string };
@@ -15,10 +14,8 @@ export interface TagEvents {
   executed: { id: string };
 }
 
-export class ScriptTagManager {
-  private tags: ScriptTag[] = [];
+export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   private eventBus: EventBus<TagEvents>;
-  private document?: Document;
   private srcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
 
   constructor({
@@ -30,19 +27,15 @@ export class ScriptTagManager {
     document?: Document;
     srcBuilder?: (dep: DependencyListItem) => string;
   }) {
+    super({ document });
     this.eventBus = eventBus || new EventBus<TagEvents>();
     this.eventBus.on("executed", (payload) => this.onTagExecuted(payload.id));
-    this.document = document;
     this.srcBuilder = srcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
-  }
-
-  getTags() {
-    return this.tags;
   }
 
   // 处理传入的标签差异
   applyDependencyDiffs(diffs: DependencyListDiff) {
-    const tagDiffs = this.dependencyListDiffToTagDiff(diffs);
+    const tagDiffs = this.convertDependencyListDiffToTagDiff(diffs);
 
     this.updateTags(tagDiffs);
 
@@ -52,33 +45,13 @@ export class ScriptTagManager {
     this.checkExecute();
   }
 
-  private dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
+  protected dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
     return {
       type: "script",
       src: this.srcBuilder(item),
       attributes: {
         "data-managed": "true",
       },
-    };
-  }
-
-  private dependencyListInsertionDetailToScript(
-    detail: DependencyListInsertionDetail
-  ): ScriptTagInsertionDetail {
-    return {
-      tag: this.dependencyListItemToTagItem(detail.dep),
-      prevTag: detail.prevDep
-        ? this.dependencyListItemToTagItem(detail.prevDep)
-        : null,
-    };
-  }
-
-  private dependencyListDiffToTagDiff(diff: DependencyListDiff): ScriptTagDiff {
-    return {
-      insert: diff.insert.map(this.dependencyListInsertionDetailToScript),
-      move: diff.move.map(this.dependencyListInsertionDetailToScript),
-      remove: diff.remove.map(this.dependencyListItemToTagItem),
-      update: diff.update.map(this.dependencyListItemToTagItem),
     };
   }
 
