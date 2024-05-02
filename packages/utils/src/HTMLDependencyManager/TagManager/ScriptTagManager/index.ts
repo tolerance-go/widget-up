@@ -1,9 +1,5 @@
 import { EventBus } from "@/src/EventBus";
-import {
-  DependencyListDiff,
-  DependencyListItem,
-  ScriptTag
-} from "../../types";
+import { DependencyListDiff, DependencyListItem, ScriptTag } from "../../types";
 import { TagManagerBase } from "../TagManagerBase";
 
 export interface TagEvents {
@@ -19,15 +15,19 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   constructor({
     eventBus,
     document,
+    container,
     srcBuilder,
   }: {
     eventBus?: EventBus<TagEvents>;
     document: Document;
+    container?: HTMLElement;
     srcBuilder?: (dep: DependencyListItem) => string;
   }) {
-    const container = document.createElement("div");
-    container.setAttribute("id", "script-tag-manager-container");
-    document.body.appendChild(container);
+    if (!container) {
+      container = document.createElement("div");
+      container.setAttribute("id", "script-tag-manager-container");
+      document.body.appendChild(container);
+    }
 
     super({ document, container });
     this.eventBus = eventBus || new EventBus<TagEvents>();

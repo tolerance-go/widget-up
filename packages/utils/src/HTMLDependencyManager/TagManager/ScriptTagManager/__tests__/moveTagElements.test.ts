@@ -19,7 +19,7 @@ describe("ScriptTagManager moveTagElements", () => {
     ).window.document;
     head = mockDocument.head;
     // 实例化 TagManager
-    manager = new ScriptTagManager({ document: mockDocument });
+    manager = new ScriptTagManager({ document: mockDocument, container: head });
   });
 
   it("should move an existing tag to a new position based on prevSrc", () => {
