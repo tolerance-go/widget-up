@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom";
-import { TagManager } from "..";
-import { DependencyListInsertionDetail } from "../../types";
+import { TagManager } from "../..";
+import { DependencyListInsertionDetail } from "../../../types";
 import { formatHeadHtml } from "@/__tests__/_utils";
 
 describe("TagManager", () => {

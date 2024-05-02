@@ -1,5 +1,5 @@
 import { EventBus } from "@/src/EventBus";
-import { TagEvents, TagManager } from "..";
+import { TagEvents, TagManager } from "../..";
 
 describe("TagManager moveTags", () => {
   let eventBus: EventBus<TagEvents>;

@@ -1,32 +1,38 @@
 import { EventBus } from "@/src/EventBus";
-import { TagEvents, TagManager } from "..";
-import { DependencyListDiff } from "../../types";
+import { TagEvents, TagManager } from "../..";
+import { DependencyListDiff } from "../../../types";
+import { JSDOM } from "jsdom";
+import { ScriptTagManager } from "..";
 
-describe("TagManager", () => {
+describe("ScriptTagManager", () => {
   let eventBus: EventBus<TagEvents>;
-  let tagManager: TagManager;
+  let manager: ScriptTagManager;
 
   beforeEach(() => {
+    const jsdom = new JSDOM(`<!DOCTYPE html>`);
     eventBus = new EventBus<TagEvents>();
-    tagManager = new TagManager({ eventBus });
+    manager = new ScriptTagManager({
+      eventBus,
+      document: jsdom.window.document,
+    });
   });
 
   it("should handle insertion correctly", () => {
     const diffs: DependencyListDiff = {
       insert: [
         {
-          dep: { type: "script", src: "script1.js", attributes: {} },
+          dep: { name: "script1", version: "0.0.0" },
           prevDep: null,
         },
       ],
       remove: [],
       update: [],
-      move: []
+      move: [],
     };
 
-    tagManager.applyDependencyDiffs(diffs);
-    expect(tagManager["tags"]).toHaveLength(1);
-    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
+    manager.applyDependencyDiffs(diffs);
+    expect(manager["tags"]).toHaveLength(1);
+    expect(manager.getTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {},
@@ -37,54 +43,60 @@ describe("TagManager", () => {
         },
       ]
     `);
-    expect(tagManager["tags"][0].src).toEqual("script1.js");
+    expect(manager["tags"][0].src).toEqual("script1.js");
   });
 
   it("should handle removal correctly", () => {
     // 先插入一个标签，然后移除
-    tagManager.applyDependencyDiffs({
+    manager.applyDependencyDiffs({
       insert: [
         {
-          dep: { type: "script", src: "script1.js", attributes: {} },
+          dep: { name: "script1", version: "0.0.0" },
           prevDep: null,
         },
       ],
       remove: [],
       update: [],
-      move: []
+      move: [],
     });
-    tagManager.applyDependencyDiffs({
+    manager.applyDependencyDiffs({
       insert: [],
-      remove: [{ type: "script", src: "script1.js", attributes: {} }],
+      remove: [{ name: "script1", version: "0.0.0" }],
       update: [],
-      move: []
+      move: [],
     });
-    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`[]`);
-    expect(tagManager["tags"]).toHaveLength(0);
+    expect(manager.getTags()).toMatchInlineSnapshot(`[]`);
+    expect(manager["tags"]).toHaveLength(0);
   });
 
   it("should handle updates correctly", () => {
     // 先插入，再更新
-    tagManager.applyDependencyDiffs({
+    manager.applyDependencyDiffs({
       insert: [
         {
-          dep: { type: "script", src: "script1.js", attributes: {} },
+          dep: { name: "script1", version: "0.0.0" },
           prevDep: null,
         },
       ],
       remove: [],
       update: [],
-      move: []
+      move: [],
     });
-    tagManager.applyDependencyDiffs({
+    manager.applyDependencyDiffs({
       insert: [],
       remove: [],
       update: [
-        { type: "script", src: "script1.js", attributes: { async: "true" } },
+        {
+          name: "script1",
+          version: "0.0.0",
+          data: {
+            async: "true",
+          },
+        },
       ],
-      move: []
+      move: [],
     });
-    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
+    expect(manager.getTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {
@@ -97,49 +109,49 @@ describe("TagManager", () => {
         },
       ]
     `);
-    expect(tagManager["tags"][0].attributes.async).toEqual("true");
+    expect(manager["tags"][0].attributes.async).toEqual("true");
   });
 
   it("should maintain execution order across multiple inserts", () => {
     // 插入多个依次依赖的标签
-    tagManager.applyDependencyDiffs({
+    manager.applyDependencyDiffs({
       insert: [
         {
-          dep: { type: "script", src: "script1.js", attributes: {} },
+          dep: { name: "script1.js", version: "0.0.0" },
           prevDep: null,
         },
         {
-          dep: { type: "script", src: "script2.js", attributes: {} },
-          prevDep: "script1.js",
+          dep: { name: "script2.js", version: "0.0.0" },
+          prevDep: { name: "script1.js", version: "0.0.0" },
         },
       ],
       remove: [],
       update: [],
-      move: []
+      move: [],
     });
-    tagManager.applyDependencyDiffs({
+    manager.applyDependencyDiffs({
       insert: [
         {
-          dep: { type: "script", src: "script3.js", attributes: {} },
-          prevDep: "script2.js",
+          dep: { name: "script3.js", version: "0.0.0" },
+          prevDep: { name: "script2.js", version: "0.0.0" },
         },
       ],
       remove: [],
       update: [],
-      move: []
+      move: [],
     });
-    tagManager.applyDependencyDiffs({
+    manager.applyDependencyDiffs({
       insert: [
         {
-          dep: { type: "script", src: "script2.1.js", attributes: {} },
-          prevDep: "script2.js",
+          dep: { name: "script2.1.js", version: "0.0.0" },
+          prevDep: { name: "script2.js", version: "0.0.0" },
         },
       ],
       remove: [],
       update: [],
-      move: []
+      move: [],
     });
-    expect(tagManager.getScriptTags()).toMatchInlineSnapshot(`
+    expect(manager.getTags()).toMatchInlineSnapshot(`
       [
         {
           "attributes": {},
