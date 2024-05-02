@@ -8,6 +8,8 @@ export interface TagEvents {
   executed: { id: string };
 }
 
+export const ScriptTagManagerContainerId = "script-tag-manager-container";
+
 export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   private eventBus: EventBus<TagEvents>;
   private srcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
@@ -25,7 +27,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   }) {
     if (!container) {
       container = document.createElement("div");
-      container.setAttribute("id", "script-tag-manager-container");
+      container.setAttribute("id", ScriptTagManagerContainerId);
       document.body.appendChild(container);
     }
 

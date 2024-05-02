@@ -1,9 +1,7 @@
-import {
-  DependencyListDiff,
-  DependencyListItem,
-  LinkTag
-} from "../../types";
+import { DependencyListDiff, DependencyListItem, LinkTag } from "../../types";
 import { TagManagerBase } from "../TagManagerBase";
+
+export const LinkTagManagerContainerId = "link-tag-manager-container";
 
 export class LinkTagManager extends TagManagerBase<LinkTag> {
   private hrefBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 href
@@ -16,7 +14,7 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
     hrefBuilder?: (dep: DependencyListItem) => string;
   }) {
     const container = document.createElement("div");
-    container.setAttribute("id", "link-tag-manager-container");
+    container.setAttribute("id", LinkTagManagerContainerId);
     document.body.appendChild(container);
 
     super({ document, container: container }); // 调用基类构造函数

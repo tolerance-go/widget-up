@@ -34,6 +34,7 @@ class HTMLDependencyManager {
     this.tagManager = new TagManager({
       document: options.document,
       scriptSrcBuilder: this.scriptSrcBuilder,
+      linkSrcBuilder: this.linkHrefBuilder,
     });
   }
   async addDependency(
