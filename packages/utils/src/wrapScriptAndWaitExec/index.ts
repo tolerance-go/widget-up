@@ -23,7 +23,7 @@ function processFile(filePath: string, options: ProcessOptions): void {
       eventName || path.basename(filePath, path.extname(filePath));
     const wrappedScript = wrapScriptAndWaitExec({
       scriptContent: data,
-      eventName: finalEventName,
+      eventId: finalEventName,
       eventBusPath: eventBusPath,
     });
 
