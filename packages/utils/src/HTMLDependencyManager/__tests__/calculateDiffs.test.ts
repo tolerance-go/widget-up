@@ -46,14 +46,11 @@ describe("HTMLDependencyManager calculateDiffs", () => {
     expect(diffs.move).toMatchInlineSnapshot(`
       [
         {
-          "prevSrc": null,
-          "tag": {
-            "attributes": {
-              "async": "true",
-            },
-            "src": "https://cdn.example.com/lib2@1.0.0.js",
-            "type": "script",
+          "dep": {
+            "name": "lib2",
+            "version": "1.0.0",
           },
+          "prevDep": null,
         },
       ]
     `); // 两个标签都移动了
@@ -99,13 +96,13 @@ describe("HTMLDependencyManager calculateDiffs", () => {
         "insert": [],
         "move": [
           {
-            "prevSrc": "https://cdn.example.com/lib1@1.0.0.js",
-            "tag": {
-              "attributes": {
-                "async": "true",
-              },
-              "src": "https://cdn.example.com/lib3@1.0.0.js",
-              "type": "script",
+            "dep": {
+              "name": "lib3",
+              "version": "1.0.0",
+            },
+            "prevDep": {
+              "name": "lib1",
+              "version": "1.0.0",
             },
           },
         ],
@@ -155,14 +152,11 @@ describe("HTMLDependencyManager calculateDiffs", () => {
         "insert": [],
         "move": [
           {
-            "prevSrc": null,
-            "tag": {
-              "attributes": {
-                "async": "true",
-              },
-              "src": "https://cdn.example.com/lib2@1.0.0.js",
-              "type": "script",
+            "dep": {
+              "name": "lib2",
+              "version": "1.0.0",
             },
+            "prevDep": null,
           },
         ],
         "remove": [],
@@ -219,23 +213,20 @@ describe("HTMLDependencyManager calculateDiffs", () => {
         "insert": [],
         "move": [
           {
-            "prevSrc": null,
-            "tag": {
-              "attributes": {
-                "async": "true",
-              },
-              "src": "https://cdn.example.com/lib2@1.0.0.js",
-              "type": "script",
+            "dep": {
+              "name": "lib2",
+              "version": "1.0.0",
             },
+            "prevDep": null,
           },
           {
-            "prevSrc": "https://cdn.example.com/lib1@1.0.0.js",
-            "tag": {
-              "attributes": {
-                "async": "true",
-              },
-              "src": "https://cdn.example.com/lib4@1.0.0.js",
-              "type": "script",
+            "dep": {
+              "name": "lib4",
+              "version": "1.0.0",
+            },
+            "prevDep": {
+              "name": "lib1",
+              "version": "1.0.0",
             },
           },
         ],
