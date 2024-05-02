@@ -9,15 +9,18 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
   constructor({
     document,
     hrefBuilder,
+    container,
   }: {
+    container?: HTMLElement;
     document: Document;
     hrefBuilder?: (dep: DependencyListItem) => string;
   }) {
-    const container = document.createElement("div");
-    container.setAttribute("id", LinkTagManagerContainerId);
-    document.body.appendChild(container);
-
-    super({ document, container: container }); // 调用基类构造函数
+    if (!container) {
+      container = document.createElement("div");
+      container.setAttribute("id", LinkTagManagerContainerId);
+      document.body.appendChild(container);
+    }
+    super({ document, container }); // 调用基类构造函数
     this.hrefBuilder =
       hrefBuilder ||
       ((dep) => `https://cdn.example.com/${dep.name}@${dep.version}.css`);
