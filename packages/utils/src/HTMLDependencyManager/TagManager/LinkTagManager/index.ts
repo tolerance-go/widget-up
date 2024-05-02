@@ -43,7 +43,6 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
       type: "link",
       src: this.hrefBuilder(item),
       attributes: {
-        "data-managed": "true",
         rel: "stylesheet",
       },
     };

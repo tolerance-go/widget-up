@@ -56,9 +56,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     return {
       type: "script",
       src: this.srcBuilder(item),
-      attributes: {
-        "data-managed": "true",
-      },
+      attributes: {},
     };
   }
 
