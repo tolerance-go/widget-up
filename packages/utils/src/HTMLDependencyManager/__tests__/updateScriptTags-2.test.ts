@@ -41,29 +41,29 @@ describe("HTMLDependencyManager", () => {
     });
 
     expect(formatElementHtml(scriptContainer)).toMatchInlineSnapshot(`
-      "<script src="path/to/react@17.0.0.js" async="true" data-managed="true"></script>
-      <script src="path/to/redux-thunk@2.4.0.js" async="true" data-managed="true"></script>
-      <script src="path/to/redux@4.1.0.js" async="true" data-managed="true"></script>"
+      "<script src="path/to/react@17.0.0.js" async="true" data-dependency-id="react@17.0.0" data-managed="true"></script>
+      <script src="path/to/redux-thunk@2.4.0.js" async="true" data-dependency-id="redux-thunk@2.4.0" data-managed="true"></script>
+      <script src="path/to/redux@4.1.0.js" async="true" data-dependency-id="redux@4.1.0" data-managed="true"></script>"
     `);
     expect(formatElementHtml(linkContainer)).toMatchInlineSnapshot(`
-      "<link href="path/to/react@17.0.0.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/redux-thunk@2.4.0.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/redux@4.1.0.css" rel="stylesheet" data-managed="true">"
+      "<link href="path/to/react@17.0.0.css" rel="stylesheet" data-dependency-id="react@17.0.0" data-managed="true">
+      <link href="path/to/redux-thunk@2.4.0.css" rel="stylesheet" data-dependency-id="redux-thunk@2.4.0" data-managed="true">
+      <link href="path/to/redux@4.1.0.css" rel="stylesheet" data-dependency-id="redux@4.1.0" data-managed="true">"
     `);
     await manager.addDependency("react", "^17.0.0", {
       "react-dom": "^16.8.0", // Third level
     });
     expect(formatElementHtml(scriptContainer)).toMatchInlineSnapshot(`
-      "<script src="path/to/react-dom@16.13.1.js" async="true" data-managed="true"></script>
-      <script src="path/to/react@17.0.0.js" async="true" data-managed="true"></script>
-      <script src="path/to/redux-thunk@2.4.0.js" async="true" data-managed="true"></script>
-      <script src="path/to/redux@4.1.0.js" async="true" data-managed="true"></script>"
+      "<script src="path/to/react-dom@16.13.1.js" async="true" data-dependency-id="react-dom@16.13.1" data-managed="true"></script>
+      <script src="path/to/react@17.0.0.js" async="true" data-dependency-id="react@17.0.0" data-managed="true"></script>
+      <script src="path/to/redux-thunk@2.4.0.js" async="true" data-dependency-id="redux-thunk@2.4.0" data-managed="true"></script>
+      <script src="path/to/redux@4.1.0.js" async="true" data-dependency-id="redux@4.1.0" data-managed="true"></script>"
     `);
     expect(formatElementHtml(linkContainer)).toMatchInlineSnapshot(`
-      "<link href="path/to/react-dom@16.13.1.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/react@17.0.0.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/redux-thunk@2.4.0.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/redux@4.1.0.css" rel="stylesheet" data-managed="true">"
+      "<link href="path/to/react-dom@16.13.1.css" rel="stylesheet" data-dependency-id="react-dom@16.13.1" data-managed="true">
+      <link href="path/to/react@17.0.0.css" rel="stylesheet" data-dependency-id="react@17.0.0" data-managed="true">
+      <link href="path/to/redux-thunk@2.4.0.css" rel="stylesheet" data-dependency-id="redux-thunk@2.4.0" data-managed="true">
+      <link href="path/to/redux@4.1.0.css" rel="stylesheet" data-dependency-id="redux@4.1.0" data-managed="true">"
     `);
     await manager.addDependency("redux-thunk", "^2.3.0", {
       axios: "^0.21.1", // Third level
@@ -157,18 +157,18 @@ describe("HTMLDependencyManager", () => {
     `);
 
     expect(formatElementHtml(scriptContainer)).toMatchInlineSnapshot(`
-      "<script src="path/to/react-dom@16.13.1.js" async="true" data-managed="true"></script>
-      <script src="path/to/react@17.0.0.js" async="true" data-managed="true"></script>
-      <script src="path/to/axios@0.21.1.js" async="true" data-managed="true"></script>
-      <script src="path/to/redux-thunk@2.4.0.js" async="true" data-managed="true"></script>
-      <script src="path/to/redux@4.1.0.js" async="true" data-managed="true"></script>"
+      "<script src="path/to/react-dom@16.13.1.js" async="true" data-dependency-id="react-dom@16.13.1" data-managed="true"></script>
+      <script src="path/to/react@17.0.0.js" async="true" data-dependency-id="react@17.0.0" data-managed="true"></script>
+      <script src="path/to/axios@0.21.1.js" async="true" data-dependency-id="axios@0.21.1" data-managed="true"></script>
+      <script src="path/to/redux-thunk@2.4.0.js" async="true" data-dependency-id="redux-thunk@2.4.0" data-managed="true"></script>
+      <script src="path/to/redux@4.1.0.js" async="true" data-dependency-id="redux@4.1.0" data-managed="true"></script>"
     `);
     expect(formatElementHtml(linkContainer)).toMatchInlineSnapshot(`
-      "<link href="path/to/react-dom@16.13.1.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/react@17.0.0.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/axios@0.21.1.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/redux-thunk@2.4.0.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/redux@4.1.0.css" rel="stylesheet" data-managed="true">"
+      "<link href="path/to/react-dom@16.13.1.css" rel="stylesheet" data-dependency-id="react-dom@16.13.1" data-managed="true">
+      <link href="path/to/react@17.0.0.css" rel="stylesheet" data-dependency-id="react@17.0.0" data-managed="true">
+      <link href="path/to/axios@0.21.1.css" rel="stylesheet" data-dependency-id="axios@0.21.1" data-managed="true">
+      <link href="path/to/redux-thunk@2.4.0.css" rel="stylesheet" data-dependency-id="redux-thunk@2.4.0" data-managed="true">
+      <link href="path/to/redux@4.1.0.css" rel="stylesheet" data-dependency-id="redux@4.1.0" data-managed="true">"
     `);
   });
 });

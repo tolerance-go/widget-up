@@ -46,12 +46,12 @@ describe("HTMLDependencyManager", () => {
     expect(scripts.length).toBe(2);
 
     expect(formatElementHtml(scriptContainer)).toMatchInlineSnapshot(`
-      "<script src="path/to/libA@1.0.0.js" async="true" data-managed="true"></script>
-      <script src="path/to/libB@2.0.0.js" async="true" data-managed="true"></script>"
+      "<script src="path/to/libA@1.0.0.js" async="true" data-dependency-id="libA@1.0.0" data-managed="true"></script>
+      <script src="path/to/libB@2.0.0.js" async="true" data-dependency-id="libB@2.0.0" data-managed="true"></script>"
     `);
     expect(formatElementHtml(linkContainer)).toMatchInlineSnapshot(`
-      "<link href="path/to/libA@1.0.0.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/libB@2.0.0.css" rel="stylesheet" data-managed="true">"
+      "<link href="path/to/libA@1.0.0.css" rel="stylesheet" data-dependency-id="libA@1.0.0" data-managed="true">
+      <link href="path/to/libB@2.0.0.css" rel="stylesheet" data-dependency-id="libB@2.0.0" data-managed="true">"
     `);
   });
 
@@ -67,11 +67,11 @@ describe("HTMLDependencyManager", () => {
     const scripts = scriptContainer.querySelectorAll("script");
     expect(scripts.length).toBe(2);
     expect(formatElementHtml(scriptContainer)).toMatchInlineSnapshot(`
-      "<script src="path/to/libA@2.0.0.js" async="true" data-managed="true"></script>
+      "<script src="path/to/libA@2.0.0.js" async="true" data-dependency-id="libA@2.0.0" data-managed="true"></script>
       <script src="path/to/libA@1.0.0.js"></script>"
     `);
     expect(formatElementHtml(linkContainer)).toMatchInlineSnapshot(
-      `"<link href="path/to/libA@2.0.0.css" rel="stylesheet" data-managed="true">"`
+      `"<link href="path/to/libA@2.0.0.css" rel="stylesheet" data-dependency-id="libA@2.0.0" data-managed="true">"`
     );
   });
 
@@ -88,14 +88,14 @@ describe("HTMLDependencyManager", () => {
     expect(scripts.length).toBe(3);
 
     expect(formatElementHtml(scriptContainer)).toMatchInlineSnapshot(`
-      "<script src="path/to/libA@1.0.0.js" async="true" data-managed="true"></script>
-      <script src="path/to/libA@2.0.0.js" async="true" data-managed="true"></script>
-      <script src="path/to/libB@1.0.0.js" async="true" data-managed="true"></script>"
+      "<script src="path/to/libA@1.0.0.js" async="true" data-dependency-id="libA@1.0.0" data-managed="true"></script>
+      <script src="path/to/libA@2.0.0.js" async="true" data-dependency-id="libA@2.0.0" data-managed="true"></script>
+      <script src="path/to/libB@1.0.0.js" async="true" data-dependency-id="libB@1.0.0" data-managed="true"></script>"
     `);
     expect(formatElementHtml(linkContainer)).toMatchInlineSnapshot(`
-      "<link href="path/to/libA@1.0.0.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/libA@2.0.0.css" rel="stylesheet" data-managed="true">
-      <link href="path/to/libB@1.0.0.css" rel="stylesheet" data-managed="true">"
+      "<link href="path/to/libA@1.0.0.css" rel="stylesheet" data-dependency-id="libA@1.0.0" data-managed="true">
+      <link href="path/to/libA@2.0.0.css" rel="stylesheet" data-dependency-id="libA@2.0.0" data-managed="true">
+      <link href="path/to/libB@1.0.0.css" rel="stylesheet" data-dependency-id="libB@1.0.0" data-managed="true">"
     `);
   });
 });
