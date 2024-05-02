@@ -4,7 +4,7 @@ import {
   DependencyListItem,
   DependencyTag,
   ScriptTag,
-  ScriptTagDiff
+  ScriptTagDiff,
 } from "../../types";
 import { TagManagerBase } from "../TagManagerBase";
 
@@ -39,7 +39,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
 
     this.updateTags(tagDiffs);
 
-    this.syncHtml(tagDiffs);
+    this.updateHtml(tagDiffs);
 
     // 检查是否有标签需要执行
     this.checkExecute();
@@ -55,79 +55,9 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     };
   }
 
-  private updateTags(diffs: ScriptTagDiff) {
-    // 处理插入
-    diffs.insert.forEach((insertDetail) => {
-      this.insertTag(insertDetail.tag, insertDetail.prevTag?.src ?? null);
-    });
-
-    // 处理移动
-    this.moveTags(diffs);
-
-    // 处理移除
-    diffs.remove.forEach((tag) => this.removeTag(tag.src));
-
-    // 处理更新
-    diffs.update.forEach((tag) => this.updateTag(tag));
-  }
-
-  private moveTags(diffs: ScriptTagDiff) {
-    // 遍历 move 数组，对每个需要移动的标签进行处理
-    diffs.move.forEach((moveDetail) => {
-      // 首先找到需要移动的标签的当前位置
-      const currentIndex = this.tags.findIndex(
-        (t) => t.src === moveDetail.tag.src
-      );
-      if (currentIndex === -1) {
-        throw new Error(`Tag "${moveDetail.tag.src}" not found.`);
-      }
-      // 移除当前位置的标签
-      const [movingTag] = this.tags.splice(currentIndex, 1);
-
-      // 确定新的插入位置
-      if (moveDetail.prevTag === null) {
-        // 如果 prevSrc 为 null，插入到数组的第一个位置
-        this.tags.unshift(movingTag);
-      } else {
-        // 找到 prevSrc 对应的标签的索引，然后在其后面插入新标签
-        const beforeIndex = this.tags.findIndex(
-          (t) => t.src === moveDetail.prevTag!.src
-        );
-        if (beforeIndex >= 0) {
-          this.tags.splice(beforeIndex + 1, 0, movingTag);
-        } else {
-          // 如果找不到 prevSrc 指定的标签，可以选择抛出错误或者默认行为（如插入到末尾）
-          // 这里选择抛出错误
-          throw new Error(
-            `prevSrc tag "${moveDetail.prevTag.src}" not found in the tags list.`
-          );
-        }
-      }
-    });
-  }
-
   // 插入标签
-  private insertTag(tag: ScriptTag, prevSrc: string | null) {
-    if (prevSrc === null) {
-      // 如果 beforeSrc 为 null，插入到数组的第一个位置
-      this.tags.unshift({ ...tag, loaded: false, executed: false });
-    } else {
-      // 找到 beforeSrc 对应的标签的索引，然后在其后面插入新标签
-      const beforeIndex = this.tags.findIndex((t) => t.src === prevSrc);
-      if (beforeIndex >= 0) {
-        this.tags.splice(beforeIndex + 1, 0, {
-          ...tag,
-          loaded: false,
-          executed: false,
-        });
-      } else {
-        // 如果找不到 beforeSrc 指定的标签，可以选择抛出错误或者默认行为（如插入到末尾）
-        // 这里选择抛出错误
-        throw new Error(
-          `beforeSrc tag "${prevSrc}" not found in the tags list.`
-        );
-      }
-    }
+  protected insertTag(tag: ScriptTag, prevTag: ScriptTag | null) {
+    super.insertTag(tag, prevTag);
 
     // 设置事件监听，准备处理标签加载完成的事件
     this.eventBus.on("loaded", (payload) => {
@@ -138,25 +68,13 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   }
 
   // 移除标签
-  private removeTag(src: string) {
-    this.tags = this.tags.filter((tag) => tag.src !== src);
+  protected removeTag(src: string) {
+    super.removeTag(src);
     this.eventBus.off("loaded", (payload) => {
       if (payload.id === src) {
         this.onTagLoaded(src);
       }
     });
-  }
-
-  // 更新标签
-  private updateTag(tag: ScriptTag) {
-    const index = this.tags.findIndex((t) => t.src === tag.src);
-    if (index !== -1) {
-      this.tags[index] = {
-        ...tag,
-        loaded: this.tags[index].loaded,
-        executed: this.tags[index].executed,
-      };
-    }
   }
 
   // 标签加载完成处理
@@ -191,7 +109,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     }
   }
 
-  public syncHtml(diff: ScriptTagDiff) {
+  public updateHtml(diff: ScriptTagDiff) {
     if (!this.document) return;
 
     const head = this.document.head;

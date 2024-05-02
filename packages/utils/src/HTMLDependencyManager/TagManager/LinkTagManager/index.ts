@@ -31,7 +31,7 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
 
     this.updateTags(tagDiffs);
 
-    this.syncHtml(tagDiffs);
+    this.updateHtml(tagDiffs);
   }
 
   protected dependencyListItemToTagItem(item: DependencyListItem): LinkTag {
@@ -45,76 +45,7 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
     };
   }
 
-  private updateTags(diffs: LinkTagDiff) {
-    diffs.insert.forEach((insertDetail) => {
-      this.insertTag(insertDetail.tag, insertDetail.prevTag?.src ?? null);
-    });
-
-    this.moveTags(diffs);
-    diffs.remove.forEach((tag) => this.removeTag(tag.src));
-    diffs.update.forEach((tag) => this.updateTag(tag));
-  }
-
-  private moveTags(diffs: LinkTagDiff) {
-    diffs.move.forEach((moveDetail) => {
-      const currentIndex = this.tags.findIndex(
-        (t) => t.src === moveDetail.tag.src
-      );
-      if (currentIndex === -1) {
-        throw new Error(`Tag "${moveDetail.tag.src}" not found.`);
-      }
-      const [movingTag] = this.tags.splice(currentIndex, 1);
-      const beforeIndex = this.tags.findIndex(
-        (t) => t.src === moveDetail.prevTag?.src
-      );
-      if (beforeIndex >= 0) {
-        this.tags.splice(beforeIndex + 1, 0, movingTag);
-      } else {
-        throw new Error(
-          `prevSrc tag "${moveDetail.prevTag!.src}" not found in the tags list.`
-        );
-      }
-    });
-  }
-
-  // 插入标签
-  private insertTag(tag: LinkTag, prevSrc: string | null) {
-    if (prevSrc === null) {
-      // 如果 beforeSrc 为 null，插入到数组的第一个位置
-      this.tags.unshift({ ...tag });
-    } else {
-      // 找到 beforeSrc 对应的标签的索引，然后在其后面插入新标签
-      const beforeIndex = this.tags.findIndex((t) => t.src === prevSrc);
-      if (beforeIndex >= 0) {
-        this.tags.splice(beforeIndex + 1, 0, {
-          ...tag,
-        });
-      } else {
-        // 如果找不到 beforeSrc 指定的标签，可以选择抛出错误或者默认行为（如插入到末尾）
-        // 这里选择抛出错误
-        throw new Error(
-          `beforeSrc tag "${prevSrc}" not found in the tags list.`
-        );
-      }
-    }
-  }
-
-  // 移除标签
-  private removeTag(src: string) {
-    this.tags = this.tags.filter((tag) => tag.src !== src);
-  }
-
-  // 更新标签
-  private updateTag(tag: LinkTag) {
-    const index = this.tags.findIndex((t) => t.src === tag.src);
-    if (index !== -1) {
-      this.tags[index] = {
-        ...tag,
-      };
-    }
-  }
-
-  public syncHtml(diff: LinkTagDiff) {
+  public updateHtml(diff: LinkTagDiff) {
     if (!this.document) return;
 
     const head = this.document.head;
