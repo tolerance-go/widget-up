@@ -11,8 +11,8 @@ import {
 interface ConstructorOptions {
   fetchVersionList: (dependencyName: string) => Promise<string[]>;
   document: Document;
-  scriptSrcBuilder?: (dep: DependencyDetail) => string;
-  linkHrefBuilder?: (dep: DependencyDetail) => string;
+  scriptSrcBuilder?: (dep: DependencyListItem) => string;
+  linkHrefBuilder?: (dep: DependencyListItem) => string;
 }
 
 class HTMLDependencyManager {
@@ -21,8 +21,8 @@ class HTMLDependencyManager {
   private versionCache: { [key: string]: string[] };
   private tagManager: TagManager;
   public lastDependencies: DependencyListItem[] = []; // 上次的依赖详情列表
-  private scriptSrcBuilder: (dep: DependencyDetail) => string; // 新增参数用于自定义构造 src
-  private linkHrefBuilder: (dep: DependencyDetail) => string; // 现在是可选的，返回 string 或 false
+  private scriptSrcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
+  private linkHrefBuilder: (dep: DependencyListItem) => string; // 现在是可选的，返回 string 或 false
 
   constructor(options: ConstructorOptions) {
     this.fetchVersionList = options.fetchVersionList;
@@ -33,6 +33,7 @@ class HTMLDependencyManager {
     this.linkHrefBuilder = options.linkHrefBuilder || (() => "");
     this.tagManager = new TagManager({
       document: options.document,
+      scriptSrcBuilder: this.scriptSrcBuilder,
     });
   }
   async addDependency(
