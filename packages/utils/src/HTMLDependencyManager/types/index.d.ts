@@ -45,18 +45,30 @@ export interface ScriptTag extends DependencyTag {
 }
 
 export interface TagListInsertionDetail {
-  dep: DependencyTag;
-  prevDep: DependencyTag | null; // 插入在哪个标签之后，null 表示添加到开头
+  tag: DependencyTag;
+  prevTag: DependencyTag | null; // 插入在哪个标签之后，null 表示添加到开头
 }
 
-export interface ScriptTagListInsertionDetail {
+export interface ScriptTagInsertionDetail {
   tag: ScriptTag;
   prevTag: ScriptTag | null; // 插入在哪个标签之后，null 表示添加到开头
 }
 
+export interface LinkTagInsertionDetail {
+  tag: LinkTag;
+  prevTag: LinkTag | null; // 插入在哪个标签之后，null 表示添加到开头
+}
+
 export interface ScriptTagDiff {
-  insert: ScriptTagListInsertionDetail[]; // 插入的标签及其位置
+  insert: ScriptTagInsertionDetail[]; // 插入的标签及其位置
   remove: ScriptTag[]; // 需要删除的标签
   update: ScriptTag[]; // 需要更新的标签（如果有）
-  move: ScriptTagListInsertionDetail[]; // 需要更新的标签（如果有）
+  move: ScriptTagInsertionDetail[]; // 需要更新的标签（如果有）
+}
+
+export interface LinkTagDiff {
+  insert: LinkTagInsertionDetail[]; // 插入的标签及其位置
+  remove: LinkTag[]; // 需要删除的标签
+  update: LinkTag[]; // 需要更新的标签（如果有）
+  move: LinkTagInsertionDetail[]; // 需要更新的标签（如果有）
 }

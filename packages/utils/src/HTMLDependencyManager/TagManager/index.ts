@@ -6,7 +6,7 @@ import {
   DependencyListItem,
   DependencyDetail,
   ScriptTagDiff,
-  ScriptTagListInsertionDetail,
+  ScriptTagInsertionDetail,
   DependencyListInsertionDetail,
 } from "../types";
 
@@ -66,7 +66,7 @@ export class TagManager {
 
   private dependencyListInsertionDetailToScript(
     detail: DependencyListInsertionDetail
-  ): ScriptTagListInsertionDetail {
+  ): ScriptTagInsertionDetail {
     return {
       tag: this.dependencyListItemToTagItem(detail.dep),
       prevTag: detail.prevDep
