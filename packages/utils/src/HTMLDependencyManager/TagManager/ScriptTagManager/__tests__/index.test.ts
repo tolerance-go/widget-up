@@ -9,7 +9,7 @@ describe("ScriptTagManager", () => {
   let manager: ScriptTagManager;
 
   beforeEach(() => {
-    const jsdom = new JSDOM(`<!DOCTYPE html>`);
+    const jsdom = new JSDOM(`<!DOCTYPE html><html><head></head><body></body></html>`);
     eventBus = new EventBus<TagEvents>();
     manager = new ScriptTagManager({
       eventBus,
@@ -43,7 +43,7 @@ describe("ScriptTagManager", () => {
         },
       ]
     `);
-    expect(manager["tags"][0].src).toEqual("script1.js");
+    expect(manager["tags"][0].src).toEqual("script1@0.0.0.js");
   });
 
   it("should handle removal correctly", () => {
