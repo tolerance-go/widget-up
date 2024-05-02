@@ -17,3 +17,4 @@ export type {
 export type * from "@/types/form";
 export type * from "@/types/runtime";
 export type { DependencyListItem } from "../types/HTMLDependencyManager";
+export type { TagEvents } from "./HTMLDependencyManager/TagManager";

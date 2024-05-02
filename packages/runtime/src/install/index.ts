@@ -1,4 +1,4 @@
-import { HTMLDependencyManager, DependencyListItem } from "widget-up-utils";
+import { HTMLDependencyManager, DependencyListItem, EventBus, TagEvents } from "widget-up-utils";
 
 // 定义一个类型来表示依赖树的节点
 export interface DependencyTreeNode {
@@ -12,7 +12,8 @@ export interface DependencyTreeNode {
 // 实现`install`方法
 export async function install(
   dependencies: DependencyTreeNode[],
-  document: Document
+  document: Document,
+  eventBus: EventBus<TagEvents>
 ) {
   const fetchVersionList = async (
     dependencyName: string
@@ -51,6 +52,8 @@ export async function install(
 
   // 实例化HTMLDependencyManager
   const manager = new HTMLDependencyManager({
+    eventBus,
+    debug: true,
     fetchVersionList,
     document,
     scriptSrcBuilder: (dep) => {

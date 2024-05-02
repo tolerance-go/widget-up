@@ -1,18 +1,21 @@
 import { isExactVersion } from "../isExactVersion";
 import { DependencyManager } from "./DependencyManager";
-import { TagManager } from "./TagManager";
+import { TagEvents, TagManager } from "./TagManager";
 import {
   DependencyTag,
   DependencyListDiff,
   DependencyDetail,
   DependencyListItem,
 } from "../../types/HTMLDependencyManager";
+import { EventBus } from "../EventBus";
 
 interface ConstructorOptions {
   fetchVersionList: (dependencyName: string) => Promise<string[]>;
   document: Document;
   scriptSrcBuilder?: (dep: DependencyListItem) => string;
   linkHrefBuilder?: (dep: DependencyListItem) => string;
+  debug?: boolean;
+  eventBus?: EventBus<TagEvents>;
 }
 
 class HTMLDependencyManager {
@@ -35,6 +38,8 @@ class HTMLDependencyManager {
       document: options.document,
       scriptSrcBuilder: this.scriptSrcBuilder,
       linkSrcBuilder: this.linkHrefBuilder,
+      debug: options.debug,
+      eventBus: options.eventBus
     });
   }
   async addDependency(

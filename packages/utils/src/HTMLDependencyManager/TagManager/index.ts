@@ -1,5 +1,8 @@
 import { EventBus } from "@/src/EventBus";
-import { DependencyListDiff, DependencyListItem } from "../../../types/HTMLDependencyManager";
+import {
+  DependencyListDiff,
+  DependencyListItem,
+} from "../../../types/HTMLDependencyManager";
 import { ScriptTagManager } from "./ScriptTagManager";
 import { LinkTagManager } from "./LinkTagManager";
 
@@ -18,16 +21,19 @@ export class TagManager {
     document,
     scriptSrcBuilder,
     linkSrcBuilder,
+    debug,
   }: {
     eventBus?: EventBus<TagEvents>;
     document: Document;
     scriptSrcBuilder?: (dep: DependencyListItem) => string;
     linkSrcBuilder?: (dep: DependencyListItem) => string;
+    debug?: boolean;
   }) {
     this.scriptTagManager = new ScriptTagManager({
       document,
       eventBus,
       srcBuilder: scriptSrcBuilder,
+      debug,
     });
 
     this.linkTagManager = new LinkTagManager({

@@ -5,13 +5,7 @@ import { DependencyTreeNode, install } from "./install";
 import { renderFrame } from "./renderFrame";
 import { renderMenus } from "./renderMenus";
 
-export type GlobalEvents = {
-  onClickMenuItem: {
-    key: string;
-  };
-};
-
-export const globalEventBus = new EventBus<GlobalEvents>();
+export const globalEventBus = createEventBus();
 
 // export type JQueryComponentProps<T extends object> = { initialData?: any } & T;
 
@@ -34,13 +28,12 @@ export const start = ({
 }: {
   dependencies: DependencyTreeNode[];
 }) => {
-  const eventBus = createEventBus();
   const leftPanelId = "leftPanel";
   renderFrame({
     leftPanelId,
   });
   // 请求跟目录下的 menus.json 然后渲染左边栏菜单
-  renderMenus({ containerId: leftPanelId, eventBus });
+  renderMenus({ containerId: leftPanelId, eventBus: globalEventBus });
 
-  install(dependencies, window.document);
+  install(dependencies, window.document, globalEventBus);
 };

@@ -19,11 +19,13 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     document,
     container,
     srcBuilder,
+    debug = false
   }: {
     eventBus?: EventBus<TagEvents>;
     document: Document;
     container?: HTMLElement;
     srcBuilder?: (dep: DependencyListItem) => string;
+    debug?: boolean
   }) {
     if (!container) {
       container = document.createElement("div");
@@ -32,7 +34,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     }
 
     super({ document, container });
-    this.eventBus = eventBus || new EventBus<TagEvents>();
+    this.eventBus = eventBus || new EventBus<TagEvents>(debug);
     this.eventBus.on("executed", (payload) => this.onTagExecuted(payload.id));
 
     // 设置事件监听，准备处理标签加载完成的事件
