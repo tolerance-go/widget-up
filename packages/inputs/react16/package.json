@@ -34,11 +34,13 @@
     "rollup-plugin-typescript2": "^0.36.0",
     "strip-json-comments": "^5.0.1",
     "ts-jest": "^29.1.2",
+    "widget-up-runtime": "workspace:^",
     "widget-up-utils": "workspace:^"
   },
   "peerDependencies": {
     "@widget-up-demo/react16": "workspace:^",
     "react": "^16.14.0",
-    "react-dom": "^16.14.0"
+    "react-dom": "^16.14.0",
+    "widget-up-runtime": "workspace:^"
   }
 }

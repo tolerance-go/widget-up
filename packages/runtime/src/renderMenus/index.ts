@@ -1,5 +1,6 @@
 // renderMenus.ts
-import { AppEvents } from "../createEventBus";
+import { AppEvents } from "@/types";
+import { triggerGlobalCompUpdate } from "../registerRender";
 import { insertHtml } from "../utils/insertHtml";
 import type { EventBus, MenuItem } from "widget-up-utils";
 
@@ -65,11 +66,17 @@ export async function renderMenus({
       }
     });
 
+    window.RuntimeComponent = {
+      Component: undefined
+    };
+
     eventBus.on("menuClick", ({ global, name }) => {
       // 监听菜单点击，然后动态把全局的 Component 组件替换为
       const component = (window as any)[global];
+      console.log("menuClick and find component", global, component);
       if (component) {
-        window.Component = component;
+        window.RuntimeComponent.Component = component;
+        triggerGlobalCompUpdate();
       } else {
         console.error(`Global component ${global} not found on window`);
       }

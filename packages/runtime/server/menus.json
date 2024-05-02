@@ -1,5 +1,5 @@
 [
-  { "name": "@widget-up-demo/react16", "global": "Comp_React16" },
+  { "name": "@widget-up-demo/react16", "global": "Component" },
   {
     "name": "group",
     "children": [

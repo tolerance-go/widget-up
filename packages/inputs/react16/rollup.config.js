@@ -18,7 +18,8 @@ export default {
     globals: {
       react: "React",
       "react-dom": "ReactDOM",
-      "@widget-up-demo/react16": "Component",
+      "@widget-up-demo/react16": "RuntimeComponent",
+      "widget-up-runtime": "WidgetUpRuntime",
     },
   },
   plugins: [

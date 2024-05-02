@@ -9,7 +9,7 @@
 })(this, function (e) {
   "use strict";
   return function () {
-    var t = e.useState("red"),
+    var t = e.useState("green"),
       n = t[0],
       o = t[1];
     return e.createElement(
@@ -18,7 +18,7 @@
         style: { color: n },
         onClick: function () {
           o(function (e) {
-            return "red" === e ? "yellow" : "black";
+            return "green" === e ? "black" : "green";
           });
         },
       },
