@@ -1,14 +1,14 @@
 import { EventBus } from "@/src/EventBus";
-import { TagEvents, TagManager } from "..";
+import { TagEvents, ScriptTagManager } from "..";
 import { DependencyListDiff } from "../../types";
 
 describe("TagManager", () => {
   let eventBus: EventBus<TagEvents>;
-  let tagManager: TagManager;
+  let tagManager: ScriptTagManager;
 
   beforeEach(() => {
     eventBus = new EventBus<TagEvents>();
-    tagManager = new TagManager({ eventBus });
+    tagManager = new ScriptTagManager({ eventBus });
   });
 
   it("should handle insertion correctly", () => {

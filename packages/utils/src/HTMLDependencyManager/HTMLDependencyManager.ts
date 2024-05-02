@@ -1,6 +1,6 @@
 import { isExactVersion } from "../isExactVersion";
 import { DependencyManager } from "./DependencyManager";
-import { TagManager } from "./TagManager";
+import { ScriptTagManager } from "./TagManager";
 import {
   DependencyTag,
   DependencyListDiff,
@@ -19,7 +19,7 @@ class HTMLDependencyManager {
   private dependencyManager: DependencyManager;
   private fetchVersionList: (dependencyName: string) => Promise<string[]>;
   private versionCache: { [key: string]: string[] };
-  private tagManager: TagManager;
+  private tagManager: ScriptTagManager;
   public lastDependencies: DependencyListItem[] = []; // 上次的依赖详情列表
   private scriptSrcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
   private linkHrefBuilder: (dep: DependencyListItem) => string; // 现在是可选的，返回 string 或 false
@@ -31,9 +31,9 @@ class HTMLDependencyManager {
     this.scriptSrcBuilder =
       options.scriptSrcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
     this.linkHrefBuilder = options.linkHrefBuilder || (() => "");
-    this.tagManager = new TagManager({
+    this.tagManager = new ScriptTagManager({
       document: options.document,
-      scriptSrcBuilder: this.scriptSrcBuilder,
+      srcBuilder: this.scriptSrcBuilder,
     });
   }
   async addDependency(

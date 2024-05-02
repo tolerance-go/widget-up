@@ -16,26 +16,25 @@ export interface TagEvents {
   executed: { id: string };
 }
 
-export class TagManager {
+export class ScriptTagManager {
   private tags: ScriptTag[] = [];
   private eventBus: EventBus<TagEvents>;
   private document?: Document;
-  private scriptSrcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
+  private srcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
 
   constructor({
     eventBus,
     document,
-    scriptSrcBuilder,
+    srcBuilder,
   }: {
     eventBus?: EventBus<TagEvents>;
     document?: Document;
-    scriptSrcBuilder?: (dep: DependencyListItem) => string;
+    srcBuilder?: (dep: DependencyListItem) => string;
   }) {
     this.eventBus = eventBus || new EventBus<TagEvents>();
     this.eventBus.on("executed", (payload) => this.onTagExecuted(payload.id));
     this.document = document;
-    this.scriptSrcBuilder =
-      scriptSrcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
+    this.srcBuilder = srcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
   }
 
   getTags() {
@@ -57,7 +56,7 @@ export class TagManager {
   private dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
     return {
       type: "script",
-      src: this.scriptSrcBuilder(item),
+      src: this.srcBuilder(item),
       attributes: {
         "data-managed": "true",
       },
