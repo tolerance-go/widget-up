@@ -1,5 +1,5 @@
 import { EventBus } from "@/src/EventBus";
-import { DependencyListDiff, DependencyListItem, ScriptTag } from "../../types";
+import { DependencyListDiff, DependencyListItem, ScriptTag } from "../../../../types/HTMLDependencyManager";
 import { TagManagerBase } from "../TagManagerBase";
 
 export interface TagEvents {

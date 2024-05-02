@@ -6,7 +6,7 @@ import {
   DependencyListDiff,
   DependencyDetail,
   DependencyListItem,
-} from "./types";
+} from "../../types/HTMLDependencyManager";
 
 interface ConstructorOptions {
   fetchVersionList: (dependencyName: string) => Promise<string[]>;

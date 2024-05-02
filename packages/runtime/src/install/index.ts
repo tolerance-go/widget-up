@@ -1,11 +1,11 @@
-import { HTMLDependencyManager, DependencyDetail } from "widget-up-utils";
+import { HTMLDependencyManager, DependencyListItem } from "widget-up-utils";
 
 // 定义一个类型来表示依赖树的节点
 export interface DependencyTreeNode {
   name: string;
   version: string;
-  scriptSrc?: (dep: DependencyDetail) => string;
-  linkHref?: (dep: DependencyDetail) => string;
+  scriptSrc?: (dep: DependencyListItem) => string;
+  linkHref?: (dep: DependencyListItem) => string;
   depends?: DependencyTreeNode[];
 }
 
@@ -30,8 +30,8 @@ export async function install(
   const srcMap = new Map<
     string,
     {
-      scriptSrc?: (dep: DependencyDetail) => string;
-      linkHref?: (dep: DependencyDetail) => string;
+      scriptSrc?: (dep: DependencyListItem) => string;
+      linkHref?: (dep: DependencyListItem) => string;
     }
   >();
 
@@ -53,12 +53,12 @@ export async function install(
   const manager = new HTMLDependencyManager({
     fetchVersionList,
     document,
-    scriptSrcBuilder: (dep: DependencyDetail) => {
-      const key = `${dep.name}@${dep.versionRange}`;
+    scriptSrcBuilder: (dep) => {
+      const key = `${dep.name}@${dep.version}`;
       return srcMap.get(key)?.scriptSrc?.(dep) || "";
     },
-    linkHrefBuilder: (dep: DependencyDetail) => {
-      const key = `${dep.name}@${dep.versionRange}`;
+    linkHrefBuilder: (dep) => {
+      const key = `${dep.name}@${dep.version}`;
       return srcMap.get(key)?.linkHref?.(dep) || "";
     },
   });

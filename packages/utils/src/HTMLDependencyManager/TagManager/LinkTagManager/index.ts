@@ -1,4 +1,4 @@
-import { DependencyListDiff, DependencyListItem, LinkTag } from "../../types";
+import { DependencyListDiff, DependencyListItem, LinkTag } from "../../../../types/HTMLDependencyManager";
 import { TagManagerBase } from "../TagManagerBase";
 
 export const LinkTagManagerContainerId = "link-tag-manager-container";

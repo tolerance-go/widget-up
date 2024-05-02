@@ -1,6 +1,6 @@
 import { EventBus } from "@/src/EventBus";
 import { TagEvents, TagManager } from "../..";
-import { DependencyListDiff } from "../../../types";
+import { DependencyListDiff } from "../../../../../types/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
 import { ScriptTagManager } from "..";
 

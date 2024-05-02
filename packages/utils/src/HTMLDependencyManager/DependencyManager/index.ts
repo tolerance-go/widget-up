@@ -1,6 +1,6 @@
 import { isExactVersion } from "@/src/isExactVersion";
 import semver from "semver";
-import { DependencyDetail } from "../types";
+import { DependencyDetail } from "../../../types/HTMLDependencyManager";
 
 class DependencyManager {
   private dependencies: { [key: string]: DependencyDetail[] };

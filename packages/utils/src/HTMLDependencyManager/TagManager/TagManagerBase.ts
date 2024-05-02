@@ -4,7 +4,7 @@ import {
   DependencyListItem,
   DependencyTag,
   TagDiff,
-} from "../types";
+} from "../../../types/HTMLDependencyManager";
 
 export abstract class TagManagerBase<TTag extends DependencyTag> {
   public tags: TTag[] = [];
