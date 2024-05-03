@@ -1,17 +1,21 @@
 export type ModifyUMDOptions = {
-  originalScriptContent: string;
+  scriptContent: string;
   imports?: {
     globalVar: string;
     scopeVar: string;
   }[];
-  exports: {
+  exports?: {
     globalVar: string;
     scopeVar: string;
   };
 };
 
 export function modifyUMDScript(options: ModifyUMDOptions): string {
-  const { originalScriptContent, imports = [], exports } = options;
+  const {
+    scriptContent: originalScriptContent,
+    imports = [],
+    exports,
+  } = options;
 
   // 生成导入变量的代码
   const importsCode = imports
@@ -20,6 +24,10 @@ export function modifyUMDScript(options: ModifyUMDOptions): string {
         `customGlobal['${scopeVar}'] = global['${globalVar}'];`
     )
     .join("\n");
+
+  const exportsCode = exports
+    ? `global['${exports.globalVar}'] = customGlobal['${exports.scopeVar}'];`
+    : "";
 
   // 修改后的 UMD 脚本内容
   const modifiedScriptContent = `
@@ -33,7 +41,7 @@ export function modifyUMDScript(options: ModifyUMDOptions): string {
       ${originalScriptContent}
     }).call(customGlobal);
     
-    global['${exports.globalVar}'] = customGlobal['${exports.scopeVar}'];
+    ${exportsCode}
   })(this);
   `;
 

@@ -39,19 +39,15 @@ export function parseUMDMeta({
 
   // 工厂函数，处理依赖注入
   const factory = function () {};
+  const exports = undefined;
+  const module = undefined;
+  const define = undefined;
+  const self = undefined;
+  const globalThis = undefined;
 
   // 准备执行UMD脚本
   try {
-    const exports = undefined;
-    const module = undefined;
-    const define = undefined;
-    const self = undefined;
-    const globalThis = undefined;
-
     const wrapper = stripUMDWrapper({ scriptContent });
-
-    console.log("wrapper", wrapper);
-
     eval(`
     ${wrapper} 
     wrap(fakeGlobal, factory);
