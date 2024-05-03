@@ -14,12 +14,12 @@ export default {
   input: `src/index.tsx`,
   output: {
     file: `dist/index.js`,
-    format: "iife",
+    format: "umd",
+    name: 'RegisterRender_react16',
     globals: {
       react: "React",
       "react-dom": "ReactDOM",
-      "@widget-up-demo/react16": "RuntimeComponent",
-      "widget-up-runtime": "WidgetUpRuntime",
+      "@widget-up-demo/react16": "RuntimeComponent"
     },
   },
   plugins: [

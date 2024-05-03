@@ -2,7 +2,7 @@
   "$schema": "./node_modules/widget-up/dist/config-schema.json",
   "input": "src/index.tsx",
   "umd": {
-    "name": "Component",
+    "name": "Component_react16",
     "external": {
       "react": {
         "unpkg": {

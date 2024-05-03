@@ -1,5 +1,8 @@
 export interface MenuItem {
-  global: string;
+  globals: {
+    component: string;
+    registerRender: string;
+  };
   name: string;
   children?: MenuItem[];
 }

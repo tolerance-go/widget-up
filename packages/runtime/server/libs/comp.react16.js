@@ -1,18 +1,22 @@
 !(function (e, t) {
   "object" == typeof exports && "undefined" != typeof module
-    ? (module.exports = t(require("react")))
+    ? t(exports, require("react"))
     : "function" == typeof define && define.amd
-    ? define(["react"], t)
-    : ((e =
-        "undefined" != typeof globalThis ? globalThis : e || self).Component =
-        t(e.React));
-})(this, function (e) {
+    ? define(["exports", "react"], t)
+    : t(
+        ((e =
+          "undefined" != typeof globalThis
+            ? globalThis
+            : e || self).Component_react16 = {}),
+        e.React
+      );
+})(this, function (e, t) {
   "use strict";
-  return function () {
-    var t = e.useState("red"),
-      n = t[0],
-      o = t[1];
-    return e.createElement(
+  var n = function () {
+    var e = t.useState("red"),
+      n = e[0],
+      o = e[1];
+    return t.createElement(
       "button",
       {
         style: { color: n },
@@ -25,4 +29,7 @@
       "hi button"
     );
   };
+  (e.Component = n),
+    (e.default = n),
+    Object.defineProperty(e, "__esModule", { value: !0 });
 });

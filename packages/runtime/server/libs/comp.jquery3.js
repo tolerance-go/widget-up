@@ -1,23 +1,29 @@
 !(function (e, o) {
   "object" == typeof exports && "undefined" != typeof module
-    ? (module.exports = o(require("jquery")))
+    ? o(exports, require("jquery"))
     : "function" == typeof define && define.amd
-    ? define(["jquery"], o)
-    : ((e =
-        "undefined" != typeof globalThis
-          ? globalThis
-          : e || self).JQuery3_Component = o(e.$));
-})(this, function (e) {
+    ? define(["exports", "jquery"], o)
+    : o(
+        ((e =
+          "undefined" != typeof globalThis
+            ? globalThis
+            : e || self).Component_jquery3 = {}),
+        e.$
+      );
+})(this, function (e, o) {
   "use strict";
-  return function () {
-    var o = e("<button>Hi Button</button>").css({ color: "red" });
+  var t = function () {
+    var e = o("<button>Hi Button</button>").css({ color: "red" });
     return (
-      o.on("click", function () {
-        "rgb(255, 0, 0)" === o.css("color")
-          ? o.css("color", "blue")
-          : o.css("color", "red");
+      e.on("click", function () {
+        "rgb(255, 0, 0)" === e.css("color")
+          ? e.css("color", "blue")
+          : e.css("color", "red");
       }),
-      o
+      e
     );
   };
+  (e.Component = t),
+    (e.default = t),
+    Object.defineProperty(e, "__esModule", { value: !0 });
 });

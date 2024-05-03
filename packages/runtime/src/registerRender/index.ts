@@ -7,13 +7,23 @@ export type RenderCallback = ({
   rootElement: HTMLElement;
 }) => void;
 
+window.RuntimeComponent = {
+  Component: undefined,
+};
+
 // 事件监听器存储回调函数
 let globalRenderCallback: RenderCallback | null = null;
 
-// registerRender 函数实现
-export function registerRender(callback: RenderCallback): void {
-  globalRenderCallback = callback;
+export function replaceRuntimeComponent(component: any) {
+  window.RuntimeComponent.Component = component;
+}
 
+// registerRender 函数实现
+export function replaceRegisterRender(callback: RenderCallback): void {
+  globalRenderCallback = callback;
+}
+
+export function startRender() {
   globalEventBus.on("globalComponentUpdated", () => {
     if (globalRenderCallback) {
       const rootElement = document.getElementById("root");

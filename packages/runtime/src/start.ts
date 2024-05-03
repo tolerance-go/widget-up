@@ -1,5 +1,6 @@
 import { globalEventBus } from "./globalEventBus";
 import { DependencyTreeNode, install } from "./install";
+import { replaceRegisterRender, startRender } from "./registerRender";
 import { renderFrame } from "./renderFrame";
 import { renderMenus } from "./renderMenus";
 
@@ -16,4 +17,6 @@ export const start = ({
   renderMenus({ containerId: leftPanelId, eventBus: globalEventBus });
 
   install(dependencies, window.document, globalEventBus);
+
+  startRender();
 };

@@ -1,7 +1,6 @@
 import { Component } from "@widget-up-demo/jquery3";
-import WidgetUpRuntime from "widget-up-runtime";
 
-WidgetUpRuntime.registerRender(({ rootElement }) => {
+const registerRender = ({ rootElement }: { rootElement: HTMLElement }) => {
   // 确认 rootElement 存在
   if (!rootElement) {
     console.error("Root element not found.");
@@ -14,4 +13,6 @@ WidgetUpRuntime.registerRender(({ rootElement }) => {
   if (element) {
     rootElement.appendChild(element);
   }
-});
+};
+
+export default registerRender;

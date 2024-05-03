@@ -1,14 +1,31 @@
-!(function (e, n, o, t) {
+!(function (e, o) {
+  "object" == typeof exports && "undefined" != typeof module
+    ? (module.exports = o(
+        require("react"),
+        require("react-dom"),
+        require("@widget-up-demo/react16")
+      ))
+    : "function" == typeof define && define.amd
+    ? define(["react", "react-dom", "@widget-up-demo/react16"], o)
+    : ((e =
+        "undefined" != typeof globalThis
+          ? globalThis
+          : e || self).RegisterRender_react16 = o(
+        e.React,
+        e.ReactDOM,
+        e.RuntimeComponent
+      ));
+})(this, function (e, o, n) {
   "use strict";
-  t.registerRender(function (t) {
-    var u = t.rootElement;
-    u
-      ? (n.unmountComponentAtNode(u)
+  return function (t) {
+    var r = t.rootElement;
+    r
+      ? (o.unmountComponentAtNode(r)
           ? console.log("Component unmounted successfully.")
           : console.log(
               "No component was mounted on rootElement, or unmount was unsuccessful."
             ),
-        n.render(e.createElement(o.Component, null), u))
+        o.render(e.createElement(n.Component, null), r))
       : console.error("Root element not found.");
-  });
-})(React, ReactDOM, RuntimeComponent, WidgetUpRuntime);
+  };
+});

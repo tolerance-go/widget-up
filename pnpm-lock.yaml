@@ -208,9 +208,6 @@ importers:
       ts-jest:
         specifier: ^29.1.2
         version: 29.1.2(@babel/core@7.24.4)(jest@29.7.0)(typescript@5.4.5)
-      widget-up-runtime:
-        specifier: workspace:^
-        version: link:../../runtime
       widget-up-utils:
         specifier: workspace:^
         version: link:../../utils

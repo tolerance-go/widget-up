@@ -14,11 +14,11 @@ export default {
   input: `src/index.ts`,
   output: {
     file: `dist/index.js`,
-    format: "iife",
+    format: "umd",
+    name: 'RegisterRender_jquery3',
     globals: {
       jquery: "jQuery",
       "@widget-up-demo/jquery3": "RuntimeComponent",
-      "widget-up-runtime": "WidgetUpRuntime",
     },
   },
   plugins: [

@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Component } from "@widget-up-demo/react16";
-import WidgetUpRuntime from "widget-up-runtime";
 
-WidgetUpRuntime.registerRender(({ rootElement }) => {
+const registerRender = ({ rootElement }: { rootElement: HTMLElement }) => {
   // 确认 rootElement 存在
   if (!rootElement) {
     console.error("Root element not found.");
@@ -20,4 +19,6 @@ WidgetUpRuntime.registerRender(({ rootElement }) => {
   }
 
   ReactDOM.render(<Component />, rootElement);
-});
+};
+
+export default registerRender;

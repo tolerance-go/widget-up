@@ -1,6 +1,10 @@
 // renderMenus.ts
 import { AppEvents } from "@/types";
-import { triggerGlobalCompUpdate } from "../registerRender";
+import {
+  replaceRegisterRender,
+  replaceRuntimeComponent,
+  triggerGlobalCompUpdate,
+} from "../registerRender";
 import { insertHtml } from "../utils/insertHtml";
 import type { EventBus, MenuItem } from "widget-up-utils";
 
@@ -25,8 +29,10 @@ function buildMenuHtml(menus: MenuItem[]): string {
           ? `<ul class="ml-4">${buildMenuItems(item.children)}</ul>`
           : "";
         return `<li class="${childrenHtml ? "mb-2" : ""}">
-          <a data-name="${item.name}" data-global="${
-          item.global
+          <a data-name="${item.name}" data-globalComponent="${
+          item.globals.component
+        }" data-globalRegisterRender="${
+          item.globals.registerRender
         }" class="text-blue-500 hover:text-blue-700">${item.name}</a>
           ${childrenHtml}
         </li>`;
@@ -61,24 +67,30 @@ export async function renderMenus({
       ) {
         eventBus.emit("menuClick", {
           name: target.dataset.name,
-          global: target.dataset.global,
+          globals: {
+            component: target.dataset.globalComponent || '',
+            registerRender: target.dataset.globalRegisterRender || ''
+          },
         });
       }
     });
 
-    window.RuntimeComponent = {
-      Component: undefined
-    };
-
-    eventBus.on("menuClick", ({ global, name }) => {
+    eventBus.on("menuClick", ({ globals, name }) => {
       // 监听菜单点击，然后动态把全局的 Component 组件替换为
-      const component = (window as any)[global];
-      console.log("menuClick and find component", global, component);
+      const component = (window as any)[globals.component];
+      const registerRender = (window as any)[globals.registerRender];
+
+      console.log("menuClick and find component", globals, component, registerRender);
+
+      if (registerRender) {
+        replaceRegisterRender(registerRender);
+      }
+
       if (component) {
-        window.RuntimeComponent.Component = component;
+        replaceRuntimeComponent(component);
         triggerGlobalCompUpdate();
       } else {
-        console.error(`Global component ${global} not found on window`);
+        console.error(`Global component ${globals.component} not found on window`);
       }
     });
   } catch (error) {
