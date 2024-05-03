@@ -25,17 +25,15 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
-    "widget-up": "workspace:^",
-    "widget-up-utils": "workspace:^",
-    "jquery": "^3.7.1"
+    "@types/jquery": "^3.5.29",
+    "jquery": "^3.7.1",
+    "widget-up": "workspace:^"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
-    "widget-up-utils": "workspace:^",
     "jquery": "^3.7.1"
   }
 }

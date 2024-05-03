@@ -15,6 +15,11 @@ export default {
   output: {
     file: `dist/index.js`,
     format: "iife",
+    globals: {
+      jquery: "jQuery",
+      "@widget-up-demo/jquery3": "RuntimeComponent",
+      "widget-up-runtime": "WidgetUpRuntime",
+    },
   },
   plugins: [
     del({ targets: `dist/*` }),

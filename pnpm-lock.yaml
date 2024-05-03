@@ -23,15 +23,15 @@ importers:
 
   packages/components/jquery3:
     devDependencies:
+      '@types/jquery':
+        specifier: ^3.5.29
+        version: 3.5.29
       jquery:
         specifier: ^3.7.1
         version: 3.7.1
       widget-up:
         specifier: workspace:^
         version: link:../../widget-up
-      widget-up-utils:
-        specifier: workspace:^
-        version: link:../../utils
 
   packages/components/react16:
     devDependencies:
@@ -118,6 +118,9 @@ importers:
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
+      '@widget-up-demo/jquery3':
+        specifier: workspace:^
+        version: link:../../components/jquery3
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3

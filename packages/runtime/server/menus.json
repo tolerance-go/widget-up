@@ -1,5 +1,6 @@
 [
   { "name": "@widget-up-demo/react16", "global": "Component" },
+  { "name": "@widget-up-demo/jquery3", "global": "JQuery3_Component" },
   {
     "name": "group",
     "children": [

@@ -1,14 +1,17 @@
-import { JQueryComponent, globalEventBus } from "widget-up-runtime";
+import { Component } from "@widget-up-demo/jquery3";
+import WidgetUpRuntime from "widget-up-runtime";
 
-const rootElement = document.getElementById("root");
+WidgetUpRuntime.registerRender(({ rootElement }) => {
+  // 确认 rootElement 存在
+  if (!rootElement) {
+    console.error("Root element not found.");
+    return;
+  }
 
-globalEventBus.on("onClickMenuItem", () => {
-  if (!rootElement) return;
-
-  // 首先清空 rootElement
+  // 尝试卸载 rootElement 上现有的 React 组件
   rootElement.innerHTML = "";
-
-  // 然后创建并添加新的 JQueryComponent
-  const appElement = JQueryComponent({ initialData: undefined });
-  rootElement.appendChild(appElement[0]);
+  const element = Component().get(0);
+  if (element) {
+    rootElement.appendChild(element);
+  }
 });
