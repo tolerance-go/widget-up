@@ -15,7 +15,7 @@ export default {
   output: {
     file: `dist/index.js`,
     format: "umd",
-    name: 'RegisterRender_react16',
+    name: 'Register_react16',
     globals: {
       react: "React",
       "react-dom": "ReactDOM",

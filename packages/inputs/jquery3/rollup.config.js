@@ -15,7 +15,7 @@ export default {
   output: {
     file: `dist/index.js`,
     format: "umd",
-    name: 'RegisterRender_jquery3',
+    name: 'Register_jquery3',
     globals: {
       jquery: "jQuery",
       "@widget-up-demo/jquery3": "RuntimeComponent",

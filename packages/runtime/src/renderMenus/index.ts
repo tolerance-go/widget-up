@@ -1,12 +1,12 @@
 // renderMenus.ts
 import { AppEvents } from "@/types";
+import type { EventBus, MenuItem } from "widget-up-utils";
 import {
-  replaceRegisterRender,
+  replaceGlobalRegister,
   replaceRuntimeComponent,
   triggerGlobalCompUpdate,
 } from "../registerRender";
 import { insertHtml } from "../utils/insertHtml";
-import type { EventBus, MenuItem } from "widget-up-utils";
 
 interface RenderMenusOptions {
   containerId: string;
@@ -32,7 +32,7 @@ function buildMenuHtml(menus: MenuItem[]): string {
           <a data-name="${item.name}" data-global-component="${
           item.globals?.component
         }" data-global-register-render="${
-          item.globals?.registerRender
+          item.globals?.register
         }" class="text-blue-500 hover:text-blue-700">${item.name}</a>
           ${childrenHtml}
         </li>`;
@@ -65,7 +65,7 @@ export async function renderMenus({
           name: target.dataset.name,
           globals: {
             component: target.dataset.globalComponent || "",
-            registerRender: target.dataset.globalRegisterRender || "",
+            register: target.dataset.globalRegisterRender || "",
           },
         });
       }
@@ -76,19 +76,19 @@ export async function renderMenus({
 
       // 监听菜单点击，然后动态把全局的 Component 组件替换为
       const component = (window as any)[globals.component].default;
-      const registerRender = (window as any)[globals.registerRender];
+      const register = (window as any)[globals.register];
 
-      if (registerRender) {
-        replaceRegisterRender(registerRender);
-      }
+      if (register) {
+        replaceGlobalRegister(register.render, register.unmount);
 
-      if (component) {
-        replaceRuntimeComponent(component);
-        triggerGlobalCompUpdate();
-      } else {
-        console.error(
-          `Global component ${globals.component} not found on window`
-        );
+        if (component) {
+          replaceRuntimeComponent(component);
+          triggerGlobalCompUpdate();
+        } else {
+          console.error(
+            `Global component ${globals.component} not found on window`
+          );
+        }
       }
     });
   } catch (error) {

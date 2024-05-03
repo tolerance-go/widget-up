@@ -7,20 +7,36 @@ export type RenderCallback = ({
   rootElement: HTMLElement;
 }) => void;
 
+export type UnmountCallback = ({
+  rootElement,
+}: {
+  rootElement: HTMLElement;
+}) => void;
+
 window.RuntimeComponent = {
   Component: undefined,
 };
 
 // 事件监听器存储回调函数
 let globalRenderCallback: RenderCallback | null = null;
+let globalUnmountCallback: UnmountCallback | null = null;
+let globalPrevUnmountCallback: UnmountCallback | null = null;
 
 export function replaceRuntimeComponent(component: any) {
   window.RuntimeComponent.Component = component;
 }
 
 // registerRender 函数实现
-export function replaceRegisterRender(callback: RenderCallback): void {
-  globalRenderCallback = callback;
+export function replaceGlobalRegister(
+  render: RenderCallback,
+  unmount: UnmountCallback
+): void {
+  globalRenderCallback = render;
+  globalUnmountCallback = unmount;
+}
+
+export function replaceGlobalPrevUnmount(unmount: UnmountCallback): void {
+  globalPrevUnmountCallback = unmount;
 }
 
 export function startRender() {
@@ -28,8 +44,11 @@ export function startRender() {
     if (globalRenderCallback) {
       const rootElement = document.getElementById("root");
       if (rootElement) {
-        console.log("start render");
+        globalPrevUnmountCallback?.({ rootElement });
         globalRenderCallback({ rootElement });
+        if (globalUnmountCallback) {
+          replaceGlobalPrevUnmount(globalUnmountCallback);
+        }
       }
     }
   });
