@@ -1,12 +1,12 @@
 {
   "imports": [
     {
-      "globalVar": "$",
+      "globalVar": "$v3_7_1",
       "scopeVar": "$"
     }
   ],
   "exports": {
-    "globalVar": "Component_jquery3",
+    "globalVar": "Component_jquery3v0_0_0",
     "scopeVar": "Component_jquery3"
   }
 }
