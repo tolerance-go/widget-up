@@ -15,5 +15,5 @@
 # 如何使用
 
 ```bash
-pnpm genScriptUMDMeta '{server/libs/react*.js,!server/libs/*wrap.js}'
+pnpm genScriptUMDMeta 'server/libs/react!(*wrap).js'
 ```
