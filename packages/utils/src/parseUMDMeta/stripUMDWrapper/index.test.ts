@@ -256,6 +256,14 @@ describe("clearFactory", () => {
 
       `;
     const result = stripUMDWrapper({ scriptContent });
-    expect(result).toMatchInlineSnapshot(`""`);
+    expect(result).toMatchInlineSnapshot(`
+      "
+                function wrap( w ) {
+                  if ( !w.document ) {
+                    throw new Error( "jQuery requires a window with a document" );
+                  }
+                  return factory( w );
+                }"
+    `);
   });
 });
