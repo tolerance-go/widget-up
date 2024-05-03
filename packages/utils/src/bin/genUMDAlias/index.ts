@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
-import { UMDAliasJSONOptions } from "@/src/modifyUMDScript";
-import { parseUMDMeta } from "@/src/parseUMDMeta";
+import {
+    UMDAliasJSONOptions,
+    modifyUMDScript
+} from "@/src/modifyUMDScript";
 import fs from "fs";
 import { glob } from "glob";
 import path from "path";
@@ -12,22 +14,24 @@ import { hideBin } from "yargs/helpers";
 function processFile(filePath: string): void {
   try {
     const content = fs.readFileSync(filePath, "utf8");
-    const metaData = parseUMDMeta({ scriptContent: content });
+    const metaDataPath = path.join(
+      path.parse(filePath).dir,
+      `${path.basename(filePath, ".js")}.umd-meta.json`
+    );
+    // 读取 metaDataPath json 文件
+    const umdAliasOptions: UMDAliasJSONOptions = JSON.parse(
+      fs.readFileSync(metaDataPath, "utf8")
+    );
 
-    const umdAliasOptions: UMDAliasJSONOptions = {
-      imports: metaData.importGlobals.map((globalVar) => ({
-        globalVar,
-        scopeVar: globalVar,
-      })),
-      exports: {
-        globalVar: metaData.exportGlobal ?? "",
-        scopeVar: metaData.exportGlobal ?? "",
-      },
-    };
+    const nextContent = modifyUMDScript({
+      scriptContent: content,
+      imports: umdAliasOptions.imports,
+      exports: umdAliasOptions.exports,
+    });
 
     const outputFilePath = path.join(
       path.parse(filePath).dir,
-      `${path.basename(filePath, ".js")}.umd-meta.json`
+      `${path.basename(filePath, ".js")}.umd-alias-wrap.js`
     );
 
     // 注意如果已经有了同名文件，就不生成了，而是提示用户，如果要生成，手动删除后再次运行
@@ -36,7 +40,7 @@ function processFile(filePath: string): void {
       return;
     }
 
-    fs.writeFileSync(outputFilePath, JSON.stringify(umdAliasOptions, null, 2));
+    fs.writeFileSync(outputFilePath, nextContent);
     console.log(`Metadata generated: ${outputFilePath}`);
   } catch (error) {
     console.error(`Error processing ${filePath}:`, error);

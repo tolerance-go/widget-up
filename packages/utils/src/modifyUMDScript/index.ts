@@ -1,5 +1,7 @@
-export type ModifyUMDOptions = {
-  scriptContent: string;
+// 写入文件的 UMDAliasOptions，是UMDAliasOptions 的 required 模式
+export type UMDAliasJSONOptions = Required<UMDAliasOptions>;
+
+export type UMDAliasOptions = {
   imports?: {
     globalVar: string;
     scopeVar: string;
@@ -9,6 +11,10 @@ export type ModifyUMDOptions = {
     scopeVar: string;
   };
 };
+
+export type ModifyUMDOptions = {
+  scriptContent: string;
+} & UMDAliasOptions;
 
 export function modifyUMDScript(options: ModifyUMDOptions): string {
   const {
