@@ -1,11 +1,9 @@
 import fs from "fs";
+import { glob } from "glob";
 import path from "path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import {
-  wrapScriptAndWaitExec,
-  WrapScriptOptions,
-} from "../../wrapScriptAndWaitExec";
+import { wrapScriptAndWaitExec } from "../../wrapScriptAndWaitExec";
 
 interface ProcessOptions {
   eventBusPath: string;
@@ -23,7 +21,7 @@ function processFile(filePath: string, options: ProcessOptions): void {
     const outputFile = path.join(
       path.dirname(filePath),
       path.basename(filePath, path.extname(filePath)) +
-        ".wrap" +
+        ".async-event-wrap" +
         path.extname(filePath)
     );
 
@@ -47,36 +45,17 @@ function processFile(filePath: string, options: ProcessOptions): void {
   }
 }
 
-function processDirectory(
-  directoryPath: string,
-  options: ProcessOptions
-): void {
-  fs.readdirSync(directoryPath).forEach((file) => {
-    const fullPath = path.join(directoryPath, file);
-    const stats = fs.statSync(fullPath);
-    // Skip files that have already been wrapped (contain ".wrap.")
-    if (path.basename(fullPath).includes(".wrap.")) {
-      if (options.verbose) console.log(`Skipping wrapped file: ${fullPath}`);
-      return;
-    }
-    if (stats.isDirectory()) {
-      processDirectory(fullPath, options); // Recursively process subdirectories
-    } else if (stats.isFile()) {
-      processFile(fullPath, options);
-    }
-  });
-}
-
 yargs(hideBin(process.argv))
   .command(
-    "exec <file>",
+    "$0 [patterns...]",
     "Wrap a JavaScript file or all files in a directory with script wrapper",
     (yargs) =>
       yargs
-        .positional("file", {
+        .positional("patterns", {
           describe: "The JavaScript file or directory to wrap",
           type: "string",
           demandOption: true,
+          array: true,
         })
         .options({
           eventId: {
@@ -100,23 +79,22 @@ yargs(hideBin(process.argv))
             type: "boolean",
           },
         }),
-    (args) => {
-      const { file, eventBusPath, eventId, verbose, serverBase } = args;
-      const stats = fs.statSync(file);
+    async (args) => {
+      const { patterns, eventBusPath, eventId, verbose, serverBase } = args;
+
+      const files = await glob(patterns, {
+        ignore: ["**/node_modules/**"],
+        nodir: true,
+      });
       const options: ProcessOptions = {
         eventBusPath,
         eventId,
         verbose,
         serverBase,
       };
-
-      if (stats.isDirectory()) {
-        processDirectory(file, options);
-      } else if (stats.isFile()) {
+      files.forEach((file) => {
         processFile(file, options);
-      } else {
-        throw new Error("Provided path is neither a file nor a directory.");
-      }
+      });
     }
   )
   .parse();
