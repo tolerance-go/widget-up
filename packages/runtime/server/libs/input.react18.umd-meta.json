@@ -1,0 +1,16 @@
+{
+  "imports": [
+    {
+      "globalVar": "React",
+      "scopeVar": "React"
+    },
+    {
+      "globalVar": "ReactDOM",
+      "scopeVar": "ReactDOM"
+    }
+  ],
+  "exports": {
+    "globalVar": "Register_react18",
+    "scopeVar": "Register_react18"
+  }
+}

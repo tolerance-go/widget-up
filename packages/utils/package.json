@@ -12,8 +12,7 @@
   },
   "bin": {
     "genUMDAsyncEventWrap": "./dist/bin/genUMDAsyncEventWrap/index.js",
-    "genUMDAliasWrap": "./dist/bin/genUMDAliasWrap/index.js",
-    "genUMDMeta": "./dist/bin/genUMDMeta/index.js"
+    "genUMDAliasWrap": "./dist/bin/genUMDAliasWrap/index.js"
   },
   "sideEffects": false,
   "files": [

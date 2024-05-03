@@ -33,5 +33,4 @@ temp/
 /docker-compose.override.yml
 
 /server/**/*-wrap.js
-/server/**/*.umd-meta.json
 /.logs

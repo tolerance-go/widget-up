@@ -1,0 +1,12 @@
+{
+  "imports": [
+    {
+      "globalVar": "React",
+      "scopeVar": "React"
+    }
+  ],
+  "exports": {
+    "globalVar": "Component_react16_2",
+    "scopeVar": "Component_react16_2"
+  }
+}
