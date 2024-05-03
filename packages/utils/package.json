@@ -11,7 +11,8 @@
     }
   },
   "bin": {
-    "wrapScriptAndWaitExec": "./dist/bin/wrapScriptAndWaitExec/index.js"
+    "wrapScriptAndWaitExec": "./dist/bin/wrapScriptAndWaitExec/index.js",
+    "genScriptUMDMeta": "./dist/bin/genScriptUMDMeta/index.js"
   },
   "sideEffects": false,
   "files": [

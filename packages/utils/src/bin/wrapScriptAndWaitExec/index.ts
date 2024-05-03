@@ -76,6 +76,7 @@ yargs(hideBin(process.argv))
         .positional("file", {
           describe: "The JavaScript file or directory to wrap",
           type: "string",
+          demandOption: true,
         })
         .options({
           eventId: {
@@ -99,7 +100,7 @@ yargs(hideBin(process.argv))
             type: "boolean",
           },
         }),
-    (args: any) => {
+    (args) => {
       const { file, eventBusPath, eventId, verbose, serverBase } = args;
       const stats = fs.statSync(file);
       const options: ProcessOptions = {
