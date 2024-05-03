@@ -5,7 +5,7 @@ import { hideBin } from "yargs/helpers";
 import {
   wrapScriptAndWaitExec,
   WrapScriptOptions,
-} from "../../scripts/wrapScriptAndWaitExec";
+} from "../../wrapScriptAndWaitExec";
 
 interface ProcessOptions {
   eventBusPath: string;
