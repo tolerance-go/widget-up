@@ -32,6 +32,6 @@ temp/
 /domains.conf
 /docker-compose.override.yml
 
-/server/**/*.wrap.js
+/server/**/*.async-event-wrap.js
 /server/**/*.umd-meta.json
 /.logs
