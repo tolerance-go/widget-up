@@ -11,8 +11,9 @@
     }
   },
   "bin": {
-    "wrapScriptAndWaitExec": "./dist/bin/wrapScriptAndWaitExec/index.js",
-    "genScriptUMDMeta": "./dist/bin/genScriptUMDMeta/index.js"
+    "genUMDAsyncEventWrap": "./dist/bin/genUMDAsyncEventWrap/index.js",
+    "genUMDAliasWrap": "./dist/bin/genUMDAliasWrap/index.js",
+    "genUMDMeta": "./dist/bin/genUMDMeta/index.js"
   },
   "sideEffects": false,
   "files": [
