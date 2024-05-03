@@ -10,6 +10,7 @@
     "types"
   ],
   "scripts": {
+    "gen:wrap": "pnpm gen:umd-alias-wrap && pnpm gen:async-event-wrap",
     "gen:umd-alias-wrap": "pnpm genUMDAsyncEventWrap server/libs/!(*wrap).js",
     "gen:async-event-wrap": "pnpm genUMDAliasWrap server/libs/*umd-alias-wrap.js --serverBase server --eventBusPath WidgetUpRuntime.globalEventBus",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
