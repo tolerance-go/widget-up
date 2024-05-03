@@ -7,6 +7,13 @@
     }
   },
   {
+    "name": "@widget-up-demo/react18",
+    "globals": {
+      "component": "Component_react18",
+      "register": "Register_react18"
+    }
+  },
+  {
     "name": "@widget-up-demo/jquery3",
     "globals": {
       "component": "Component_jquery3",
