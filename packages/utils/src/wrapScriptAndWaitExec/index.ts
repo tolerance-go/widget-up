@@ -10,7 +10,7 @@ export function wrapScriptAndWaitExec(options: WrapScriptOptions): string {
     scriptContent,
     eventId,
     eventBusPath = "EventBus",
-    globalObjectVarName = "window",
+    globalObjectVarName = "this",
   } = options;
 
   const loadedEvent = "loaded";
