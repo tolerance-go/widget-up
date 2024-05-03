@@ -18,7 +18,7 @@ export default {
     name: 'Register_react18',
     globals: {
       react: "React",
-      "react-dom": "ReactDOM",
+      "react-dom/client": "ReactDOM",
       "@widget-up-demo/react18": "RuntimeComponent"
     },
   },

@@ -55,37 +55,37 @@ WidgetUpRuntime.start({
         },
       ],
     },
-    {
-      name: "widget-up-input-react18",
-      version: "0.0.0",
-      scriptSrc: () => "/libs/input.react18.wrap.js",
-      depends: [
-        {
-          name: "@widget-up-demo/react18",
-          version: "0.0.0",
-          scriptSrc: () => "/libs/comp.react18.wrap.js",
-          depends: [
-            {
-              name: "react-dom",
-              version: "18.2.0",
-              scriptSrc: (dep) => `/libs/react-dom18.development.wrap.js`,
-              depends: [
-                {
-                  name: "react",
-                  version: "16.14.0",
-                  scriptSrc: (dep) => `/libs/react.development.wrap.js`,
-                },
-              ],
-            },
-            {
-              name: "react",
-              version: "18.2.0",
-              scriptSrc: (dep) => `/libs/react18.development.wrap.js`,
-            },
-          ],
-        },
-      ],
-    },
+    // {
+    //   name: "widget-up-input-react18",
+    //   version: "0.0.0",
+    //   scriptSrc: () => "/libs/input.react18.wrap.js",
+    //   depends: [
+    //     {
+    //       name: "@widget-up-demo/react18",
+    //       version: "0.0.0",
+    //       scriptSrc: () => "/libs/comp.react18.wrap.js",
+    //       depends: [
+    //         {
+    //           name: "react-dom",
+    //           version: "18.2.0",
+    //           scriptSrc: (dep) => `/libs/react-dom18.development.wrap.js`,
+    //           depends: [
+    //             {
+    //               name: "react",
+    //               version: "16.14.0",
+    //               scriptSrc: (dep) => `/libs/react.development.wrap.js`,
+    //             },
+    //           ],
+    //         },
+    //         {
+    //           name: "react",
+    //           version: "18.2.0",
+    //           scriptSrc: (dep) => `/libs/react18.development.wrap.js`,
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // },
     {
       name: "widget-up-input-jquery3",
       version: "0.0.0",
