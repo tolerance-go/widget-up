@@ -11,7 +11,10 @@ function processFile(filePath: string): void {
     const content = fs.readFileSync(filePath, "utf8");
     const metaData = parseUMDMeta({ scriptContent: content });
 
-    const outputFilePath = `${path.basename(filePath, ".js")}.umd-meta.json`;
+    const outputFilePath = path.join(
+      path.parse(filePath).dir,
+      `${path.basename(filePath, ".js")}.umd-meta.json`
+    );
 
     // 注意如果已经有了同名文件，就不生成了，而是提示用户，如果要生成，手动删除后再次运行
     if (fs.existsSync(outputFilePath)) {
@@ -27,9 +30,13 @@ function processFile(filePath: string): void {
 }
 
 // 使用 Glob 模式匹配并处理文件
-async function processFiles(pattern: string) {
+async function processFiles(patterns: string[]) {
   try {
-    const files = glob.sync(pattern);
+    const files = await glob(patterns, {
+      ignore: ["**/node_modules/**"],
+      nodir: true,
+    });
+    console.log('files', files);
     files.forEach(processFile);
   } catch (error) {
     console.error("Error matching files:", error);
@@ -39,16 +46,19 @@ async function processFiles(pattern: string) {
 // 设置命令行参数解析
 yargs(hideBin(process.argv))
   .command(
-    "$0 <pattern>",
+    // 需要可以输入多个文件路径
+    "$0 [patterns...]",
     "Generate UMD metadata for matched files",
     (yargs) =>
-      yargs.positional("pattern", {
+      yargs.positional("patterns", {
         describe: "Glob pattern to match files",
         type: "string",
         demandOption: true,
+        array: true,
       }),
     (argv) => {
-      processFiles(argv.pattern);
+      console.log("argv.patterns", argv.patterns);
+      processFiles(argv.patterns);
     }
   )
   .parse();

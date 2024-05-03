@@ -1,0 +1,6 @@
+{
+  "exportGlobal": "ReactDOM",
+  "importGlobals": [
+    "React"
+  ]
+}
