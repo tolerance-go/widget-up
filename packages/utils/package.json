@@ -11,7 +11,7 @@
     }
   },
   "bin": {
-    "wrapScriptAndWaitExec": "./dist/wrapScriptAndWaitExec/index.js"
+    "wrapScriptAndWaitExec": "./dist/bin/wrapScriptAndWaitExec/index.js"
   },
   "sideEffects": false,
   "files": [
