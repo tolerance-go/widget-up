@@ -29,10 +29,10 @@ function buildMenuHtml(menus: MenuItem[]): string {
           ? `<ul class="ml-4">${buildMenuItems(item.children)}</ul>`
           : "";
         return `<li class="${childrenHtml ? "mb-2" : ""}">
-          <a data-name="${item.name}" data-globalComponent="${
-          item.globals.component
-        }" data-globalRegisterRender="${
-          item.globals.registerRender
+          <a data-name="${item.name}" data-global-component="${
+          item.globals?.component
+        }" data-global-register-render="${
+          item.globals?.registerRender
         }" class="text-blue-500 hover:text-blue-700">${item.name}</a>
           ${childrenHtml}
         </li>`;
@@ -60,27 +60,23 @@ export async function renderMenus({
     // 为容器内的所有菜单项绑定点击事件监听器
     container?.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
-      if (
-        target.tagName === "A" &&
-        target.dataset.name &&
-        target.dataset.global
-      ) {
+      if (target.tagName === "A" && target.dataset.name) {
         eventBus.emit("menuClick", {
           name: target.dataset.name,
           globals: {
-            component: target.dataset.globalComponent || '',
-            registerRender: target.dataset.globalRegisterRender || ''
+            component: target.dataset.globalComponent || "",
+            registerRender: target.dataset.globalRegisterRender || "",
           },
         });
       }
     });
 
     eventBus.on("menuClick", ({ globals, name }) => {
-      // 监听菜单点击，然后动态把全局的 Component 组件替换为
-      const component = (window as any)[globals.component];
-      const registerRender = (window as any)[globals.registerRender];
+      console.log("menuClick and find component", globals);
 
-      console.log("menuClick and find component", globals, component, registerRender);
+      // 监听菜单点击，然后动态把全局的 Component 组件替换为
+      const component = (window as any)[globals.component].default;
+      const registerRender = (window as any)[globals.registerRender];
 
       if (registerRender) {
         replaceRegisterRender(registerRender);
@@ -90,7 +86,9 @@ export async function renderMenus({
         replaceRuntimeComponent(component);
         triggerGlobalCompUpdate();
       } else {
-        console.error(`Global component ${globals.component} not found on window`);
+        console.error(
+          `Global component ${globals.component} not found on window`
+        );
       }
     });
   } catch (error) {

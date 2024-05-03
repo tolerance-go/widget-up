@@ -20,7 +20,7 @@
         "name": "@widget-up-demo/react16-2",
         "globals": {
           "component": "Component_react16_2",
-          "registerRender": "RegisterRender_react16_2"
+          "registerRender": "RegisterRender_react16"
         }
       }
     ]
