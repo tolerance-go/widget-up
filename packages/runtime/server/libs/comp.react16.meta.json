@@ -7,7 +7,7 @@
   ],
   "exports": [
     {
-      "globalVar": "Component_react16v0_0_0",
+      "globalVar": "Component_react16",
       "scopeVar": "Component_react16"
     }
   ]

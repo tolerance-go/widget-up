@@ -7,7 +7,7 @@
   ],
   "exports": [
     {
-      "globalVar": "Register_jquery3v_0_0_0",
+      "globalVar": "Register_jquery3",
       "scopeVar": "Register_jquery3"
     }
   ]
