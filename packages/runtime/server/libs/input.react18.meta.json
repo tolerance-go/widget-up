@@ -7,6 +7,10 @@
     {
       "globalVar": "ReactDOMv18_2_0",
       "scopeVar": "ReactDOM"
+    },
+    {
+      "globalVar": "RuntimeComponent",
+      "scopeVar": "RuntimeComponent"
     }
   ],
   "exports": [

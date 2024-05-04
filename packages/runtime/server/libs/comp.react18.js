@@ -26,7 +26,7 @@
             });
           },
         },
-        "hi button"
+        "hi button react18"
       );
     };
     (e.Component = n),

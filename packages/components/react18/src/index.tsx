@@ -12,7 +12,7 @@ const Button = () => {
         setColor((prev) => (prev === "red" ? "blue" : "red"));
       }}
     >
-      hi button
+      hi button react18
     </button>
   );
 };

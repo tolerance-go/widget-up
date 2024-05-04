@@ -72,7 +72,7 @@ export async function renderMenus({
     });
 
     eventBus.on("menuClick", ({ globals, name }) => {
-      console.log("menuClick and find component", globals);
+      console.log("menuClick", globals, name);
 
       // 监听菜单点击，然后动态把全局的 Component 组件替换为
       const component = (window as any)[globals.component].default;

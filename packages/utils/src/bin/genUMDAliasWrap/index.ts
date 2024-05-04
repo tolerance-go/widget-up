@@ -34,12 +34,6 @@ function processFile(filePath: string): void {
       `${path.basename(filePath, ".js")}.alias-wrap.js`
     );
 
-    // 注意如果已经有了同名文件，就不生成了，而是提示用户，如果要生成，手动删除后再次运行
-    if (fs.existsSync(outputFilePath)) {
-      console.log(`Metadata already exists: ${outputFilePath}`);
-      return;
-    }
-
     fs.writeFileSync(outputFilePath, nextContent);
     console.log(`Metadata generated: ${outputFilePath}`);
   } catch (error) {

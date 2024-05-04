@@ -37,7 +37,7 @@
     "@types/react-dom": "^18.3.0"
   },
   "peerDependencies": {
-    "@widget-up-demo/react16": "workspace:^",
+    "@widget-up-demo/react18": "workspace:^",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
