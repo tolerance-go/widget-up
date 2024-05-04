@@ -5,8 +5,10 @@
       "scopeVar": "RuntimeComponent"
     }
   ],
-  "exports": {
-    "globalVar": "Register_jquery3",
-    "scopeVar": "Register_jquery3"
-  }
+  "exports": [
+    {
+      "globalVar": "Register_jquery3v_0_0_0",
+      "scopeVar": "Register_jquery3"
+    }
+  ]
 }

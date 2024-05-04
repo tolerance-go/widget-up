@@ -5,8 +5,10 @@
       "scopeVar": "$"
     }
   ],
-  "exports": {
-    "globalVar": "Component_jquery3v0_0_0",
-    "scopeVar": "Component_jquery3"
-  }
+  "exports": [
+    {
+      "globalVar": "Component_jquery3v0_0_0",
+      "scopeVar": "Component_jquery3"
+    }
+  ]
 }

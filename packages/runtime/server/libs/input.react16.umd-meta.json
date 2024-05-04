@@ -1,11 +1,11 @@
 {
   "imports": [
     {
-      "globalVar": "React",
+      "globalVar": "Reactv16_14_0",
       "scopeVar": "React"
     },
     {
-      "globalVar": "ReactDOM",
+      "globalVar": "ReactDOMv16_14_0",
       "scopeVar": "ReactDOM"
     },
     {
@@ -13,8 +13,10 @@
       "scopeVar": "RuntimeComponent"
     }
   ],
-  "exports": {
-    "globalVar": "Register_react16",
-    "scopeVar": "Register_react16"
-  }
+  "exports": [
+    {
+      "globalVar": "Register_react16v0_0_0",
+      "scopeVar": "Register_react16"
+    }
+  ]
 }

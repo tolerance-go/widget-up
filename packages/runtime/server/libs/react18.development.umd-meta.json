@@ -1,4 +1,9 @@
 {
-  "exportGlobal": "React",
-  "importGlobals": []
+  "imports": [],
+  "exports": [
+    {
+      "globalVar": "Reactv18_2_0",
+      "scopeVar": "React"
+    }
+  ]
 }

@@ -1,7 +1,9 @@
 {
   "imports": [],
-  "exports": {
-    "globalVar": "$",
-    "scopeVar": "$"
-  }
+  "exports": [
+    {
+      "globalVar": "$v3_7_1",
+      "scopeVar": "$"
+    }
+  ]
 }

@@ -1,6 +1,14 @@
 {
-  "exportGlobal": "ReactDOM",
-  "importGlobals": [
-    "React"
+  "imports": [
+    {
+      "globalVar": "Reactv16_14_0",
+      "scopeVar": "React"
+    }
+  ],
+  "exports": [
+    {
+      "globalVar": "ReactDOMv16_14_0",
+      "scopeVar": "ReactDOM"
+    }
   ]
 }
