@@ -23,7 +23,7 @@ function processFile(filePath: string, options: ProcessOptions): void {
     const outputFile = path.join(
       path.dirname(filePath),
       path.basename(filePath, path.extname(filePath)) +
-        ".async-event-wrap" +
+        ".async-wrap" +
         path.extname(filePath)
     );
 

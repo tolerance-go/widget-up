@@ -10,9 +10,10 @@
     "types"
   ],
   "scripts": {
-    "gen:wrap": "pnpm gen:umd-alias-wrap && pnpm gen:async-event-wrap",
-    "gen:umd-alias-wrap": "pnpm genUMDAsyncEventWrap server/libs/!(*wrap).js",
-    "gen:async-event-wrap": "pnpm genUMDAliasWrap server/libs/*umd-alias-wrap.js --serverBase server --eventBusPath WidgetUpRuntime.globalEventBus",
+    "clean:wrap": "rimraf server/libs/*wrap.js -g",
+    "gen:wrap": "pnpm gen:alias-wrap && pnpm gen:async-wrap",
+    "gen:alias-wrap": "pnpm genUMDAliasWrap server/libs/!(*wrap).js",
+    "gen:async-wrap": "pnpm genUMDAsyncEventWrap server/libs/*alias-wrap.js --serverBase server --eventBusPath WidgetUpRuntime.globalEventBus",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "build": "cross-env NODE_ENV=production rollup -c",
     "test": "jest"
@@ -31,6 +32,7 @@
     "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "less": "^4.2.0",
+    "rimraf": "^5.0.5",
     "rollup": "^4.14.3",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-postcss": "^4.0.2",

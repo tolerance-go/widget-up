@@ -9,7 +9,7 @@ export type UMDAliasOptions = {
   exports?: {
     globalVar: string;
     scopeVar: string;
-  };
+  }[];
 };
 
 export type ModifyUMDOptions = {
@@ -20,7 +20,7 @@ export function modifyUMDScript(options: ModifyUMDOptions): string {
   const {
     scriptContent: originalScriptContent,
     imports = [],
-    exports,
+    exports = [],
   } = options;
 
   // 生成导入变量的代码
@@ -32,8 +32,11 @@ export function modifyUMDScript(options: ModifyUMDOptions): string {
     .join("\n");
 
   const exportsCode = exports
-    ? `global['${exports.globalVar}'] = customGlobal['${exports.scopeVar}'];`
-    : "";
+    .map(
+      ({ globalVar, scopeVar }) =>
+        `global['${globalVar}'] = customGlobal['${scopeVar}'];`
+    )
+    .join("\n");
 
   // 修改后的 UMD 脚本内容
   const modifiedScriptContent = `

@@ -16,7 +16,7 @@ function processFile(filePath: string): void {
     const content = fs.readFileSync(filePath, "utf8");
     const metaDataPath = path.join(
       path.parse(filePath).dir,
-      `${path.basename(filePath, ".js")}.umd-meta.json`
+      `${path.basename(filePath, ".js")}.meta.json`
     );
     // 读取 metaDataPath json 文件
     const umdAliasOptions: UMDAliasJSONOptions = JSON.parse(
@@ -31,7 +31,7 @@ function processFile(filePath: string): void {
 
     const outputFilePath = path.join(
       path.parse(filePath).dir,
-      `${path.basename(filePath, ".js")}.umd-alias-wrap.js`
+      `${path.basename(filePath, ".js")}.alias-wrap.js`
     );
 
     // 注意如果已经有了同名文件，就不生成了，而是提示用户，如果要生成，手动删除后再次运行
