@@ -16,7 +16,7 @@ export type ModifyUMDOptions = {
   scriptContent: string;
 } & UMDAliasOptions;
 
-export function modifyUMDScript(options: ModifyUMDOptions): string {
+export function wrapUMDAliasCode(options: ModifyUMDOptions): string {
   const {
     scriptContent: originalScriptContent,
     imports = [],

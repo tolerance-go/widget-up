@@ -11,9 +11,9 @@
 # 如何使用
 
 ```ts
-import { wrapScriptAndWaitExec } from '...'
+import { wrapUMDAsyncEventCode } from '...'
 
-const newScriptContent = wrapScriptAndWaitExec({
+const newScriptContent = wrapUMDAsyncEventCode({
     scriptContent: '...'
 })
 ```

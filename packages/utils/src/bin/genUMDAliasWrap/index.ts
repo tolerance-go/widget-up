@@ -2,8 +2,8 @@
 
 import {
     UMDAliasJSONOptions,
-    modifyUMDScript
-} from "@/src/modifyUMDScript";
+    wrapUMDAliasCode
+} from "@/src/wrapUMDAliasCode";
 import fs from "fs";
 import { glob } from "glob";
 import path from "path";
@@ -23,7 +23,7 @@ function processFile(filePath: string): void {
       fs.readFileSync(metaDataPath, "utf8")
     );
 
-    const nextContent = modifyUMDScript({
+    const nextContent = wrapUMDAliasCode({
       scriptContent: content,
       imports: umdAliasOptions.imports,
       exports: umdAliasOptions.exports,

@@ -5,7 +5,7 @@ export type WrapScriptOptions = {
   globalObjectVarName?: string; // 新增参数，表示环境对象，如 window 或 global
 };
 
-export function wrapScriptAndWaitExec(options: WrapScriptOptions): string {
+export function wrapUMDAsyncEventCode(options: WrapScriptOptions): string {
   const {
     scriptContent,
     eventId,

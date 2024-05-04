@@ -12,9 +12,9 @@
 # 如何使用
 
 ```ts
-import { modifyUMDScript } from "./modifyUMDScript";
+import { wrapUMDAliasCode } from "./wrapUMDAliasCode";
 
-modifyUMDScript({
+wrapUMDAliasCode({
   originalScriptContent: "",
   imports: [
     {

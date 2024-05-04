@@ -1,6 +1,6 @@
-import { wrapScriptAndWaitExec } from ".";
+import { wrapUMDAsyncEventCode } from ".";
 
-describe("wrapScriptAndWaitExec", () => {
+describe("wrapUMDAsyncEventCode", () => {
   const scriptContent = "console.log('Hello World');";
   const eventId = "testEvent";
 
@@ -18,7 +18,7 @@ describe("wrapScriptAndWaitExec", () => {
     };
 
     console.log = jest.fn(); // 重新模拟 console.log
-    const wrappedScript = wrapScriptAndWaitExec({
+    const wrappedScript = wrapUMDAsyncEventCode({
       scriptContent,
       eventId,
       eventBusPath: "EventBus",
@@ -50,7 +50,7 @@ describe("wrapScriptAndWaitExec", () => {
       },
     };
 
-    const wrappedScript = wrapScriptAndWaitExec({
+    const wrappedScript = wrapUMDAsyncEventCode({
       scriptContent,
       eventId,
       eventBusPath: "EventBus",
@@ -66,7 +66,7 @@ describe("wrapScriptAndWaitExec", () => {
   it("should handle non-existent EventBus path gracefully", () => {
     const mockEnv = {}; // 没有 EventBus 对象
 
-    const wrappedScript = wrapScriptAndWaitExec({
+    const wrappedScript = wrapUMDAsyncEventCode({
       scriptContent,
       eventId,
       eventBusPath: "NonExistent.EventBus",
@@ -86,7 +86,7 @@ describe("wrapScriptAndWaitExec", () => {
     };
 
     console.log = jest.fn(); // 重新模拟 console.log
-    const wrappedScript = wrapScriptAndWaitExec({
+    const wrappedScript = wrapUMDAsyncEventCode({
       scriptContent,
       eventId,
       eventBusPath: "EventBus",

@@ -5,7 +5,7 @@ import { glob } from "glob";
 import path from "path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { wrapScriptAndWaitExec } from "../../wrapScriptAndWaitExec";
+import { wrapUMDAsyncEventCode } from "../../wrapUMDAsyncEventCode";
 
 interface ProcessOptions {
   eventBusPath: string;
@@ -34,7 +34,7 @@ function processFile(filePath: string, options: ProcessOptions): void {
     }
 
     const finalEventId = eventId || relativePath;
-    const wrappedScript = wrapScriptAndWaitExec({
+    const wrappedScript = wrapUMDAsyncEventCode({
       scriptContent: data,
       eventId: finalEventId,
       eventBusPath: eventBusPath,

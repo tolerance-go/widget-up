@@ -6,11 +6,11 @@
 
 # 解决什么需求
 
-- 通过命令行调用 wrapScriptAndWaitExec，读取文件，然后写入文件并重新命名，增加一个后缀 .wrap
+- 通过命令行调用 wrapUMDAsyncEventCode，读取文件，然后写入文件并重新命名，增加一个后缀 .wrap
 - 函数参数可以通过命令行传递
 
 # 如何使用
 
 ```bash
-pnpm wrapScriptAndWaitExec 'server/libs/!(*wrap).js' --eventBusPath EventBus --eventId comp.react16
+pnpm wrapUMDAsyncEventCode 'server/libs/!(*wrap).js' --eventBusPath EventBus --eventId comp.react16
 ```
