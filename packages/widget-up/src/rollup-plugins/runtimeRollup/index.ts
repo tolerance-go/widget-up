@@ -48,6 +48,7 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
         try {
           const bundle = await rollup(rollupOptions);
           await bundle.write(output);
+          await bundle.close();
           logger.log("Bundle re-written successfully to:", output.file);
         } catch (error) {
           logger.error(
@@ -63,6 +64,7 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
       try {
         const bundle = await rollup(rollupOptions);
         await bundle.write(output);
+        await bundle.close();
         logger.log("Initial bundle written successfully to:", output.file);
       } catch (error) {
         logger.error("Error during initial Rollup build for:", output.file);

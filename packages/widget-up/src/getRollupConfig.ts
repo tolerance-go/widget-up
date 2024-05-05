@@ -3,7 +3,7 @@ import path from "path";
 import { RollupOptions } from "rollup";
 import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
-import { BuildEnvIsDev } from "./env";
+import { BuildEnv, BuildEnvIsDev } from "./env";
 import { getUMDGlobals } from "./getGlobals";
 import { getProdOutputs } from "./getOutputs";
 import { getConfig } from "./getConfig";
@@ -15,10 +15,8 @@ import { parseDirectoryStructure } from "./parseDirectoryStructure";
 import { convertDirectoryToDemo } from "./utils/convertDirectoryToDemo";
 import { DemoData } from "@/types/demoFileMeta";
 
-const NODE_ENV = process.env.NODE_ENV;
-
 const getRollupConfig = async () => {
-  logger.info(`${"=".repeat(10)} ${NODE_ENV} ${"=".repeat(10)}`);
+  logger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
 
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -71,7 +69,7 @@ const getRollupConfig = async () => {
         config,
         packageConfig,
         demoDatas,
-        cwdPath
+        cwdPath,
       }),
     };
   } else {
@@ -88,6 +86,8 @@ const getRollupConfig = async () => {
       }),
     }));
   }
+
+  return rollupConfig;
 };
 
 export default getRollupConfig;

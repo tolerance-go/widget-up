@@ -1,10 +1,10 @@
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
-import del from "rollup-plugin-delete";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
-import { autoExternalDependencies } from "widget-up-utils";
+import { autoExternalDependencies, deleteDist } from "widget-up-utils";
+import alias from "@rollup/plugin-alias";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -15,8 +15,11 @@ export default {
     format: "esm",
   },
   plugins: [
-    del({ targets: "dist/*" }),
+    deleteDist({ dist: "dist" }),
     autoExternalDependencies(),
+    alias({
+      entries: [{ find: "@", replacement: process.cwd() }],
+    }),
     resolve({
       preferBuiltins: true,
     }), // 解析 node_modules 中的模块

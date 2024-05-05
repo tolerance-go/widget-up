@@ -1,9 +1,5 @@
 #!/usr/bin/env node
-
-import {
-    UMDAliasJSONOptions,
-    wrapUMDAliasCode
-} from "@/src/wrapUMDAliasCode";
+import { UMDAliasJSONOptions, wrapUMDAliasCode } from "@/src/wrapUMDAliasCode";
 import fs from "fs";
 import { glob } from "glob";
 import path from "path";

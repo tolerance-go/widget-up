@@ -6,7 +6,6 @@
   "main": "dist/index.js",
   "type": "module",
   "bin": {
-    "widget-up": "./bin/index.js",
     "wup": "./bin/index.js"
   },
   "sideEffects": false,
@@ -30,6 +29,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/plugin-alias": "^5.1.0",
     "@types/ejs": "^3.1.5",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.12",
@@ -38,6 +38,7 @@
     "@types/react": "16",
     "@types/react-dom": "16",
     "@types/semver": "^7.5.8",
+    "@types/yargs": "^17.0.32",
     "ts-jest": "^29.1.2",
     "typescript": "^5.4.5",
     "widget-up-schema-builder": "workspace:^",
@@ -52,7 +53,6 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
     "chokidar": "^3.6.0",
-    "commander": "^12.0.0",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "ejs": "^3.1.10",
@@ -71,6 +71,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
     "semver": "^7.6.0",
-    "widget-up-utils": "workspace:^"
+    "widget-up-utils": "workspace:^",
+    "yargs": "^17.7.2"
   }
 }
