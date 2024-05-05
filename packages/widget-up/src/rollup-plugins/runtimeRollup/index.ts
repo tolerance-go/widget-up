@@ -51,6 +51,7 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
   const setupWatcher = () => {
     if (watcherOptions.watch) {
       if (!watcher) {
+        console.log(`Setting up watcher for:`, output.file);
         watcher = watch(watcherOptions);
         watcher.on("event", (event) => {
           switch (event.code) {
