@@ -13,7 +13,7 @@ import { BuildEnvIsDev } from "../env.js";
 import { getServerConfig } from "../getServerConfig.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
 import { runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
-import { DemoMeta } from "@/types";
+import { DemoData } from "@/types";
 import { convertDemoMetaToMenu } from "../utils/convertDemoMetaToMenu.js";
 
 export const getPlugins = async ({
@@ -22,9 +22,9 @@ export const getPlugins = async ({
   packageConfig,
   globals,
   output,
-  demoMetas,
+  demoDatas,
 }: {
-  demoMetas?: DemoMeta[];
+  demoDatas?: DemoData[];
   rootPath: string;
   config: ParseConfig;
   packageConfig: PackageJson;
@@ -79,7 +79,7 @@ export const getPlugins = async ({
         dest: "dist",
         packageConfig,
         config,
-        menus: convertDemoMetaToMenu(demoMetas ?? []),
+        menus: convertDemoMetaToMenu(demoDatas ?? []),
       }),
     !BuildEnvIsDev && terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean);

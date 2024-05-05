@@ -16,9 +16,9 @@ export type DemoFileConfig = {
  * 
  * - 用户 demos 文件夹下的目录结构所对应的结构元数据
  */
-export interface DemoMeta {
+export interface DemoData {
   path: string;
   type: "directory" | "file";
   config?: DemoFileConfig;
-  children?: DemoMeta[];
+  children?: DemoData[];
 }

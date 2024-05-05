@@ -15,7 +15,7 @@ import {
 } from "widget-up-utils";
 import { WupFolderName } from "../constants.js";
 import { genAssert } from "../rollup-plugins/genAssert/index.js";
-import { DemoMeta } from "@/types/demoFileMeta.js";
+import { DemoData } from "@/types/demoFileMeta.js";
 import { getDemoInputList } from "./getDemoInputList.js";
 import { runtimeRollup } from "../rollup-plugins/index.js";
 import { BuildEnvIsDev } from "../env.js";
@@ -26,10 +26,10 @@ export const getDevPlugins = async ({
   rootPath,
   config,
   packageConfig,
-  demoMetas,
+  demoDatas,
   cwdPath,
 }: {
-  demoMetas?: DemoMeta[];
+  demoDatas?: DemoData[];
   rootPath: string;
   cwdPath: string;
   config: ParseConfig;
@@ -67,7 +67,7 @@ export const getDevPlugins = async ({
       }),
   ];
 
-  const demoInputList = getDemoInputList(demoMetas ?? []);
+  const demoInputList = getDemoInputList(demoDatas ?? []);
 
   logger.info("demoInputList: ", demoInputList);
 
@@ -118,7 +118,7 @@ export const getDevPlugins = async ({
       dest: "dist/server",
       file: {
         name: "menus.json",
-        content: JSON.stringify(demoMetas ?? [], null, 2),
+        content: JSON.stringify(demoDatas ?? [], null, 2),
       },
     }),
     htmlRender({

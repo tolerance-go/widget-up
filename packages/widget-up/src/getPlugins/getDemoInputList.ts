@@ -17,7 +17,7 @@
  */
 
 import { DemoInput } from "@/types";
-import { DemoMeta } from "@/types/demoFileMeta";
+import { DemoData } from "@/types/demoFileMeta";
 import path from "path";
 
 /**
@@ -26,16 +26,18 @@ import path from "path";
  * @param basePath 基础路径（递归过程中会更新这个路径）
  * @returns Rollup入口对象
  */
-function buildInputs(menuItems: DemoMeta[]): DemoInput[] {
+function buildInputs(menuItems: DemoData[]): DemoInput[] {
   let inputs: DemoInput[] = [];
 
   for (const item of menuItems) {
     // 将文件路径添加到输入配置
 
-    inputs.push({
-      name: path.parse(item.path).name,
-      path: item.path,
-    });
+    if (item.type === "file") {
+      inputs.push({
+        name: path.parse(item.path).name,
+        path: item.path,
+      });
+    }
 
     // 如果有子菜单，递归处理
     if (item.children) {
@@ -52,6 +54,6 @@ function buildInputs(menuItems: DemoMeta[]): DemoInput[] {
  * @param demoMenus Demo菜单项数组
  * @returns Rollup入口配置对象
  */
-export function getDemoInputList(demoMenus: DemoMeta[]): DemoInput[] {
+export function getDemoInputList(demoMenus: DemoData[]): DemoInput[] {
   return buildInputs(demoMenus);
 }

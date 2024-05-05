@@ -4,12 +4,12 @@
  * - 将 demoMeta 转换为 menu
  */
 
-import { DemoMenuItem, DemoMeta } from "@/types";
+import { DemoMenuItem, DemoData } from "@/types";
 
 export const convertDemoMetaToMenu = (
-  demoMetas: DemoMeta[]
+  demoDatas: DemoData[]
 ): DemoMenuItem[] => {
-  return demoMetas.map((item) => {
+  return demoDatas.map((item) => {
     if (item.type === "file") {
       return {
         name: item.config?.name || "",

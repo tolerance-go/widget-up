@@ -13,7 +13,7 @@ import { getInputFile } from "./getProdInput";
 import { logger } from "./logger";
 import { parseDirectoryStructure } from "./parseDirectoryStructure";
 import { convertDirectoryToDemo } from "./utils/convertDirectoryToDemo";
-import { DemoMeta } from "@/types/demoFileMeta";
+import { DemoData } from "@/types/demoFileMeta";
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -32,7 +32,7 @@ const getRollupConfig = async () => {
   const demosPath = path.join(cwdPath, "demos");
   logger.info(`demosPath is ${demosPath}`);
 
-  let demoMetas: DemoMeta[] = [];
+  let demoDatas: DemoData[] = [];
 
   if (fs.existsSync(demosPath)) {
     logger.log("start demos mode");
@@ -41,9 +41,9 @@ const getRollupConfig = async () => {
       `demosDirFileData: ${JSON.stringify(demosDirFileData, null, 2)}`
     );
 
-    demoMetas = convertDirectoryToDemo(demosDirFileData.children ?? []);
+    demoDatas = convertDirectoryToDemo(demosDirFileData.children ?? []);
 
-    logger.info(`demoMetas: ${JSON.stringify(demoMetas, null, 2)}`);
+    logger.info(`demoDatas: ${JSON.stringify(demoDatas, null, 2)}`);
   }
 
   const packageConfig = JSON.parse(
@@ -70,7 +70,7 @@ const getRollupConfig = async () => {
         rootPath,
         config,
         packageConfig,
-        demoMetas,
+        demoDatas,
         cwdPath
       }),
     };
@@ -84,7 +84,7 @@ const getRollupConfig = async () => {
         packageConfig,
         globals: umdGlobals,
         output,
-        demoMetas,
+        demoDatas,
       }),
     }));
   }
