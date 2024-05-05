@@ -9,11 +9,12 @@ import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import { PackageJson, ParseConfig } from "widget-up-utils";
-import { runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
 import { BuildEnvIsDev } from "../env.js";
 import { getServerConfig } from "../getServerConfig.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
-import { DemoMenuItem } from "@/types";
+import { runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
+import { DemoMeta } from "@/types";
+import { convertDemoMetaToMenu } from "../utils/convertDemoMetaToMenu.js";
 
 export const getPlugins = async ({
   rootPath,
@@ -21,9 +22,9 @@ export const getPlugins = async ({
   packageConfig,
   globals,
   output,
-  menus,
+  demoMetas,
 }: {
-  menus?: DemoMenuItem[];
+  demoMetas?: DemoMeta[];
   rootPath: string;
   config: ParseConfig;
   packageConfig: PackageJson;
@@ -78,7 +79,7 @@ export const getPlugins = async ({
         dest: "dist",
         packageConfig,
         config,
-        menus,
+        menus: convertDemoMetaToMenu(demoMetas ?? []),
       }),
     !BuildEnvIsDev && terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean);

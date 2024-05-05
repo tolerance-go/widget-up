@@ -15,20 +15,23 @@ import {
 } from "widget-up-utils";
 import { WupFolderName } from "../constants.js";
 import { genAssert } from "../rollup-plugins/genAssert/index.js";
-import { DemoMenuMeta } from "@/types/demoFileMeta.js";
+import { DemoMeta } from "@/types/demoFileMeta.js";
 import { getDemoInputList } from "./getDemoInputList.js";
 import { runtimeRollup } from "../rollup-plugins/index.js";
 import { BuildEnvIsDev } from "../env.js";
 import { logger } from "../logger.js";
+import { RuntimeRollupOptions } from "../rollup-plugins/runtimeRollup/index.js";
 
 export const getDevPlugins = async ({
   rootPath,
   config,
   packageConfig,
-  menus,
+  demoMetas,
+  cwdPath,
 }: {
-  menus?: DemoMenuMeta[];
+  demoMetas?: DemoMeta[];
   rootPath: string;
+  cwdPath: string;
   config: ParseConfig;
   packageConfig: PackageJson;
 }) => {
@@ -64,18 +67,24 @@ export const getDevPlugins = async ({
       }),
   ];
 
-  const demoInputList = getDemoInputList(menus ?? []);
+  const demoInputList = getDemoInputList(demoMetas ?? []);
 
   logger.info("demoInputList: ", demoInputList);
 
   const runtimeRollupPlgs = demoInputList.map((inputItem) => {
-    return runtimeRollup({
-      input: inputItem.path,
+    const base: RuntimeRollupOptions = {
+      input: path.relative(cwdPath, inputItem.path),
       output: {
         file: path.join("dist/server/demos", inputItem.name, "index.js"),
         format: "umd",
         sourcemap: BuildEnvIsDev,
       },
+    };
+
+    logger.info("runtimeRollupPlgs base: ", base);
+
+    return runtimeRollup({
+      ...base,
       plugins: [...devBuildPlugins],
     });
   });
@@ -109,7 +118,7 @@ export const getDevPlugins = async ({
       dest: "dist/server",
       file: {
         name: "menus.json",
-        content: JSON.stringify(menus ?? [], null, 2),
+        content: JSON.stringify(demoMetas ?? [], null, 2),
       },
     }),
     htmlRender({

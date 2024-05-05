@@ -19,10 +19,6 @@
  * });
  */
 
-import nodeResolve from "@rollup/plugin-node-resolve";
-import { options } from "less";
-import { terser } from "rollup-plugin-terser";
-import typescript from "rollup-plugin-typescript2";
 import { DemoMenuItem } from "widget-up-utils";
 
 export function getDemoRollupConfig({

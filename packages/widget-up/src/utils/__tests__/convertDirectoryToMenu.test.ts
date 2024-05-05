@@ -1,6 +1,6 @@
 import { MenuItem } from "../../getPlugins/runtimeHtmlPlugin";
 import { DirectoryStructure } from "../../parseDirectoryStructure";
-import { convertDirectoryToMenu } from "../convertDirectoryToMenuMeta";
+import { convertDirectoryToDemo } from "../convertDirectoryToDemo";
 
 describe("convertDirectoryToMenu", () => {
   it("should convert a single file to a menu item without children", () => {
@@ -8,7 +8,7 @@ describe("convertDirectoryToMenu", () => {
       { name: "file.txt", type: "file" },
     ];
     const expected: MenuItem[] = [{ name: "file.txt" }];
-    expect(convertDirectoryToMenu(directory)).toEqual(expected);
+    expect(convertDirectoryToDemo(directory)).toEqual(expected);
   });
 
   it("should convert a single directory with no children to a menu item without children", () => {
@@ -16,7 +16,7 @@ describe("convertDirectoryToMenu", () => {
       { name: "emptyFolder", type: "directory" },
     ];
     const expected: MenuItem[] = [{ name: "emptyFolder" }];
-    expect(convertDirectoryToMenu(directory)).toEqual(expected);
+    expect(convertDirectoryToDemo(directory)).toEqual(expected);
   });
 
   it("should convert nested directories correctly", () => {
@@ -46,12 +46,12 @@ describe("convertDirectoryToMenu", () => {
         ],
       },
     ];
-    expect(convertDirectoryToMenu(directory)).toEqual(expected);
+    expect(convertDirectoryToDemo(directory)).toEqual(expected);
   });
 
   it("should handle an empty directory array gracefully", () => {
     const directory: DirectoryStructure[] = [];
     const expected: MenuItem[] = [];
-    expect(convertDirectoryToMenu(directory)).toEqual(expected);
+    expect(convertDirectoryToDemo(directory)).toEqual(expected);
   });
 });

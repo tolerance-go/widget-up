@@ -3,7 +3,7 @@ import { OutputOptions, Plugin, RollupOptions, rollup } from "rollup";
 import chokidar from "chokidar";
 import { Logger } from "widget-up-utils";
 
-interface RuntimeRollupOptions extends RollupOptions {
+export interface RuntimeRollupOptions extends RollupOptions {
   output: OutputOptions; // 确保输出配置被正确传递
 }
 

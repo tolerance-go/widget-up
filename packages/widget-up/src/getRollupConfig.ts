@@ -12,8 +12,8 @@ import { getDevPlugins } from "./getPlugins/getDevPlugins";
 import { getInputFile } from "./getProdInput";
 import { logger } from "./logger";
 import { parseDirectoryStructure } from "./parseDirectoryStructure";
-import { convertDirectoryToMenu } from "./utils/convertDirectoryToMenuMeta";
-import { DemoMenuMeta } from "@/types/demoFileMeta";
+import { convertDirectoryToDemo } from "./utils/convertDirectoryToDemo";
+import { DemoMeta } from "@/types/demoFileMeta";
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -32,7 +32,7 @@ const getRollupConfig = async () => {
   const demosPath = path.join(cwdPath, "demos");
   logger.info(`demosPath is ${demosPath}`);
 
-  let demoMenus: DemoMenuMeta[] = [];
+  let demoMetas: DemoMeta[] = [];
 
   if (fs.existsSync(demosPath)) {
     logger.log("start demos mode");
@@ -41,7 +41,9 @@ const getRollupConfig = async () => {
       `demosDirFileData: ${JSON.stringify(demosDirFileData, null, 2)}`
     );
 
-    demoMenus = convertDirectoryToMenu(demosDirFileData.children ?? []);
+    demoMetas = convertDirectoryToDemo(demosDirFileData.children ?? []);
+
+    logger.info(`demoMetas: ${JSON.stringify(demoMetas, null, 2)}`);
   }
 
   const packageConfig = JSON.parse(
@@ -68,7 +70,8 @@ const getRollupConfig = async () => {
         rootPath,
         config,
         packageConfig,
-        menus: demoMenus,
+        demoMetas,
+        cwdPath
       }),
     };
   } else {
@@ -81,7 +84,7 @@ const getRollupConfig = async () => {
         packageConfig,
         globals: umdGlobals,
         output,
-        menus: demoMenus,
+        demoMetas,
       }),
     }));
   }

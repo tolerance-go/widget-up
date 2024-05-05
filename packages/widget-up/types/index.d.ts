@@ -13,3 +13,5 @@ export type DemoInput = {
   name: string;
   path: string;
 };
+
+export * from "./demoFileMeta";
