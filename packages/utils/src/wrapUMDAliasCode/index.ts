@@ -9,6 +9,7 @@ export type UMDAliasOptions = {
   exports?: {
     globalVar: string;
     scopeVar: string;
+    scopeName?: "window" | "global";
   }[];
 };
 
@@ -33,8 +34,14 @@ export function wrapUMDAliasCode(options: ModifyUMDOptions): string {
 
   const exportsCode = exports
     .map(
-      ({ globalVar, scopeVar }) =>
-        `global['${globalVar}'] = customGlobal['${scopeVar}'];`
+      ({ globalVar, scopeVar, scopeName = "global" }) =>
+        `global['${globalVar}'] = ${
+          scopeName === "global"
+            ? "customGlobal"
+            : scopeName === "window"
+            ? "customWindow"
+            : "customGlobal"
+        }['${scopeVar}'];`
     )
     .join("\n");
 
@@ -43,10 +50,13 @@ export function wrapUMDAliasCode(options: ModifyUMDOptions): string {
   (function(global) {
     var customGlobal = Object.create(null);
     var globalThis = customGlobal;
+    var self = customGlobal;
+    var customWindow = WidgetUpRuntime.createWindow(window);
   
     ${importsCode}
   
     (function() {
+      var window = customWindow;
       ${originalScriptContent}
     }).call(customGlobal);
     

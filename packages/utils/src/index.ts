@@ -4,6 +4,7 @@ export { parseConfig } from "./parseConfig";
 export { Logger } from "./Logger";
 export * from "./HTMLDependencyManager";
 export { EventBus } from "./EventBus";
+export { createWindow } from "./createWindow";
 export * from "./rollup-plugins";
 
 export type {
