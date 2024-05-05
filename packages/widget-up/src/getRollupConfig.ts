@@ -73,7 +73,7 @@ const getRollupConfig = async () => {
         cwdPath,
       }),
       watch: {
-        include: ["src/**", "demos/**"],
+        include: ["src/**"],
       },
     };
   } else {

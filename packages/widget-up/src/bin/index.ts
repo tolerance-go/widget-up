@@ -9,8 +9,33 @@ async function processBundle(
   isWatch: boolean
 ): Promise<void> {
   if (isWatch) {
+    // 如果是 watch 模式，创建一个 watcher 来监控文件变动
     const watcher = watch(config);
     watcher.on("event", (event) => {
+      /**
+       * 假设你正在开发一个复杂的前端项目，每次源码修改可能只影响部分模块，
+       * Rollup 会为这些变更触发一次 BUNDLE_START 和一次 BUNDLE_END。
+       * 如果在一个较短的时间内有多次文件修改，每次修改都会对应一次 BUNDLE_END，
+       * 而 END 事件只有在所有这些更改都被处理完毕后才会触发。
+       * 因此，END 用于确保所有的连续构建任务都已彻底完成，而 BUNDLE_END 更关注单个构建的完成。
+       */
+      // 输出错误信息
+      if (event.code === "ERROR") {
+        console.error(event.error);
+      }
+      // START 事件表示监控开始
+      if (event.code === "START") {
+        console.log("Watching for changes...");
+      }
+      // // BUNDLE_START 事件表示构建开始
+      // if (event.code === "BUNDLE_START") {
+      //   console.log("Building...");
+      // }
+      // // 输出 BUNDLE_END 事件表示构建结束
+      // if (event.code === "BUNDLE_END") {
+      //   console.log("BUNDLE_END: Watching for changes...");
+      // }
+      // 监控到构建结束时，输出提示信息
       if (event.code === "END") {
         console.log("Watching for changes...");
       }
@@ -80,7 +105,7 @@ export const bin = () => {
       }
     )
     .version(packageJson.version) // 使用package.json中的版本号
-    .alias('version', 'v') 
+    .alias("version", "v")
     .help()
     .alias("help", "h")
     .parse();
