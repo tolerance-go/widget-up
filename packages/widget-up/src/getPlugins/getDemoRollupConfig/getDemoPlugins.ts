@@ -21,11 +21,11 @@ import { Plugin } from "rollup";
 import postcss from "rollup-plugin-postcss";
 import typescript from "rollup-plugin-typescript2";
 import {
-    DemoMenuItem,
-    PackageJson,
-    ParseConfig,
-    deleteDist,
-    peerDependenciesAsExternal
+  DemoMenuItem,
+  PackageJson,
+  ParseConfig,
+  deleteDist,
+  peerDependenciesAsExternal,
 } from "widget-up-utils";
 
 /**
