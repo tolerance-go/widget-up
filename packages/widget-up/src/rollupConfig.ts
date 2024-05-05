@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 import { RollupOptions } from "rollup";
-
 import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
 import { BuildEnvIsDev } from "./env";
@@ -10,11 +9,11 @@ import { generateOutputs } from "./generateOutputs";
 import { getConfig } from "./getConfig";
 import { getPlugins } from "./getPlugins";
 import { getDevPlugins } from "./getPlugins/getDevPlugins";
-import { getProdInput } from "./getProdInput";
+import { getInputFile } from "./getProdInput";
 import { logger } from "./logger";
 import { parseDirectoryStructure } from "./parseDirectoryStructure";
 import { convertDirectoryToMenu } from "./utils/convertDirectoryToMenuMeta";
-import { DemoMenuItem } from "@/types";
+import { DemoMenuMeta } from "@/types/demoFileMeta";
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -32,7 +31,7 @@ logger.info(`cwdPath is ${cwdPath}`);
 const demosPath = path.join(cwdPath, "demos");
 logger.info(`demosPath is ${demosPath}`);
 
-let demoMenus: DemoMenuItem[] = [];
+let demoMenus: DemoMenuMeta[] = [];
 
 if (fs.existsSync(demosPath)) {
   logger.log("start demos mode");
@@ -56,7 +55,7 @@ let rollupConfig: RollupOptions[] | RollupOptions = [];
 
 if (BuildEnvIsDev) {
   rollupConfig = {
-    input: getProdInput(packageConfig),
+    input: getInputFile(packageConfig),
     output: {
       file: "dist/umd/index.js",
       format: "umd",
@@ -73,7 +72,7 @@ if (BuildEnvIsDev) {
   };
 } else {
   rollupConfig = outputs.map((output) => ({
-    input: getProdInput(packageConfig),
+    input: getInputFile(packageConfig),
     output,
     plugins: getPlugins({
       rootPath,
