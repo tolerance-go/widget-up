@@ -65,9 +65,6 @@ export default {
             isProduction && terser(),
             peerDependenciesAsExternal(),
           ],
-          watch: {
-            include: ["demos/**"],
-          },
         },
         input.path
       );

@@ -1,13 +1,12 @@
 import path from "path";
 import { OutputOptions, Plugin, RollupOptions, rollup } from "rollup";
+import chokidar from "chokidar";
 import { Logger } from "widget-up-utils";
 
-// 定义插件接受的参数类型
 interface RuntimeRollupOptions extends RollupOptions {
   output: OutputOptions; // 确保输出配置被正确传递
 }
 
-// 主插件函数
 function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
   const logger = new Logger(
     path.join(
@@ -18,23 +17,57 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
     )
   );
 
+  // Function to normalize input paths
+  function normalizeInput(input: RollupOptions["input"]): string[] {
+    if (typeof input === "string") {
+      return [input];
+    } else if (Array.isArray(input)) {
+      return input;
+    } else if (typeof input === "object" && input !== null) {
+      return Object.values(input);
+    } else {
+      return []; // Default case, should not happen generally
+    }
+  }
+
   return {
     name: "runtime-rollup",
 
-    // 使用异步的构建开始钩子
     async buildStart() {
       const { output, ...rollupOptions } = options;
+      const inputFiles = normalizeInput(rollupOptions.input);
       logger.log("Starting embedded Rollup build for:", output.file);
+
+      const watcher = chokidar.watch(inputFiles, {
+        ignored: /(^|[\/\\])\../, // Ignore dotfiles
+        persistent: true,
+      });
+
+      watcher.on("change", async (path) => {
+        logger.log(`File ${path} has been changed. Rebuilding...`);
+        try {
+          const bundle = await rollup(rollupOptions);
+          await bundle.write(output);
+          logger.log("Bundle re-written successfully to:", output.file);
+        } catch (error) {
+          logger.error(
+            "Error during embedded Rollup rebuild for:",
+            output.file
+          );
+          if (error instanceof Error) {
+            this.error("Rollup rebuild failed: " + error.message);
+          }
+        }
+      });
 
       try {
         const bundle = await rollup(rollupOptions);
-        logger.log("Bundle created successfully for:", output.file);
         await bundle.write(output);
-        logger.log("Bundle written successfully to:", output.file);
-      } catch (error: unknown) {
-        logger.error("Error during embedded Rollup build for:", output.file);
+        logger.log("Initial bundle written successfully to:", output.file);
+      } catch (error) {
+        logger.error("Error during initial Rollup build for:", output.file);
         if (error instanceof Error) {
-          this.error("Rollup build failed: " + error.message);
+          this.error("Initial Rollup build failed: " + error.message);
         }
       }
     },
