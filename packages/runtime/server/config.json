@@ -1,1 +1,23 @@
-{"input":"src/index.tsx","umd":{"name":"MyComponent","external":{"jquery":{"unpkg":{"filePath":"/dist/jquery.min.js","filePathDev":"/dist/jquery.js"}},"widget-up-utils":{"unpkg":{"filePath":"/umd/index.production.min.js","filePathDev":"/umd/index.development.js"}}},"globals":{"jquery":"$"}},"cjs":true,"esm":true}
+{
+  "input": "src/index.tsx",
+  "umd": {
+    "name": "MyComponent",
+    "external": {
+      "jquery": {
+        "unpkg": {
+          "filePath": "/dist/jquery.min.js",
+          "filePathDev": "/dist/jquery.js"
+        }
+      },
+      "widget-up-utils": {
+        "unpkg": {
+          "filePath": "/umd/index.production.min.js",
+          "filePathDev": "/umd/index.development.js"
+        }
+      }
+    },
+    "globals": { "jquery": "$" }
+  },
+  "cjs": true,
+  "esm": true
+}
