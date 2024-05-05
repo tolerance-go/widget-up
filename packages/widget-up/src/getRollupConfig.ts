@@ -62,7 +62,7 @@ const getRollupConfig = async () => {
       output: {
         file: "dist/umd/index.js",
         format: "umd",
-        name: config.umd?.name,
+        name: config.umd.name,
         globals: umdGlobals,
         sourcemap: BuildEnvIsDev ? "inline" : false,
       },
