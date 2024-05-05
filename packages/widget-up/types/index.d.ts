@@ -1,1 +1,1 @@
-export type { MenuItem } from "widget-up-utils";
+export type { DemoMenuItem } from "widget-up-utils";

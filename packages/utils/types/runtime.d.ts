@@ -1,8 +1,8 @@
-export interface MenuItem {
+export interface DemoMenuItem {
   globals?: {
     component: string;
     register: string;
   };
   name: string;
-  children?: MenuItem[];
+  children?: DemoMenuItem[];
 }

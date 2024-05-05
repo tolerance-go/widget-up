@@ -13,7 +13,7 @@ import { runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
 import { BuildEnvIsDev } from "../env.js";
 import { getServerConfig } from "../getServerConfig.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
-import { MenuItem } from "@/types";
+import { DemoMenuItem } from "@/types";
 
 export const getPlugins = async ({
   rootPath,
@@ -23,7 +23,7 @@ export const getPlugins = async ({
   output,
   menus,
 }: {
-  menus?: MenuItem[];
+  menus?: DemoMenuItem[];
   rootPath: string;
   config: ParseConfig;
   packageConfig: PackageJson;

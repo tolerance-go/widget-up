@@ -3,7 +3,7 @@ import fs from "fs-extra";
 import path from "path";
 import { GlobalsSchemaConfig, PackageJson, ParseConfig } from "widget-up-utils";
 import { compileLessToCSS } from "../utils/compileLessToCSS";
-import { MenuItem } from "@/types";
+import { DemoMenuItem } from "@/types";
 
 export function runtimeHtmlPlugin({
   globals,
@@ -22,7 +22,7 @@ export function runtimeHtmlPlugin({
   globals?: GlobalsSchemaConfig;
   dest: string;
   src: string;
-  menus?: MenuItem[];
+  menus?: DemoMenuItem[];
   inlineStyles?: string;
   externalStylesheets?: string[];
 }) {

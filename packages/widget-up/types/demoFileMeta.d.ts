@@ -6,3 +6,14 @@ export type DemoFileConfig = {
     register: string;
   };
 };
+
+export interface DemoMenuMeta {
+  name: string;
+  children?: DemoMenuMeta[];
+  globals?: {
+    component: string;
+    register: string;
+  };
+  path: string;
+  type: "directory" | "file";
+}

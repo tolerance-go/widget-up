@@ -13,8 +13,8 @@ import { getDevPlugins } from "./getPlugins/getDevPlugins";
 import { getProdInput } from "./getProdInput";
 import { logger } from "./logger";
 import { parseDirectoryStructure } from "./parseDirectoryStructure";
-import { convertDirectoryToMenu } from "./utils/convertDirectoryToMenu";
-import { MenuItem } from "@/types";
+import { convertDirectoryToMenu } from "./utils/convertDirectoryToMenuMeta";
+import { DemoMenuItem } from "@/types";
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -32,7 +32,7 @@ logger.info(`cwdPath is ${cwdPath}`);
 const demosPath = path.join(cwdPath, "demos");
 logger.info(`demosPath is ${demosPath}`);
 
-let demoMenus: MenuItem[] = [];
+let demoMenus: DemoMenuItem[] = [];
 
 if (fs.existsSync(demosPath)) {
   logger.log("start demos mode");

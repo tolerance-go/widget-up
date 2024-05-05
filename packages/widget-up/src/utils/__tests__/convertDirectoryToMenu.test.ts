@@ -1,6 +1,6 @@
 import { MenuItem } from "../../getPlugins/runtimeHtmlPlugin";
 import { DirectoryStructure } from "../../parseDirectoryStructure";
-import { convertDirectoryToMenu } from "../convertDirectoryToMenu";
+import { convertDirectoryToMenu } from "../convertDirectoryToMenuMeta";
 
 describe("convertDirectoryToMenu", () => {
   it("should convert a single file to a menu item without children", () => {

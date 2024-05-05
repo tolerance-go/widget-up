@@ -1,12 +1,17 @@
-import { MenuItem } from "@/types";
-import { DirectoryStructure } from "../parseDirectoryStructure";
-import path from "path";
+/**
+ * 是什么
+ * 
+ * - 递归遍历目录结构，将目录结构转换为菜单结构
+ */
+
+import { DemoFileConfig, DemoMenuMeta } from "@/types/demoFileMeta";
 import fs from "fs";
-import { DemoFileConfig } from "@/types/demoFileMeta";
+import path from "path";
+import { DirectoryStructure } from "../parseDirectoryStructure";
 
 export function convertDirectoryToMenu(
   directory: DirectoryStructure[]
-): MenuItem[] {
+): DemoMenuMeta[] {
   return directory
     .map((item) => {
       // 如果是文件，直接读取文件同级的文件的 json 版本获取 meta 数据，如果不存在就报错
@@ -30,21 +35,25 @@ export function convertDirectoryToMenu(
         ) as DemoFileConfig;
 
         // Create the basic menu item from the directory item
-        const menuItem: MenuItem = {
+        const menuItem: DemoMenuMeta = {
           name: meta.name ?? item.name,
           globals: {
             component: meta.globals.component,
             register: meta.globals.register,
           },
+          path: item.path,
+          type: item.type,
         };
         return menuItem;
       }
 
-      const menuItem: MenuItem = {
+      const menuItem: DemoMenuMeta = {
         name: item.name,
         children: convertDirectoryToMenu(item.children ?? []),
+        path: item.path,
+        type: item.type,
       };
       return menuItem;
     })
-    .filter(Boolean) as MenuItem[];
+    .filter(Boolean) as DemoMenuMeta[];
 }
