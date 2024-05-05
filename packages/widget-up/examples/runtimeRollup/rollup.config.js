@@ -1,12 +1,12 @@
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
+import path from "path";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
-import path from "path";
-import del from "rollup-plugin-delete";
+import { runtimeRollup } from "widget-up";
 import {
+  deleteDist,
   htmlRender,
-  autoExternalDependencies,
   peerDependenciesAsExternal,
   serveLivereload,
 } from "widget-up-utils";
@@ -18,9 +18,61 @@ export default {
   output: {
     file: "dist/index.js",
     format: "umd",
+    name: "RuntimeRollupExample",
   },
   plugins: [
-    isProduction && del({ targets: "dist/*" }),
+    ...[
+      {
+        path: "demos/demo1.ts",
+        name: "Demo1",
+      },
+      {
+        path: "demos/demo2.ts",
+        name: "Demo2",
+      },
+    ].map((input) => {
+      return runtimeRollup(
+        {
+          input: input.path,
+          output: {
+            file: path.join(
+              "dist",
+              "demos",
+              path.basename(input.path, ".ts") + ".js"
+            ),
+            format: "umd",
+            name: input.name,
+          },
+          plugins: [
+            isProduction && deleteDist({ dist: "dist/demos" }),
+            resolve(),
+            commonjs(),
+            typescript({
+              useTsconfigDeclarationDir: true,
+              tsconfigOverride: !isProduction
+                ? {
+                    compilerOptions: {
+                      declaration: false,
+                    },
+                  }
+                : {
+                    compilerOptions: {
+                      declaration: true,
+                      declarationDir: "dist/types",
+                    },
+                  },
+            }),
+            isProduction && terser(),
+            peerDependenciesAsExternal(),
+          ],
+          watch: {
+            include: ["demos/**"],
+          },
+        },
+        input.path
+      );
+    }),
+    isProduction && deleteDist({ dist: "dist" }),
     resolve(),
     commonjs(),
     typescript({
@@ -52,6 +104,6 @@ export default {
       }),
   ].filter(Boolean),
   watch: {
-    include: "src/**",
+    include: ["src/**"],
   },
 };

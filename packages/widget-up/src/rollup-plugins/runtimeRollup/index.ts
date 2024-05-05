@@ -1,5 +1,6 @@
-import { Plugin } from "rollup";
-import rollup, { RollupOptions, OutputOptions } from "rollup";
+import path from "path";
+import { OutputOptions, Plugin, RollupOptions, rollup } from "rollup";
+import { Logger } from "widget-up-utils";
 
 // 定义插件接受的参数类型
 interface RuntimeRollupOptions extends RollupOptions {
@@ -7,27 +8,32 @@ interface RuntimeRollupOptions extends RollupOptions {
 }
 
 // 主插件函数
-function runtimeRollup(options: RuntimeRollupOptions): Plugin {
+function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
+  const logger = new Logger(
+    path.join(
+      process.cwd(),
+      ".logs/runtime-rollup",
+      name || "",
+      new Date().toISOString().substring(0, 10)
+    )
+  );
+
   return {
     name: "runtime-rollup",
 
     // 使用异步的构建开始钩子
     async buildStart() {
       const { output, ...rollupOptions } = options;
+      logger.log("Starting embedded Rollup build for:", output.file);
 
       try {
-        // 创建一个新的 Rollup 实例
-        const bundle = await rollup.rollup(rollupOptions);
-
-        // 根据配置输出文件
+        const bundle = await rollup(rollupOptions);
+        logger.log("Bundle created successfully for:", output.file);
         await bundle.write(output);
-
-        // 或者使用 generate 如果你不想直接写文件
-        // const { output: generatedOutput } = await bundle.generate(output);
-        // 处理 generatedOutput 逻辑，例如打印或进一步操作
+        logger.log("Bundle written successfully to:", output.file);
       } catch (error: unknown) {
+        logger.error("Error during embedded Rollup build for:", output.file);
         if (error instanceof Error) {
-          // 错误处理
           this.error("Rollup build failed: " + error.message);
         }
       }

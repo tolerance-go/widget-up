@@ -1,2 +1,2 @@
-export { default as rollupConfig } from "./rollupConfig";
+export { default as getRollupConfig } from "./getRollupConfig";
 export * from "./rollup-plugins";

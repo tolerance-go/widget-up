@@ -9,6 +9,6 @@
     "outDir": "./dist",
     "lib": ["ES2017", "dom"]
   },
-  "include": ["src/**/*", "./typings.d.ts", "types/**/*"],
+  "include": ["src/**/*", "./typings.d.ts", "types/**/*", "demos/**/*"],
   "exclude": ["node_modules", "dist"]
 }
