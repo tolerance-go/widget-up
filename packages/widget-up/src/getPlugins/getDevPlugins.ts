@@ -64,26 +64,27 @@ export const getDevPlugins = async ({
       }),
     genAssert({
       src: path.join(rootPath, "tpls/index.html.ejs"),
+      dest: WupFolderName,
     }),
     genAssert({
       dest: "dist/server",
       file: {
         name: "packageConfig.json",
-        content: JSON.stringify(packageConfig),
+        content: JSON.stringify(packageConfig, null, 2),
       },
     }),
     genAssert({
       dest: "dist/server",
       file: {
         name: "config.json",
-        content: JSON.stringify(config),
+        content: JSON.stringify(config, null, 2),
       },
     }),
     genAssert({
       dest: "dist/server",
       file: {
         name: "menus.json",
-        content: JSON.stringify(menus ?? []),
+        content: JSON.stringify(menus ?? [], null, 2),
       },
     }),
     htmlRender({

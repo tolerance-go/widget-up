@@ -4,6 +4,7 @@ import path from "path";
 export interface DirectoryStructure {
   name: string;
   type: "file" | "directory";
+  path: string;
   children?: DirectoryStructure[];
 }
 
@@ -22,6 +23,7 @@ export function parseDirectoryStructure(dirPath: string): DirectoryStructure {
         name: path.basename(currentPath),
         type: "directory",
         children: [],
+        path: currentPath,
       };
       // Read all items in the directory
       fs.readdirSync(currentPath).forEach((entry) => {
@@ -32,6 +34,7 @@ export function parseDirectoryStructure(dirPath: string): DirectoryStructure {
       return {
         name: path.basename(currentPath),
         type: "file",
+        path: currentPath,
       };
     }
   }

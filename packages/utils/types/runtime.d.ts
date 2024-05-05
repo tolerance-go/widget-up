@@ -1,5 +1,5 @@
 export interface MenuItem {
-  globals: {
+  globals?: {
     component: string;
     register: string;
   };
