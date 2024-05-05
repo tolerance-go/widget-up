@@ -1,21 +1,21 @@
-import { MenuItem } from "../../getPlugins/runtimeHtmlPlugin";
+import { DemoMenuItem } from "widget-up-utils";
 import { DirectoryStructure } from "../../parseDirectoryStructure";
 import { convertDirectoryToDemo } from "../convertDirectoryToDemo";
 
 describe("convertDirectoryToMenu", () => {
   it("should convert a single file to a menu item without children", () => {
     const directory: DirectoryStructure[] = [
-      { name: "file.txt", type: "file" },
+      { name: "file.txt", type: "file", path: "" },
     ];
-    const expected: MenuItem[] = [{ name: "file.txt" }];
+    const expected: DemoMenuItem[] = [{ name: "file.txt" }];
     expect(convertDirectoryToDemo(directory)).toEqual(expected);
   });
 
   it("should convert a single directory with no children to a menu item without children", () => {
     const directory: DirectoryStructure[] = [
-      { name: "emptyFolder", type: "directory" },
+      { name: "emptyFolder", type: "directory", path: "" },
     ];
-    const expected: MenuItem[] = [{ name: "emptyFolder" }];
+    const expected: DemoMenuItem[] = [{ name: "emptyFolder" }];
     expect(convertDirectoryToDemo(directory)).toEqual(expected);
   });
 
@@ -24,17 +24,19 @@ describe("convertDirectoryToMenu", () => {
       {
         name: "root",
         type: "directory",
+        path: "",
         children: [
-          { name: "file1.txt", type: "file" },
+          { name: "file1.txt", type: "file", path: "" },
           {
             name: "subfolder",
             type: "directory",
-            children: [{ name: "file2.txt", type: "file" }],
+            children: [{ name: "file2.txt", type: "file", path: "" }],
+            path: "",
           },
         ],
       },
     ];
-    const expected: MenuItem[] = [
+    const expected: DemoMenuItem[] = [
       {
         name: "root",
         children: [
@@ -51,7 +53,7 @@ describe("convertDirectoryToMenu", () => {
 
   it("should handle an empty directory array gracefully", () => {
     const directory: DirectoryStructure[] = [];
-    const expected: MenuItem[] = [];
+    const expected: DemoMenuItem[] = [];
     expect(convertDirectoryToDemo(directory)).toEqual(expected);
   });
 });

@@ -21,6 +21,7 @@ import { runtimeRollup } from "../rollup-plugins/index.js";
 import { BuildEnvIsDev } from "../env.js";
 import { logger } from "../logger.js";
 import { RuntimeRollupOptions } from "../rollup-plugins/runtimeRollup/index.js";
+import { normalizePath } from "../utils/normalizePath.js";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -73,10 +74,13 @@ export const getDevPlugins = async ({
 
   const runtimeRollupPlgs = demoInputList.map((inputItem) => {
     const base: RuntimeRollupOptions = {
-      input: path.relative(cwdPath, inputItem.path),
+      input: normalizePath(path.relative(cwdPath, inputItem.path)),
       output: {
-        file: path.join("dist/server/demos", inputItem.name, "index.js"),
+        file: normalizePath(
+          path.join("dist/server/demos", inputItem.name, "index.js")
+        ),
         format: "umd",
+        name: config.umd.name,
         sourcemap: BuildEnvIsDev,
       },
     };

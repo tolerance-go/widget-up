@@ -47,7 +47,7 @@ export interface ParedUMDConfig {
 // 定义最顶层的配置对象类型
 export interface SchemaConfig {
   input: string;
-  umd?: UMDSchemaConfig;
+  umd: UMDSchemaConfig;
   cjs?: boolean;
   esm?: boolean;
   css?: boolean | "modules" | "autoModules";
@@ -56,7 +56,7 @@ export interface SchemaConfig {
 
 export interface ParseConfig {
   input: string;
-  umd?: ParedUMDConfig;
+  umd: ParedUMDConfig;
   cjs?: boolean;
   esm?: boolean;
   css?: boolean | "modules" | "autoModules";
