@@ -8,7 +8,7 @@ WidgetUpRuntime.start({
         {
           name: "@widget-up-demo/react16",
           version: "0.0.0",
-          scriptSrc: () => "/libs/comp.react16.alias-wrap.async-wrap.js",
+          scriptSrc: () => "/demos/comp.react16.alias-wrap.async-wrap.js",
           depends: [
             {
               name: "react-dom",
@@ -35,7 +35,7 @@ WidgetUpRuntime.start({
         {
           name: "@widget-up-demo/react16-2",
           version: "0.0.0",
-          scriptSrc: () => "/libs/comp.react16-2.alias-wrap.async-wrap.js",
+          scriptSrc: () => "/demos/comp.react16-2.alias-wrap.async-wrap.js",
           depends: [
             {
               name: "react-dom",
@@ -69,7 +69,7 @@ WidgetUpRuntime.start({
         {
           name: "@widget-up-demo/react18",
           version: "0.0.0",
-          scriptSrc: () => "/libs/comp.react18.alias-wrap.async-wrap.js",
+          scriptSrc: () => "/demos/comp.react18.alias-wrap.async-wrap.js",
           depends: [
             {
               name: "react-dom",
@@ -100,7 +100,7 @@ WidgetUpRuntime.start({
         {
           name: "@widget-up-demo/jquery3",
           version: "0.0.0",
-          scriptSrc: () => "/libs/comp.jquery3.alias-wrap.async-wrap.js",
+          scriptSrc: () => "/demos/comp.jquery3.alias-wrap.async-wrap.js",
           depends: [
             {
               name: "jquery",

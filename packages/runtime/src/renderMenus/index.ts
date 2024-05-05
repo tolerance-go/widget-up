@@ -1,6 +1,6 @@
 // renderMenus.ts
 import { AppEvents } from "@/types";
-import type { EventBus, MenuItem } from "widget-up-utils";
+import type { EventBus, DemoMenuItem } from "widget-up-utils";
 import {
   replaceGlobalRegister,
   replaceRuntimeComponent,
@@ -13,7 +13,7 @@ interface RenderMenusOptions {
   eventBus: EventBus<AppEvents>;
 }
 
-async function fetchMenus(): Promise<MenuItem[]> {
+async function fetchMenus(): Promise<DemoMenuItem[]> {
   const response = await fetch("/menus.json");
   if (!response.ok) {
     throw new Error("Failed to fetch menus");
@@ -21,8 +21,8 @@ async function fetchMenus(): Promise<MenuItem[]> {
   return response.json();
 }
 
-function buildMenuHtml(menus: MenuItem[]): string {
-  const buildMenuItems = (items: MenuItem[]): string => {
+function buildMenuHtml(menus: DemoMenuItem[]): string {
+  const buildMenuItems = (items: DemoMenuItem[]): string => {
     return items
       .map((item) => {
         const childrenHtml = item.children
