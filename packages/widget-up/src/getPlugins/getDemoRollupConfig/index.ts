@@ -30,31 +30,5 @@ export function getDemoRollupConfig({
 }: {
   demoMenus: DemoMenuItem[];
 }) {
-  // 函数 将 demoMenus 转换为 rollup 的入口的 list，然后返回
-  // 使用 reduce 方法，遍历 demoMenus，然后返回一个数组
-  // 返回的数组是一个对象，包含 input 和 output
-  // input 是 demoMenus 的 name，output 是 dist/demos/demoMenus.name
-  return demoMenus.reduce((acc, cur) => {
-    const { name, children } = cur;
-    if (children) {
-      return [
-        ...acc,
-        ...getDemoRollupConfig({
-          demoMenus: children,
-        }),
-      ];
-    }
-    return [
-      ...acc,
-      {
-        input: `demos/${name}/index.ts`,
-        output: {
-          file: `dist/demos/${name}/index.js`,
-          format: "umd",
-          name: "WidgetUp",
-        },
-        plugins: [nodeResolve(), typescript(), terser()],
-      },
-    ];
-  }, []);
+  return [];
 }
