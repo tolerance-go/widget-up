@@ -1,3 +1,5 @@
 import SchemaForm from "@/src";
 
-export default SchemaForm;
+export default () => {
+    return SchemaForm();
+};
