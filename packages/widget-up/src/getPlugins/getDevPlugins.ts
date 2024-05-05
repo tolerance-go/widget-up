@@ -16,6 +16,10 @@ import {
 import { WupFolderName } from "../constants.js";
 import { genAssert } from "../rollup-plugins/genAssert/index.js";
 import { DemoMenuMeta } from "@/types/demoFileMeta.js";
+import { getDemoInputList } from "./getDemoInputList.js";
+import { runtimeRollup } from "../rollup-plugins/index.js";
+import { BuildEnvIsDev } from "../env.js";
+import { logger } from "../logger.js";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -28,11 +32,7 @@ export const getDevPlugins = async ({
   config: ParseConfig;
   packageConfig: PackageJson;
 }) => {
-  const plugins = [
-    deleteDist({
-      dist: ["dist", WupFolderName],
-      once: true,
-    }),
+  const devBuildPlugins = [
     peerDependenciesAsExternal(),
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
@@ -62,6 +62,31 @@ export const getDevPlugins = async ({
             }
           : {}),
       }),
+  ];
+
+  const demoInputList = getDemoInputList(menus ?? []);
+
+  logger.info("demoInputList: ", demoInputList);
+
+  const runtimeRollupPlgs = demoInputList.map((inputItem) => {
+    return runtimeRollup({
+      input: inputItem.path,
+      output: {
+        file: path.join("dist/server/demos", inputItem.name, "index.js"),
+        format: "umd",
+        sourcemap: BuildEnvIsDev,
+      },
+      plugins: [...devBuildPlugins],
+    });
+  });
+
+  const plugins = [
+    deleteDist({
+      dist: ["dist", WupFolderName],
+      once: true,
+    }),
+    ...runtimeRollupPlgs,
+    ...devBuildPlugins,
     genAssert({
       src: path.join(rootPath, "tpls/index.html.ejs"),
       dest: WupFolderName,
