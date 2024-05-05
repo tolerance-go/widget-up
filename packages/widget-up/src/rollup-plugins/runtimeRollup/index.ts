@@ -1,6 +1,12 @@
 import path from "path";
-import { OutputOptions, Plugin, RollupOptions, rollup } from "rollup";
-import chokidar from "chokidar";
+import {
+  OutputOptions,
+  Plugin,
+  RollupOptions,
+  RollupWatcher,
+  rollup,
+  watch,
+} from "rollup";
 import { Logger } from "widget-up-utils";
 
 export interface RuntimeRollupOptions extends RollupOptions {
@@ -8,7 +14,7 @@ export interface RuntimeRollupOptions extends RollupOptions {
 }
 
 function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
-  let once = false;
+  let watcher: RollupWatcher | null = null;
 
   const logger = new Logger(
     path.join(
@@ -19,62 +25,56 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
     )
   );
 
-  // Function to normalize input paths
-  function normalizeInput(input: RollupOptions["input"]): string[] {
-    if (typeof input === "string") {
-      return [input];
-    } else if (Array.isArray(input)) {
-      return input;
-    } else if (typeof input === "object" && input !== null) {
-      return Object.values(input);
-    } else {
-      return []; // Default case, should not happen generally
-    }
-  }
-
   const { output, ...rollupOptions } = options;
-  const inputFiles = normalizeInput(rollupOptions.input);
-  logger.log("Starting embedded Rollup build for:", output.file);
+  logger.log("Configured embedded Rollup build for:", output.file);
 
-  const watcher = chokidar.watch(inputFiles, {
-    ignored: /(^|[\/\\])\../, // Ignore dotfiles
-    persistent: true,
-  });
+  const watcherOptions = {
+    ...rollupOptions,
+    output,
+  };
 
-  const build = async (init: boolean = false) => {
+  const build = async () => {
     try {
       const bundle = await rollup(rollupOptions);
       await bundle.write(output);
       await bundle.close();
-      logger.log(
-        `Bundle ${init ? "" : "re-"}written successfully to:`,
-        output.file
-      );
+      logger.log(`Bundle written successfully to:`, output.file);
     } catch (error) {
-      logger.error(
-        `Error during embedded Rollup ${init ? "" : "re"}build for:`,
-        output.file
-      );
+      logger.error(`Error during embedded Rollup build for:`, output.file);
       if (error instanceof Error) {
-        logger.error(
-          `Rollup ${init ? "" : "re"}build failed: ${error.message}`
-        );
+        logger.error(`Rollup build failed: ${error.message}`);
       }
     }
   };
 
-  watcher.on("change", async (path) => {
-    logger.log(`File ${path} has been changed. Rebuilding...`);
-    build();
-  });
+  // 确保仅一次初始化监听
+  const setupWatcher = () => {
+    if (watcherOptions.watch) {
+      if (!watcher) {
+        watcher = watch(watcherOptions);
+        watcher.on("event", (event) => {
+          switch (event.code) {
+            case "BUNDLE_START":
+              console.log(`Bundling...`);
+              break;
+            case "BUNDLE_END":
+              console.log(`Bundle written successfully to:`, output.file);
+              break;
+            case "ERROR":
+              console.error(`Rollup build error:`, event.error);
+              break;
+          }
+        });
+      }
+    } else {
+      build();
+    }
+  };
 
   return {
     name: "runtime-rollup",
-    async buildStart() {
-      if (!once) {
-        once = true;
-        await build(true);
-      }
+    buildStart() {
+      setupWatcher(); // 在首次构建开始时设置监听
     },
   };
 }

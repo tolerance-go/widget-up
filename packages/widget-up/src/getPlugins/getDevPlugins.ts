@@ -97,6 +97,9 @@ export const getDevPlugins = async ({
       {
         ...base,
         plugins: [...devBuildPlugins],
+        watch: {
+          include: ["src/**", "demos/**"],
+        },
       },
       input
     );
