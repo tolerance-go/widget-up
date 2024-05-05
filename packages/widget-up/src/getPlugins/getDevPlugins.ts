@@ -15,7 +15,7 @@ import {
 } from "widget-up-utils";
 import { WupFolderName } from "../constants.js";
 import { genAssert } from "../rollup-plugins/genAssert/index.js";
-import { DemoMenuItem } from "@/types";
+import { DemoMenuMeta } from "@/types/demoFileMeta.js";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -23,7 +23,7 @@ export const getDevPlugins = async ({
   packageConfig,
   menus,
 }: {
-  menus?: DemoMenuItem[];
+  menus?: DemoMenuMeta[];
   rootPath: string;
   config: ParseConfig;
   packageConfig: PackageJson;

@@ -1,11 +1,15 @@
+/**
+ * 是什么
+ * 
+ * - 生产环境下，生成 Rollup 的 output 配置
+ */
 import { ParseConfig, GlobalsSchemaConfig } from "widget-up-utils";
 import { BuildEnvIsDev } from "./env";
 import { RollupOptions } from "rollup";
 
-// 构建输出数组
-export function generateOutputs(
+export function getProdOutputs(
   config: ParseConfig,
-  globals?: GlobalsSchemaConfig,
+  globals?: GlobalsSchemaConfig
 ) {
   const outputs: RollupOptions["output"] = [];
 

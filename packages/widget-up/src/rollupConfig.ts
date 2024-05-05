@@ -4,8 +4,8 @@ import { RollupOptions } from "rollup";
 import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
 import { BuildEnvIsDev } from "./env";
-import { generateGlobals } from "./generateGlobals";
-import { generateOutputs } from "./generateOutputs";
+import { getUMDGlobals } from "./getGlobals";
+import { getProdOutputs } from "./getOutputs";
 import { getConfig } from "./getConfig";
 import { getPlugins } from "./getPlugins";
 import { getDevPlugins } from "./getPlugins/getDevPlugins";
@@ -47,9 +47,7 @@ const packageConfig = JSON.parse(
 
 const config = getConfig();
 
-const globals = generateGlobals(config);
-
-const outputs = generateOutputs(config, globals);
+const umdGlobals = getUMDGlobals(config);
 
 let rollupConfig: RollupOptions[] | RollupOptions = [];
 
@@ -60,7 +58,7 @@ if (BuildEnvIsDev) {
       file: "dist/umd/index.js",
       format: "umd",
       name: config.umd?.name,
-      globals,
+      globals: umdGlobals,
       sourcemap: BuildEnvIsDev ? "inline" : false,
     },
     plugins: getDevPlugins({
@@ -71,14 +69,14 @@ if (BuildEnvIsDev) {
     }),
   };
 } else {
-  rollupConfig = outputs.map((output) => ({
+  rollupConfig = getProdOutputs(config, umdGlobals).map((output) => ({
     input: getInputFile(packageConfig),
     output,
     plugins: getPlugins({
       rootPath,
       config,
       packageConfig,
-      globals,
+      globals: umdGlobals,
       output,
       menus: demoMenus,
     }),
