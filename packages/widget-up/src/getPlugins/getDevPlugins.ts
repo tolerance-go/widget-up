@@ -18,10 +18,10 @@ import { genAssert } from "../rollup-plugins/genAssert";
 import { DemoData } from "@/types/demoFileMeta";
 import { getDemoInputList } from "./getDemoInputList";
 import { runtimeRollup } from "../rollup-plugins";
-import { BuildEnvIsDev } from "../env";
 import { logger } from "../logger";
 import { RuntimeRollupOptions } from "../rollup-plugins/runtimeRollup";
 import { normalizePath } from "../utils/normalizePath";
+import { getEnv } from "../env";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -36,6 +36,7 @@ export const getDevPlugins = async ({
   config: ParseConfig;
   packageConfig: PackageJson;
 }) => {
+  const { BuildEnvIsDev } = getEnv();
   const devBuildPlugins = [
     peerDependenciesAsExternal(),
     replace({

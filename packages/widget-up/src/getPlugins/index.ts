@@ -9,12 +9,12 @@ import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import { PackageJson, ParseConfig } from "widget-up-utils";
-import { BuildEnvIsDev } from "../env.js";
 import { getServerConfig } from "../getServerConfig.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
 import { runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
 import { DemoData } from "@/types";
 import { convertDemoMetaToMenu } from "../utils/convertDemoMetaToMenu.js";
+import { getEnv } from "../env.js";
 
 export const getPlugins = async ({
   rootPath,
@@ -31,6 +31,8 @@ export const getPlugins = async ({
   globals?: Record<string, string>;
   output: OutputOptions;
 }) => {
+  const { BuildEnvIsDev } = getEnv();
+
   const plugins = [
     del({ targets: ["dist", output.format, "*"].filter(Boolean).join("/") }),
     getExternalPlugin(output.format),

@@ -3,7 +3,6 @@ import path from "path";
 import { RollupOptions } from "rollup";
 import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
-import { BuildEnv, BuildEnvIsDev } from "./env";
 import { getUMDGlobals } from "./getGlobals";
 import { getProdOutputs } from "./getOutputs";
 import { getConfig } from "./getConfig";
@@ -14,8 +13,10 @@ import { logger } from "./logger";
 import { parseDirectoryStructure } from "./parseDirectoryStructure";
 import { convertDirectoryToDemo } from "./utils/convertDirectoryToDemo";
 import { DemoData } from "@/types/demoFileMeta";
+import { getEnv } from "./env";
 
 const getRollupConfig = async () => {
+  const { BuildEnvIsDev, BuildEnv } = getEnv();
   logger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
 
   const __dirname = path.dirname(fileURLToPath(import.meta.url));

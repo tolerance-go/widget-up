@@ -1,17 +1,18 @@
 /**
  * 是什么
- * 
+ *
  * - 生产环境下，生成 Rollup 的 output 配置
  */
 import { ParseConfig, GlobalsSchemaConfig } from "widget-up-utils";
-import { BuildEnvIsDev } from "./env";
 import { RollupOptions } from "rollup";
+import { getEnv } from "./env";
 
 export function getProdOutputs(
   config: ParseConfig,
   globals?: GlobalsSchemaConfig
 ) {
   const outputs: RollupOptions["output"] = [];
+  const { BuildEnvIsDev } = getEnv();
 
   if (config.umd ?? true) {
     // UMD 格式始终包含
