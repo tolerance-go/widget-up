@@ -1,3 +1,5 @@
 import { getRollupConfig } from "../dist/index.js";
 
-export default getRollupConfig();
+const rollupConfig = getRollupConfig();
+
+export default rollupConfig;

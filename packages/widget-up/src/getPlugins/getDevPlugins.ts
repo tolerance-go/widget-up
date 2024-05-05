@@ -13,15 +13,15 @@ import {
   peerDependenciesAsExternal,
   serveLivereload,
 } from "widget-up-utils";
-import { WupFolderName } from "../constants.js";
-import { genAssert } from "../rollup-plugins/genAssert/index.js";
-import { DemoData } from "@/types/demoFileMeta.js";
-import { getDemoInputList } from "./getDemoInputList.js";
-import { runtimeRollup } from "../rollup-plugins/index.js";
-import { BuildEnvIsDev } from "../env.js";
-import { logger } from "../logger.js";
-import { RuntimeRollupOptions } from "../rollup-plugins/runtimeRollup/index.js";
-import { normalizePath } from "../utils/normalizePath.js";
+import { WupFolderName } from "../constants";
+import { genAssert } from "../rollup-plugins/genAssert";
+import { DemoData } from "@/types/demoFileMeta";
+import { getDemoInputList } from "./getDemoInputList";
+import { runtimeRollup } from "../rollup-plugins";
+import { BuildEnvIsDev } from "../env";
+import { logger } from "../logger";
+import { RuntimeRollupOptions } from "../rollup-plugins/runtimeRollup";
+import { normalizePath } from "../utils/normalizePath";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -73,8 +73,9 @@ export const getDevPlugins = async ({
   logger.info("demoInputList: ", demoInputList);
 
   const runtimeRollupPlgs = demoInputList.map((inputItem) => {
+    const input = normalizePath(path.relative(cwdPath, inputItem.path));
     const base: RuntimeRollupOptions = {
-      input: normalizePath(path.relative(cwdPath, inputItem.path)),
+      input,
       output: {
         file: normalizePath(
           path.join("dist/server/demos", inputItem.name, "index.js")
@@ -87,10 +88,13 @@ export const getDevPlugins = async ({
 
     logger.info("runtimeRollupPlgs base: ", base);
 
-    return runtimeRollup({
-      ...base,
-      plugins: [...devBuildPlugins],
-    });
+    return runtimeRollup(
+      {
+        ...base,
+        plugins: [...devBuildPlugins],
+      },
+      input
+    );
   });
 
   const plugins = [
