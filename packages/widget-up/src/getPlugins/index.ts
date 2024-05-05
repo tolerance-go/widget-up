@@ -15,6 +15,7 @@ import { runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
 import { DemoData } from "@/types";
 import { convertDemoMetaToMenu } from "../utils/convertDemoMetaToMenu.js";
 import { getEnv } from "../env.js";
+import alias from "@rollup/plugin-alias";
 
 export const getPlugins = async ({
   rootPath,
@@ -39,6 +40,9 @@ export const getPlugins = async ({
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       preventAssignment: true,
+    }),
+    alias({
+      entries: [{ find: "@", replacement: process.cwd() }],
     }),
     resolve(),
     commonjs(),

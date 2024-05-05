@@ -72,6 +72,9 @@ const getRollupConfig = async () => {
         demoDatas,
         cwdPath,
       }),
+      watch: {
+        include: ["src/**", "demos/**"],
+      },
     };
   } else {
     rollupConfig = getProdOutputs(config, umdGlobals).map((output) => ({

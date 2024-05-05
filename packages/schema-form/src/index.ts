@@ -81,4 +81,6 @@
 
 const hi = "h234i";
 
-export { hi };
+export default () => {
+  console.log(hi);
+};

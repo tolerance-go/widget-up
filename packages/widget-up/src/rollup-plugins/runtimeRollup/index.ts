@@ -56,7 +56,7 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
             output.file
           );
           if (error instanceof Error) {
-            this.error("Rollup rebuild failed: " + error.message);
+            logger.error("Rollup rebuild failed: " + error.message);
           }
         }
       });
@@ -69,7 +69,7 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
       } catch (error) {
         logger.error("Error during initial Rollup build for:", output.file);
         if (error instanceof Error) {
-          this.error("Initial Rollup build failed: " + error.message);
+          logger.error("Initial Rollup build failed: " + error.message);
         }
       }
     },

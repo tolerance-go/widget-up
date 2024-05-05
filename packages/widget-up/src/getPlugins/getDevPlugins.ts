@@ -22,6 +22,7 @@ import { logger } from "../logger";
 import { RuntimeRollupOptions } from "../rollup-plugins/runtimeRollup";
 import { normalizePath } from "../utils/normalizePath";
 import { getEnv } from "../env";
+import alias from "@rollup/plugin-alias";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -42,6 +43,9 @@ export const getDevPlugins = async ({
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       preventAssignment: true,
+    }),
+    alias({
+      entries: [{ find: "@", replacement: process.cwd() }],
     }),
     resolve(),
     commonjs(),
