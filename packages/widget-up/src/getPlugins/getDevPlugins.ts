@@ -27,6 +27,8 @@ import { getEnv } from "../env";
 import alias from "@rollup/plugin-alias";
 import { wrapUMDAliasCode } from "widget-up-utils";
 import { convertConfigUmdToAliasImports } from "../utils/convertConfigUmdToAliasImports";
+import { ConfigManager } from "../getConfigManager";
+import genServerLibs from "../rollup-plugins/genServerLibs";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -34,7 +36,9 @@ export const getDevPlugins = async ({
   packageConfig,
   demoDatas,
   cwdPath,
+  configManager,
 }: {
+  configManager: ConfigManager;
   demoDatas?: DemoData[];
   rootPath: string;
   cwdPath: string;
@@ -155,6 +159,30 @@ export const getDevPlugins = async ({
     }),
     ...runtimeRollupPlgs,
     ...devBuildPlugins,
+    genServerLibs({
+      umdConfig: config.umd,
+      configManager,
+      // modifyCode: (code, lib) => {
+      //   return wrapUMDAsyncEventCode({
+      //     eventId,
+      //     eventBusPath: "WidgetUpRuntime.globalEventBus",
+      //     scriptContent: wrapUMDAliasCode({
+      //       scriptContent: code,
+      //       imports: [
+
+      //       ],
+      //       exports: [
+      //         {
+      //           globalVar: `${config.umd.name}_${semverToIdentifier(
+      //             packageConfig.version
+      //           )}`,
+      //           scopeVar: config.umd.name,
+      //         },
+      //       ],
+      //     }),
+      //   });
+      // },
+    }),
     genAssert({
       src: path.join(rootPath, "tpls/index.html.ejs"),
       dest: WupFolderName,

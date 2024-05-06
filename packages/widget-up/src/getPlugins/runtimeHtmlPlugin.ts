@@ -48,16 +48,17 @@ export function runtimeHtmlPlugin({
             packageConfig.peerDependencies &&
             config.umd?.external &&
             config.umd?.globals
-              ? Object.entries(globals).map(([pkgName, value]) => {
-                  return {
-                    src: `https://unpkg.com/${pkgName}@${
-                      packageConfig.peerDependencies![pkgName]
-                    }${config.umd!.external?.[pkgName]?.unpkg.filePath}`,
-                    global: `window.${globals[pkgName]} = ${
-                      config.umd!.globals[pkgName]
-                    };`,
-                  };
-                })
+              ? // ? Object.entries(globals).map(([pkgName, value]) => {
+                //     return {
+                //       src: `https://unpkg.com/${pkgName}@${
+                //         packageConfig.peerDependencies![pkgName]
+                //       }${config.umd!.external?.[pkgName]?.unpkg.filePath}`,
+                //       global: `window.${globals[pkgName]} = ${
+                //         config.umd!.globals[pkgName]
+                //       };`,
+                //     };
+                //   })
+                []
               : [],
           bundleSrc: "./umd/index.js",
           includeCSS: !!config.css,

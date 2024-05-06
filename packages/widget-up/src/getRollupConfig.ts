@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
 import { getUMDGlobals } from "./getGlobals";
 import { getProdOutputs } from "./getOutputs";
-import { getConfig } from "./getConfig";
+import { getConfigManager } from "./getConfigManager";
 import { getPlugins } from "./getPlugins";
 import { getDevPlugins } from "./getPlugins/getDevPlugins";
 import { getInputFile } from "./getProdInput";
@@ -49,7 +49,8 @@ const getRollupConfig = async () => {
     fs.readFileSync(path.resolve("package.json"), "utf8")
   ) as PackageJson;
 
-  const config = getConfig();
+  const configManager = getConfigManager();
+  const config = configManager.get();
 
   const umdGlobals = getUMDGlobals(config);
 
@@ -71,6 +72,7 @@ const getRollupConfig = async () => {
         packageConfig,
         demoDatas,
         cwdPath,
+        configManager
       }),
       watch: {
         include: ["src/**"],
