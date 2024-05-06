@@ -23,6 +23,7 @@ import { RuntimeRollupOptions } from "../rollup-plugins/runtimeRollup";
 import { normalizePath } from "../utils/normalizePath";
 import { getEnv } from "../env";
 import alias from "@rollup/plugin-alias";
+import { wrapUMDAliasCode } from "widget-up-utils";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -99,6 +100,23 @@ export const getDevPlugins = async ({
         plugins: [...devBuildPlugins],
         watch: {
           include: ["src/**", "demos/**"],
+        },
+        overwriteChunkCode(code, chunk, options) {
+          wrapUMDAliasCode({
+            scriptContent: code,
+            imports: [
+              {
+                globalVar: "jQuery",
+                scopeVar: "jQuery",
+              },
+            ],
+            exports: [
+              {
+                globalVar: `${config.umd.name}v${packageConfig.version}`,
+                scopeVar: config.umd.name,
+              },
+            ],
+          });
         },
       },
       input

@@ -3,13 +3,11 @@ import { parseExternal } from "./parseExternal";
 
 export function parseConfig(config: SchemaConfig): ParseConfig {
   // 首先处理 UMD 配置的解析，特别是 external 字段
-  const parsedUMD: ParedUMDConfig | undefined = config.umd
-    ? {
-        name: config.umd.name,
-        external: parseExternal(config.umd.external),
-        globals: config.umd.globals,
-      }
-    : undefined;
+  const parsedUMD: ParedUMDConfig = {
+    name: config.umd.name,
+    external: parseExternal(config.umd.external),
+    globals: config.umd.globals,
+  };
 
   // 构建 ParseConfig 对象，包括处理好的 UMD 配置
   const parsedConfig: ParseConfig = {

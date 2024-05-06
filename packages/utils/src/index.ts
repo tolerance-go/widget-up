@@ -6,6 +6,8 @@ export * from "./HTMLDependencyManager";
 export { EventBus } from "./EventBus";
 export { createWindow } from "./createWindow";
 export * from "./rollup-plugins";
+export * from "./wrapUMDAliasCode";
+export * from "./wrapUMDAsyncEventCode";
 
 export type {
   ParseConfig,
@@ -14,6 +16,7 @@ export type {
   PackageJson,
   JQueryComponent,
   JQueryComponentProps,
+  ParedUMDConfig,
 } from "@/types";
 export type * from "@/types/form";
 export type * from "@/types/runtime";

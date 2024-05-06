@@ -14,7 +14,6 @@ import { Logger } from "widget-up-utils";
 import MagicString from "magic-string";
 
 export interface RuntimeRollupOptions extends RollupOptions {
-  plugins?: Plugin[];
   output: OutputOptions; // 确保输出配置被正确传递
   overwriteChunkCode?: (
     code: string,
@@ -37,15 +36,6 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
 
   const { output, overwriteChunkCode, ...restRollupOptions } = options;
   logger.log("Configured embedded Rollup build for:", output.file);
-
-  // 主函数：合并现有插件和新插件
-  function mergePlugins(
-    existingPlugins: Plugin[] = [],
-    ...newPlugins: Plugin[]
-  ): Plugin[] {
-    // 合并扁平化后的插件数组
-    return [...existingPlugins, ...newPlugins];
-  }
 
   // 创建一个内部插件，用于包含 renderChunk 逻辑
   const internalPlugin: Plugin = {
@@ -93,7 +83,7 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
       const buildOptions: RollupOptions = {
         ...restRollupOptions,
         output,
-        plugins: mergePlugins(restRollupOptions.plugins, internalPlugin),
+        plugins: [restRollupOptions.plugins, internalPlugin],
       };
 
       const bundle = await rollup(buildOptions);
@@ -113,7 +103,7 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
     const watcherOptions: RollupOptions = {
       ...restRollupOptions,
       output,
-      plugins: mergePlugins(restRollupOptions.plugins, internalPlugin),
+      plugins: [restRollupOptions.plugins, internalPlugin],
     };
 
     if (watcherOptions.watch) {
