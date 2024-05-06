@@ -23,6 +23,7 @@
     "dev": "concurrently \"npm run schema-dev\" \"npm run lib-dev\"",
     "build": "npm run lib-build && npm run schema-build",
     "test": "jest",
+    "test:update": "jest -u",
     "prepublishAll": "npm run build"
   },
   "keywords": [],

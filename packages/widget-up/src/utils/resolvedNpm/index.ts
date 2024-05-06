@@ -1,5 +1,5 @@
-import path from "path";
 import fs from "fs";
+import path from "path";
 import { PackageJson } from "widget-up-utils";
 import { normalizePath } from "../normalizePath";
 
@@ -10,24 +10,29 @@ export interface ResolvedNpmResult {
 }
 
 function resolvedNpm(options: { name: string }): ResolvedNpmResult {
-  // 使用 require.resolve 找到模块的入口文件路径
-  const moduleEntryPath = require.resolve(options.name);
+  // 从当前工作目录开始向上查找 'node_modules'
+  let currentPath = process.cwd();
+  let modulePath;
 
-  // 向上查找直到找到 'node_modules' 目录
-  let currentPath = path.dirname(moduleEntryPath);
-  let resolvePath = currentPath; // 初始化解析路径
-
-  // 循环直到找到包含 'node_modules' 的目录的子目录
   while (currentPath !== path.parse(currentPath).root) {
-    const parentNode = path.basename(path.dirname(currentPath));
-    if (parentNode === "node_modules") {
-      resolvePath = currentPath;
+    const nodeModulesPath = path.join(currentPath, "node_modules");
+    const possibleModulePath = path.join(nodeModulesPath, options.name);
+
+    // 检查当前路径下的 'node_modules' 中是否存在指定的模块
+    if (fs.existsSync(possibleModulePath)) {
+      modulePath = possibleModulePath;
       break;
     }
+
+    // 如果没有找到，继续在上一级目录中查找
     currentPath = path.dirname(currentPath);
   }
 
-  const modulePath = resolvePath;
+  if (!modulePath) {
+    throw new Error(
+      `Module '${options.name}' not found in any 'node_modules' directory from current path.`
+    );
+  }
 
   // 解析 package.json 文件的路径
   const packageJsonPath = path.join(modulePath, "package.json");
@@ -38,8 +43,14 @@ function resolvedNpm(options: { name: string }): ResolvedNpmResult {
     );
   }
 
-  // 读取 package.json 文件
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+  // 读取并解析 package.json 文件
+  const packageJson: PackageJson = JSON.parse(
+    fs.readFileSync(packageJsonPath, "utf8")
+  );
+
+  // 确定模块的入口文件路径
+  const mainFile = packageJson.main || "index.js"; // 如果package.json中没有指定main，则默认为index.js
+  const moduleEntryPath = path.join(modulePath, mainFile);
 
   return {
     moduleEntryPath: normalizePath(moduleEntryPath),

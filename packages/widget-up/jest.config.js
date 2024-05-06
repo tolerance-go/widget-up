@@ -12,5 +12,5 @@ export default {
       },
     ],
   },
-  moduleFileExtensions: ["ts", "js", "json", "node"],
+  moduleFileExtensions: ["ts", "js", "json", "node"]
 };

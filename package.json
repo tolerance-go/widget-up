@@ -1,10 +1,12 @@
 {
   "description": "",
   "scripts": {
+    "clean": "git clean -fdX",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
     "lerna:publish": "npm run prepublishAll && lerna publish",
-    "prepublishAll": "pnpm -r run prepublishAll"
+    "prepublishAll": "pnpm -r run prepublishAll",
+    "build": "pnpm -r run build"
   },
   "keywords": [],
   "author": "",

@@ -17,7 +17,7 @@ describe("resolvedNpm function", () => {
     expect(() => {
       resolvedNpm({ name: "nonexistent-package" });
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Cannot find module 'nonexistent-package' from 'src/utils/resolvedNpm/index.ts'"`
+      `"Module 'nonexistent-package' not found in any 'node_modules' directory from current path."`
     );
   });
 });

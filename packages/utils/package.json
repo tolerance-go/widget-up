@@ -2,14 +2,9 @@
   "name": "widget-up-utils",
   "version": "0.6.2",
   "description": "",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js"
-    }
-  },
   "bin": {
     "genUMDAsyncEventWrap": "./dist/bin/genUMDAsyncEventWrap/index.js",
     "genUMDAliasWrap": "./dist/bin/genUMDAliasWrap/index.js"
