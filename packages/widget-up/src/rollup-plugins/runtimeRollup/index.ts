@@ -1,16 +1,24 @@
 import path from "path";
 import {
+  NormalizedOutputOptions,
   OutputOptions,
   Plugin,
+  RenderedChunk,
   RollupOptions,
   RollupWatcher,
   rollup,
   watch,
 } from "rollup";
 import { Logger } from "widget-up-utils";
+import MagicString from "magic-string";
 
 export interface RuntimeRollupOptions extends RollupOptions {
   output: OutputOptions; // 确保输出配置被正确传递
+  overwriteChunkCode?: (
+    code: string,
+    chunk: RenderedChunk,
+    options: NormalizedOutputOptions
+  ) => string; // 可选的代码替换函数
 }
 
 function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
@@ -25,17 +33,17 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
     )
   );
 
-  const { output, ...rollupOptions } = options;
+  const { output, overwriteChunkCode, ...restRollupOptions } = options;
   logger.log("Configured embedded Rollup build for:", output.file);
-
-  const watcherOptions = {
-    ...rollupOptions,
-    output,
-  };
 
   const build = async () => {
     try {
-      const bundle = await rollup(rollupOptions);
+      const buildOptions = {
+        ...restRollupOptions,
+        output,
+      };
+
+      const bundle = await rollup(buildOptions);
       await bundle.write(output);
       await bundle.close();
       logger.log(`Bundle written successfully to:`, output.file);
@@ -49,6 +57,11 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
 
   // 确保仅一次初始化监听
   const setupWatcher = () => {
+    const watcherOptions = {
+      ...restRollupOptions,
+      output,
+    };
+
     if (watcherOptions.watch) {
       if (!watcher) {
         console.log(`Setting up watcher for:`, output.file);
@@ -76,6 +89,42 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
     name: "runtime-rollup",
     buildStart() {
       setupWatcher(); // 在首次构建开始时设置监听
+    },
+    renderChunk(code, chunk, options) {
+      if (!overwriteChunkCode) return null;
+
+      const newCode = overwriteChunkCode(code, chunk, options);
+
+      if (options.sourcemap) {
+        const magicString = new MagicString(code);
+
+        magicString.overwrite(0, code.length, newCode);
+
+        if (options.sourcemap === "hidden") {
+          // 生成 sourcemap 但不在文件中引用
+          return {
+            code: magicString.toString(),
+            map: magicString.generateMap({ hires: true }),
+          };
+        } else if (options.sourcemap === "inline") {
+          // 将 sourcemap 作为数据 URI 嵌入
+          const map = magicString.generateMap({
+            hires: true,
+            includeContent: true,
+          });
+          const base64 = Buffer.from(JSON.stringify(map)).toString("base64");
+          const inlineMap = `//# sourceMappingURL=data:application/json;charset=utf-8;base64,${base64}`;
+          return { code: `${magicString.toString()}\n${inlineMap}`, map: null };
+        } else if (options.sourcemap) {
+          // 生成外部 sourcemap 文件
+          return {
+            code: magicString.toString(),
+            map: magicString.generateMap({ hires: true }),
+          };
+        }
+      }
+
+      return { code: newCode, map: null };
     },
   };
 }

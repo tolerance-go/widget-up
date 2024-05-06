@@ -65,6 +65,19 @@ export default {
             isProduction && terser(),
             peerDependenciesAsExternal(),
           ],
+          overwriteChunkCode: (chunk, code) => {
+            console.log(
+              new Date().toISOString(),
+              chunk.fileName,
+              code.length,
+              chunk.modules,
+              code
+            );
+            return code.replace("demo", "demodemo");
+          },
+          watch: {
+            include: ["demos/**", "src/**"],
+          }
         },
         input.path
       );
