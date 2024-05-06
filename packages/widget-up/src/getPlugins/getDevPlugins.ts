@@ -101,23 +101,23 @@ export const getDevPlugins = async ({
         watch: {
           include: ["src/**", "demos/**"],
         },
-        overwriteChunkCode(code, chunk, options) {
-          wrapUMDAliasCode({
-            scriptContent: code,
-            imports: [
-              {
-                globalVar: "jQuery",
-                scopeVar: "jQuery",
-              },
-            ],
-            exports: [
-              {
-                globalVar: `${config.umd.name}v${packageConfig.version}`,
-                scopeVar: config.umd.name,
-              },
-            ],
-          });
-        },
+        // overwriteChunkCode(code, chunk, options) {
+        //   wrapUMDAliasCode({
+        //     scriptContent: code,
+        //     imports: [
+        //       {
+        //         globalVar: "jQuery",
+        //         scopeVar: "jQuery",
+        //       },
+        //     ],
+        //     exports: [
+        //       {
+        //         globalVar: `${config.umd.name}v${packageConfig.version}`,
+        //         scopeVar: config.umd.name,
+        //       },
+        //     ],
+        //   });
+        // },
       },
       input
     );
