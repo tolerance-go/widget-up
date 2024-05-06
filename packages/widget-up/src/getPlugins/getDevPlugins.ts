@@ -11,7 +11,9 @@ import {
   deleteDist,
   htmlRender,
   peerDependenciesAsExternal,
+  semverToIdentifier,
   serveLivereload,
+  wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 import { WupFolderName } from "../constants";
 import { genAssert } from "../rollup-plugins/genAssert";
@@ -24,6 +26,7 @@ import { normalizePath } from "../utils/normalizePath";
 import { getEnv } from "../env";
 import alias from "@rollup/plugin-alias";
 import { wrapUMDAliasCode } from "widget-up-utils";
+import { convertConfigUmdToAliasImports } from "../utils/convertConfigUmdToAliasImports";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -101,23 +104,42 @@ export const getDevPlugins = async ({
         watch: {
           include: ["src/**", "demos/**"],
         },
-        // overwriteChunkCode(code, chunk, options) {
-        //   wrapUMDAliasCode({
-        //     scriptContent: code,
-        //     imports: [
-        //       {
-        //         globalVar: "jQuery",
-        //         scopeVar: "jQuery",
-        //       },
-        //     ],
-        //     exports: [
-        //       {
-        //         globalVar: `${config.umd.name}v${packageConfig.version}`,
-        //         scopeVar: config.umd.name,
-        //       },
-        //     ],
-        //   });
-        // },
+        overwriteChunkCode(code, chunk, options) {
+          logger.info(
+            "overwriteChunkCode chunk: ",
+            JSON.stringify(chunk, null, 2)
+          );
+
+          if (!chunk.facadeModuleId) {
+            throw new Error("chunk.facadeModuleId is required");
+          }
+
+          // 用服务器中的资源路径做为事件 ID
+          const eventId = normalizePath(
+            path.join("/", path.relative(cwdPath, chunk.facadeModuleId))
+          );
+
+          logger.info("eventId: ", eventId);
+
+          return wrapUMDAsyncEventCode({
+            eventId,
+            eventBusPath: "WidgetUpRuntime.globalEventBus",
+            scriptContent: wrapUMDAliasCode({
+              scriptContent: code,
+              imports: convertConfigUmdToAliasImports({
+                umdConfig: config.umd,
+              }),
+              exports: [
+                {
+                  globalVar: `${config.umd.name}_${semverToIdentifier(
+                    packageConfig.version
+                  )}`,
+                  scopeVar: config.umd.name,
+                },
+              ],
+            }),
+          });
+        },
       },
       input
     );

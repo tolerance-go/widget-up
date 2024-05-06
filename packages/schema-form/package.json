@@ -25,12 +25,10 @@
   "devDependencies": {
     "@types/jquery": "^3.5.29",
     "jquery": "^3.7.1",
-    "widget-up": "workspace:^",
-    "widget-up-utils": "workspace:^"
+    "widget-up": "workspace:^"
   },
   "peerDependencies": {
-    "jquery": "^3.7.1",
-    "widget-up-utils": "workspace:^"
+    "jquery": "^3.7.1"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
