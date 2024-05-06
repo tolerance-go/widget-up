@@ -1,15 +1,21 @@
 import { FormSchemaConfig } from "./form";
 
+export type EnvPaths = {
+  development: string;
+  production: string;
+};
+
+export interface ExternalLibrarySchemaConfig {
+  path:
+    | EnvPaths
+    // 用于开发环境和生产环境都是同一个文件
+    | string;
+}
 export interface ParsedExternalLibraryConfig {
-  peerDependencies?: string[];
-  unpkg: UnpkgSchemaConfig;
+  path: EnvPaths;
 }
 
 // 定义外部库配置中 global 和 peerDependencies 的类型
-export interface ExternalLibrarySchemaConfig {
-  peerDependencies?: string[] | string;
-  unpkg: UnpkgSchemaConfig;
-}
 
 // 定义整个 external 部分的类型
 export interface ExternalSchemaConfig {
@@ -21,10 +27,6 @@ export interface ParsedExternalConfig {
 }
 
 // 定义单个库在 global 中的 unpkg 配置
-export interface UnpkgSchemaConfig {
-  filePath: string;
-  filePathDev?: string;
-}
 
 // 定义全局库配置的类型
 export interface GlobalsSchemaConfig {
@@ -44,13 +46,15 @@ export interface ParedUMDConfig {
   globals: GlobalsSchemaConfig;
 }
 
+export type CSSModuleType = "modules" | "autoModules";
+
 // 定义最顶层的配置对象类型
 export interface SchemaConfig {
   input: string;
   umd: UMDSchemaConfig;
   cjs?: boolean;
   esm?: boolean;
-  css?: boolean | "modules" | "autoModules";
+  css?: boolean | CSSModuleType;
   form?: FormSchemaConfig;
 }
 
@@ -59,6 +63,6 @@ export interface ParseConfig {
   umd: ParedUMDConfig;
   cjs?: boolean;
   esm?: boolean;
-  css?: boolean | "modules" | "autoModules";
+  css?: boolean | CSSModuleType;
   form?: FormSchemaConfig;
 }

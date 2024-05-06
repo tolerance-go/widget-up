@@ -5,9 +5,9 @@
     "name": "MyComponent",
     "external": {
       "jquery": {
-        "unpkg": {
-          "filePath": "/dist/jquery.min.js",
-          "filePathDev": "/dist/jquery.js"
+        "path": {
+          "development": "/dist/jquery.js",
+          "production": "/dist/jquery.min.js"
         }
       }
     },
