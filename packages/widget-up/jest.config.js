@@ -1,5 +1,6 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 export default {
+  preset: 'ts-jest/presets/default-esm',
   // jest 已经通过 node --experimental-vm-modules 开启了 ESM 支持
   // 我们使用 ts 开发，内部需要指定 .ts 文件为 ESM
   extensionsToTreatAsEsm: [".ts"],
