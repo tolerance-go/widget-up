@@ -1,5 +1,6 @@
 import path from "path";
 import {
+  InputPluginOption,
   NormalizedOutputOptions,
   OutputOptions,
   Plugin,
@@ -13,6 +14,7 @@ import { Logger } from "widget-up-utils";
 import MagicString from "magic-string";
 
 export interface RuntimeRollupOptions extends RollupOptions {
+  plugins?: Plugin[];
   output: OutputOptions; // 确保输出配置被正确传递
   overwriteChunkCode?: (
     code: string,
@@ -36,60 +38,18 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
   const { output, overwriteChunkCode, ...restRollupOptions } = options;
   logger.log("Configured embedded Rollup build for:", output.file);
 
-  const build = async () => {
-    try {
-      const buildOptions = {
-        ...restRollupOptions,
-        output,
-      };
+  // 主函数：合并现有插件和新插件
+  function mergePlugins(
+    existingPlugins: Plugin[] = [],
+    ...newPlugins: Plugin[]
+  ): Plugin[] {
+    // 合并扁平化后的插件数组
+    return [...existingPlugins, ...newPlugins];
+  }
 
-      const bundle = await rollup(buildOptions);
-      await bundle.write(output);
-      await bundle.close();
-      logger.log(`Bundle written successfully to:`, output.file);
-    } catch (error) {
-      logger.error(`Error during embedded Rollup build for:`, output.file);
-      if (error instanceof Error) {
-        logger.error(`Rollup build failed: ${error.message}`);
-      }
-    }
-  };
-
-  // 确保仅一次初始化监听
-  const setupWatcher = () => {
-    const watcherOptions = {
-      ...restRollupOptions,
-      output,
-    };
-
-    if (watcherOptions.watch) {
-      if (!watcher) {
-        console.log(`Setting up watcher for:`, output.file);
-        watcher = watch(watcherOptions);
-        watcher.on("event", (event) => {
-          switch (event.code) {
-            case "BUNDLE_START":
-              console.log(`Bundling...`);
-              break;
-            case "BUNDLE_END":
-              console.log(`Bundle written successfully to:`, output.file);
-              break;
-            case "ERROR":
-              console.error(`Rollup build error:`, event.error);
-              break;
-          }
-        });
-      }
-    } else {
-      build();
-    }
-  };
-
-  return {
-    name: "runtime-rollup",
-    buildStart() {
-      setupWatcher(); // 在首次构建开始时设置监听
-    },
+  // 创建一个内部插件，用于包含 renderChunk 逻辑
+  const internalPlugin: Plugin = {
+    name: "runtime-rollup-internal",
     renderChunk(code, chunk, options) {
       if (!overwriteChunkCode) return null;
 
@@ -125,6 +85,64 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
       }
 
       return { code: newCode, map: null };
+    },
+  };
+
+  const build = async () => {
+    try {
+      const buildOptions: RollupOptions = {
+        ...restRollupOptions,
+        output,
+        plugins: mergePlugins(restRollupOptions.plugins, internalPlugin),
+      };
+
+      const bundle = await rollup(buildOptions);
+      await bundle.write(output);
+      await bundle.close();
+      logger.log(`Bundle written successfully to:`, output.file);
+    } catch (error) {
+      logger.error(`Error during embedded Rollup build for:`, output.file);
+      if (error instanceof Error) {
+        logger.error(`Rollup build failed: ${error.message}`);
+      }
+    }
+  };
+
+  // 确保仅一次初始化监听
+  const setupWatcher = () => {
+    const watcherOptions: RollupOptions = {
+      ...restRollupOptions,
+      output,
+      plugins: mergePlugins(restRollupOptions.plugins, internalPlugin),
+    };
+
+    if (watcherOptions.watch) {
+      if (!watcher) {
+        console.log(`Setting up watcher for:`, output.file);
+        watcher = watch(watcherOptions);
+        watcher.on("event", (event) => {
+          switch (event.code) {
+            case "BUNDLE_START":
+              console.log(`Bundling...`);
+              break;
+            case "BUNDLE_END":
+              console.log(`Bundle written successfully to:`, output.file);
+              break;
+            case "ERROR":
+              console.error(`Rollup build error:`, event.error);
+              break;
+          }
+        });
+      }
+    } else {
+      build();
+    }
+  };
+
+  return {
+    name: "runtime-rollup",
+    buildStart() {
+      setupWatcher(); // 在首次构建开始时设置监听
     },
   };
 }
