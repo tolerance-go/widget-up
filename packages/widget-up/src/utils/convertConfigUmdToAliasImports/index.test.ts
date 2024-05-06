@@ -7,9 +7,9 @@ describe("convertConfigUmdToAliasImports", () => {
         name: "MyComponent",
         external: {
           rollup: {
-            unpkg: {
-              filePath: "/dist/rollup.min.js",
-              filePathDev: "/dist/rollup.js",
+            path: {
+              development: "/dist/rollup.min.js",
+              production: "/dist/rollup.js",
             },
           },
         },
