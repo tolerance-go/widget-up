@@ -83,11 +83,17 @@ export const getDevPlugins = async ({
 
   const runtimeRollupPlgs = demoInputList.map((inputItem) => {
     const input = normalizePath(path.relative(cwdPath, inputItem.path));
+
     const base: RuntimeRollupOptions = {
       input,
       output: {
         file: normalizePath(
-          path.join("dist/server/demos", inputItem.name, "index.js")
+          path.join(
+            "dist/server",
+            path.parse(input).dir,
+            path.parse(input).name,
+            "index.js"
+          )
         ),
         format: "umd",
         name: config.umd.name,
