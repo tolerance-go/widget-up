@@ -1,5 +1,9 @@
-// jest.config.js
+/** @type {import('ts-jest').JestConfigWithTsJest} */
 export default {
+  extensionsToTreatAsEsm: ['.ts'],
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+  },
   preset: "ts-jest",
   testEnvironment: "node",
   roots: ["<rootDir>/src"],
@@ -9,6 +13,7 @@ export default {
       "ts-jest",
       {
         tsconfig: "tsconfig.jest.json",
+        useESM: true,
       },
     ],
   },

@@ -22,8 +22,8 @@
     "lib-build": "cross-env NODE_ENV=production rollup -c",
     "dev": "concurrently \"npm run schema-dev\" \"npm run lib-dev\"",
     "build": "npm run lib-build && npm run schema-build",
-    "test": "jest",
-    "test:update": "jest -u",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:update": "node --experimental-vm-modules node_modules/jest/bin/jest.js -u",
     "prepublishAll": "npm run build"
   },
   "keywords": [],

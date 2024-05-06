@@ -19,13 +19,11 @@ describe("convertConfigUmdToAliasImports", () => {
       },
     });
 
-    expect(result).toBe({
-      imports: [
-        {
-          globalVar: "Rollup_v_4_14_3",
-          scopeVar: "Rollup",
-        },
-      ],
-    });
+    expect(result).toEqual([
+      {
+        globalVar: "Rollup_v4_14_3",
+        scopeVar: "Rollup",
+      },
+    ]);
   });
 });
