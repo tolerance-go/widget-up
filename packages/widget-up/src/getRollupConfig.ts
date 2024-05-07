@@ -9,10 +9,9 @@ import { getDemosFolderManager } from "./getDemosFolderManager";
 import { getUMDGlobals } from "./getGlobals";
 import { getProdOutputs } from "./getOutputs";
 import { getPeerDependTreeManager } from "./getPeerDependTreeManager";
-import { getPlugins } from "./getPlugins";
-import { getDevPlugins } from "./getPlugins/getDevPlugins";
 import { getInputFile } from "./getProdInput";
 import { logger } from "./logger";
+import { getDevPlugins, getBuildPlugins } from "./getPlugins";
 
 const getRollupConfig = async () => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
@@ -30,7 +29,6 @@ const getRollupConfig = async () => {
     folderPath: "demos",
   });
 
-  const demosDirFileData = demosFolderManager.getDirectoryStructure();
   const demoDatas = demosFolderManager.getDemoDatas();
 
   const packageConfig = JSON.parse(
@@ -74,7 +72,7 @@ const getRollupConfig = async () => {
     rollupConfig = getProdOutputs(config, umdGlobals).map((output) => ({
       input: getInputFile(packageConfig),
       output,
-      plugins: getPlugins({
+      plugins: getBuildPlugins({
         rootPath,
         config,
         packageConfig,

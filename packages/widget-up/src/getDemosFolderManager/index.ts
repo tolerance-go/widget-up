@@ -108,29 +108,6 @@ class DemosFolderManager extends EventEmitter {
       })
       .filter(Boolean) as DemoData[];
   }
-
-  private convertDemoMetaToMenu = (demoDatas: DemoData[]): DemoMenuItem[] => {
-    return demoDatas.map((item) => {
-      if (item.type === "file") {
-        return {
-          name: item.config?.name || "",
-          globals: item.config && {
-            component: item.config.globals.component,
-            register: item.config.globals.register,
-          },
-        };
-      }
-
-      return {
-        name: item.config?.name || "",
-        globals: item.config && {
-          component: item.config.globals.component,
-          register: item.config.globals.register,
-        },
-        children: this.convertDemoMetaToMenu(item.children ?? []),
-      };
-    });
-  };
 }
 
 export const getDemosFolderManager = ({
