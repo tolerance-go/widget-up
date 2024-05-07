@@ -23,10 +23,11 @@ import { getEnv } from "../utils/env";
 import { ConfigManager } from "../getConfigManager";
 import { PeerDependTreeManager } from "../getPeerDependTreeManager";
 import { logger } from "../utils/logger";
-import { runtimeRollup } from "../plugins";
-import { genAssert } from "../plugins/genAssert";
+import { genAssert } from "../utils/rollup-plugins/genAssert";
 import genServerLibs from "../plugins/genServerLibs";
-import { RuntimeRollupOptions } from "../plugins/runtimeRollup";
+import runtimeRollup, {
+  RuntimeRollupOptions,
+} from "../utils/rollup-plugins/runtimeRollup";
 import { convertConfigUmdToAliasImports } from "../utils/convertConfigUmdToAliasImports";
 import { normalizePath } from "../utils/normalizePath";
 import { getDemoInputList } from "./getDemoInputList";

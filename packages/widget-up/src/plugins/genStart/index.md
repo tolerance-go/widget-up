@@ -111,3 +111,25 @@ WidgetUpRuntime.start({
 # 解决什么需求
 
 - 他在 rollup 运行的开始，生成一个 start.js
+
+# 如何使用
+
+```ts
+import { genStart } from '...';
+
+export default {
+  input: "src/index.ts",
+  output: {
+    file: "dist/index.js",
+    format: "esm",
+  },
+  plugins: [
+   genStart({
+    ...
+   })
+  ], 
+  watch: {
+    include: "src/**", 
+  },
+};
+```

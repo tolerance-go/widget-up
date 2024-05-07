@@ -1,7 +1,7 @@
 import { Plugin } from "rollup";
 import fs from "fs";
 import path from "path";
-import { WupFolderName } from "../../constants";
+import { WupFolderName } from "../../../constants";
 
 interface GenAssertOptions {
   src?: string; // 源文件的路径，可选
