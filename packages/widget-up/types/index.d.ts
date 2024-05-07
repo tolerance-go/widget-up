@@ -15,3 +15,11 @@ export type DemoInput = {
 };
 
 export * from "./demoFileMeta";
+
+export type TechType = "React" | "Vue" | "JQuery";
+
+export type TechStack = {
+  name: TechType;
+  version: string;
+  versionRange: string;
+};

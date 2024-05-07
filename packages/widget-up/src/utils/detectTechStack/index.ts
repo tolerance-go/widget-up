@@ -1,27 +1,33 @@
+import { TechStack, TechType } from "@/types";
 import nodeFs from "fs";
-import { join } from "path";
+import nodePath from "path";
 
 // 定义检测技术栈的函数
 export function detectTechStack({
   fs = nodeFs,
+  path = nodePath,
 }: {
   fs?: typeof import("fs");
-} = {}) {
+  path?: typeof import("path");
+} = {}): TechStack[] {
   try {
-    // 构造 package.json 的路径
-    const path = join(process.cwd(), "package.json");
-    // 同步读取 package.json 文件
-    const data = fs.readFileSync(path, "utf8");
-    // 解析 JSON 数据
-    const packageJson = JSON.parse(data);
-    // 获取依赖
+    // 获取项目的根目录路径
+    const rootPath = process.cwd();
+    // 读取根目录的 package.json 文件
+    const packageData = fs.readFileSync(
+      path.join(rootPath, "package.json"),
+      "utf8"
+    );
+    const packageJson = JSON.parse(packageData);
+
+    // 获取所有依赖
     const dependencies = {
       ...packageJson.dependencies,
       ...packageJson.devDependencies,
     };
 
-    // 定义技术栈关键字，并添加索引签名
-    const techStacks: { [key: string]: string[] } = {
+    // 定义支持的技术栈及其关键依赖项
+    const techStacks: { [key in TechType]: string[] } = {
       React: ["react", "react-dom"],
       Vue: ["vue"],
       Angular: ["@angular/core"],
@@ -29,12 +35,34 @@ export function detectTechStack({
       JQuery: ["jquery"],
     };
 
-    // 检查使用的技术栈
-    const usedStacks = Object.keys(techStacks).filter((stack) =>
-      techStacks[stack].some((dependency: string) =>
-        dependencies.hasOwnProperty(dependency)
-      )
-    );
+    // 准备收集使用的技术栈和版本信息
+    let usedStacks: TechStack[] = [];
+
+    // 遍历所有技术栈
+    for (const [stack, deps] of Object.entries(techStacks)) {
+      for (const dep of deps) {
+        if (dependencies[dep] && usedStacks.every((s) => s.name !== stack)) {
+          // 构造 node_modules 内对应依赖的 package.json 路径
+          const depPackagePath = path.join(
+            rootPath,
+            "node_modules",
+            dep,
+            "package.json"
+          );
+          if (fs.existsSync(depPackagePath)) {
+            // 读取依赖的 package.json 文件获取实际安装的版本
+            const depPackageData = fs.readFileSync(depPackagePath, "utf8");
+            const depPackageJson = JSON.parse(depPackageData);
+            // 收集技术栈和版本信息
+            usedStacks.push({
+              name: stack as TechType,
+              version: depPackageJson.version,
+              versionRange: dependencies[dep],
+            });
+          }
+        }
+      }
+    }
 
     // 返回结果或抛出异常
     if (usedStacks.length > 0) {
