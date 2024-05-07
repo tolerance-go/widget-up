@@ -1,5 +1,5 @@
 import { RollupBuild, RollupOptions, rollup, watch } from "rollup";
-import getRollupConfig from "../core/getRollupConfig";
+import getRollupConfig from "../getRollupConfig";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import packageJson from "@/package.json" assert { type: "json" };
