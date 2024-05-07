@@ -1,4 +1,4 @@
-import { normalizePath } from "../normalizePath";
+import { normalizePath } from ".";
 
 describe("normalizePath", () => {
   // 测试在 Windows 风格的路径被正确转换
