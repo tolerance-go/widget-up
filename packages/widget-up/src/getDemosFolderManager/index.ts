@@ -1,6 +1,7 @@
+import { DemoData, DemoFileConfig, DemoMenuItem } from "@/types";
 import { EventEmitter } from "events";
-import { watch } from "fs";
-import { resolve } from "path";
+import fs, { watch } from "fs";
+import path, { resolve } from "path";
 import {
   DirectoryStructure,
   parseDirectoryStructure,
@@ -9,9 +10,11 @@ import {
 class DemosFolderManager extends EventEmitter {
   private folderPath: string;
   private directoryStructure: DirectoryStructure | null = null;
+  private demoDatas: DemoData[] = [];
 
   constructor(folderPath: string = "./demos") {
     super();
+
     this.folderPath = resolve(folderPath);
     this.loadInitialDirectoryStructure();
     this.watchFolder();
@@ -19,8 +22,11 @@ class DemosFolderManager extends EventEmitter {
 
   private async loadInitialDirectoryStructure(): Promise<void> {
     try {
-      this.directoryStructure = parseDirectoryStructure(this.folderPath);
-      this.emit("initialized", this.directoryStructure);
+      this.convertDatas();
+      this.emit("initialized", {
+        directoryStructure: this.directoryStructure,
+        demoDatas: this.demoDatas,
+      });
     } catch (error) {
       this.emit("error", error);
     }
@@ -31,8 +37,11 @@ class DemosFolderManager extends EventEmitter {
       if (filename) {
         // 当检测到变化时重新加载目录结构
         try {
-          this.directoryStructure = parseDirectoryStructure(this.folderPath);
-          this.emit("change", this.directoryStructure);
+          this.convertDatas();
+          this.emit("change", {
+            directoryStructure: this.directoryStructure,
+            demoDatas: this.demoDatas,
+          });
         } catch (error) {
           this.emit("error", error);
         }
@@ -43,6 +52,85 @@ class DemosFolderManager extends EventEmitter {
   public getDirectoryStructure(): DirectoryStructure | null {
     return this.directoryStructure;
   }
+
+  public getDemoDatas(): DemoData[] {
+    return this.demoDatas;
+  }
+
+  private convertDatas() {
+    if (fs.existsSync(this.folderPath)) {
+      this.directoryStructure = parseDirectoryStructure(this.folderPath);
+    }
+
+    this.demoDatas = this.convertDirectoryToDemo(
+      this.directoryStructure?.children ?? []
+    );
+  }
+
+  private convertDirectoryToDemo(directory: DirectoryStructure[]): DemoData[] {
+    return directory
+      .map((item) => {
+        // 如果是文件，直接读取文件同级的文件的 json 版本获取 meta 数据，如果不存在就报错
+        if (item.type === "file") {
+          const parsed = path.parse(item.path);
+
+          if (parsed.ext === ".json") {
+            return;
+          }
+
+          const jsonFile = path.join(parsed.dir, `${parsed.name}.config.json`);
+
+          if (!fs.existsSync(jsonFile)) {
+            throw new Error(`Meta data not found for file: ${jsonFile}`);
+          }
+
+          const config = JSON.parse(
+            fs.readFileSync(jsonFile, {
+              encoding: "utf-8",
+            })
+          ) as DemoFileConfig;
+
+          // Create the basic menu item from the directory item
+          const menuItem: DemoData = {
+            config,
+            path: item.path,
+            type: item.type,
+          };
+          return menuItem;
+        }
+
+        const menuItem: DemoData = {
+          children: this.convertDirectoryToDemo(item.children ?? []),
+          path: item.path,
+          type: item.type,
+        };
+        return menuItem;
+      })
+      .filter(Boolean) as DemoData[];
+  }
+
+  private convertDemoMetaToMenu = (demoDatas: DemoData[]): DemoMenuItem[] => {
+    return demoDatas.map((item) => {
+      if (item.type === "file") {
+        return {
+          name: item.config?.name || "",
+          globals: item.config && {
+            component: item.config.globals.component,
+            register: item.config.globals.register,
+          },
+        };
+      }
+
+      return {
+        name: item.config?.name || "",
+        globals: item.config && {
+          component: item.config.globals.component,
+          register: item.config.globals.register,
+        },
+        children: this.convertDemoMetaToMenu(item.children ?? []),
+      };
+    });
+  };
 }
 
 export const getDemosFolderManager = ({

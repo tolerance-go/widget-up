@@ -3,53 +3,39 @@ import path from "path";
 import { RollupOptions } from "rollup";
 import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
+import { getEnv } from "./env";
+import { getConfigManager } from "./getConfigManager";
+import { getDemosFolderManager } from "./getDemosFolderManager";
 import { getUMDGlobals } from "./getGlobals";
 import { getProdOutputs } from "./getOutputs";
-import { getConfigManager } from "./getConfigManager";
+import { getPeerDependTreeManager } from "./getPeerDependTreeManager";
 import { getPlugins } from "./getPlugins";
 import { getDevPlugins } from "./getPlugins/getDevPlugins";
 import { getInputFile } from "./getProdInput";
 import { logger } from "./logger";
-import { parseDirectoryStructure } from "./utils/parseDirectoryStructure";
-import { convertDirectoryToDemo } from "./utils/convertDirectoryToDemo";
-import { DemoData } from "@/types/demoFileMeta";
-import { getEnv } from "./env";
-import { getPeerDependTreeManager } from "./getPeerDependTreeManager";
 
 const getRollupConfig = async () => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
-  logger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
-
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
   const rootPath = path.join(__dirname, "..");
-
   const cwdPath = process.cwd();
+  const demosPath = path.join(cwdPath, "demos");
 
+  logger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
   logger.info(`rootPath is ${rootPath}`);
   logger.info(`cwdPath is ${cwdPath}`);
-
-  const demosPath = path.join(cwdPath, "demos");
   logger.info(`demosPath is ${demosPath}`);
 
-  let demoDatas: DemoData[] = [];
+  const demosFolderManager = getDemosFolderManager({
+    folderPath: "demos",
+  });
 
-  if (fs.existsSync(demosPath)) {
-    logger.log("start demos mode");
-    const demosDirFileData = parseDirectoryStructure(demosPath);
-    logger.info(
-      `demosDirFileData: ${JSON.stringify(demosDirFileData, null, 2)}`
-    );
-
-    demoDatas = convertDirectoryToDemo(demosDirFileData.children ?? []);
-
-    logger.info(`demoDatas: ${JSON.stringify(demoDatas, null, 2)}`);
-  }
+  const demosDirFileData = demosFolderManager.getDirectoryStructure();
+  const demoDatas = demosFolderManager.getDemoDatas();
 
   const packageConfig = JSON.parse(
     fs.readFileSync(path.resolve("package.json"), "utf8")
   ) as PackageJson;
-
   const configManager = getConfigManager();
   const config = configManager.get();
 
@@ -58,7 +44,6 @@ const getRollupConfig = async () => {
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
   if (BuildEnvIsDev) {
-
     const peerDependTreeManager = getPeerDependTreeManager({
       cwd: cwdPath,
     });
@@ -79,7 +64,7 @@ const getRollupConfig = async () => {
         packageConfig,
         demoDatas,
         cwdPath,
-        configManager
+        configManager,
       }),
       watch: {
         include: ["src/**"],
