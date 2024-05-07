@@ -5,10 +5,16 @@ import path from "path";
 import { DependencyTreeNode } from "widget-up-runtime";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getInputByFrame } from "./getInputByFrame";
+import { DemosFolderManager } from "@/src/getDemosFolderManager";
+import { PackageJson } from "widget-up-utils";
+import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
 
 interface GenStartOptions {
   outputPath?: string;
   dependencies: DependencyTreeNode[];
+  demosFolderManager: DemosFolderManager;
+  packageConfig: PackageJson;
+  peerDependTreeManager: PeerDependTreeManager;
 }
 
 function resolveDependencies(dependencies: DependencyTreeNode[]): string {
@@ -28,13 +34,33 @@ function resolveDependencies(dependencies: DependencyTreeNode[]): string {
 }
 
 export function genStart(options: GenStartOptions): Plugin {
-  const { outputPath = "./dist/start.js", dependencies } = options;
+  const {
+    outputPath = "./dist/start.js",
+    dependencies,
+    demosFolderManager,
+    packageConfig,
+    peerDependTreeManager
+  } = options;
+
+  const demoDatas = demosFolderManager.getDemoDatas();
+  const techStacks = detectTechStack();
+  const inputs = getInputByFrame(techStacks);
+
+  inputs.map((input) => {
+    return {
+      ...input,
+      depends: demoDatas.map((demo) => ({
+        name: demo.config.name,
+        version: packageConfig.version,
+        scriptSrc: () => `/demos/${demo.path}/index.js`,
+        depends: peerDependTreeManager.getDependenciesTree(),
+      })),
+    };
+  });
 
   return {
     name: "gen-start",
     buildStart() {
-      const techStacks =  detectTechStack();
-      const inputs = getInputByFrame(techStacks);
       const depsString = resolveDependencies(dependencies);
       const content = `WidgetUpRuntime.start({dependencies: [${depsString}]});`;
       fs.ensureDirSync(path.dirname(outputPath));
