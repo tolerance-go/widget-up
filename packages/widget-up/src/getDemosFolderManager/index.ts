@@ -7,7 +7,7 @@ import {
   parseDirectoryStructure,
 } from "../utils/parseDirectoryStructure";
 
-class DemosFolderManager extends EventEmitter {
+export class DemosFolderManager extends EventEmitter {
   private folderPath: string;
   private directoryStructure: DirectoryStructure | null = null;
   private demoDatas: DemoData[] = [];
@@ -62,12 +62,12 @@ class DemosFolderManager extends EventEmitter {
       this.directoryStructure = parseDirectoryStructure(this.folderPath);
     }
 
-    this.demoDatas = this.convertDirectoryToDemo(
+    this.demoDatas = DemosFolderManager.convertDirectoryToDemo(
       this.directoryStructure?.children ?? []
     );
   }
 
-  private convertDirectoryToDemo(directory: DirectoryStructure[]): DemoData[] {
+  static convertDirectoryToDemo(directory: DirectoryStructure[]): DemoData[] {
     return directory
       .map((item) => {
         // 如果是文件，直接读取文件同级的文件的 json 版本获取 meta 数据，如果不存在就报错
