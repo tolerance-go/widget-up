@@ -6,6 +6,7 @@ import {
 } from "../utils/parseDirectoryStructure";
 import realFs from "fs";
 import realPath from "path";
+import { convertDirectoryToDemo } from "./convertDirectoryToDemo";
 
 export class DemosFolderManager extends EventEmitter {
   private folderPath: string;
@@ -72,54 +73,11 @@ export class DemosFolderManager extends EventEmitter {
       this.directoryStructure = parseDirectoryStructure(this.folderPath);
     }
 
-    this.demoDatas = this.convertDirectoryToDemo(
-      this.directoryStructure?.children ?? []
+    this.demoDatas = convertDirectoryToDemo(
+      this.directoryStructure?.children ?? [],
+      this.fs,
+      this.path
     );
-  }
-
-  convertDirectoryToDemo(directory: DirectoryStructure[]): DemoData[] {
-    return directory
-      .map((item) => {
-        // 如果是文件，直接读取文件同级的文件的 json 版本获取 meta 数据，如果不存在就报错
-        if (item.type === "file") {
-          const parsed = this.path.parse(item.path);
-
-          if (parsed.ext === ".json") {
-            return;
-          }
-
-          const jsonFile = this.path.join(
-            parsed.dir,
-            `${parsed.name}.config.json`
-          );
-
-          if (!this.fs.existsSync(jsonFile)) {
-            throw new Error(`Meta data not found for file: ${jsonFile}`);
-          }
-
-          const config = JSON.parse(
-            this.fs.readFileSync(jsonFile, {
-              encoding: "utf-8",
-            })
-          ) as DemoFileConfig;
-
-          // Create the basic menu item from the directory item
-          const menuItem: DemoData = {
-            config,
-            path: item.path,
-            type: item.type,
-          };
-          return menuItem;
-        }
-
-        const menuItem: DemoData = {
-          children: this.convertDirectoryToDemo(item.children ?? []),
-          path: item.path,
-          type: item.type,
-        };
-        return menuItem;
-      })
-      .filter(Boolean) as DemoData[];
   }
 }
 
