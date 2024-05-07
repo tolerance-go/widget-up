@@ -16,19 +16,19 @@ import {
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 import { WupFolderName } from "../constants";
-import { genAssert } from "../rollup-plugins/genAssert";
+import { genAssert } from "../plugins/genAssert";
 import { DemoData } from "@/types/demoFileMeta";
 import { getDemoInputList } from "./getDemoInputList";
-import { runtimeRollup } from "../rollup-plugins";
+import { runtimeRollup } from "../plugins";
 import { logger } from "../logger";
-import { RuntimeRollupOptions } from "../rollup-plugins/runtimeRollup";
+import { RuntimeRollupOptions } from "../plugins/runtimeRollup";
 import { normalizePath } from "../utils/normalizePath";
 import { getEnv } from "../env";
 import alias from "@rollup/plugin-alias";
 import { wrapUMDAliasCode } from "widget-up-utils";
 import { convertConfigUmdToAliasImports } from "../utils/convertConfigUmdToAliasImports";
 import { ConfigManager } from "../getConfigManager";
-import genServerLibs from "../rollup-plugins/genServerLibs";
+import genServerLibs from "../plugins/genServerLibs";
 
 export const getDevPlugins = async ({
   rootPath,
