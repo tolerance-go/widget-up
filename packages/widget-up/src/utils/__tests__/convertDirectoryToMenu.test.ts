@@ -1,5 +1,5 @@
 import { DemoMenuItem } from "widget-up-utils";
-import { DirectoryStructure } from "../../parseDirectoryStructure";
+import { DirectoryStructure } from "../parseDirectoryStructure";
 import { convertDirectoryToDemo } from "../convertDirectoryToDemo";
 
 describe("convertDirectoryToMenu", () => {

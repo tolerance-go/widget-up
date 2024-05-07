@@ -10,7 +10,7 @@ import { getPlugins } from "./getPlugins";
 import { getDevPlugins } from "./getPlugins/getDevPlugins";
 import { getInputFile } from "./getProdInput";
 import { logger } from "./logger";
-import { parseDirectoryStructure } from "./parseDirectoryStructure";
+import { parseDirectoryStructure } from "./utils/parseDirectoryStructure";
 import { convertDirectoryToDemo } from "./utils/convertDirectoryToDemo";
 import { DemoData } from "@/types/demoFileMeta";
 import { getEnv } from "./env";

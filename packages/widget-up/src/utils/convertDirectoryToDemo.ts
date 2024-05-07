@@ -6,7 +6,7 @@
 import { DemoFileConfig, DemoData } from "@/types/demoFileMeta";
 import fs from "fs";
 import path from "path";
-import { DirectoryStructure } from "../parseDirectoryStructure";
+import { DirectoryStructure } from "./parseDirectoryStructure";
 
 export function convertDirectoryToDemo(
   directory: DirectoryStructure[]
