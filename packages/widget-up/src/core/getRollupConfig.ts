@@ -3,15 +3,15 @@ import path from "path";
 import { RollupOptions } from "rollup";
 import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
-import { getEnv } from "./env";
-import { getConfigManager } from "./getConfigManager";
-import { getDemosFolderManager } from "./getDemosFolderManager";
+import { getEnv } from "../utils/env";
+import { getConfigManager } from "../getConfigManager";
+import { getDemosFolderManager } from "../getDemosFolderManager";
 import { getUMDGlobals } from "./getGlobals";
 import { getProdOutputs } from "./getOutputs";
-import { getPeerDependTreeManager } from "./getPeerDependTreeManager";
+import { getPeerDependTreeManager } from "../getPeerDependTreeManager";
 import { getInputFile } from "./getProdInput";
-import { logger } from "./logger";
-import { getDevPlugins, getBuildPlugins } from "./getPlugins";
+import { logger } from "../utils/logger";
+import { getDevPlugins, getBuildPlugins } from "../getPlugins";
 
 const getRollupConfig = async () => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();

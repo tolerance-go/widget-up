@@ -19,10 +19,10 @@ import {
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 import { WupFolderName } from "../constants";
-import { getEnv } from "../env";
+import { getEnv } from "../utils/env";
 import { ConfigManager } from "../getConfigManager";
 import { PeerDependTreeManager } from "../getPeerDependTreeManager";
-import { logger } from "../logger";
+import { logger } from "../utils/logger";
 import { runtimeRollup } from "../plugins";
 import { genAssert } from "../plugins/genAssert";
 import genServerLibs from "../plugins/genServerLibs";

@@ -10,7 +10,7 @@ import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import { PackageJson, ParseConfig } from "widget-up-utils";
-import { getEnv } from "../env.js";
+import { getEnv } from "../utils/env.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
 
 export const getBuildPlugins = async ({

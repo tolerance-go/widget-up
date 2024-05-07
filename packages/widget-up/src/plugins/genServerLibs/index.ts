@@ -1,7 +1,7 @@
 import { Plugin } from "rollup";
 import fs from "fs";
 import path from "path";
-import { getEnv } from "@/src/env";
+import { getEnv } from "@/src/utils/env";
 import { ParedUMDConfig } from "widget-up-utils";
 import { ResolvedNpmResult, resolvedNpm } from "@/src/utils/resolvedNpm";
 import { ConfigManager } from "@/src/getConfigManager";

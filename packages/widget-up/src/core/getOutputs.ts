@@ -5,7 +5,7 @@
  */
 import { ParseConfig, GlobalsSchemaConfig } from "widget-up-utils";
 import { RollupOptions } from "rollup";
-import { getEnv } from "./env";
+import { getEnv } from "../utils/env";
 
 export function getProdOutputs(
   config: ParseConfig,

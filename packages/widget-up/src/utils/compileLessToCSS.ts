@@ -1,7 +1,7 @@
 import fs from "fs";
 import less from "less";
 import path from "path";
-import { logger } from "../logger";
+import { logger } from "./logger";
 
 // 读取 LESS 文件并编译成 CSS
 export const compileLessToCSS = async (
