@@ -1,21 +1,17 @@
+import { DemoData } from "@/types";
+import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
 import { OutputOptions } from "rollup";
 import del from "rollup-plugin-delete";
-import livereload from "rollup-plugin-livereload";
 import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import { PackageJson, ParseConfig } from "widget-up-utils";
-import { getServerConfig } from "../getServerConfig.js";
-import { getExternalPlugin } from "./getExternalPlugin.js";
-import { runtimeHtmlPlugin } from "./runtimeHtmlPlugin.js";
-import { DemoData } from "@/types";
-import { convertDemoMetaToMenu } from "../utils/convertDemoMetaToMenu.js";
 import { getEnv } from "../env.js";
-import alias from "@rollup/plugin-alias";
+import { getExternalPlugin } from "./getExternalPlugin.js";
 
 export const getBuildPlugins = async ({
   rootPath,
@@ -71,21 +67,6 @@ export const getBuildPlugins = async ({
               autoModules: true,
             }
           : {}),
-      }),
-    BuildEnvIsDev && getServerConfig(),
-    BuildEnvIsDev &&
-      livereload({
-        watch: "dist", // 监听文件夹
-      }),
-    BuildEnvIsDev &&
-      runtimeHtmlPlugin({
-        rootPath,
-        globals,
-        src: "tpls/index.html.ejs",
-        dest: "dist",
-        packageConfig,
-        config,
-        menus: convertDemoMetaToMenu(demoDatas ?? []),
       }),
     !BuildEnvIsDev && terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean);
