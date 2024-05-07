@@ -1,7 +1,7 @@
 import nodeFs from "fs";
 import nodePath from "path";
 
-interface PeerDependenciesTree {
+export interface PeerDependenciesTree {
   [packageName: string]: {
     version: string;
     peerDependencies?: PeerDependenciesTree;
@@ -14,9 +14,9 @@ function getPeerDependTree(
     fs = nodeFs,
     path = nodePath,
   }: {
-    fs: typeof import("fs");
-    path: typeof import("path");
-  }
+    fs?: typeof import("fs");
+    path?: typeof import("path");
+  } = {}
 ): PeerDependenciesTree {
   const { cwd } = options;
 
