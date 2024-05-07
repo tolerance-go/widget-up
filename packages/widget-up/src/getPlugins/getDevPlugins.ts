@@ -1,3 +1,5 @@
+import { DemoData } from "@/types/demoFileMeta";
+import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
@@ -13,22 +15,21 @@ import {
   peerDependenciesAsExternal,
   semverToIdentifier,
   serveLivereload,
+  wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 import { WupFolderName } from "../constants";
-import { genAssert } from "../plugins/genAssert";
-import { DemoData } from "@/types/demoFileMeta";
-import { getDemoInputList } from "./getDemoInputList";
-import { runtimeRollup } from "../plugins";
-import { logger } from "../logger";
-import { RuntimeRollupOptions } from "../plugins/runtimeRollup";
-import { normalizePath } from "../utils/normalizePath";
 import { getEnv } from "../env";
-import alias from "@rollup/plugin-alias";
-import { wrapUMDAliasCode } from "widget-up-utils";
-import { convertConfigUmdToAliasImports } from "../utils/convertConfigUmdToAliasImports";
 import { ConfigManager } from "../getConfigManager";
+import { PeerDependTreeManager } from "../getPeerDependTreeManager";
+import { logger } from "../logger";
+import { runtimeRollup } from "../plugins";
+import { genAssert } from "../plugins/genAssert";
 import genServerLibs from "../plugins/genServerLibs";
+import { RuntimeRollupOptions } from "../plugins/runtimeRollup";
+import { convertConfigUmdToAliasImports } from "../utils/convertConfigUmdToAliasImports";
+import { normalizePath } from "../utils/normalizePath";
+import { getDemoInputList } from "./getDemoInputList";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -37,7 +38,9 @@ export const getDevPlugins = async ({
   demoDatas,
   cwdPath,
   configManager,
+  peerDependTreeManager,
 }: {
+  peerDependTreeManager: PeerDependTreeManager;
   configManager: ConfigManager;
   demoDatas?: DemoData[];
   rootPath: string;

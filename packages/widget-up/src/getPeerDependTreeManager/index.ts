@@ -5,7 +5,7 @@ import getPeerDependTree, {
   PeerDependenciesTree,
 } from "../utils/getPeerDependTree";
 
-class PeerDependTreeManager extends EventEmitter {
+export class PeerDependTreeManager extends EventEmitter {
   private dependenciesTree: PeerDependenciesTree = {};
   private cwd: string;
   private fsWatcher: fs.FSWatcher | null = null;
@@ -50,6 +50,10 @@ class PeerDependTreeManager extends EventEmitter {
   }
 }
 
-export function getPeerDependTreeManager(cwd: string): PeerDependTreeManager {
+export function getPeerDependTreeManager({
+  cwd,
+}: {
+  cwd: string;
+}): PeerDependTreeManager {
   return new PeerDependTreeManager(cwd);
 }

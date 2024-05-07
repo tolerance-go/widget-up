@@ -14,6 +14,7 @@ import { parseDirectoryStructure } from "./parseDirectoryStructure";
 import { convertDirectoryToDemo } from "./utils/convertDirectoryToDemo";
 import { DemoData } from "@/types/demoFileMeta";
 import { getEnv } from "./env";
+import { getPeerDependTreeManager } from "./getPeerDependTreeManager";
 
 const getRollupConfig = async () => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
@@ -57,6 +58,11 @@ const getRollupConfig = async () => {
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
   if (BuildEnvIsDev) {
+
+    const peerDependTreeManager = getPeerDependTreeManager({
+      cwd: cwdPath,
+    });
+
     rollupConfig = {
       input: getInputFile(packageConfig),
       output: {
@@ -67,6 +73,7 @@ const getRollupConfig = async () => {
         sourcemap: BuildEnvIsDev ? "inline" : false,
       },
       plugins: getDevPlugins({
+        peerDependTreeManager,
         rootPath,
         config,
         packageConfig,
