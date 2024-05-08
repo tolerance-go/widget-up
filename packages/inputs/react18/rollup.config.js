@@ -19,7 +19,7 @@ export default {
     globals: {
       react: "React",
       "react-dom/client": "ReactDOM",
-      "@widget-up-demo/react18": "RuntimeComponent"
+      "runtime-component": "RuntimeComponent"
     },
   },
   plugins: [

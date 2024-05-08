@@ -18,7 +18,7 @@ export default {
     name: 'Register_jquery3',
     globals: {
       jquery: "jQuery",
-      "@widget-up-demo/jquery3": "RuntimeComponent",
+      "runtime-component": "RuntimeComponent",
     },
   },
   plugins: [
