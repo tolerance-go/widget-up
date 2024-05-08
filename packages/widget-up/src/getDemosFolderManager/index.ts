@@ -8,7 +8,7 @@ import realFs from "fs";
 import realPath from "path";
 import { convertDirectoryToDemo } from "./convertDirectoryToDemo";
 
-export class DemosFolderManager extends EventEmitter {
+export class DemosManager extends EventEmitter {
   private folderPath: string;
   private demoDatas: DemoData[] = [];
   private fs: typeof realFs;
@@ -82,5 +82,5 @@ export const getDemosFolderManager = ({
 }: {
   folderPath: string;
 }) => {
-  return new DemosFolderManager(folderPath);
+  return new DemosManager(folderPath);
 };

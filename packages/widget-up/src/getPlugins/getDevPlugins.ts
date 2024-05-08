@@ -32,7 +32,7 @@ import { convertConfigUmdToAliasImports } from "../utils/convertConfigUmdToAlias
 import { normalizePath } from "../utils/normalizePath";
 import { getDemoInputList } from "./getDemoInputList";
 import { genStart } from "../plugins/genStart";
-import { DemosFolderManager } from "../getDemosFolderManager";
+import { DemosManager } from "../getDemosFolderManager";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -44,7 +44,7 @@ export const getDevPlugins = async ({
   peerDependTreeManager,
   demosFolderManager,
 }: {
-  demosFolderManager: DemosFolderManager;
+  demosFolderManager: DemosManager;
   peerDependTreeManager: PeerDependTreeManager;
   configManager: ConfigManager;
   demoDatas?: DemoData[];

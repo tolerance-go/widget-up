@@ -4,14 +4,14 @@ import path from "path";
 import { DependencyTreeNode } from "widget-up-runtime";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getInputByFrame } from "./getInputByFrame";
-import { DemosFolderManager } from "@/src/getDemosFolderManager";
+import { DemosManager } from "@/src/getDemosFolderManager";
 import { PackageJson } from "widget-up-utils";
 import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
 
 interface GenStartOptions {
   outputPath?: string;
-  demosFolderManager: DemosFolderManager;
+  demosFolderManager: DemosManager;
   packageConfig: PackageJson;
   peerDependTreeManager: PeerDependTreeManager;
 }
