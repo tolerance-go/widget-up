@@ -1,17 +1,17 @@
-import { Plugin } from "rollup";
+import { DemosManager } from "@/src/getDemosManager";
+import { InputNpmManager } from "@/src/getInputNpmManager";
+import { PathManager } from "@/src/getPathManager";
+import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
+import { detectTechStack } from "@/src/utils/detectTechStack";
+import { normalizePath } from "@/src/utils/normalizePath";
+import { replaceFileExtension } from "@/src/utils/replaceFileExtension";
+import { DependencyTreeNodeJson } from "@/types";
 import fs from "fs-extra";
 import path from "path";
-import { DependencyTreeNode } from "widget-up-runtime";
-import { detectTechStack } from "@/src/utils/detectTechStack";
-import { getInputByFrame } from "./getInputByFrame";
-import { DemosManager } from "@/src/getDemosManager";
+import { Plugin } from "rollup";
 import { PackageJson } from "widget-up-utils";
-import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
-import { InputNpmManager } from "@/src/getInputNpmManager";
-import { DependencyTreeNodeJson } from "@/types";
-import { PathManager } from "@/src/getPathManager";
-import { normalizePath } from "@/src/utils/normalizePath";
+import { getInputByFrame } from "./getInputByFrame";
 
 interface GenStartOptions {
   outputPath?: string;
@@ -43,9 +43,15 @@ export function genStart({
         depends: demoDatas.map((demo) => ({
           name: demo.config.name,
           version: packageConfig.version,
-          scriptSrc: `() => \`${normalizePath(
-            path.join("/demos", path.relative(pathManager.demosPath, demo.path))
-          )}\``,
+          scriptSrc: `() => '${normalizePath(
+            replaceFileExtension(
+              path.join(
+                "/demos",
+                path.relative(pathManager.demosPath, demo.path)
+              ),
+              ".js"
+            )
+          )}'`,
           depends: [
             {
               name: packageConfig.name,
