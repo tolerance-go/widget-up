@@ -5,6 +5,7 @@ import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
 import path from "path";
+import { InputPluginOption } from "rollup";
 import postcss from "rollup-plugin-postcss";
 import typescript from "rollup-plugin-typescript2";
 import {
@@ -13,30 +14,22 @@ import {
   deleteDist,
   htmlRender,
   peerDependenciesAsExternal,
-  semverToIdentifier,
   serveLivereload,
-  wrapUMDAliasCode,
-  wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 import { WupFolderName } from "../../constants";
-import { getEnv } from "../../utils/env";
 import { ConfigManager } from "../../getConfigManager";
-import { PeerDependTreeManager } from "../../getPeerDependTreeManager";
-import { logger } from "../../utils/logger";
-import { genAssert } from "../../utils/rollup-plugins/genAssert";
-import genServerLibs from "../../plugins/genServerLibs";
-import runtimeRollup, {
-  RuntimeRollupOptions,
-} from "../../utils/rollup-plugins/runtimeRollup";
-import { convertConfigUmdToAliasImports } from "./convertConfigUmdToAliasImports";
-import { normalizePath } from "../../utils/normalizePath";
-import { getDemoInputList } from "../getDemoInputList";
-import { genStart } from "../../plugins/genStart";
 import { DemosManager } from "../../getDemosManager";
 import { InputNpmManager } from "../../getInputNpmManager";
 import { PathManager } from "../../getPathManager";
+import { PeerDependTreeManager } from "../../getPeerDependTreeManager";
+import genServerLibs from "../../plugins/genServerLibs";
+import { genStart } from "../../plugins/genStart";
+import { getEnv } from "../../utils/env";
+import { logger } from "../../utils/logger";
+import { genAssert } from "../../utils/rollup-plugins/genAssert";
+import { getDemoInputList } from "../getDemoInputList";
 import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
-import { InputPluginOption } from "rollup";
+import { genServerInputs } from "@/src/plugins/genServerInputs";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -140,6 +133,11 @@ export const getDevPlugins = async ({
       //     }),
       //   });
       // },
+    }),
+    genServerInputs({
+      outputPath: "dist/server/inputs",
+      inputNpmManager,
+      configManager,
     }),
     genStart({
       pathManager,

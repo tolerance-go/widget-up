@@ -1,6 +1,5 @@
 import { InputNpmManager } from "@/src/getInputNpmManager";
 import { DependencyTreeNodeJson, TechStack, TechType } from "@/types";
-import { DependencyTreeNode } from "widget-up-runtime";
 import { getMajorVersion } from "widget-up-utils";
 
 export function getInputByFrame(
@@ -17,7 +16,7 @@ export function getInputByFrame(
       version: inputNpmManager.getInputByName(
         `widget-up-input-react${getMajorVersion(version)}`
       ).packageJson.version,
-      scriptSrc: `() => \`/libs/input.react\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
+      scriptSrc: `() => \`/inputs/input.react\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
       linkHref: `() => ''`,
       depends: [],
     }),
@@ -26,7 +25,7 @@ export function getInputByFrame(
       version: inputNpmManager.getInputByName(
         `widget-up-input-vue${getMajorVersion(version)}`
       ).packageJson.version,
-      scriptSrc: `() => \`/libs/input.vue\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
+      scriptSrc: `() => \`/inputs/input.vue\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
       linkHref: `() => ''`,
       depends: [],
     }),
@@ -35,7 +34,7 @@ export function getInputByFrame(
       version: inputNpmManager.getInputByName(
         `widget-up-input-jquery${getMajorVersion(version)}`
       ).packageJson.version,
-      scriptSrc: `() => \`/libs/input.jquery\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
+      scriptSrc: `() => \`/inputs/input.jquery\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
       linkHref: `() => ''`,
       depends: [],
     }),

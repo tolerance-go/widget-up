@@ -11,7 +11,7 @@ import path from "path";
 import { Plugin } from "rollup";
 import { PackageJson } from "widget-up-utils";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
-import { getInputByFrame } from "./getInputByFrame";
+import { getInputByFrame } from "../../utils/getInputByFrame";
 
 interface GenStartOptions {
   outputPath: string;
