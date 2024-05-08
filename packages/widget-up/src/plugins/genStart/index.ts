@@ -4,7 +4,7 @@ import path from "path";
 import { DependencyTreeNode } from "widget-up-runtime";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getInputByFrame } from "./getInputByFrame";
-import { DemosManager } from "@/src/getDemosFolderManager";
+import { DemosManager } from "@/src/getDemosManager";
 import { PackageJson } from "widget-up-utils";
 import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";

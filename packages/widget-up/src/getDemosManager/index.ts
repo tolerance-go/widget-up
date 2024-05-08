@@ -77,7 +77,7 @@ export class DemosManager extends EventEmitter {
   }
 }
 
-export const getDemosFolderManager = ({
+export const getDemosManager = ({
   folderPath,
 }: {
   folderPath: string;

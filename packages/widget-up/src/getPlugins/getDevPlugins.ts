@@ -32,7 +32,7 @@ import { convertConfigUmdToAliasImports } from "../utils/convertConfigUmdToAlias
 import { normalizePath } from "../utils/normalizePath";
 import { getDemoInputList } from "./getDemoInputList";
 import { genStart } from "../plugins/genStart";
-import { DemosManager } from "../getDemosFolderManager";
+import { DemosManager } from "../getDemosManager";
 
 export const getDevPlugins = async ({
   rootPath,

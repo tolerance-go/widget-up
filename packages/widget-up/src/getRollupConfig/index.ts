@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
 import { getEnv } from "../utils/env";
 import { getConfigManager } from "../getConfigManager";
-import { getDemosFolderManager } from "../getDemosFolderManager";
+import { getDemosManager } from "../getDemosManager";
 import { getUMDGlobals } from "./getGlobals";
 import { getProdOutputs } from "./getOutputs";
 import { getPeerDependTreeManager } from "../getPeerDependTreeManager";
@@ -25,7 +25,7 @@ const getRollupConfig = async () => {
   logger.info(`cwdPath is ${cwdPath}`);
   logger.info(`demosPath is ${demosPath}`);
 
-  const demosFolderManager = getDemosFolderManager({
+  const demosFolderManager = getDemosManager({
     folderPath: "demos",
   });
 

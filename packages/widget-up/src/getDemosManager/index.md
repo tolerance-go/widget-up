@@ -11,7 +11,7 @@
 # 如何使用
 
 ```ts
-import getDemosFolderManager from './getDemosFolderManager'
+import getDemosManager from './getDemosManager'
 
-const demosFolderManager = getDemosFolderManager();
+const demosFolderManager = getDemosManager();
 ```
