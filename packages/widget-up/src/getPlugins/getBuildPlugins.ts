@@ -1,15 +1,14 @@
-import { DemoData } from "@/types";
 import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
+import typescript from "@rollup/plugin-typescript";
 import { OutputOptions } from "rollup";
 import del from "rollup-plugin-delete";
 import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
-import typescript from "rollup-plugin-typescript2";
-import { PackageJson, ParseConfig } from "widget-up-utils";
+import { ParseConfig } from "widget-up-utils";
 import { getEnv } from "../utils/env.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
 
@@ -36,14 +35,7 @@ export const getBuildPlugins = async ({
     resolve(),
     commonjs(),
     json(),
-    typescript({
-      useTsconfigDeclarationDir: true,
-      tsconfigOverride: {
-        compilerOptions: {
-          declarationDir: "dist/types",
-        },
-      },
-    }),
+    typescript(),
     config.css &&
       postcss({
         extract: true, // 提取 CSS 到单独的文件

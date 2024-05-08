@@ -115,8 +115,7 @@ export const bin = () => {
       async () => {
         console.log("Starting development server...");
         try {
-          const buildFailed = await buildRollup("development", true);
-          process.exit(buildFailed ? 1 : 0);
+          await buildRollup("development", true);
         } catch (error) {
           console.error("Error during the development build:", error);
         }

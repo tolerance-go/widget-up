@@ -7,7 +7,6 @@ import replace from "@rollup/plugin-replace";
 import path from "path";
 import { InputPluginOption } from "rollup";
 import postcss from "rollup-plugin-postcss";
-import typescript from "rollup-plugin-typescript2";
 import {
   PackageJson,
   ParseConfig,
@@ -30,6 +29,7 @@ import { genAssert } from "../../utils/rollup-plugins/genAssert";
 import { getDemoInputList } from "../getDemoInputList";
 import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
 import { genServerInputs } from "@/src/plugins/genServerInputs";
+import typescript from "@rollup/plugin-typescript";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -70,11 +70,8 @@ export const getDevPlugins = async ({
     commonjs(),
     json(),
     typescript({
-      useTsconfigDeclarationDir: true,
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-        },
+      compilerOptions: {
+        declaration: false,
       },
     }),
     config.css &&
