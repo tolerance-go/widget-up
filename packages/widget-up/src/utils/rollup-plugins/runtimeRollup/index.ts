@@ -79,7 +79,6 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
   };
 
   const build = async () => {
-    let buildFailed = false;
     try {
       const buildOptions: RollupOptions = {
         ...restRollupOptions,
@@ -92,13 +91,10 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
       await bundle.close();
       logger.log(`Bundle written successfully to:`, output.file);
     } catch (error) {
-      buildFailed = true;
       logger.error(`Error during embedded Rollup build for:`, output.file);
       if (error instanceof Error) {
         logger.error(`Rollup build failed: ${error.message}`);
       }
-    } finally {
-      process.exit(buildFailed ? 1 : 0);
     }
   };
 
