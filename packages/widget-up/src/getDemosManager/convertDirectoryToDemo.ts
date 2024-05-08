@@ -3,6 +3,7 @@ import { DirectoryStructure } from "../utils/parseDirectoryStructure";
 import realFs from "fs";
 import realPath from "path";
 import { normalizeDemoFileConfig } from "./normalizeDemoFileConfig";
+import { convertPathToVariableName } from "./convertPathToVariableName";
 
 export const convertDirectoryToDemo = (
   directory: DirectoryStructure[],
@@ -33,7 +34,7 @@ export const convertDirectoryToDemo = (
 
         // Create the basic menu item from the directory item
         const menuItem: DemoData = {
-          config: normalizeDemoFileConfig(config),
+          config: normalizeDemoFileConfig(config, item),
           path: item.path,
           type: item.type,
         };
@@ -42,7 +43,7 @@ export const convertDirectoryToDemo = (
 
       const menuItem: DemoData = {
         config: {
-          name: item.name,
+          name: item.name ?? convertPathToVariableName(item.path),
           globals: {
             component: "Component",
             register: "register",

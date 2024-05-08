@@ -5,25 +5,30 @@ describe("getPeerDependTree", () => {
   beforeEach(async () => {
     jest.unstable_mockModule("fs", async () => ({
       readFileSync: jest.fn((libPath: string) => {
-        return JSON.stringify(
-          libPath.endsWith("utils/package.json")
-            ? {}
-            : libPath.endsWith("react/package.json")
-            ? {
-                peerDependencies: {
-                  utils: "^16.8.0",
-                },
-              }
-            : libPath.endsWith("react-dom/package.json")
-            ? {
-                peerDependencies: {
-                  react: "^16.8.0",
-                },
-              }
-            : {
-                peerDependencies: { "react-dom": "^16.8.0" },
-              }
-        );
+        if (libPath.endsWith("utils/package.json")) {
+          return JSON.stringify({ version: "1.1.0" });
+        } else if (libPath.endsWith("react/package.json")) {
+          return JSON.stringify({
+            version: "16.8.0",
+            peerDependencies: {
+              utils: "^1.0.0",
+            },
+          });
+        } else if (libPath.endsWith("react-dom/package.json")) {
+          return JSON.stringify({
+            version: "16.8.0",
+            peerDependencies: {
+              react: "^16.8.0",
+            },
+          });
+        } else {
+          return JSON.stringify({
+            version: "16.8.0",
+            peerDependencies: {
+              "react-dom": "^16.8.0",
+            },
+          });
+        }
       }),
     }));
     jest.unstable_mockModule("path", async () => ({
@@ -32,7 +37,7 @@ describe("getPeerDependTree", () => {
   });
 
   afterEach(async () => {
-    // 在每个测试后清理 mock
+    // 清理 mock
     jest.resetModules();
   });
 
@@ -41,6 +46,8 @@ describe("getPeerDependTree", () => {
     const path = await import("path");
 
     const result = getPeerDependTree({ cwd: "/fake/directory" }, { fs, path });
+
+    // 根据新的数据结构更新快照
     expect(result).toMatchInlineSnapshot(`
       {
         "react-dom": {
@@ -49,13 +56,22 @@ describe("getPeerDependTree", () => {
               "peerDependencies": {
                 "utils": {
                   "peerDependencies": {},
-                  "version": "^16.8.0",
+                  "version": {
+                    "exact": "1.1.0",
+                    "range": "^1.0.0",
+                  },
                 },
               },
-              "version": "^16.8.0",
+              "version": {
+                "exact": "16.8.0",
+                "range": "^16.8.0",
+              },
             },
           },
-          "version": "^16.8.0",
+          "version": {
+            "exact": "16.8.0",
+            "range": "^16.8.0",
+          },
         },
       }
     `);

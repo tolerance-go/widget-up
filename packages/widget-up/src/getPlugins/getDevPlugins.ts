@@ -33,6 +33,7 @@ import { normalizePath } from "../utils/normalizePath";
 import { getDemoInputList } from "./getDemoInputList";
 import { genStart } from "../plugins/genStart";
 import { DemosManager } from "../getDemosManager";
+import { InputNpmManager } from "../getInputNpmManager";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -53,6 +54,10 @@ export const getDevPlugins = async ({
   config: ParseConfig;
   packageConfig: PackageJson;
 }) => {
+  const inputNpmManager = new InputNpmManager({
+    cwd: rootPath,
+  });
+
   const { BuildEnvIsDev } = getEnv();
   const devBuildPlugins = [
     peerDependenciesAsExternal(),
@@ -196,6 +201,7 @@ export const getDevPlugins = async ({
       demosManager,
       packageConfig,
       peerDependTreeManager,
+      inputNpmManager,
     }),
     genAssert({
       src: path.join(rootPath, "tpls/index.html.ejs"),

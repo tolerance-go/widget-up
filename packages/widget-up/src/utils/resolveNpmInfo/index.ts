@@ -14,7 +14,7 @@ function resolveNpmInfo({
   cwd = process.cwd(),
 }: {
   name: string;
-  cwd: string;
+  cwd?: string;
 }): ResolvedNpmResult {
   // 从当前工作目录开始向上查找 'node_modules'
   let currentPath = cwd;

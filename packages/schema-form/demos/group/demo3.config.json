@@ -1,5 +1,4 @@
 {
-  "name": "@widget-up-demo/react16",
   "globals": {
     "component": "Component_react16",
     "register": "Register_react16"

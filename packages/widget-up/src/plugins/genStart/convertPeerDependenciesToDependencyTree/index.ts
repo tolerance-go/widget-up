@@ -12,7 +12,7 @@ export function convertPeerDependenciesToDependencyTree(
     const { version, peerDependencies } = peers[packageName];
     const node: DependencyTreeNode = {
       name: packageName,
-      version,
+      version: version.exact,
       scriptSrc: (dep: DependencyListItem) =>
         `/libs/${dep.name}_${semverToIdentifier(dep.version.exact)}/index.js`,
       linkHref: (dep: DependencyListItem) =>

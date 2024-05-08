@@ -8,28 +8,29 @@ import { DemosManager } from "@/src/getDemosManager";
 import { PackageJson } from "widget-up-utils";
 import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
+import { InputNpmManager } from "@/src/getInputNpmManager";
 
 interface GenStartOptions {
   outputPath?: string;
   demosManager: DemosManager;
   packageConfig: PackageJson;
   peerDependTreeManager: PeerDependTreeManager;
+  inputNpmManager: InputNpmManager;
 }
 
-export function genStart(options: GenStartOptions): Plugin {
-  const {
-    outputPath = "./dist/start.js",
-    demosManager,
-    packageConfig,
-    peerDependTreeManager,
-  } = options;
-
+export function genStart({
+  outputPath = "./dist/start.js",
+  demosManager,
+  packageConfig,
+  peerDependTreeManager,
+  inputNpmManager,
+}: GenStartOptions): Plugin {
   let once = false;
 
   const build = () => {
-    const demoDatas = demosManager.getDemoDatas();
+    const demoDatas = demosManager.getDemoDataList();
     const techStacks = detectTechStack();
-    const inputs = getInputByFrame(techStacks);
+    const inputs = getInputByFrame(techStacks, inputNpmManager);
 
     const deps = inputs.map((input) => {
       return {
@@ -38,9 +39,15 @@ export function genStart(options: GenStartOptions): Plugin {
           name: demo.config.name,
           version: packageConfig.version,
           scriptSrc: () => `/demos/${demo.path}/index.js`,
-          depends: convertPeerDependenciesToDependencyTree(
-            peerDependTreeManager.getDependenciesTree()
-          ),
+          depends: [
+            {
+              name: packageConfig.name,
+              version: packageConfig.version,
+              depends: convertPeerDependenciesToDependencyTree(
+                peerDependTreeManager.getDependenciesTree()
+              ),
+            },
+          ],
         })),
       };
     });
