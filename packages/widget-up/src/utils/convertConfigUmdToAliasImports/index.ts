@@ -13,7 +13,7 @@ export const convertConfigUmdToAliasImports = ({
   const imports: UMDAliasOptions["imports"] = [];
 
   // 处理每个外部库配置
-  Object.entries(umdConfig.external).forEach(([libName, libConfig]) => {
+  umdConfig.external.forEach((libName) => {
     const globalVar = umdConfig.globals[libName]; // 获取全局变量名称
     if (!globalVar) {
       throw new Error(`Global variable not found for ${libName}`);

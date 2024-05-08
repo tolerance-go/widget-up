@@ -144,23 +144,25 @@ export const getDevPlugins = async ({
 
           logger.info("eventId: ", eventId);
 
+          const aliasCode = wrapUMDAliasCode({
+            scriptContent: code,
+            imports: convertConfigUmdToAliasImports({
+              umdConfig: config.umd,
+            }),
+            exports: [
+              {
+                globalVar: `${config.umd.name}_${semverToIdentifier(
+                  packageConfig.version
+                )}`,
+                scopeVar: config.umd.name,
+              },
+            ],
+          });
+
           return wrapUMDAsyncEventCode({
             eventId,
             eventBusPath: "WidgetUpRuntime.globalEventBus",
-            scriptContent: wrapUMDAliasCode({
-              scriptContent: code,
-              imports: convertConfigUmdToAliasImports({
-                umdConfig: config.umd,
-              }),
-              exports: [
-                {
-                  globalVar: `${config.umd.name}_${semverToIdentifier(
-                    packageConfig.version
-                  )}`,
-                  scopeVar: config.umd.name,
-                },
-              ],
-            }),
+            scriptContent: aliasCode,
           });
         },
       },
