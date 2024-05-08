@@ -2,7 +2,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import path from "path";
 import { terser } from "rollup-plugin-terser";
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
 import { runtimeRollup } from "widget-up";
 import {
   deleteDist,
@@ -48,18 +48,13 @@ export default {
             resolve(),
             commonjs(),
             typescript({
-              useTsconfigDeclarationDir: true,
-              tsconfigOverride: !isProduction
+              compilerOptions: !isProduction
                 ? {
-                    compilerOptions: {
-                      declaration: false,
-                    },
+                    declaration: false,
                   }
                 : {
-                    compilerOptions: {
-                      declaration: true,
-                      declarationDir: "dist/types",
-                    },
+                    declaration: true,
+                    declarationDir: "dist/types",
                   },
             }),
             isProduction && terser(),
@@ -70,7 +65,7 @@ export default {
           },
           watch: {
             include: ["demos/**", "src/**"],
-          }
+          },
         },
         input.path
       );
@@ -79,18 +74,13 @@ export default {
     resolve(),
     commonjs(),
     typescript({
-      useTsconfigDeclarationDir: true,
-      tsconfigOverride: !isProduction
+      compilerOptions: !isProduction
         ? {
-            compilerOptions: {
-              declaration: false,
-            },
+            declaration: false,
           }
         : {
-            compilerOptions: {
-              declaration: true,
-              declarationDir: "dist/types",
-            },
+            declaration: true,
+            declarationDir: "dist/types",
           },
     }),
     isProduction && terser(),

@@ -79,6 +79,7 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
   };
 
   const build = async () => {
+    let buildFailed = false;
     try {
       const buildOptions: RollupOptions = {
         ...restRollupOptions,
@@ -91,15 +92,18 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
       await bundle.close();
       logger.log(`Bundle written successfully to:`, output.file);
     } catch (error) {
+      buildFailed = true;
       logger.error(`Error during embedded Rollup build for:`, output.file);
       if (error instanceof Error) {
         logger.error(`Rollup build failed: ${error.message}`);
       }
     }
+
+    process.exit(buildFailed ? 1 : 0);
   };
 
   // 确保仅一次初始化监听
-  const setupWatcher = () => {
+  const setup = () => {
     const watcherOptions: RollupOptions = {
       ...restRollupOptions,
       output,
@@ -117,6 +121,7 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
               break;
             case "BUNDLE_END":
               console.log(`Bundle written successfully to:`, output.file);
+              event.result.close(); // 关闭上一次的 bundle
               break;
             case "ERROR":
               console.error(`Rollup build error:`, event.error);
@@ -132,7 +137,7 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
   return {
     name: "runtime-rollup",
     buildStart() {
-      setupWatcher(); // 在首次构建开始时设置监听
+      setup(); // 在首次构建开始时设置监听
     },
   };
 }
