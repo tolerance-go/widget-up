@@ -97,9 +97,9 @@ function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
       if (error instanceof Error) {
         logger.error(`Rollup build failed: ${error.message}`);
       }
+    } finally {
+      process.exit(buildFailed ? 1 : 0);
     }
-
-    process.exit(buildFailed ? 1 : 0);
   };
 
   // 确保仅一次初始化监听

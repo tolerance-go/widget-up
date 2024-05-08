@@ -63,9 +63,11 @@ export default {
           overwriteChunkCode: (code, chunk) => {
             return code.replace("demo", "demodemo");
           },
-          watch: {
-            include: ["demos/**", "src/**"],
-          },
+          watch: !isProduction
+            ? {
+                include: ["demos/**", "src/**"],
+              }
+            : undefined,
         },
         input.path
       );
