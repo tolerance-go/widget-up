@@ -1,6 +1,6 @@
 import React from "react";
 import { Root, createRoot } from "react-dom/client";
-import { Component } from "@widget-up-demo/react18";
+import { Component } from "runtime-component";
 
 // 创建 root 实例的全局引用
 let root: Root | null = null;

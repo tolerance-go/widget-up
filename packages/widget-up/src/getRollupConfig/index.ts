@@ -38,8 +38,6 @@ const getRollupConfig = async () => {
   const configManager = getConfigManager();
   const config = configManager.get();
 
-  const umdGlobals = getUMDGlobals(config);
-
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
   if (BuildEnvIsDev) {
@@ -59,7 +57,7 @@ const getRollupConfig = async () => {
         file: "dist/umd/index.js",
         format: "umd",
         name: config.umd.name,
-        globals: umdGlobals,
+        globals: config.umd.globals,
         sourcemap: BuildEnvIsDev ? "inline" : false,
       },
       plugins: getDevPlugins({
@@ -78,14 +76,13 @@ const getRollupConfig = async () => {
       },
     };
   } else {
-    rollupConfig = getProdOutputs(config, umdGlobals).map((output) => ({
+    logger.info("BuildEnvIsProd is true, start to build production code");
+    rollupConfig = getProdOutputs(config).map((output) => ({
       input: getInputFile(packageConfig),
       output,
       plugins: getBuildPlugins({
         rootPath,
         config,
-        packageConfig,
-        globals: umdGlobals,
         output,
       }),
     }));

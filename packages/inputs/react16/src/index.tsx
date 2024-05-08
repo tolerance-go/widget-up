@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Component } from "@widget-up-demo/react16";
+import { Component } from "runtime-component";
 
 const render = ({ rootElement }: { rootElement: HTMLElement }) => {
   // 确认 rootElement 存在

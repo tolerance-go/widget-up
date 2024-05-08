@@ -1,0 +1,5 @@
+[INFO] [2024-05-08T16:46:03.602Z] - ========== production ==========
+[INFO] [2024-05-08T16:46:03.603Z] - rootPath is C:\Users\yarnb\widget-up\packages\widget-up
+[INFO] [2024-05-08T16:46:03.603Z] - cwdPath is C:\Users\yarnb\widget-up\packages\components\react16_css-modules
+[INFO] [2024-05-08T16:46:03.603Z] - demosPath is C:\Users\yarnb\widget-up\packages\components\react16_css-modules\demos
+[INFO] [2024-05-08T16:46:03.604Z] - BuildEnvIsProd is true, start to build production code

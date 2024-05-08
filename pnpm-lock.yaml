@@ -124,9 +124,9 @@ importers:
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
-      '@widget-up-demo/jquery3':
-        specifier: workspace:^
-        version: link:../../components/jquery3
+      '@types/jquery':
+        specifier: ^3.5.29
+        version: 3.5.29
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -178,9 +178,6 @@ importers:
       '@types/react-dom':
         specifier: '16'
         version: 16.9.24
-      '@widget-up-demo/react16':
-        specifier: workspace:^
-        version: link:../../components/react16
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -235,9 +232,6 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.0
         version: 18.3.0
-      '@widget-up-demo/react18':
-        specifier: workspace:^
-        version: link:../../components/react18
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3

@@ -23,7 +23,6 @@
     "@types/jest": "^29.5.12",
     "@types/react": "16",
     "@types/react-dom": "16",
-    "@widget-up-demo/react16": "workspace:^",
     "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "react": "^16.14.0",
@@ -37,7 +36,6 @@
     "widget-up-utils": "workspace:^"
   },
   "peerDependencies": {
-    "@widget-up-demo/react16": "workspace:^",
     "react": "^16.14.0",
     "react-dom": "^16.14.0"
   }

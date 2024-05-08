@@ -14,16 +14,11 @@ import { getEnv } from "../utils/env.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
 
 export const getBuildPlugins = async ({
-  rootPath,
   config,
-  packageConfig,
-  globals,
   output,
 }: {
   rootPath: string;
   config: ParseConfig;
-  packageConfig: PackageJson;
-  globals?: Record<string, string>;
   output: OutputOptions;
 }) => {
   const { BuildEnvIsDev } = getEnv();
@@ -44,13 +39,9 @@ export const getBuildPlugins = async ({
     typescript({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: {
-        compilerOptions: BuildEnvIsDev
-          ? {
-              declaration: false,
-            }
-          : {
-              declarationDir: "dist/types",
-            },
+        compilerOptions: {
+          declarationDir: "dist/types",
+        },
       },
     }),
     config.css &&
@@ -66,7 +57,7 @@ export const getBuildPlugins = async ({
             }
           : {}),
       }),
-    !BuildEnvIsDev && terser(), // 仅在生产模式下压缩代码
+    terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean);
 
   return plugins;

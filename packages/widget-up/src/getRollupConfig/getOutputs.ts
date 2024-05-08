@@ -3,35 +3,24 @@
  *
  * - 生产环境下，生成 Rollup 的 output 配置
  */
-import { ParseConfig, GlobalsSchemaConfig } from "widget-up-utils";
 import { RollupOptions } from "rollup";
-import { getEnv } from "../utils/env";
+import { GlobalsSchemaConfig, ParseConfig } from "widget-up-utils";
 
-export function getProdOutputs(
-  config: ParseConfig,
-  globals?: GlobalsSchemaConfig
-) {
+export function getProdOutputs(config: ParseConfig) {
   const outputs: RollupOptions["output"] = [];
-  const { BuildEnvIsDev } = getEnv();
 
-  if (config.umd ?? true) {
-    // UMD 格式始终包含
-    outputs.push({
-      file: "dist/umd/index.js",
-      format: "umd",
-      name: config.umd?.name,
-      globals,
-      sourcemap: BuildEnvIsDev ? "inline" : false,
-    });
-  }
+  // UMD 格式始终包含
+  outputs.push({
+    file: "dist/umd/index.js",
+    format: "umd",
+    name: config.umd.name,
+    globals: config.umd.globals,
+  });
 
-  if (BuildEnvIsDev) return outputs;
-
-  if (config.esm ?? true) {
+  if (config.esm) {
     outputs.push({
       file: "dist/esm/index.js",
       format: "esm",
-      sourcemap: BuildEnvIsDev ? "inline" : false,
     });
   }
 
@@ -40,7 +29,6 @@ export function getProdOutputs(
     outputs.push({
       file: "dist/cjs/index.js",
       format: "cjs",
-      sourcemap: BuildEnvIsDev ? "inline" : false,
     });
   }
 

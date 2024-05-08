@@ -10,7 +10,8 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "runtime-component": ["./runtime-component"]
     }
   },
   "include": ["src/**/*", "types/**/*", "__tests__/**/*"]
