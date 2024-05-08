@@ -143,7 +143,7 @@ export const getDevPlugins = async ({
     }),
     genStart({
       pathManager,
-      outputPath: "./dist/start.js",
+      outputPath: "./dist/server/start.js",
       demosManager,
       packageConfig,
       peerDependTreeManager,

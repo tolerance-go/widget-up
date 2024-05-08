@@ -14,7 +14,7 @@ import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenci
 import { getInputByFrame } from "./getInputByFrame";
 
 interface GenStartOptions {
-  outputPath?: string;
+  outputPath: string;
   demosManager: DemosManager;
   packageConfig: PackageJson;
   peerDependTreeManager: PeerDependTreeManager;
@@ -23,7 +23,7 @@ interface GenStartOptions {
 }
 
 export function genStart({
-  outputPath = "./dist/start.js",
+  outputPath,
   demosManager,
   packageConfig,
   peerDependTreeManager,
