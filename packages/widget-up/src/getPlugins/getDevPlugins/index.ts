@@ -18,23 +18,25 @@ import {
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
-import { WupFolderName } from "../constants";
-import { getEnv } from "../utils/env";
-import { ConfigManager } from "../getConfigManager";
-import { PeerDependTreeManager } from "../getPeerDependTreeManager";
-import { logger } from "../utils/logger";
-import { genAssert } from "../utils/rollup-plugins/genAssert";
-import genServerLibs from "../plugins/genServerLibs";
+import { WupFolderName } from "../../constants";
+import { getEnv } from "../../utils/env";
+import { ConfigManager } from "../../getConfigManager";
+import { PeerDependTreeManager } from "../../getPeerDependTreeManager";
+import { logger } from "../../utils/logger";
+import { genAssert } from "../../utils/rollup-plugins/genAssert";
+import genServerLibs from "../../plugins/genServerLibs";
 import runtimeRollup, {
   RuntimeRollupOptions,
-} from "../utils/rollup-plugins/runtimeRollup";
-import { convertConfigUmdToAliasImports } from "../utils/convertConfigUmdToAliasImports";
-import { normalizePath } from "../utils/normalizePath";
-import { getDemoInputList } from "./getDemoInputList";
-import { genStart } from "../plugins/genStart";
-import { DemosManager } from "../getDemosManager";
-import { InputNpmManager } from "../getInputNpmManager";
-import { PathManager } from "../getPathManager";
+} from "../../utils/rollup-plugins/runtimeRollup";
+import { convertConfigUmdToAliasImports } from "../../utils/convertConfigUmdToAliasImports";
+import { normalizePath } from "../../utils/normalizePath";
+import { getDemoInputList } from "../getDemoInputList";
+import { genStart } from "../../plugins/genStart";
+import { DemosManager } from "../../getDemosManager";
+import { InputNpmManager } from "../../getInputNpmManager";
+import { PathManager } from "../../getPathManager";
+import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
+import { InputPluginOption } from "rollup";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -62,7 +64,7 @@ export const getDevPlugins = async ({
   });
 
   const { BuildEnvIsDev } = getEnv();
-  const devBuildPlugins = [
+  const devBuildPlugins: InputPluginOption[] = [
     peerDependenciesAsExternal(),
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
@@ -98,76 +100,14 @@ export const getDevPlugins = async ({
   ];
 
   const demoInputList = getDemoInputList(demoDatas ?? []);
-
   logger.info("demoInputList: ", demoInputList);
 
-  const runtimeRollupPlgs = demoInputList.map((inputItem) => {
-    const input = normalizePath(path.relative(cwdPath, inputItem.path));
-
-    const inputData = path.parse(input);
-
-    const base: RuntimeRollupOptions = {
-      input,
-      output: {
-        file: normalizePath(
-          path.join("dist/server", inputData.dir, inputData.name, "index.js")
-        ),
-        format: "umd",
-        name: config.umd.name,
-        sourcemap: BuildEnvIsDev,
-      },
-    };
-
-    logger.info("runtimeRollupPlgs base: ", base);
-
-    return runtimeRollup(
-      {
-        ...base,
-        plugins: [...devBuildPlugins],
-        watch: {
-          include: ["src/**", "demos/**"],
-        },
-        overwriteChunkCode(code, chunk, options) {
-          logger.info(
-            "overwriteChunkCode chunk: ",
-            JSON.stringify(chunk, null, 2)
-          );
-
-          if (!chunk.facadeModuleId) {
-            throw new Error("chunk.facadeModuleId is required");
-          }
-
-          // 用服务器中的资源路径做为事件 ID
-          const eventId = normalizePath(
-            path.join("/", path.relative(cwdPath, chunk.facadeModuleId))
-          );
-
-          logger.info("eventId: ", eventId);
-
-          const aliasCode = wrapUMDAliasCode({
-            scriptContent: code,
-            imports: convertConfigUmdToAliasImports({
-              umdConfig: config.umd,
-            }),
-            exports: [
-              {
-                globalVar: `${config.umd.name}_${semverToIdentifier(
-                  packageConfig.version
-                )}`,
-                scopeVar: config.umd.name,
-              },
-            ],
-          });
-
-          return wrapUMDAsyncEventCode({
-            eventId,
-            eventBusPath: "WidgetUpRuntime.globalEventBus",
-            scriptContent: aliasCode,
-          });
-        },
-      },
-      input
-    );
+  const runtimeRollupPlgs = getDemoRuntimePlgs({
+    config,
+    packageConfig,
+    cwdPath,
+    demoInputList,
+    devBuildPlugins,
   });
 
   const plugins = [
