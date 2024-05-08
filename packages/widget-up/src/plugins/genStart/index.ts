@@ -56,6 +56,8 @@ export function genStart({
             {
               name: packageConfig.name,
               version: packageConfig.version,
+              scriptSrc: `() => '/index.js'`,
+              linkHref: `() => ''`,
               depends: convertPeerDependenciesToDependencyTree(
                 peerDependTreeManager.getDependenciesTree()
               ),

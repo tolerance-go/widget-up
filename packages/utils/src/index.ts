@@ -8,6 +8,7 @@ export { createWindow } from "./createWindow";
 export * from "./rollup-plugins";
 export * from "./wrapUMDAliasCode";
 export * from "./wrapUMDAsyncEventCode";
+export * from "./getMajorVersion";
 
 export type {
   NormalizedConfig as ParseConfig,

@@ -2,7 +2,7 @@ import { Plugin } from "rollup";
 import fs from "fs";
 import path, { resolve } from "path";
 import { getEnv } from "@/src/utils/env";
-import { ParedUMDConfig } from "widget-up-utils";
+import { ParedUMDConfig, semverToIdentifier } from "widget-up-utils";
 import { ResolvedNpmResult, resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
 import { ConfigManager } from "@/src/getConfigManager";
 import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
@@ -44,7 +44,10 @@ function genServerLibs({
     dependenciesList.forEach((lib) => {
       const libName = lib.name;
       const umdFilePath = umdConfig.dependenciesEntries[libName][BuildEnv];
-      const destPath = path.join(outputPath, `${libName}.js`);
+      const destPath = path.join(
+        outputPath,
+        `${libName}_${semverToIdentifier(lib.version.exact)}.js`
+      );
       const libNpmInfo = resolveNpmInfo({ name: libName });
       const sourcePath = path.join(libNpmInfo.modulePath, umdFilePath);
 

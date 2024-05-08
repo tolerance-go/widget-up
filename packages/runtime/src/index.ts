@@ -1,5 +1,5 @@
 import "@/styles/index.less";
-import { semverToIdentifier } from "widget-up-utils";
+import { semverToIdentifier, getMajorVersion } from "widget-up-utils";
 
 export { globalEventBus } from "./globalEventBus";
 export { start } from "./start";
@@ -9,4 +9,5 @@ export type { DependencyTreeNode } from "./install";
 
 export const utils = {
   semverToIdentifier,
+  getMajorVersion,
 };

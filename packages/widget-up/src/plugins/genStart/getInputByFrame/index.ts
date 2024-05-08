@@ -1,23 +1,24 @@
 import { InputNpmManager } from "@/src/getInputNpmManager";
-import { getMajorVersion } from "@/src/utils/getMajorVersion";
-import { TechStack, TechType } from "@/types";
+import { DependencyTreeNodeJson, TechStack, TechType } from "@/types";
 import { DependencyTreeNode } from "widget-up-runtime";
+import { getMajorVersion } from "widget-up-utils";
 
 export function getInputByFrame(
   stacks: TechStack[],
   inputNpmManager: InputNpmManager
-): DependencyTreeNode[] {
+): DependencyTreeNodeJson[] {
   // 这是一个示例映射，用于将技术栈映射到入口文件
   const techStackMap: Record<
     TechType,
-    (version: string) => DependencyTreeNode
+    (version: string) => DependencyTreeNodeJson
   > = {
     React: (version) => ({
       name: `widget-up-input-react${getMajorVersion(version)}`,
       version: inputNpmManager.getInputByName(
         `widget-up-input-react${getMajorVersion(version)}`
       ).packageJson.version,
-      scriptSrc: () => `/libs/input.react${getMajorVersion(version)}.js`,
+      scriptSrc: `() => \`/libs/input.react\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
+      linkHref: `() => ''`,
       depends: [],
     }),
     Vue: (version) => ({
@@ -25,7 +26,8 @@ export function getInputByFrame(
       version: inputNpmManager.getInputByName(
         `widget-up-input-vue${getMajorVersion(version)}`
       ).packageJson.version,
-      scriptSrc: () => `/libs/input.vue${getMajorVersion(version)}.js`,
+      scriptSrc: `() => \`/libs/input.vue\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
+      linkHref: `() => ''`,
       depends: [],
     }),
     JQuery: (version) => ({
@@ -33,7 +35,8 @@ export function getInputByFrame(
       version: inputNpmManager.getInputByName(
         `widget-up-input-jquery${getMajorVersion(version)}`
       ).packageJson.version,
-      scriptSrc: () => `/libs/input.jquery${getMajorVersion(version)}.js`,
+      scriptSrc: `() => \`/libs/input.jquery\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
+      linkHref: `() => ''`,
       depends: [],
     }),
   };
