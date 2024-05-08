@@ -2,7 +2,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
 import { autoExternalDependencies, deleteDist } from "widget-up-utils";
 import alias from "@rollup/plugin-alias";
 
@@ -24,9 +24,8 @@ export default {
       preferBuiltins: true,
     }), // 解析 node_modules 中的模块
     commonjs(), // 转换 CJS -> ESM, 主要是一些 npm 包仍然是 CJS
-    json(),
+    // json(),
     typescript({
-      useTsconfigDeclarationDir: true,
       tsconfig: "tsconfig.build.json",
     }), // TypeScript 支持
     // css({ output: "bundle.css" }), // CSS 支持，将导入的 CSS 文件捆绑到单独的文件
