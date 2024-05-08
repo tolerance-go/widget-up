@@ -41,13 +41,15 @@ class DependencyManager {
     }
 
     let existingDep = this.dependencies[dependency].find(
-      (dep) => dep.version === resolvedVersion
+      (dep) => dep.version.exact === resolvedVersion
     );
 
     if (!existingDep) {
       existingDep = {
-        versionRange,
-        version: resolvedVersion,
+        version: {
+          exact: resolvedVersion,
+          range: versionRange,
+        },
         subDependencies: {},
         isGlobal,
         name: dependency,
@@ -68,7 +70,7 @@ class DependencyManager {
         );
         if (subResolvedVersion) {
           const subDepInstance = this.dependencies[subDep]?.find(
-            (dep) => dep.version === subResolvedVersion
+            (dep) => dep.version.exact === subResolvedVersion
           );
           if (subDepInstance) {
             // 确保子依赖实例存在
@@ -88,8 +90,8 @@ class DependencyManager {
 
     // 找到所有满足版本范围的依赖，并找到最高的版本
     const versionsToRemove = this.dependencies[dependency]
-      .filter((dep) => semver.satisfies(dep.version, versionRange))
-      .sort((a, b) => semver.rcompare(a.version, b.version));
+      .filter((dep) => semver.satisfies(dep.version.exact, versionRange))
+      .sort((a, b) => semver.rcompare(a.version.exact, b.version.exact));
 
     if (versionsToRemove.length === 0) {
       console.warn("No version found matching the provided range.");
@@ -104,7 +106,7 @@ class DependencyManager {
     }
 
     // 检查是否有其他依赖项依赖于即将删除的版本
-    if (this.isDependedOn(dependency, versionToRemove.version)) {
+    if (this.isDependedOn(dependency, versionToRemove.version.exact)) {
       console.warn(
         `Cannot remove ${dependency}@${versionToRemove.version} as it is still required by another package.`
       );
@@ -120,7 +122,7 @@ class DependencyManager {
     Object.keys(versionToRemove.subDependencies).forEach((subDep) => {
       this.removeDependency(
         subDep,
-        versionToRemove.subDependencies[subDep].version,
+        versionToRemove.subDependencies[subDep].version.exact,
         false
       );
     });
@@ -140,7 +142,7 @@ class DependencyManager {
     return Object.values(this.dependencies).some((topLevelDeps) =>
       topLevelDeps.some((topLevelDep) =>
         Object.entries(topLevelDep.subDependencies).some(
-          ([key, subDep]) => key === dependency && subDep.version === version
+          ([key, subDep]) => key === dependency && subDep.version.exact === version
         )
       )
     );

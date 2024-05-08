@@ -1,14 +1,15 @@
+import { VersionData } from "../version";
+
 export interface DependencyDetail {
-  versionRange: string;
   // 精确 version
-  version: string;
+  version: VersionData;
   subDependencies: Record<string, DependencyDetail>;
   isGlobal: boolean;
   name: string;
 }
 
 export type DependencyListItem = {
-  version: string;
+  version: VersionData;
   name: string;
   data?: Record<string, any>;
 };

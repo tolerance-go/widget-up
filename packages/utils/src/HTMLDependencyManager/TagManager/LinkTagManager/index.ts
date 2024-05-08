@@ -34,7 +34,7 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
     return {
       type: "link",
       name: item.name,
-      version: item.version,
+      version: item.version.exact,
       src: this.hrefBuilder(item),
       attributes: {
         rel: "stylesheet",

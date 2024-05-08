@@ -1,10 +1,6 @@
 import { PeerDependenciesTree } from "@/src/utils/getPeerDependTree";
 import { DependencyTreeNode } from "widget-up-runtime";
-
-export interface DependencyListItem {
-  name: string;
-  version: VersionData;
-}
+import { DependencyListItem, semverToIdentifier } from "widget-up-utils";
 
 export function convertPeerDependenciesToDependencyTree(
   peers: PeerDependenciesTree,
@@ -18,9 +14,9 @@ export function convertPeerDependenciesToDependencyTree(
       name: packageName,
       version,
       scriptSrc: (dep: DependencyListItem) =>
-        `/libs/${dep.name}_${dep.version}/bundle.js`,
+        `/libs/${dep.name}_${semverToIdentifier(dep.version.exact)}/index.js`,
       linkHref: (dep: DependencyListItem) =>
-        `/libs/${dep.name}_${dep.version}/styles.css`,
+        `/libs/${dep.name}_${semverToIdentifier(dep.version.exact)}/index.css`,
       depends: peerDependencies
         ? convertPeerDependenciesToDependencyTree(peerDependencies)
         : undefined,
