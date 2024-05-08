@@ -7,7 +7,8 @@ import packageJson from "@/package.json" assert { type: "json" };
 async function processBundle(
   config: RollupOptions,
   isWatch: boolean
-): Promise<void> {
+): Promise<boolean> {
+  let buildFailed = false;
   if (isWatch) {
     // 如果是 watch 模式，创建一个 watcher 来监控文件变动
     const watcher = watch(config);
@@ -21,7 +22,7 @@ async function processBundle(
        */
       // 输出错误信息
       if (event.code === "ERROR") {
-        console.error(event.error);
+        console.error("Error during build:", event.error);
       }
       // START 事件表示监控开始
       if (event.code === "START") {
@@ -31,55 +32,61 @@ async function processBundle(
       // if (event.code === "BUNDLE_START") {
       //   console.log("Building...");
       // }
-      // // 输出 BUNDLE_END 事件表示构建结束
-      // if (event.code === "BUNDLE_END") {
-      //   console.log("BUNDLE_END: Watching for changes...");
-      // }
+      // 输出 BUNDLE_END 事件表示构建结束
+      if (event.code === "BUNDLE_END") {
+        console.log("BUNDLE_END: Watching for changes...");
+        event.result.close(); // 关闭上一次的 bundle
+      }
       // 监控到构建结束时，输出提示信息
       if (event.code === "END") {
         console.log("Watching for changes...");
       }
     });
   } else {
-    const bundle: RollupBuild = await rollup(config);
-    try {
-      if (!config.output) {
-        throw new Error("Output configuration is missing.");
-      }
+    let bundle: RollupBuild | undefined;
 
+    if (!config.output) {
+      throw new Error("Output configuration is missing.");
+    }
+
+    try {
+      bundle = await rollup(config);
+    } catch (error) {
+      console.error("Error during the bundle build:", error);
+      buildFailed = true;
+      return buildFailed;
+    }
+
+    try {
       if (Array.isArray(config.output)) {
-        for (const output of config.output) {
-          await bundle.write(output); // 确保没有抛出错误
-        }
+        await Promise.all(config.output.map((output) => bundle.write(output)));
       } else {
         await bundle.write(config.output);
       }
+      await bundle.close(); // 确保释放资源
     } catch (error) {
       console.error("Error during the bundle write:", error);
-    } finally {
-      await bundle.close(); // 确保释放资源
+      buildFailed = true;
     }
   }
+  return buildFailed;
 }
 
 async function buildRollup(
   env: "production" | "development",
   isWatch: boolean = false
-): Promise<void> {
+): Promise<boolean> {
   process.env.NODE_ENV = env;
 
   const options: RollupOptions | RollupOptions[] = await getRollupConfig();
 
   if (Array.isArray(options)) {
-    for (const config of options) {
-      await processBundle(config, isWatch);
-    }
+    const buildFails = await Promise.all(
+      options.map((config) => processBundle(config, isWatch))
+    );
+    return buildFails.some((result) => result);
   } else {
-    await processBundle(options, isWatch);
-  }
-
-  if (!isWatch) {
-    console.log(`${env} build complete.`);
+    return await processBundle(options, isWatch);
   }
 }
 
@@ -94,8 +101,8 @@ export const bin = () => {
       async () => {
         console.log("Start Building...");
         try {
-          await buildRollup("production");
-          process.exit(0);
+          const buildFailed = await buildRollup("production");
+          process.exit(buildFailed ? 1 : 0);
         } catch (error) {
           console.error("Error during the build:", error);
         }
@@ -108,8 +115,8 @@ export const bin = () => {
       async () => {
         console.log("Starting development server...");
         try {
-          await buildRollup("development", true);
-          process.exit(0);
+          const buildFailed = await buildRollup("development", true);
+          process.exit(buildFailed ? 1 : 0);
         } catch (error) {
           console.error("Error during the development build:", error);
         }
