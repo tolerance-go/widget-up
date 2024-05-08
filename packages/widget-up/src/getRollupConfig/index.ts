@@ -24,19 +24,13 @@ const getRollupConfig = async () => {
     cwdPath,
     rootPath,
   });
-  
+
   const demosPath = pathManager.demosPath;
 
   logger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
   logger.info(`rootPath is ${rootPath}`);
   logger.info(`cwdPath is ${cwdPath}`);
   logger.info(`demosPath is ${demosPath}`);
-
-  const demosManager = getDemosManager({
-    folderPath: "demos",
-  });
-
-  const demoDatas = demosManager.getDemoDatas();
 
   const packageConfig = JSON.parse(
     fs.readFileSync(path.resolve("package.json"), "utf8")
@@ -49,6 +43,12 @@ const getRollupConfig = async () => {
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
   if (BuildEnvIsDev) {
+    const demosManager = getDemosManager({
+      folderPath: "demos",
+    });
+
+    const demoDatas = demosManager.getDemoDatas();
+
     const peerDependTreeManager = getPeerDependTreeManager({
       cwd: cwdPath,
     });
@@ -87,7 +87,6 @@ const getRollupConfig = async () => {
         packageConfig,
         globals: umdGlobals,
         output,
-        demoDatas,
       }),
     }));
   }

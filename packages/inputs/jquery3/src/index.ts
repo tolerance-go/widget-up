@@ -1,4 +1,4 @@
-import { Component } from "@widget-up-demo/jquery3";
+import { Component } from "widget-up-input-jquery3-runtime-component";
 
 const render = ({ rootElement }: { rootElement: HTMLElement }) => {
   // 确认 rootElement 存在

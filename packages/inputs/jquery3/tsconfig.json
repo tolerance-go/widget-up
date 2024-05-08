@@ -9,7 +9,8 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "widget-up-input-jquery3-runtime-component": ["./runtime-component"],
     }
   },
   "include": ["src/**/*", "types/**/*", "__tests__/**/*"]

@@ -19,9 +19,7 @@ export const getBuildPlugins = async ({
   packageConfig,
   globals,
   output,
-  demoDatas,
 }: {
-  demoDatas?: DemoData[];
   rootPath: string;
   config: ParseConfig;
   packageConfig: PackageJson;
