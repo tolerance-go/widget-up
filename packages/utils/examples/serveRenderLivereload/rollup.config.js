@@ -1,7 +1,7 @@
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
 import path from "path";
 import del from "rollup-plugin-delete";
 import {
@@ -24,18 +24,13 @@ export default {
     resolve(),
     commonjs(),
     typescript({
-      useTsconfigDeclarationDir: true,
-      tsconfigOverride: !isProduction
+      compilerOptions: !isProduction
         ? {
-            compilerOptions: {
-              declaration: false,
-            },
+            declaration,
           }
         : {
-            compilerOptions: {
-              declaration: true,
-              declarationDir: "dist/types",
-            },
+            declaration: true,
+            declarationDir: "dist",
           },
     }),
     isProduction && terser(),

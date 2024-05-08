@@ -54,7 +54,7 @@ export default {
                   }
                 : {
                     declaration: true,
-                    declarationDir: "dist/types",
+                    declarationDir: "dist",
                   },
             }),
             isProduction && terser(),
@@ -82,7 +82,7 @@ export default {
           }
         : {
             declaration: true,
-            declarationDir: "dist/types",
+            declarationDir: "dist",
           },
     }),
     isProduction && terser(),

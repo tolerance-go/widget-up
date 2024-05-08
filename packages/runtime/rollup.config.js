@@ -1,7 +1,7 @@
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
 import {
   autoExternalDependencies,
   peerDependenciesAsExternal,
@@ -41,13 +41,11 @@ export default {
     json(),
     typescript({
       tsconfig: "tsconfig.build.json",
-      tsconfigOverride: {
-        compilerOptions: buildEnvIsDevelopment
-          ? {
-              declaration: false,
-            }
-          : {},
-      },
+      compilerOptions: buildEnvIsDevelopment
+        ? {
+            declaration: false,
+          }
+        : {},
     }), // TypeScript 支持
     postcss({
       extensions: [".less"],
