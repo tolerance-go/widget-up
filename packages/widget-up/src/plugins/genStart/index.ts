@@ -11,7 +11,6 @@ import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenci
 
 interface GenStartOptions {
   outputPath?: string;
-  dependencies: DependencyTreeNode[];
   demosFolderManager: DemosFolderManager;
   packageConfig: PackageJson;
   peerDependTreeManager: PeerDependTreeManager;
@@ -20,7 +19,6 @@ interface GenStartOptions {
 export function genStart(options: GenStartOptions): Plugin {
   const {
     outputPath = "./dist/start.js",
-    dependencies,
     demosFolderManager,
     packageConfig,
     peerDependTreeManager,

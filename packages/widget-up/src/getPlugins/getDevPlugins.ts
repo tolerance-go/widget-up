@@ -31,6 +31,8 @@ import runtimeRollup, {
 import { convertConfigUmdToAliasImports } from "../utils/convertConfigUmdToAliasImports";
 import { normalizePath } from "../utils/normalizePath";
 import { getDemoInputList } from "./getDemoInputList";
+import { genStart } from "../plugins/genStart";
+import { DemosFolderManager } from "../getDemosFolderManager";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -40,7 +42,9 @@ export const getDevPlugins = async ({
   cwdPath,
   configManager,
   peerDependTreeManager,
+  demosFolderManager,
 }: {
+  demosFolderManager: DemosFolderManager;
   peerDependTreeManager: PeerDependTreeManager;
   configManager: ConfigManager;
   demoDatas?: DemoData[];
@@ -186,6 +190,12 @@ export const getDevPlugins = async ({
       //     }),
       //   });
       // },
+    }),
+    genStart({
+      outputPath: "./dist/start.js",
+      demosFolderManager,
+      packageConfig,
+      peerDependTreeManager,
     }),
     genAssert({
       src: path.join(rootPath, "tpls/index.html.ejs"),

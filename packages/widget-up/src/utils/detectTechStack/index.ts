@@ -30,8 +30,8 @@ export function detectTechStack({
     const techStacks: { [key in TechType]: string[] } = {
       React: ["react", "react-dom"],
       Vue: ["vue"],
-      Angular: ["@angular/core"],
-      Svelte: ["svelte"],
+      // Angular: ["@angular/core"],
+      // Svelte: ["svelte"],
       JQuery: ["jquery"],
     };
 

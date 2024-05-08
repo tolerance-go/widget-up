@@ -22,36 +22,36 @@ function genServerLibs({
   let once = false;
 
   const write = (umdConfig: ParedUMDConfig) => {
-    const { BuildEnvIsDev, BuildEnv } = getEnv();
-    const outputPath = path.resolve("dist", "server", "libs");
+    // const { BuildEnvIsDev, BuildEnv } = getEnv();
+    // const outputPath = path.resolve("dist", "server", "libs");
 
-    // 确保输出目录存在
-    if (!fs.existsSync(outputPath)) {
-      fs.mkdirSync(outputPath, { recursive: true });
-    }
+    // // 确保输出目录存在
+    // if (!fs.existsSync(outputPath)) {
+    //   fs.mkdirSync(outputPath, { recursive: true });
+    // }
 
-    // 复制每个需要的库
-    for (const [libName, config] of Object.entries(umdConfig.external)) {
-      const lib = resolvedNpm({ name: libName });
-      const destPath = path.join(outputPath, `${libName}.${BuildEnv}.js`);
-      const umdFilePath = path.join(
-        lib.modulePath,
-        BuildEnvIsDev ? config.path.development : config.path.production
-      );
+    // // 复制每个需要的库
+    // for (const [libName, config] of Object.entries(umdConfig.external)) {
+    //   const lib = resolvedNpm({ name: libName });
+    //   const destPath = path.join(outputPath, `${libName}.${BuildEnv}.js`);
+    //   const umdFilePath = path.join(
+    //     lib.modulePath,
+    //     BuildEnvIsDev ? config.path.development : config.path.production
+    //   );
 
-      try {
-        let code = fs.readFileSync(umdFilePath, "utf8");
+    //   try {
+    //     let code = fs.readFileSync(umdFilePath, "utf8");
 
-        // 如果提供了代码修改函数，应用它
-        if (modifyCode) {
-          code = modifyCode(code, lib);
-        }
+    //     // 如果提供了代码修改函数，应用它
+    //     if (modifyCode) {
+    //       code = modifyCode(code, lib);
+    //     }
 
-        fs.writeFileSync(destPath, code, "utf8");
-      } catch (error) {
-        console.error(`Error copying file for ${libName}: ${error}`);
-      }
-    }
+    //     fs.writeFileSync(destPath, code, "utf8");
+    //   } catch (error) {
+    //     console.error(`Error copying file for ${libName}: ${error}`);
+    //   }
+    // }
   };
 
   configManager.watch(({ umd: umdConfig }) => {
