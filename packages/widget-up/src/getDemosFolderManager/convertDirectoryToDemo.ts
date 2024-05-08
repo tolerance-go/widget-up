@@ -2,6 +2,7 @@ import { DemoData, DemoFileConfig, DemoFileNormalizedConfig } from "@/types";
 import { DirectoryStructure } from "../utils/parseDirectoryStructure";
 import realFs from "fs";
 import realPath from "path";
+import { normalizeDemoFileConfig } from "./normalizeDemoFileConfig";
 
 export const convertDirectoryToDemo = (
   directory: DirectoryStructure[],
@@ -29,18 +30,6 @@ export const convertDirectoryToDemo = (
             encoding: "utf-8",
           })
         ) as DemoFileConfig;
-
-        const normalizeDemoFileConfig = (
-          config: DemoFileConfig
-        ): DemoFileNormalizedConfig => {
-          return {
-            name: config.name || "Demo",
-            globals: {
-              component: config.globals?.component || "Component",
-              register: config.globals?.register || "register",
-            },
-          };
-        };
 
         // Create the basic menu item from the directory item
         const menuItem: DemoData = {
