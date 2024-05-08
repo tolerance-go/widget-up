@@ -3,7 +3,7 @@ import {
   UMDAliasOptions,
   semverToIdentifier,
 } from "widget-up-utils";
-import { resolvedNpm } from "../resolvedNpm";
+import { resolveNpmInfo } from "../resolveNpmInfo";
 
 export const convertConfigUmdToAliasImports = ({
   umdConfig,
@@ -19,7 +19,7 @@ export const convertConfigUmdToAliasImports = ({
       throw new Error(`Global variable not found for ${libName}`);
     }
 
-    const libData = resolvedNpm({ name: libName });
+    const libData = resolveNpmInfo({ name: libName });
 
     imports.push({
       globalVar: `${globalVar}_${semverToIdentifier(

@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { getEnv } from "@/src/utils/env";
 import { ParedUMDConfig } from "widget-up-utils";
-import { ResolvedNpmResult, resolvedNpm } from "@/src/utils/resolvedNpm";
+import { ResolvedNpmResult, resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
 import { ConfigManager } from "@/src/getConfigManager";
 
 // 插件接收的参数类型定义

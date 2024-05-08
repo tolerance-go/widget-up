@@ -9,7 +9,7 @@ export interface ResolvedNpmResult {
   packageJson: PackageJson;
 }
 
-function resolvedNpm({
+function resolveNpmInfo({
   name,
   cwd = process.cwd(),
 }: {
@@ -65,4 +65,4 @@ function resolvedNpm({
   };
 }
 
-export { resolvedNpm };
+export { resolveNpmInfo };
