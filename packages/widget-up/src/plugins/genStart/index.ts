@@ -9,6 +9,9 @@ import { PackageJson } from "widget-up-utils";
 import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
 import { InputNpmManager } from "@/src/getInputNpmManager";
+import { DependencyTreeNodeJson } from "@/types";
+import { PathManager } from "@/src/getPathManager";
+import { normalizePath } from "@/src/utils/normalizePath";
 
 interface GenStartOptions {
   outputPath?: string;
@@ -16,6 +19,7 @@ interface GenStartOptions {
   packageConfig: PackageJson;
   peerDependTreeManager: PeerDependTreeManager;
   inputNpmManager: InputNpmManager;
+  pathManager: PathManager;
 }
 
 export function genStart({
@@ -24,6 +28,7 @@ export function genStart({
   packageConfig,
   peerDependTreeManager,
   inputNpmManager,
+  pathManager,
 }: GenStartOptions): Plugin {
   let once = false;
 
@@ -38,7 +43,9 @@ export function genStart({
         depends: demoDatas.map((demo) => ({
           name: demo.config.name,
           version: packageConfig.version,
-          scriptSrc: () => `/demos/${demo.path}/index.js`,
+          scriptSrc: `() => \`${normalizePath(
+            path.join("/demos", path.relative(pathManager.demosPath, demo.path))
+          )}\``,
           depends: [
             {
               name: packageConfig.name,
@@ -48,14 +55,18 @@ export function genStart({
               ),
             },
           ],
-        })),
+        })) as DependencyTreeNodeJson[],
       };
     });
-    const content = `WidgetUpRuntime.start({dependencies: [${JSON.stringify(
+
+    let content = `WidgetUpRuntime.start({dependencies: [${JSON.stringify(
       deps,
       null,
       2
     )}]});`;
+
+    content = content.replace(/"(scriptSrc|linkHref)": "(.*)"/g, "$1: $2");
+
     fs.ensureDirSync(path.dirname(outputPath));
     fs.writeFileSync(outputPath, content, "utf-8");
     console.log(`Generated start.js at ${outputPath}`);

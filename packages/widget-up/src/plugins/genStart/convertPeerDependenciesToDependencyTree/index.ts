@@ -1,22 +1,19 @@
 import { PeerDependenciesTree } from "@/src/utils/getPeerDependTree";
-import { DependencyTreeNode } from "widget-up-runtime";
-import { DependencyListItem, semverToIdentifier } from "widget-up-utils";
+import { DependencyTreeNodeJson } from "@/types";
 
 export function convertPeerDependenciesToDependencyTree(
   peers: PeerDependenciesTree,
-  parentNode?: DependencyTreeNode
-): DependencyTreeNode[] {
-  let result: DependencyTreeNode[] = [];
+  parentNode?: DependencyTreeNodeJson
+): DependencyTreeNodeJson[] {
+  let result: DependencyTreeNodeJson[] = [];
 
   Object.keys(peers).forEach((packageName) => {
     const { version, peerDependencies } = peers[packageName];
-    const node: DependencyTreeNode = {
+    const node: DependencyTreeNodeJson = {
       name: packageName,
       version: version.exact,
-      scriptSrc: (dep: DependencyListItem) =>
-        `/libs/${dep.name}_${semverToIdentifier(dep.version.exact)}/index.js`,
-      linkHref: (dep: DependencyListItem) =>
-        `/libs/${dep.name}_${semverToIdentifier(dep.version.exact)}/index.css`,
+      scriptSrc: `dep => \`/libs/\${dep.name}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}/index.js\``,
+      linkHref: `dep => \`/libs/\${dep.name}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}/index.css\``,
       depends: peerDependencies
         ? convertPeerDependenciesToDependencyTree(peerDependencies)
         : undefined,

@@ -1,16 +1,20 @@
 import { DependencyTreeNode } from "widget-up-runtime";
 import { convertPeerDependenciesToDependencyTree } from ".";
 import { PeerDependenciesTree } from "@/src/utils/getPeerDependTree";
+import { DependencyTreeNodeJson } from "@/types";
 
 describe("convertPeerDependenciesToDependencyTree", () => {
   it("should correctly convert a simple peer dependencies tree", () => {
     const input: PeerDependenciesTree = {
       react: {
-        version: "17.0.1",
+        version: {
+          exact: "17.0.1",
+          range: "^17.0.1",
+        },
       },
     };
 
-    const expectedOutput: DependencyTreeNode[] = [
+    const expectedOutput: DependencyTreeNodeJson[] = [
       {
         name: "react",
         version: "17.0.1",
@@ -27,16 +31,22 @@ describe("convertPeerDependenciesToDependencyTree", () => {
   it("should handle nested dependencies", () => {
     const input: PeerDependenciesTree = {
       react: {
-        version: "17.0.1",
+        version: {
+          exact: "17.0.1",
+          range: "^17.0.1",
+        },
         peerDependencies: {
           "react-dom": {
-            version: "17.0.1",
+            version: {
+              exact: "17.0.1",
+              range: "^17.0.1",
+            },
           },
         },
       },
     };
 
-    const expectedOutput: DependencyTreeNode[] = [
+    const expectedOutput: DependencyTreeNodeJson[] = [
       {
         name: "react",
         version: "17.0.1",

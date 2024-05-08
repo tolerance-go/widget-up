@@ -12,13 +12,20 @@ import { getPeerDependTreeManager } from "../getPeerDependTreeManager";
 import { getInputFile } from "./getProdInput";
 import { logger } from "../utils/logger";
 import { getDevPlugins, getBuildPlugins } from "../getPlugins";
+import getPathManager from "../getPathManager";
 
 const getRollupConfig = async () => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const rootPath = path.join(__dirname, "..");
   const cwdPath = process.cwd();
-  const demosPath = path.join(cwdPath, "demos");
+
+  const pathManager = getPathManager({
+    cwdPath,
+    rootPath,
+  });
+  
+  const demosPath = pathManager.demosPath;
 
   logger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
   logger.info(`rootPath is ${rootPath}`);
@@ -56,6 +63,7 @@ const getRollupConfig = async () => {
         sourcemap: BuildEnvIsDev ? "inline" : false,
       },
       plugins: getDevPlugins({
+        pathManager,
         demosManager,
         peerDependTreeManager,
         rootPath,

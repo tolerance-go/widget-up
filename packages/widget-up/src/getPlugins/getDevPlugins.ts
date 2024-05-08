@@ -34,6 +34,7 @@ import { getDemoInputList } from "./getDemoInputList";
 import { genStart } from "../plugins/genStart";
 import { DemosManager } from "../getDemosManager";
 import { InputNpmManager } from "../getInputNpmManager";
+import { PathManager } from "../getPathManager";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -44,7 +45,9 @@ export const getDevPlugins = async ({
   configManager,
   peerDependTreeManager,
   demosManager,
+  pathManager,
 }: {
+  pathManager: PathManager;
   demosManager: DemosManager;
   peerDependTreeManager: PeerDependTreeManager;
   configManager: ConfigManager;
@@ -197,6 +200,7 @@ export const getDevPlugins = async ({
       // },
     }),
     genStart({
+      pathManager,
       outputPath: "./dist/start.js",
       demosManager,
       packageConfig,
