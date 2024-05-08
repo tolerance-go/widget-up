@@ -2,7 +2,7 @@
   "name": "widget-up",
   "version": "0.5.2",
   "description": "",
-  "types": "dist/types/widget-up/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
