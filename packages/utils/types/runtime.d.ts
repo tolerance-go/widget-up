@@ -1,5 +1,5 @@
 export interface DemoMenuItem {
-  globals?: {
+  globals: {
     component: string;
     register: string;
   };

@@ -40,7 +40,6 @@
     "semver": "^7.6.0",
     "strip-json-comments": "^5.0.1",
     "tslib": "^2.6.2",
-    "widget-up-utils": "workspace:^",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
@@ -76,8 +75,7 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.8",
-    "typescript": "^5.4.5",
-    "widget-up-utils": "workspace:^"
+    "typescript": "^5.4.5"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
