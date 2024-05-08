@@ -28,7 +28,7 @@ import genServerLibs from "../../plugins/genServerLibs";
 import runtimeRollup, {
   RuntimeRollupOptions,
 } from "../../utils/rollup-plugins/runtimeRollup";
-import { convertConfigUmdToAliasImports } from "../../utils/convertConfigUmdToAliasImports";
+import { convertConfigUmdToAliasImports } from "./convertConfigUmdToAliasImports";
 import { normalizePath } from "../../utils/normalizePath";
 import { getDemoInputList } from "../getDemoInputList";
 import { genStart } from "../../plugins/genStart";
@@ -118,7 +118,7 @@ export const getDevPlugins = async ({
     ...runtimeRollupPlgs,
     ...devBuildPlugins,
     genServerLibs({
-      umdConfig: config.umd,
+      peerDependTreeManager,
       configManager,
       // modifyCode: (code, lib) => {
       //   return wrapUMDAsyncEventCode({

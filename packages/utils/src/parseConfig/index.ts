@@ -6,7 +6,24 @@ export function parseConfig(config: SchemaConfig): NormalizedConfig {
     name: config.umd.name,
     external: config.umd.external,
     globals: config.umd.globals,
-    dependenciesEntries: config.umd.dependenciesEntries ?? {},
+    dependenciesEntries: Object.fromEntries(
+      Object.entries(config.umd.dependenciesEntries ?? {}).map(
+        ([key, value]) => {
+          return [
+            key,
+            typeof value === "string"
+              ? {
+                  development: value,
+                  production: value,
+                }
+              : {
+                  development: value.development,
+                  production: value.production,
+                },
+          ];
+        }
+      )
+    ),
   };
 
   // 构建 ParseConfig 对象，包括处理好的 UMD 配置

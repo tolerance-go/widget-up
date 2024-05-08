@@ -7,8 +7,8 @@
     "globals": { "jquery": "$" },
     "dependenciesEntries": {
       "jquery": {
-        "development": "/dist/index.js",
-        "production": "/dist/index.min.js"
+        "development": "/dist/jquery.js",
+        "production": "/dist/jquery.min.js"
       }
     }
   },

@@ -3,7 +3,7 @@ import {
   UMDAliasOptions,
   semverToIdentifier,
 } from "widget-up-utils";
-import { resolveNpmInfo } from "../resolveNpmInfo";
+import { resolveNpmInfo } from "../../../utils/resolveNpmInfo";
 
 export const convertConfigUmdToAliasImports = ({
   umdConfig,

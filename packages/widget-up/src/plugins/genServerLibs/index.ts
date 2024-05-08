@@ -1,61 +1,76 @@
 import { Plugin } from "rollup";
 import fs from "fs";
-import path from "path";
+import path, { resolve } from "path";
 import { getEnv } from "@/src/utils/env";
 import { ParedUMDConfig } from "widget-up-utils";
 import { ResolvedNpmResult, resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
 import { ConfigManager } from "@/src/getConfigManager";
+import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
 
 // 插件接收的参数类型定义
 interface ServerLibsPluginOptions {
-  modifyCode?: (code: string, lib: ResolvedNpmResult) => string;
+  modifyCode?: (
+    code: string,
+    options: {
+      libNpmInfo: ResolvedNpmResult;
+    }
+  ) => string;
   configManager: ConfigManager;
-  umdConfig: ParedUMDConfig;
+  peerDependTreeManager: PeerDependTreeManager;
 }
 
 // 主插件函数
 function genServerLibs({
-  umdConfig,
   configManager,
   modifyCode,
+  peerDependTreeManager,
 }: ServerLibsPluginOptions): Plugin {
   let once = false;
 
-  const write = (umdConfig: ParedUMDConfig) => {
-    // const { BuildEnvIsDev, BuildEnv } = getEnv();
-    // const outputPath = path.resolve("dist", "server", "libs");
+  const write = () => {
+    const dependenciesList = peerDependTreeManager.getDependenciesList();
 
-    // // 确保输出目录存在
-    // if (!fs.existsSync(outputPath)) {
-    //   fs.mkdirSync(outputPath, { recursive: true });
-    // }
+    const { umd: umdConfig } = configManager.get();
 
-    // // 复制每个需要的库
-    // for (const [libName, config] of Object.entries(umdConfig.external)) {
-    //   const lib = resolvedNpm({ name: libName });
-    //   const destPath = path.join(outputPath, `${libName}.${BuildEnv}.js`);
-    //   const umdFilePath = path.join(
-    //     lib.modulePath,
-    //     BuildEnvIsDev ? config.path.development : config.path.production
-    //   );
+    const { BuildEnv } = getEnv();
+    const outputPath = path.resolve("dist", "server", "libs");
 
-    //   try {
-    //     let code = fs.readFileSync(umdFilePath, "utf8");
+    // 确保输出目录存在
+    if (!fs.existsSync(outputPath)) {
+      fs.mkdirSync(outputPath, { recursive: true });
+    }
 
-    //     // 如果提供了代码修改函数，应用它
-    //     if (modifyCode) {
-    //       code = modifyCode(code, lib);
-    //     }
+    // 复制每个需要的库
+    dependenciesList.forEach((lib) => {
+      const libName = lib.name;
+      const umdFilePath = umdConfig.dependenciesEntries[libName][BuildEnv];
+      const destPath = path.join(outputPath, `${libName}.js`);
+      const libNpmInfo = resolveNpmInfo({ name: libName });
+      const sourcePath = path.join(libNpmInfo.modulePath, umdFilePath);
 
-    //     fs.writeFileSync(destPath, code, "utf8");
-    //   } catch (error) {
-    //     console.error(`Error copying file for ${libName}: ${error}`);
-    //   }
-    // }
+      try {
+        let code = fs.readFileSync(sourcePath, "utf8");
+
+        // 如果提供了代码修改函数，应用它
+        if (modifyCode) {
+          code = modifyCode(code, {
+            libNpmInfo,
+          });
+        }
+
+        fs.writeFileSync(destPath, code, "utf8");
+      } catch (error) {
+        console.error(`Error copying file for ${libName}: ${error}`);
+      }
+    });
   };
 
-  configManager.watch(({ umd: umdConfig }) => {
-    write(umdConfig);
+  configManager.watch(() => {
+    write();
+  });
+
+  peerDependTreeManager.watch(() => {
+    write();
   });
 
   return {
@@ -64,9 +79,7 @@ function genServerLibs({
       // 只执行一次
       if (!once) {
         once = true;
-        write(umdConfig);
-
-        return;
+        write();
       }
     },
   };

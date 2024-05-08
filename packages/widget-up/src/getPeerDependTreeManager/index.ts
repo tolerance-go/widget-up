@@ -2,6 +2,7 @@ import { EventEmitter } from "events";
 import fs from "fs";
 import path from "path";
 import getPeerDependTree, {
+  PeerDependenciesNode,
   PeerDependenciesTree,
 } from "../utils/getPeerDependTree";
 
@@ -33,6 +34,38 @@ export class PeerDependTreeManager extends EventEmitter {
 
   public getDependenciesTree(): PeerDependenciesTree {
     return this.dependenciesTree;
+  }
+
+  /**
+   * @returns 返回叶子节点的数据列表
+   */
+  public getDependenciesList(): PeerDependenciesNode[] {
+    // 递归函数来收集叶子节点
+    const collectLeafNodes = (
+      node: PeerDependenciesTree,
+      list: PeerDependenciesNode[]
+    ) => {
+      Object.keys(node).forEach((key) => {
+        const child = node[key];
+        if (
+          child.peerDependencies &&
+          Object.keys(child.peerDependencies).length > 0
+        ) {
+          // 如果有子依赖，继续递归
+          collectLeafNodes(child.peerDependencies, list);
+        } else {
+          // 没有子依赖，是叶子节点，收集信息
+          list.push({
+            version: child.version,
+            name: child.name,
+          });
+        }
+      });
+    };
+
+    const list: PeerDependenciesNode[] = [];
+    collectLeafNodes(this.dependenciesTree, list);
+    return list;
   }
 
   public stopWatching() {

@@ -2,11 +2,14 @@ import nodeFs from "fs";
 import nodePath from "path";
 import { VersionData } from "widget-up-utils";
 
+export type PeerDependenciesNode = {
+  name: string;
+  version: VersionData;
+  peerDependencies?: PeerDependenciesTree;
+};
+
 export interface PeerDependenciesTree {
-  [packageName: string]: {
-    version: VersionData;
-    peerDependencies?: PeerDependenciesTree;
-  };
+  [packageName: string]: PeerDependenciesNode;
 }
 
 function getPeerDependTree(
@@ -57,6 +60,7 @@ function getPeerDependTree(
 
         const exactVersion = depPackageJson?.version || "unknown";
         parentTree[pkg] = {
+          name: pkg,
           version: {
             exact: exactVersion,
             range: range as string,

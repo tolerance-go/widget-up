@@ -1,4 +1,4 @@
-import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
+import { convertConfigUmdToAliasImports } from "@/src/getPlugins/getDevPlugins/convertConfigUmdToAliasImports";
 import { getEnv } from "@/src/utils/env";
 import { logger } from "@/src/utils/logger";
 import { normalizePath } from "@/src/utils/normalizePath";
