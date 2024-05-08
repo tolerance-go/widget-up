@@ -3,7 +3,7 @@ import { DependencyTreeNode } from "widget-up-runtime";
 
 export interface DependencyListItem {
   name: string;
-  version: string;
+  version: VersionData;
 }
 
 export function convertPeerDependenciesToDependencyTree(
@@ -18,9 +18,9 @@ export function convertPeerDependenciesToDependencyTree(
       name: packageName,
       version,
       scriptSrc: (dep: DependencyListItem) =>
-        `https://cdn.example.com/${dep.name}@${dep.version}/bundle.js`,
+        `/libs/${dep.name}_${dep.version}/bundle.js`,
       linkHref: (dep: DependencyListItem) =>
-        `https://cdn.example.com/${dep.name}@${dep.version}/styles.css`,
+        `/libs/${dep.name}_${dep.version}/styles.css`,
       depends: peerDependencies
         ? convertPeerDependenciesToDependencyTree(peerDependencies)
         : undefined,

@@ -36,14 +36,24 @@ export interface GlobalsSchemaConfig {
 // 定义 UMD 配置的类型
 export interface UMDSchemaConfig {
   name: string;
-  external: ExternalSchemaConfig;
+  external: string[];
   globals: GlobalsSchemaConfig;
+  dependenciesEntries?: UMDDependenciesEntries;
 }
 
-export interface ParedUMDConfig {
+export type UMDDependenciesEntries = Record<
+  string,
+  {
+    version: string;
+    path: string;
+  }
+>;
+
+export interface NormalizedUMDConfig {
   name: string;
-  external: ParsedExternalConfig;
+  external: string[];
   globals: GlobalsSchemaConfig;
+  dependenciesEntries: UMDDependenciesEntries;
 }
 
 export type CSSModuleType = "modules" | "autoModules";
@@ -58,9 +68,9 @@ export interface SchemaConfig {
   form?: FormSchemaConfig;
 }
 
-export interface ParseConfig {
+export interface NormalizedConfig {
   input: string;
-  umd: ParedUMDConfig;
+  umd: NormalizedUMDConfig;
   cjs?: boolean;
   esm?: boolean;
   css?: boolean | CSSModuleType;

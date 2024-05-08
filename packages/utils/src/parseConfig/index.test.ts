@@ -1,5 +1,5 @@
-import { parseConfig } from "../src/parseConfig";
-import { SchemaConfig } from "../types";
+import { parseConfig } from ".";
+import { SchemaConfig } from "../../types";
 
 describe("parseConfig", () => {
   it("should correctly parse a full configuration object", () => {
@@ -7,19 +7,7 @@ describe("parseConfig", () => {
       input: "src/index.tsx",
       umd: {
         name: "MyComponent",
-        external: {
-          react: {
-            unpkg: {
-              filePath: "/umd/react.production.min.js",
-            },
-          },
-          "react-dom": {
-            unpkg: {
-              filePath: "/umd/react-dom.production.min.js",
-            },
-            peerDependencies: ["react"],
-          },
-        },
+        external: ['react', 'react-dom'],
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
@@ -35,19 +23,7 @@ describe("parseConfig", () => {
       input: "src/index.tsx",
       umd: {
         name: "MyComponent",
-        external: {
-          react: {
-            unpkg: {
-              filePath: "/umd/react.production.min.js",
-            },
-          },
-          "react-dom": {
-            unpkg: {
-              filePath: "/umd/react-dom.production.min.js",
-            },
-            peerDependencies: ["react"],
-          },
-        },
+        external: ['react', 'react-dom'],
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
@@ -65,6 +41,14 @@ describe("parseConfig", () => {
 
   it("should handle configurations without UMD correctly", () => {
     const inputConfig: SchemaConfig = {
+      umd: {
+        name: "MyComponent",
+        external: ['react', 'react-dom'],
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+        },
+      },
       input: "src/index.tsx",
       cjs: false,
       esm: true,
@@ -72,8 +56,15 @@ describe("parseConfig", () => {
     };
 
     const expectedOutput = {
+      umd: {
+        name: "MyComponent",
+        external: ['react', 'react-dom'],
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+        },
+      },
       input: "src/index.tsx",
-      umd: undefined,
       cjs: false,
       esm: true,
       css: true,

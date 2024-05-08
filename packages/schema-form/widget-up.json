@@ -3,15 +3,14 @@
   "input": "src/index.tsx",
   "umd": {
     "name": "MyComponent",
-    "external": {
+    "external": ["jquery"],
+    "globals": { "jquery": "$" },
+    "dependenciesEntries": {
       "jquery": {
-        "path": {
-          "development": "/dist/jquery.js",
-          "production": "/dist/jquery.min.js"
-        }
+        "development": "/dist/index.js",
+        "production": "/dist/index.min.js"
       }
-    },
-    "globals": { "jquery": "$" }
+    }
   },
   "cjs": true,
   "esm": true

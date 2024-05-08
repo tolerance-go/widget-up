@@ -10,15 +10,16 @@ export * from "./wrapUMDAliasCode";
 export * from "./wrapUMDAsyncEventCode";
 
 export type {
-  ParseConfig,
+  NormalizedConfig as ParseConfig,
   SchemaConfig,
   GlobalsSchemaConfig,
   PackageJson,
   JQueryComponent,
   JQueryComponentProps,
-  ParedUMDConfig,
+  NormalizedUMDConfig as ParedUMDConfig,
 } from "@/types";
 export type * from "@/types/form";
 export type * from "@/types/runtime";
 export type { DependencyListItem } from "../types/HTMLDependencyManager";
 export type { TagEvents } from "./HTMLDependencyManager/TagManager";
+export type * from "@/types/version";
