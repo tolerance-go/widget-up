@@ -28,24 +28,37 @@ export function genStart(options: GenStartOptions): Plugin {
 
   let once = false;
 
-  const demoDatas = demosFolderManager.getDemoDatas();
-  const techStacks = detectTechStack();
-  const inputs = getInputByFrame(techStacks);
+  const build = () => {
+    const demoDatas = demosFolderManager.getDemoDatas();
+    const techStacks = detectTechStack();
+    const inputs = getInputByFrame(techStacks);
 
-  const deps = inputs.map((input) => {
-    return {
-      ...input,
-      depends: demoDatas.map((demo) => ({
-        name: demo.config.name,
-        version: packageConfig.version,
-        scriptSrc: () => `/demos/${demo.path}/index.js`,
-        depends: convertPeerDependenciesToDependencyTree(
-          peerDependTreeManager.getDependenciesTree()
-        ),
-      })),
-    };
+    const deps = inputs.map((input) => {
+      return {
+        ...input,
+        depends: demoDatas.map((demo) => ({
+          name: demo.config.name,
+          version: packageConfig.version,
+          scriptSrc: () => `/demos/${demo.path}/index.js`,
+          depends: convertPeerDependenciesToDependencyTree(
+            peerDependTreeManager.getDependenciesTree()
+          ),
+        })),
+      };
+    });
+    const content = `WidgetUpRuntime.start({dependencies: [${deps}]});`;
+    fs.ensureDirSync(path.dirname(outputPath));
+    fs.writeFileSync(outputPath, content, "utf-8");
+    console.log(`Generated start.js at ${outputPath}`);
+  };
+
+  demosFolderManager.watch(() => {
+    build();
   });
-  const content = `WidgetUpRuntime.start({dependencies: [${deps}]});`;
+
+  peerDependTreeManager.watch(() => {
+    build();
+  });
 
   return {
     name: "gen-start",
@@ -53,10 +66,7 @@ export function genStart(options: GenStartOptions): Plugin {
       if (once) return;
 
       once = true;
-
-      fs.ensureDirSync(path.dirname(outputPath));
-      fs.writeFileSync(outputPath, content, "utf-8");
-      console.log(`Generated start.js at ${outputPath}`);
+      build();
     },
   };
 }

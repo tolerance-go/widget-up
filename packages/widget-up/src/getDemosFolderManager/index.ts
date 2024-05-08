@@ -10,7 +10,6 @@ import { convertDirectoryToDemo } from "./convertDirectoryToDemo";
 
 export class DemosFolderManager extends EventEmitter {
   private folderPath: string;
-  private directoryStructure: DirectoryStructure | null = null;
   private demoDatas: DemoData[] = [];
   private fs: typeof realFs;
   private path: typeof realPath;
@@ -20,7 +19,6 @@ export class DemosFolderManager extends EventEmitter {
     this.fs = fs;
     this.path = path;
     this.folderPath = this.path.resolve(folderPath);
-    this.directoryStructure = null;
     this.demoDatas = [];
 
     this.loadInitialDirectoryStructure();
@@ -30,10 +28,7 @@ export class DemosFolderManager extends EventEmitter {
   private async loadInitialDirectoryStructure(): Promise<void> {
     try {
       this.convertDatas();
-      this.emit("initialized", {
-        directoryStructure: this.directoryStructure,
-        demoDatas: this.demoDatas,
-      });
+      this.emit("initialized", this.demoDatas);
     } catch (error) {
       this.emit("error", error);
     }
@@ -48,10 +43,7 @@ export class DemosFolderManager extends EventEmitter {
           // 当检测到变化时重新加载目录结构
           try {
             this.convertDatas();
-            this.emit("change", {
-              directoryStructure: this.directoryStructure,
-              demoDatas: this.demoDatas,
-            });
+            this.emit("change", this.demoDatas);
           } catch (error) {
             this.emit("error", error);
           }
@@ -60,24 +52,28 @@ export class DemosFolderManager extends EventEmitter {
     );
   }
 
-  public getDirectoryStructure(): DirectoryStructure | null {
-    return this.directoryStructure;
-  }
-
   public getDemoDatas(): DemoData[] {
     return this.demoDatas;
   }
 
   private convertDatas() {
     if (this.fs.existsSync(this.folderPath)) {
-      this.directoryStructure = parseDirectoryStructure(this.folderPath);
-    }
+      const directoryStructure = parseDirectoryStructure(this.folderPath);
 
-    this.demoDatas = convertDirectoryToDemo(
-      this.directoryStructure?.children ?? [],
-      this.fs,
-      this.path
-    );
+      this.demoDatas = convertDirectoryToDemo(
+        directoryStructure?.children ?? [],
+        this.fs,
+        this.path
+      );
+    }
+  }
+
+  // 注册监听依赖树变化的回调函数
+  public watch(
+    callback: (data: DemoData[]) => void
+  ): () => void {
+    this.on("change", callback);
+    return () => this.removeListener("change", callback); // 返回一个取消监听的函数
   }
 }
 
