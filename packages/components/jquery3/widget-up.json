@@ -12,6 +12,6 @@
       }
     }
   },
-  "cjs": true,
-  "esm": true
+  "cjs": false,
+  "esm": false
 }

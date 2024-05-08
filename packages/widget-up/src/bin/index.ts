@@ -42,17 +42,23 @@ async function processBundle(
     });
   } else {
     const bundle: RollupBuild = await rollup(config);
-    if (Array.isArray(config.output)) {
-      for (const output of config.output) {
-        await bundle.write(output);
-      }
-    } else {
+    try {
       if (!config.output) {
         throw new Error("Output configuration is missing.");
       }
-      await bundle.write(config.output);
+
+      if (Array.isArray(config.output)) {
+        for (const output of config.output) {
+          await bundle.write(output); // 确保没有抛出错误
+        }
+      } else {
+        await bundle.write(config.output);
+      }
+    } catch (error) {
+      console.error("Error during the bundle write:", error);
+    } finally {
+      await bundle.close(); // 确保释放资源
     }
-    await bundle.close();
   }
 }
 
@@ -66,14 +72,10 @@ async function buildRollup(
 
   if (Array.isArray(options)) {
     for (const config of options) {
-      if (config) {
-        await processBundle(config, isWatch);
-      }
+      await processBundle(config, isWatch);
     }
   } else {
-    if (options) {
-      await processBundle(options, isWatch);
-    }
+    await processBundle(options, isWatch);
   }
 
   if (!isWatch) {
@@ -89,19 +91,28 @@ export const bin = () => {
       "build",
       "Builds the widget for production",
       () => {},
-      () => {
-        console.log("Running clean up...");
-        console.log("Building...");
-        buildRollup("production").catch(console.error);
+      async () => {
+        console.log("Start Building...");
+        try {
+          await buildRollup("production");
+          process.exit(0);
+        } catch (error) {
+          console.error("Error during the build:", error);
+        }
       }
     )
     .command(
       "dev",
       "Starts the widget in development mode with watch",
       () => {},
-      () => {
+      async () => {
         console.log("Starting development server...");
-        buildRollup("development", true).catch(console.error);
+        try {
+          await buildRollup("development", true);
+          process.exit(0);
+        } catch (error) {
+          console.error("Error during the development build:", error);
+        }
       }
     )
     .version(packageJson.version) // 使用package.json中的版本号
