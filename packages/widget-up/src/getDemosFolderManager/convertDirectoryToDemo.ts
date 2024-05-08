@@ -1,4 +1,4 @@
-import { DemoData, DemoFileConfig } from "@/types";
+import { DemoData, DemoFileConfig, DemoFileNormalizedConfig } from "@/types";
 import { DirectoryStructure } from "../utils/parseDirectoryStructure";
 import realFs from "fs";
 import realPath from "path";
@@ -30,9 +30,21 @@ export const convertDirectoryToDemo = (
           })
         ) as DemoFileConfig;
 
+        const normalizeDemoFileConfig = (
+          config: DemoFileConfig
+        ): DemoFileNormalizedConfig => {
+          return {
+            name: config.name || "Demo",
+            globals: {
+              component: config.globals?.component || "Component",
+              register: config.globals?.register || "register",
+            },
+          };
+        };
+
         // Create the basic menu item from the directory item
         const menuItem: DemoData = {
-          config,
+          config: normalizeDemoFileConfig(config),
           path: item.path,
           type: item.type,
         };
@@ -40,6 +52,13 @@ export const convertDirectoryToDemo = (
       }
 
       const menuItem: DemoData = {
+        config: {
+          name: item.name,
+          globals: {
+            component: "Component",
+            register: "register",
+          },
+        },
         children: convertDirectoryToDemo(item.children ?? []),
         path: item.path,
         type: item.type,

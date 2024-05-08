@@ -1,3 +1,3 @@
 export { default as getRollupConfig } from "./getRollupConfig";
-export * from "./plugins";
+export { default as runtimeRollup } from "./utils/rollup-plugins/runtimeRollup";
 export { bin } from "./bin";
