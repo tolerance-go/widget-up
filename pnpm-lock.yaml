@@ -655,6 +655,15 @@ importers:
       semver:
         specifier: ^7.6.0
         version: 7.6.0
+      widget-up-input-jquery3:
+        specifier: workspace:^
+        version: link:../inputs/jquery3
+      widget-up-input-react16:
+        specifier: workspace:^
+        version: link:../inputs/react16
+      widget-up-input-react18:
+        specifier: workspace:^
+        version: link:../inputs/react18
       widget-up-runtime:
         specifier: workspace:^
         version: link:../runtime

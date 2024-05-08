@@ -28,7 +28,7 @@ export function detectTechStack({
 
     // 定义支持的技术栈及其关键依赖项
     const techStacks: { [key in TechType]: string[] } = {
-      React: ["react", "react-dom"],
+      React: ["react"],
       Vue: ["vue"],
       // Angular: ["@angular/core"],
       // Svelte: ["svelte"],
@@ -40,6 +40,8 @@ export function detectTechStack({
 
     // 遍历所有技术栈
     for (const [stack, deps] of Object.entries(techStacks)) {
+      const stackType = stack as TechType;
+
       for (const dep of deps) {
         if (dependencies[dep] && usedStacks.every((s) => s.name !== stack)) {
           // 构造 node_modules 内对应依赖的 package.json 路径
@@ -55,9 +57,11 @@ export function detectTechStack({
             const depPackageJson = JSON.parse(depPackageData);
             // 收集技术栈和版本信息
             usedStacks.push({
-              name: stack as TechType,
-              version: depPackageJson.version,
-              versionRange: dependencies[dep],
+              name: stackType,
+              version: {
+                exact: depPackageJson.version,
+                range: dependencies[dep],
+              },
             });
           }
         }

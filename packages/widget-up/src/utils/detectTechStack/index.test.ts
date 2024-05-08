@@ -17,12 +17,18 @@ describe("detectTechStack function", () => {
           path.includes("node_modules/vue")
         ) {
           return JSON.stringify({ version: "3.0.5" }); // 假设实际安装的版本
+        } else if (
+          path.includes("package.json") &&
+          path.includes("node_modules/jquery")
+        ) {
+          return JSON.stringify({ version: "3.6.0" }); // 假设实际安装的版本
         }
         return JSON.stringify({
           dependencies: {
             react: "^17.0.0",
             "react-dom": "^17.0.0",
             vue: "^3.0.0",
+            jquery: "^3.6.0",
           },
           devDependencies: {},
         });
@@ -31,6 +37,7 @@ describe("detectTechStack function", () => {
       const existsSync = jest.fn((path: string): boolean => {
         return (
           path.includes("node_modules/react") ||
+          path.includes("node_modules/jquery") ||
           path.includes("node_modules/vue")
         );
       });
@@ -59,13 +66,24 @@ describe("detectTechStack function", () => {
       [
         {
           "name": "React",
-          "version": "17.0.1",
-          "versionRange": "^17.0.0",
+          "version": {
+            "exact": "17.0.1",
+            "range": "^17.0.0",
+          },
         },
         {
           "name": "Vue",
-          "version": "3.0.5",
-          "versionRange": "^3.0.0",
+          "version": {
+            "exact": "3.0.5",
+            "range": "^3.0.0",
+          },
+        },
+        {
+          "name": "JQuery",
+          "version": {
+            "exact": "3.6.0",
+            "range": "^3.6.0",
+          },
         },
       ]
     `);

@@ -42,9 +42,9 @@ export const getDevPlugins = async ({
   cwdPath,
   configManager,
   peerDependTreeManager,
-  demosFolderManager,
+  demosManager,
 }: {
-  demosFolderManager: DemosManager;
+  demosManager: DemosManager;
   peerDependTreeManager: PeerDependTreeManager;
   configManager: ConfigManager;
   demoDatas?: DemoData[];
@@ -193,7 +193,7 @@ export const getDevPlugins = async ({
     }),
     genStart({
       outputPath: "./dist/start.js",
-      demosFolderManager,
+      demosManager,
       packageConfig,
       peerDependTreeManager,
     }),

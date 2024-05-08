@@ -11,7 +11,7 @@ import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenci
 
 interface GenStartOptions {
   outputPath?: string;
-  demosFolderManager: DemosManager;
+  demosManager: DemosManager;
   packageConfig: PackageJson;
   peerDependTreeManager: PeerDependTreeManager;
 }
@@ -19,7 +19,7 @@ interface GenStartOptions {
 export function genStart(options: GenStartOptions): Plugin {
   const {
     outputPath = "./dist/start.js",
-    demosFolderManager,
+    demosManager,
     packageConfig,
     peerDependTreeManager,
   } = options;
@@ -27,7 +27,7 @@ export function genStart(options: GenStartOptions): Plugin {
   let once = false;
 
   const build = () => {
-    const demoDatas = demosFolderManager.getDemoDatas();
+    const demoDatas = demosManager.getDemoDatas();
     const techStacks = detectTechStack();
     const inputs = getInputByFrame(techStacks);
 
@@ -44,13 +44,17 @@ export function genStart(options: GenStartOptions): Plugin {
         })),
       };
     });
-    const content = `WidgetUpRuntime.start({dependencies: [${deps}]});`;
+    const content = `WidgetUpRuntime.start({dependencies: [${JSON.stringify(
+      deps,
+      null,
+      2
+    )}]});`;
     fs.ensureDirSync(path.dirname(outputPath));
     fs.writeFileSync(outputPath, content, "utf-8");
     console.log(`Generated start.js at ${outputPath}`);
   };
 
-  demosFolderManager.watch(() => {
+  demosManager.watch(() => {
     build();
   });
 

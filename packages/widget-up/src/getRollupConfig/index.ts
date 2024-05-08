@@ -25,11 +25,11 @@ const getRollupConfig = async () => {
   logger.info(`cwdPath is ${cwdPath}`);
   logger.info(`demosPath is ${demosPath}`);
 
-  const demosFolderManager = getDemosManager({
+  const demosManager = getDemosManager({
     folderPath: "demos",
   });
 
-  const demoDatas = demosFolderManager.getDemoDatas();
+  const demoDatas = demosManager.getDemoDatas();
 
   const packageConfig = JSON.parse(
     fs.readFileSync(path.resolve("package.json"), "utf8")
@@ -56,6 +56,7 @@ const getRollupConfig = async () => {
         sourcemap: BuildEnvIsDev ? "inline" : false,
       },
       plugins: getDevPlugins({
+        demosManager,
         peerDependTreeManager,
         rootPath,
         config,

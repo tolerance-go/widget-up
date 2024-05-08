@@ -9,14 +9,20 @@ export interface ResolvedNpmResult {
   packageJson: PackageJson;
 }
 
-function resolvedNpm(options: { name: string }): ResolvedNpmResult {
+function resolvedNpm({
+  name,
+  cwd = process.cwd(),
+}: {
+  name: string;
+  cwd: string;
+}): ResolvedNpmResult {
   // 从当前工作目录开始向上查找 'node_modules'
-  let currentPath = process.cwd();
+  let currentPath = cwd;
   let modulePath;
 
   while (currentPath !== path.parse(currentPath).root) {
     const nodeModulesPath = path.join(currentPath, "node_modules");
-    const possibleModulePath = path.join(nodeModulesPath, options.name);
+    const possibleModulePath = path.join(nodeModulesPath, name);
 
     // 检查当前路径下的 'node_modules' 中是否存在指定的模块
     if (fs.existsSync(possibleModulePath)) {
@@ -30,7 +36,7 @@ function resolvedNpm(options: { name: string }): ResolvedNpmResult {
 
   if (!modulePath) {
     throw new Error(
-      `Module '${options.name}' not found in any 'node_modules' directory from current path.`
+      `Module '${name}' not found in any 'node_modules' directory from current path.`
     );
   }
 
@@ -39,7 +45,7 @@ function resolvedNpm(options: { name: string }): ResolvedNpmResult {
 
   if (!fs.existsSync(packageJsonPath)) {
     throw new Error(
-      `package.json not found in resolved directory for '${options.name}'`
+      `package.json not found in resolved directory for '${name}'`
     );
   }
 

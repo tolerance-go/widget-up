@@ -18,9 +18,9 @@ const techStackMap: Record<TechType, (version: string) => DependencyTreeNode> =
       depends: [],
     }),
     JQuery: (version) => ({
-      name: `widget-up-input-react${getMajorVersion(version)}`,
+      name: `widget-up-input-jquery${getMajorVersion(version)}`,
       version,
-      scriptSrc: () => `/libs/input.react${getMajorVersion(version)}.js`,
+      scriptSrc: () => `/libs/input.jquery${getMajorVersion(version)}.js`,
       depends: [],
     }),
   };
@@ -31,6 +31,6 @@ export function getInputByFrame(stacks: TechStack[]): DependencyTreeNode[] {
     if (!mapper) {
       throw new Error(`Unsupported tech stack: ${stack.name}`);
     }
-    return mapper(stack.version);
+    return mapper(stack.version.exact);
   });
 }
