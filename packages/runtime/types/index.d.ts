@@ -1,4 +1,4 @@
-import { DemoMenuItem, TagEvents } from "widget-up-utils";
+import type { DemoMenuItem, TagEvents } from "widget-up-utils";
 
 // 定义事件类型和相关数据
 export interface AppEvents extends TagEvents {

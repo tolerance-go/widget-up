@@ -2,22 +2,19 @@
   "$schema": "./node_modules/widget-up/dist/config-schema.json",
   "input": "src/index.tsx",
   "umd": {
-    "name": "Component",
-    "external": {
+    "name": "Component_react16_css-module",
+    "external": ["react", "react-dom"],
+    "globals": { "react": "React", "react-dom": "ReactDOM" },
+    "dependenciesEntries": {
       "react": {
-        "unpkg": {
-          "filePath": "/umd/react.production.min.js",
-          "filePathDev": "/umd/react.development.js"
-        }
+        "development": "/umd/react.development.js",
+        "production": "/umd/react.production.min.js"
       },
       "react-dom": {
-        "unpkg": {
-          "filePath": "/umd/react-dom.production.min.js",
-          "filePathDev": "/umd/react-dom.development.js"
-        }
+        "development": "/umd/react-dom.development.js",
+        "production": "/umd/react-dom.production.min.js"
       }
-    },
-    "globals": { "react": "React", "react-dom": "ReactDOM" }
+    }
   },
   "cjs": true,
   "esm": true,

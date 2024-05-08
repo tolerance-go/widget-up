@@ -6,7 +6,7 @@
     "prettier:write": "prettier --write .",
     "lerna:publish": "npm run prepublishAll && lerna publish",
     "prepublishAll": "pnpm -r run prepublishAll",
-    "build": "pnpm -r run build"
+    "build": "pnpm -r --sort run build"
   },
   "keywords": [],
   "author": "",
