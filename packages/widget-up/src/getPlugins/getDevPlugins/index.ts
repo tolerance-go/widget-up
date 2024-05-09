@@ -1,4 +1,6 @@
 import { genDemoIndexHtml } from "@/src/plugins/genDemoIndexHtml";
+import { genDemoLibs } from "@/src/plugins/genDemoLibs";
+import { genMenus } from "@/src/plugins/genMenus";
 import { genRuntimeLib } from "@/src/plugins/genRuntimeLib";
 import { genServerInputs } from "@/src/plugins/genServerInputs";
 import { DemoData } from "@/types/demoFileMeta";
@@ -24,19 +26,13 @@ import { PathManager } from "../../managers/getPathManager";
 import { PeerDependTreeManager } from "../../managers/getPeerDependTreeManager";
 import genServerLibs from "../../plugins/genServerLibs";
 import { genStart } from "../../plugins/genStart";
-import { logger } from "../../utils/logger";
 import { genAssert } from "../../utils/rollup-plugins/genAssert";
-import { getDemoInputList } from "./getDemoInputList";
 import { getPostCSSPlg } from "../getPostCSSPlg";
-import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
-import { genMenus } from "@/src/plugins/genMenus";
 
 export const getDevPlugins = async ({
   rootPath,
   config,
   packageConfig,
-  demoDatas,
-  cwdPath,
   configManager,
   peerDependTreeManager,
   demosManager,
@@ -46,9 +42,7 @@ export const getDevPlugins = async ({
   demosManager: DemosManager;
   peerDependTreeManager: PeerDependTreeManager;
   configManager: ConfigManager;
-  demoDatas?: DemoData[];
   rootPath: string;
-  cwdPath: string;
   config: NormalizedConfig;
   packageConfig: PackageJson;
 }) => {
@@ -76,24 +70,18 @@ export const getDevPlugins = async ({
     getPostCSSPlg({ config }),
   ];
 
-  const demoInputList = getDemoInputList(demoDatas ?? []);
-  logger.info("demoInputList: ", demoInputList);
-
-  const runtimeRollupPlgs = getDemoRuntimePlgs({
-    config,
-    packageConfig,
-    cwdPath,
-    demoInputList,
-    devBuildPlugins,
-  });
-
   const plugins = [
     deleteDist({
       dist: ["dist", WupFolderName],
       once: true,
     }),
-    ...runtimeRollupPlgs,
     ...devBuildPlugins,
+    genDemoLibs({
+      pathManager,
+      demosManager,
+      configManager,
+      devBuildPlugins,
+    }),
     genServerLibs({
       peerDependTreeManager,
       configManager,

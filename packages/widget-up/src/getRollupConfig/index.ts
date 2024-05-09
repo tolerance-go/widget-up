@@ -64,8 +64,6 @@ const getRollupConfig = async () => {
         rootPath,
         config,
         packageConfig,
-        demoDatas,
-        cwdPath,
         configManager,
       }),
       watch: {

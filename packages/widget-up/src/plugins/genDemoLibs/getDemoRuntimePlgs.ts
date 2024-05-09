@@ -1,3 +1,5 @@
+import { ConfigManager } from "@/src/managers/getConfigManager";
+import { PathManager } from "@/src/managers/getPathManager";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { getEnv } from "@/src/utils/env";
 import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
@@ -10,26 +12,26 @@ import { DemoData } from "@/types";
 import path from "path";
 import { InputPluginOption } from "rollup";
 import {
-  NormalizedConfig,
-  PackageJson,
   semverToIdentifier,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 
 export const getDemoRuntimePlgs = ({
-  config,
-  packageConfig,
-  cwdPath,
   demoInputList,
   devBuildPlugins,
+  configManager,
+  pathManager,
 }: {
   demoInputList: DemoData[];
-  cwdPath: string;
-  config: NormalizedConfig;
-  packageConfig: PackageJson;
   devBuildPlugins: InputPluginOption[];
+  configManager: ConfigManager;
+  pathManager: PathManager;
 }) => {
+  const config = configManager.getConfig();
+  const packageConfig = configManager.getPackageConfig();
+  const cwdPath = pathManager.cwdPath;
+
   const { BuildEnvIsDev } = getEnv();
   const runtimeRollupPlgs = demoInputList.map((inputItem) => {
     const input = normalizePath(path.relative(cwdPath, inputItem.path));
