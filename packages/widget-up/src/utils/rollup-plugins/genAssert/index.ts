@@ -1,7 +1,6 @@
-import { Plugin } from "rollup";
 import fs from "fs";
 import path from "path";
-import { WupFolderName } from "../../../constants";
+import { Plugin } from "rollup";
 
 interface GenAssertOptions {
   src?: string; // 源文件的路径，可选
@@ -10,7 +9,7 @@ interface GenAssertOptions {
     name: string; // 要创建的文件名称
     content: string; // 文件内容
   };
-  dest?: string;
+  dest: string;
 }
 
 // genAssert 插件的实现
@@ -19,7 +18,7 @@ export function genAssert(options: GenAssertOptions): Plugin {
     name: "gen-assert",
     buildStart() {
       const cwd = process.cwd(); // 获取当前工作目录
-      const destDir = path.join(cwd, options.dest ?? WupFolderName); // 目标目录
+      const destDir = path.join(cwd, options.dest); // 目标目录
 
       // 确保目标目录存在
       try {

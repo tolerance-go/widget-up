@@ -31,6 +31,7 @@ import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
 import { genServerInputs } from "@/src/plugins/genServerInputs";
 import typescript from "@rollup/plugin-typescript";
 import { genRuntimeLib } from "@/src/plugins/genRuntimeLib";
+import { genDemoIndexHtml } from "@/src/plugins/genDemoIndexHtml";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -149,9 +150,9 @@ export const getDevPlugins = async ({
       peerDependTreeManager,
       inputNpmManager,
     }),
-    genAssert({
-      src: path.join(rootPath, "tpls/index.html.ejs"),
-      dest: WupFolderName,
+    genDemoIndexHtml({
+      pathManager,
+      demosManager,
     }),
     genAssert({
       dest: "dist/server",
@@ -172,13 +173,6 @@ export const getDevPlugins = async ({
       file: {
         name: "menus.json",
         content: JSON.stringify(demoDatas ?? [], null, 2),
-      },
-    }),
-    htmlRender({
-      dest: "dist/server",
-      src: path.join(WupFolderName, "index.html.ejs"),
-      data: {
-        menus: [],
       },
     }),
     serveLivereload({
