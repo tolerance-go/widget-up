@@ -29,6 +29,7 @@ import { genAssert } from "../../utils/rollup-plugins/genAssert";
 import { getDemoInputList } from "../getDemoInputList";
 import { getPostCSSPlg } from "../getPostCSSPlg";
 import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
+import { genMenus } from "@/src/plugins/genMenus";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -118,6 +119,12 @@ export const getDevPlugins = async ({
     genDemoIndexHtml({
       pathManager,
       demosManager,
+      configManager,
+    }),
+    genMenus({
+      pathManager,
+      demosManager,
+      configManager,
     }),
     genAssert({
       dest: "dist/server",
@@ -131,13 +138,6 @@ export const getDevPlugins = async ({
       file: {
         name: "config.json",
         content: JSON.stringify(config, null, 2),
-      },
-    }),
-    genAssert({
-      dest: "dist/server",
-      file: {
-        name: "menus.json",
-        content: JSON.stringify(demoDatas ?? [], null, 2),
       },
     }),
     serveLivereload({

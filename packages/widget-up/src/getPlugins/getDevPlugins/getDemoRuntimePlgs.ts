@@ -1,17 +1,17 @@
-import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { getEnv } from "@/src/utils/env";
+import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
 import { logger } from "@/src/utils/logger";
 import { normalizePath } from "@/src/utils/normalizePath";
 import runtimeRollup, {
   RuntimeRollupOptions,
 } from "@/src/utils/rollup-plugins/runtimeRollup";
-import { DemoData, DemoInput } from "@/types";
+import { DemoData } from "@/types";
 import path from "path";
 import { InputPluginOption } from "rollup";
 import {
-  PackageJson,
   NormalizedConfig,
+  PackageJson,
   semverToIdentifier,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,

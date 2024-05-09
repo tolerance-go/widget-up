@@ -18,7 +18,9 @@ export function genAssert(options: GenAssertOptions): Plugin {
     name: "gen-assert",
     buildStart() {
       const cwd = process.cwd(); // 获取当前工作目录
-      const destDir = path.join(cwd, options.dest); // 目标目录
+      const destDir = path.isAbsolute(options.dest)
+        ? options.dest
+        : path.join(cwd, options.dest); // 目标目录
 
       // 确保目标目录存在
       try {
