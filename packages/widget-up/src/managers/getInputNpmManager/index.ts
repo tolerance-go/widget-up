@@ -1,4 +1,6 @@
+import { getInputNpmName } from "@/src/utils/getInputNpmName";
 import { ResolvedNpmResult, resolveNpmInfo } from "../../utils/resolveNpmInfo";
+import { detectTechStack } from "@/src/utils/detectTechStack";
 
 interface InputNpmManagerOptions {
   cwd: string;
@@ -11,6 +13,10 @@ export class InputNpmManager {
   constructor(options: InputNpmManagerOptions) {
     this.cwd = options.cwd;
     this.cache = new Map<string, ResolvedNpmResult>();
+  }
+
+  public getCurrentInput() {
+    return this.getInputByName(getInputNpmName(detectTechStack()));
   }
 
   // 根据名称获取入口包信息
