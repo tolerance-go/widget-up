@@ -30,6 +30,7 @@ import { getDemoInputList } from "../getDemoInputList";
 import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
 import { genServerInputs } from "@/src/plugins/genServerInputs";
 import typescript from "@rollup/plugin-typescript";
+import { genRuntimeLib } from "@/src/plugins/genRuntimeLib";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -130,6 +131,9 @@ export const getDevPlugins = async ({
       //     }),
       //   });
       // },
+    }),
+    genRuntimeLib({
+      pathManager,
     }),
     genServerInputs({
       outputPath: "dist/server/inputs",

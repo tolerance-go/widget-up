@@ -23,6 +23,7 @@ const getRollupConfig = async () => {
   const pathManager = getPathManager({
     cwdPath,
     rootPath,
+    buildEnv: BuildEnv,
   });
 
   const demosPath = pathManager.demosPath;

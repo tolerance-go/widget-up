@@ -16,7 +16,7 @@ interface GenAssertOptions {
 // genAssert 插件的实现
 export function genAssert(options: GenAssertOptions): Plugin {
   return {
-    name: "genAssert",
+    name: "gen-assert",
     buildStart() {
       const cwd = process.cwd(); // 获取当前工作目录
       const destDir = path.join(cwd, options.dest ?? WupFolderName); // 目标目录
