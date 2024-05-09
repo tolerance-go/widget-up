@@ -1,5 +1,6 @@
 import { ConfigManager } from "@/src/getConfigManager";
 import { InputNpmManager } from "@/src/getInputNpmManager";
+import { PathManager } from "@/src/getPathManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getInputByFrame } from "@/src/utils/getInputByFrame";
 import { resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
@@ -11,22 +12,25 @@ interface GenServerInputsOptions {
   outputPath: string;
   inputNpmManager: InputNpmManager;
   configManager: ConfigManager;
+  pathManager: PathManager;
 }
 
 export function genServerInputs({
   outputPath,
   inputNpmManager,
   configManager,
+  pathManager,
 }: GenServerInputsOptions): Plugin {
   let once = false;
 
   const build = () => {
     const techStacks = detectTechStack();
     const inputs = getInputByFrame(techStacks, inputNpmManager);
-    fs.ensureDirSync(path.dirname(outputPath));
+    fs.ensureDirSync(outputPath);
 
     inputs.forEach((input) => {
       const inputNpmInfo = resolveNpmInfo({
+        cwd: pathManager.rootPath,
         name: input.name,
       });
 

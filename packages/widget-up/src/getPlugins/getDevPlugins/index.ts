@@ -135,6 +135,7 @@ export const getDevPlugins = async ({
       outputPath: "dist/server/inputs",
       inputNpmManager,
       configManager,
+      pathManager,
     }),
     genStart({
       pathManager,
