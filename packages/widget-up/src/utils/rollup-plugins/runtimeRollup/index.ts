@@ -1,6 +1,6 @@
+import MagicString from "magic-string";
 import path from "path";
 import {
-  InputPluginOption,
   NormalizedOutputOptions,
   OutputOptions,
   Plugin,
@@ -10,8 +10,7 @@ import {
   rollup,
   watch,
 } from "rollup";
-import { Logger } from "widget-up-utils";
-import MagicString from "magic-string";
+import { FileLogger } from "widget-up-utils";
 
 export interface RuntimeRollupOptions extends RollupOptions {
   output: OutputOptions; // 确保输出配置被正确传递
@@ -25,7 +24,7 @@ export interface RuntimeRollupOptions extends RollupOptions {
 function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
   let watcher: RollupWatcher | null = null;
 
-  const logger = new Logger(
+  const logger = new FileLogger(
     path.join(
       process.cwd(),
       ".logs/runtime-rollup",
