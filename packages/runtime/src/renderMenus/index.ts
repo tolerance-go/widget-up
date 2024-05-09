@@ -7,7 +7,7 @@ import {
   triggerGlobalCompUpdate,
 } from "../registerRender";
 import { insertHtml } from "../utils/insertHtml";
-import { logger } from "../utils/logger";
+import { runtimeLogger } from "../utils/logger";
 
 interface RenderMenusOptions {
   containerId: string;
@@ -73,7 +73,7 @@ export async function renderMenus({
     });
 
     eventBus.on("menuClick", ({ globals, name }) => {
-      logger.log("menuClick", JSON.stringify({ globals, name }, null, 2));
+      runtimeLogger.log("menuClick", JSON.stringify({ globals, name }, null, 2));
 
       // 监听菜单点击，然后动态把全局的 Component 组件替换为
       const component = (window as any)[globals.component].default;

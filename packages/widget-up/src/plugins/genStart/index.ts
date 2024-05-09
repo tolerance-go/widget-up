@@ -52,6 +52,7 @@ export function genStart({
               ".js"
             )
           )}'`,
+          linkHref: `() => ''`,
           depends: [
             {
               name: packageConfig.name,
@@ -67,11 +68,11 @@ export function genStart({
       };
     });
 
-    let content = `WidgetUpRuntime.start({dependencies: [${JSON.stringify(
+    let content = `WidgetUpRuntime.start({dependencies: ${JSON.stringify(
       deps,
       null,
       2
-    )}]});`;
+    )}});`;
 
     content = content.replace(/"(scriptSrc|linkHref)": "(.*)"/g, "$1: $2");
 

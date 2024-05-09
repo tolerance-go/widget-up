@@ -1,4 +1,10 @@
-import { HTMLDependencyManager, DependencyListItem, EventBus, TagEvents } from "widget-up-utils";
+import {
+  HTMLDependencyManager,
+  DependencyListItem,
+  EventBus,
+  TagEvents,
+} from "widget-up-utils";
+import { installLogger } from "./logger";
 
 // 定义一个类型来表示依赖树的节点
 export interface DependencyTreeNode {
@@ -15,6 +21,7 @@ export async function install(
   document: Document,
   eventBus: EventBus<TagEvents>
 ) {
+  installLogger.log("开始安装依赖", dependencies);
   const fetchVersionList = async (
     dependencyName: string
   ): Promise<string[]> => {
@@ -47,8 +54,12 @@ export async function install(
     }
   };
 
+  installLogger.log("填充映射", dependencies);
+
   // 递归填充映射
   dependencies.forEach(fillSrcMap);
+
+  installLogger.log("填充映射完成", dependencies, srcMap);
 
   // 实例化HTMLDependencyManager
   const manager = new HTMLDependencyManager({
@@ -68,6 +79,7 @@ export async function install(
 
   // 递归函数用于处理依赖树
   const processDependency = async (node: DependencyTreeNode) => {
+    installLogger.log("处理依赖", node.name, node.version);
     let subDependencies: { [key: string]: string } = {};
     if (node.depends) {
       for (const sub of node.depends) {
@@ -75,12 +87,23 @@ export async function install(
         await processDependency(sub); // 递归处理子依赖
       }
     }
+    installLogger.log(
+      "添加依赖到管理器",
+      node.name,
+      node.version,
+      subDependencies
+    );
     // 添加依赖到管理器
     await manager.addDependency(node.name, node.version, subDependencies);
   };
 
   // 处理每一个根依赖节点
   for (const rootDependency of dependencies) {
+    installLogger.log(
+      "处理根依赖",
+      rootDependency.name,
+      rootDependency.version
+    );
     await processDependency(rootDependency);
   }
 }
