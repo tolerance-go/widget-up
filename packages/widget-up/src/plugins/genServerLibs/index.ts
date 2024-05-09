@@ -1,7 +1,7 @@
-import { ConfigManager } from "@/src/getConfigManager";
-import { convertPathToVariableName } from "@/src/getDemosManager/convertPathToVariableName";
-import { PathManager } from "@/src/getPathManager";
-import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
+import { ConfigManager } from "@/src/managers/getConfigManager";
+import { convertPathToVariableName } from "@/src/managers/getDemosManager/convertPathToVariableName";
+import { PathManager } from "@/src/managers/getPathManager";
+import { PeerDependTreeManager } from "@/src/managers/getPeerDependTreeManager";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { getEnv } from "@/src/utils/env";
 import { normalizePath } from "@/src/utils/normalizePath";

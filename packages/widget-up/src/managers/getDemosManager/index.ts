@@ -1,12 +1,9 @@
-import { DemoData, DemoFileConfig, DemoMenuItem } from "@/types";
+import { DemoData } from "@/types";
 import { EventEmitter } from "events";
-import {
-  DirectoryStructure,
-  parseDirectoryStructure,
-} from "../utils/parseDirectoryStructure";
 import realFs from "fs";
 import realPath from "path";
 import { convertDirectoryToDemo } from "./convertDirectoryToDemo";
+import { parseDirectoryStructure } from "@/src/utils/parseDirectoryStructure";
 
 export class DemosManager extends EventEmitter {
   private folderPath: string;

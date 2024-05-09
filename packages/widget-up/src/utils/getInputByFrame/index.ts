@@ -1,4 +1,4 @@
-import { InputNpmManager } from "@/src/getInputNpmManager";
+import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { DependencyTreeNodeJson, TechStack, TechType } from "@/types";
 import { getMajorVersion } from "widget-up-utils";
 

@@ -16,11 +16,11 @@ import {
   serveLivereload,
 } from "widget-up-utils";
 import { WupFolderName } from "../../constants";
-import { ConfigManager } from "../../getConfigManager";
-import { DemosManager } from "../../getDemosManager";
-import { InputNpmManager } from "../../getInputNpmManager";
-import { PathManager } from "../../getPathManager";
-import { PeerDependTreeManager } from "../../getPeerDependTreeManager";
+import { ConfigManager } from "../../managers/getConfigManager";
+import { DemosManager } from "../../managers/getDemosManager";
+import { InputNpmManager } from "../../managers/getInputNpmManager";
+import { PathManager } from "../../managers/getPathManager";
+import { PeerDependTreeManager } from "../../managers/getPeerDependTreeManager";
 import genServerLibs from "../../plugins/genServerLibs";
 import { genStart } from "../../plugins/genStart";
 import { getEnv } from "../../utils/env";

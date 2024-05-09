@@ -1,4 +1,4 @@
-import { ResolvedNpmResult, resolveNpmInfo } from "../utils/resolveNpmInfo";
+import { ResolvedNpmResult, resolveNpmInfo } from "../../utils/resolveNpmInfo";
 
 interface InputNpmManagerOptions {
   cwd: string;

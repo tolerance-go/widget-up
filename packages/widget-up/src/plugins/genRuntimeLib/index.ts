@@ -1,4 +1,4 @@
-import { PathManager } from "@/src/getPathManager";
+import { PathManager } from "@/src/managers/getPathManager";
 import { resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
 import fs from "fs-extra";
 import path from "path";

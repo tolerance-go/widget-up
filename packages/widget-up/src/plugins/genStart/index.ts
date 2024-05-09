@@ -1,7 +1,7 @@
-import { DemosManager } from "@/src/getDemosManager";
-import { InputNpmManager } from "@/src/getInputNpmManager";
-import { PathManager } from "@/src/getPathManager";
-import { PeerDependTreeManager } from "@/src/getPeerDependTreeManager";
+import { DemosManager } from "@/src/managers/getDemosManager";
+import { InputNpmManager } from "@/src/managers/getInputNpmManager";
+import { PathManager } from "@/src/managers/getPathManager";
+import { PeerDependTreeManager } from "@/src/managers/getPeerDependTreeManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { normalizePath } from "@/src/utils/normalizePath";
 import { replaceFileExtension } from "@/src/utils/replaceFileExtension";

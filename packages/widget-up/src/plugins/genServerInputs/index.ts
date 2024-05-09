@@ -1,6 +1,6 @@
-import { ConfigManager } from "@/src/getConfigManager";
-import { InputNpmManager } from "@/src/getInputNpmManager";
-import { PathManager } from "@/src/getPathManager";
+import { ConfigManager } from "@/src/managers/getConfigManager";
+import { InputNpmManager } from "@/src/managers/getInputNpmManager";
+import { PathManager } from "@/src/managers/getPathManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getInputByFrame } from "@/src/utils/getInputByFrame";
 import { resolveNpmInfo } from "@/src/utils/resolveNpmInfo";

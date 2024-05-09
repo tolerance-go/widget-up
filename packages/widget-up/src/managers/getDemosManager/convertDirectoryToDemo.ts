@@ -1,5 +1,5 @@
 import { DemoData, DemoFileConfig, DemoFileNormalizedConfig } from "@/types";
-import { DirectoryStructure } from "../utils/parseDirectoryStructure";
+import { DirectoryStructure } from "../../utils/parseDirectoryStructure";
 import realFs from "fs";
 import realPath from "path";
 import { normalizeDemoFileConfig } from "./normalizeDemoFileConfig";

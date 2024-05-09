@@ -4,7 +4,7 @@ import path from "path";
 import getPeerDependTree, {
   PeerDependenciesNode,
   PeerDependenciesTree,
-} from "../utils/getPeerDependTree";
+} from "../../utils/getPeerDependTree";
 
 export class PeerDependTreeManager extends EventEmitter {
   private dependenciesTree: PeerDependenciesTree = {};
