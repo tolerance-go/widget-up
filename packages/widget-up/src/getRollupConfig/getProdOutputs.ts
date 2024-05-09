@@ -4,9 +4,9 @@
  * - 生产环境下，生成 Rollup 的 output 配置
  */
 import { RollupOptions } from "rollup";
-import { GlobalsSchemaConfig, ParseConfig } from "widget-up-utils";
+import { NormalizedConfig } from "widget-up-utils";
 
-export function getProdOutputs(config: ParseConfig) {
+export function getProdOutputs(config: NormalizedConfig) {
   const outputs: RollupOptions["output"] = [];
 
   // UMD 格式始终包含

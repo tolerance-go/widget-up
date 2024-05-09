@@ -3,16 +3,14 @@ import path from "path";
 import { RollupOptions } from "rollup";
 import { fileURLToPath } from "url";
 import { PackageJson } from "widget-up-utils";
-import { getEnv } from "../utils/env";
 import { getConfigManager } from "../getConfigManager";
 import { getDemosManager } from "../getDemosManager";
-import { getUMDGlobals } from "./getGlobals";
-import { getProdOutputs } from "./getOutputs";
-import { getPeerDependTreeManager } from "../getPeerDependTreeManager";
-import { getInputFile } from "./getProdInput";
-import { logger } from "../utils/logger";
-import { getDevPlugins, getBuildPlugins } from "../getPlugins";
 import getPathManager from "../getPathManager";
+import { getPeerDependTreeManager } from "../getPeerDependTreeManager";
+import { getBuildPlugins, getDevPlugins } from "../getPlugins";
+import { getEnv } from "../utils/env";
+import { logger } from "../utils/logger";
+import { getProdOutputs } from "./getProdOutputs";
 
 const getRollupConfig = async () => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
@@ -53,7 +51,7 @@ const getRollupConfig = async () => {
     });
 
     rollupConfig = {
-      input: getInputFile(packageConfig),
+      input: config.input,
       output: {
         file: "dist/umd/index.js",
         format: "umd",
@@ -79,7 +77,7 @@ const getRollupConfig = async () => {
   } else {
     logger.info("BuildEnvIsProd is true, start to build production code");
     rollupConfig = getProdOutputs(config).map((output) => ({
-      input: getInputFile(packageConfig),
+      input: config.input,
       output,
       plugins: getBuildPlugins({
         rootPath,

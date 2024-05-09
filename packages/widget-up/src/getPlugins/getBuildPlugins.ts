@@ -8,16 +8,16 @@ import { OutputOptions } from "rollup";
 import del from "rollup-plugin-delete";
 import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
-import { ParseConfig } from "widget-up-utils";
 import { getEnv } from "../utils/env.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
+import { NormalizedConfig } from "widget-up-utils";
 
 export const getBuildPlugins = async ({
   config,
   output,
 }: {
   rootPath: string;
-  config: ParseConfig;
+  config: NormalizedConfig;
   output: OutputOptions;
 }) => {
   const { BuildEnvIsDev } = getEnv();
