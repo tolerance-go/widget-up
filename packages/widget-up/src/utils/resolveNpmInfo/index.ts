@@ -6,6 +6,7 @@ import { normalizePath } from "../normalizePath";
 export interface ResolvedNpmResult {
   modulePath: string;
   moduleEntryPath: string;
+  moduleStyleEntryPath?: string;
   packageJson: PackageJson;
 }
 
@@ -58,9 +59,13 @@ function resolveNpmInfo({
   const mainFile = packageJson.main || "index.js"; // 如果package.json中没有指定main，则默认为index.js
   const moduleEntryPath = path.join(modulePath, mainFile);
 
+  const moduleStyleEntryPath =
+    packageJson.style && path.join(modulePath, packageJson.style);
+
   return {
     moduleEntryPath: normalizePath(moduleEntryPath),
     modulePath: normalizePath(modulePath),
+    moduleStyleEntryPath,
     packageJson,
   };
 }

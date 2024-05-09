@@ -2,6 +2,7 @@ export interface PackageJson {
   name: string;
   version: string;
   description?: string;
+  style?: string;
   main?: string;
   types?: string;
   typings?: string; // 同types

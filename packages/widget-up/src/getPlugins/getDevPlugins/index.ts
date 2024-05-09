@@ -32,6 +32,7 @@ import { genServerInputs } from "@/src/plugins/genServerInputs";
 import typescript from "@rollup/plugin-typescript";
 import { genRuntimeLib } from "@/src/plugins/genRuntimeLib";
 import { genDemoIndexHtml } from "@/src/plugins/genDemoIndexHtml";
+import { getPostCSSPlg } from "../getPostCSSPlg";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -58,7 +59,6 @@ export const getDevPlugins = async ({
     cwd: rootPath,
   });
 
-  const { BuildEnvIsDev } = getEnv();
   const devBuildPlugins: InputPluginOption[] = [
     peerDependenciesAsExternal(),
     replace({
@@ -76,19 +76,7 @@ export const getDevPlugins = async ({
         declaration: false,
       },
     }),
-    config.css &&
-      postcss({
-        extract: true, // 提取 CSS 到单独的文件
-        ...(config.css === "modules"
-          ? {
-              modules: true,
-            }
-          : config.css === "autoModules"
-          ? {
-              autoModules: true,
-            }
-          : {}),
-      }),
+    getPostCSSPlg({ config }),
   ];
 
   const demoInputList = getDemoInputList(demoDatas ?? []);

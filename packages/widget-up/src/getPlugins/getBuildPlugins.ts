@@ -6,11 +6,11 @@ import replace from "@rollup/plugin-replace";
 import typescript from "@rollup/plugin-typescript";
 import { OutputOptions } from "rollup";
 import del from "rollup-plugin-delete";
-import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
+import { NormalizedConfig } from "widget-up-utils";
 import { getEnv } from "../utils/env.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
-import { NormalizedConfig } from "widget-up-utils";
+import { getPostCSSPlg } from "./getPostCSSPlg.js";
 
 export const getBuildPlugins = async ({
   config,
@@ -36,19 +36,7 @@ export const getBuildPlugins = async ({
     commonjs(),
     json(),
     typescript(),
-    config.css &&
-      postcss({
-        extract: true, // 提取 CSS 到单独的文件
-        ...(config.css === "modules"
-          ? {
-              modules: true,
-            }
-          : config.css === "autoModules"
-          ? {
-              autoModules: true,
-            }
-          : {}),
-      }),
+    getPostCSSPlg({ config }),
     terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean);
 

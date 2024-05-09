@@ -4,32 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
+  <link href="/widget-up-runtime.css" rel="stylesheet">
 </head>
 <body>
-  <div class="widget-up-demo-container">
-    <% if (menus) { %>
-      <div class="widget-up-demo-menu-container">
-        <ul>
-          <% function renderMenu(menus, level = 0) { %>
-            <% menus.forEach(function(menu) { %>
-              <li class="level-<%= level %>">
-                <%= menu.name %>
-                <% if (menu.children && menu.children.length > 0) { %>
-                  <ul>
-                    <%= renderMenu(menu.children, level + 1) %>
-                  </ul>
-                <% } %>
-              </li>
-            <% }); %>
-          <% } %>
-          <%= renderMenu(menus) %>
-        </ul>
-      </div>
-    <% } %>
-    <div class="widget-up-demo-root-container">
-      <div id="root"></div>
-    </div>
-    <div class="widget-up-demo-right-space"></div>
-  </div>
+  <script src="/widget-up-runtime.js"></script>
+  <script src="/start.js"></script>
 </body>
 </html>

@@ -22,14 +22,28 @@ export function genRuntimeLib({
         "utf-8"
       );
 
+      const styleContent = wupRuntimeLibNpm.moduleStyleEntryPath
+        ? fs.readFileSync(wupRuntimeLibNpm.moduleStyleEntryPath, "utf-8")
+        : "";
+
       // 从内存写入文件
-      const destFile = path.join(
+      const destJsFile = path.join(
         pathManager.serverPath,
         `${wupRuntimeLibNpm.packageJson.name}.js`
       );
 
+      const destStyleFile = path.join(
+        pathManager.serverPath,
+        `${wupRuntimeLibNpm.packageJson.name}.css`
+      );
+
       fs.ensureDirSync(pathManager.serverPath);
-      fs.writeFileSync(destFile, content); // 写入文件内容
+
+      fs.writeFileSync(destJsFile, content); // 写入文件内容
+
+      if (styleContent) {
+        fs.writeFileSync(destStyleFile, styleContent); // 写入文件内容
+      }
     },
   };
 }

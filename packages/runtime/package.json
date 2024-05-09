@@ -5,6 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "browser": "dist/index.js",
+  "style": "dist/index.css",
   "files": [
     "dist",
     "types"
