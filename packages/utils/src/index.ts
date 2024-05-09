@@ -1,7 +1,8 @@
 export { getLatestPackageVersion } from "./getLatestPackageVersion";
 export { semverToIdentifier } from "./semverToIdentifier";
 export { parseConfig } from "./parseConfig";
-export { Logger } from "./Logger";
+export { FileLogger } from "./loggers/FileLogger";
+export { BrowserLogger } from "./loggers/BrowserLogger";
 export * from "./HTMLDependencyManager";
 export { EventBus } from "./EventBus";
 export { createWindow } from "./createWindow";

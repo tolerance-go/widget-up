@@ -1,7 +1,7 @@
-import { Logger } from "@/src/Logger";
+import { FileLogger } from "@/src/loggers/FileLogger";
 import path from "path";
 
-export const logger = new Logger(
+export const logger = new FileLogger(
   path.join(
     process.cwd(),
     ".logs/serveLivereload",

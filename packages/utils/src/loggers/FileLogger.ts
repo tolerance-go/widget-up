@@ -2,7 +2,7 @@ import fs from "fs";
 import util from "util";
 import path from "path";
 
-export class Logger {
+export class FileLogger {
   private filePath: string;
   private initialized: boolean = false; // 添加标志来跟踪日志文件是否已初始化
 
