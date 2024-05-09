@@ -26,7 +26,7 @@ import genServerLibs from "../../plugins/genServerLibs";
 import { genStart } from "../../plugins/genStart";
 import { logger } from "../../utils/logger";
 import { genAssert } from "../../utils/rollup-plugins/genAssert";
-import { getDemoInputList } from "../getDemoInputList";
+import { getDemoInputList } from "./getDemoInputList";
 import { getPostCSSPlg } from "../getPostCSSPlg";
 import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
 import { genMenus } from "@/src/plugins/genMenus";
