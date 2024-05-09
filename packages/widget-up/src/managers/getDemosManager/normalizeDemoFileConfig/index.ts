@@ -1,16 +1,17 @@
+import { normalizePath } from "@/src/utils/normalizePath";
 import { DirectoryStructure } from "@/src/utils/parseDirectoryStructure";
 import { DemoFileConfig, DemoFileNormalizedConfig } from "@/types";
-import { convertPathToVariableName } from "../convertPathToVariableName";
+import path from "path";
+import { PathManager } from "../../getPathManager";
 
 export const normalizeDemoFileConfig = (
   config: DemoFileConfig,
-  item: DirectoryStructure
+  item: DirectoryStructure,
+  pathManager: PathManager
 ): DemoFileNormalizedConfig => {
   return {
-    name: config.name || convertPathToVariableName(item.path),
-    globals: {
-      component: config.globals?.component || "Component",
-      register: config.globals?.register || "register",
-    },
+    menuTitle:
+      config.menuTitle ||
+      normalizePath(path.relative(pathManager.demosPath, item.path)),
   };
 };

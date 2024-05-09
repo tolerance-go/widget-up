@@ -4,11 +4,8 @@
  * - 用户在编写组件的 demo 的时候，可以通过配置文件，来配置 demo 的一些信息
  */
 export type DemoFileConfig = {
-  name?: string;
-  globals?: {
-    component: string;
-    register: string;
-  };
+  // demo 的菜单名称
+  menuTitle?: string;
 };
 
 export type DemoFileNormalizedConfig = Required<DemoFileConfig>;

@@ -19,7 +19,8 @@ export const genMenus = ({
     options(options) {
       const menus = convertDemoDataToMenu(
         demosManager.getDemoDatas(),
-        configManager.getPackageConfig()
+        configManager.getConfig().umd,
+        pathManager
       );
 
       const plg = genAssert({

@@ -41,7 +41,7 @@ export function genStart({
       return {
         ...input,
         depends: demoDatas.map((demo) => ({
-          name: demo.config.name,
+          name: demo.config.menuTitle,
           version: packageConfig.version,
           scriptSrc: `() => '${normalizePath(
             replaceFileExtension(

@@ -4,19 +4,27 @@ import realFs from "fs";
 import realPath from "path";
 import { convertDirectoryToDemo } from "./convertDirectoryToDemo";
 import { parseDirectoryStructure } from "@/src/utils/parseDirectoryStructure";
+import { PathManager } from "../getPathManager";
 
 export class DemosManager extends EventEmitter {
   private folderPath: string;
   private demoDatas: DemoData[] = [];
   private fs: typeof realFs;
   private path: typeof realPath;
+  private pathManager: PathManager;
 
-  constructor(folderPath = "./demos", fs = realFs, path = realPath) {
+  constructor(
+    folderPath = "./demos",
+    pathManager: PathManager,
+    fs = realFs,
+    path = realPath
+  ) {
     super();
     this.fs = fs;
     this.path = path;
     this.folderPath = this.path.resolve(folderPath);
     this.demoDatas = [];
+    this.pathManager = pathManager;
 
     this.loadInitialDirectoryStructure();
     this.watchFolder();
@@ -82,6 +90,7 @@ export class DemosManager extends EventEmitter {
 
       this.demoDatas = convertDirectoryToDemo(
         directoryStructure?.children ?? [],
+        this.pathManager,
         this.fs,
         this.path
       );
@@ -95,6 +104,12 @@ export class DemosManager extends EventEmitter {
   }
 }
 
-export const getDemosManager = ({ folderPath }: { folderPath: string }) => {
-  return new DemosManager(folderPath);
+export const getDemosManager = ({
+  folderPath,
+  pathManager,
+}: {
+  folderPath: string;
+  pathManager: PathManager;
+}) => {
+  return new DemosManager(folderPath, pathManager);
 };

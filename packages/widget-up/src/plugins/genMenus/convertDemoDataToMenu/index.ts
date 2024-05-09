@@ -1,20 +1,22 @@
+import { PathManager } from "@/src/managers/getPathManager";
 import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
 import { DemoData, DemoMenuItem } from "@/types";
-import { PackageJson } from "widget-up-utils";
+import { NormalizedUMDConfig } from "widget-up-utils";
 
 export const convertDemoDataToMenu = (
   demosData: DemoData[],
-  packageConfig: PackageJson
+  umdConfig: NormalizedUMDConfig,
+  pathManager: PathManager
 ): DemoMenuItem[] => {
   return demosData.map((demoData) => {
     const { config, children } = demoData;
     return {
-      name: config.name,
+      name: config.menuTitle,
       globals: {
-        component: getGlobalNameWithDemo(demoData, packageConfig),
-        register: `Register${config.name}Component`,
+        component: getGlobalNameWithDemo(demoData, umdConfig),
+        register: `Register${config.menuTitle}Component`,
       },
-      children: convertDemoDataToMenu(children || [], packageConfig),
+      children: convertDemoDataToMenu(children || [], umdConfig, pathManager),
     };
   });
 };

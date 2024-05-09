@@ -1,12 +1,31 @@
-import { DemoData, DemoFileConfig, DemoFileNormalizedConfig } from "@/types";
-import { DirectoryStructure } from "../../utils/parseDirectoryStructure";
+import { normalizePath } from "@/src/utils/normalizePath";
+import { DemoData, DemoFileConfig } from "@/types";
 import realFs from "fs";
 import realPath from "path";
+import { DirectoryStructure } from "../../utils/parseDirectoryStructure";
+import { PathManager } from "../getPathManager";
 import { normalizeDemoFileConfig } from "./normalizeDemoFileConfig";
-import { convertPathToVariableName } from "./convertPathToVariableName";
+import path from "path";
+
+const getDemoConfig = (item: DirectoryStructure, fs = realFs) => {
+  const parsed = path.parse(item.path);
+
+  const jsonFile = path.join(parsed.dir, `${parsed.name}.config.json`);
+
+  const config = fs.existsSync(jsonFile)
+    ? (JSON.parse(
+        fs.readFileSync(jsonFile, {
+          encoding: "utf-8",
+        })
+      ) as DemoFileConfig)
+    : {};
+
+  return config;
+};
 
 export const convertDirectoryToDemo = (
   directory: DirectoryStructure[],
+  pathManager: PathManager,
   fs = realFs,
   path = realPath
 ): DemoData[] => {
@@ -20,39 +39,38 @@ export const convertDirectoryToDemo = (
           return;
         }
 
-        const jsonFile = path.join(parsed.dir, `${parsed.name}.config.json`);
-
-        if (!fs.existsSync(jsonFile)) {
-          throw new Error(`Meta data not found for file: ${jsonFile}`);
-        }
-
-        const config = JSON.parse(
-          fs.readFileSync(jsonFile, {
-            encoding: "utf-8",
-          })
-        ) as DemoFileConfig;
+        const config = getDemoConfig(item, fs);
 
         // Create the basic menu item from the directory item
         const menuItem: DemoData = {
-          config: normalizeDemoFileConfig(config, item),
+          config: normalizeDemoFileConfig(config, item, pathManager),
           path: item.path,
           type: item.type,
         };
         return menuItem;
       }
 
+      /**
+       * 如果是文件夹，读取同级别下的 config.json 文件
+       * - group
+       *  - demo.ts
+       *  - demo.config.json
+       * - group.config.json
+       */
+      const config = getDemoConfig(item, fs);
+
       const menuItem: DemoData = {
-        config: {
-          name: item.name ?? convertPathToVariableName(item.path),
-          globals: {
-            component: "Component",
-            register: "register",
-          },
-        },
-        children: convertDirectoryToDemo(item.children ?? []),
+        config: normalizeDemoFileConfig(config, item, pathManager),
+        children: convertDirectoryToDemo(
+          item.children ?? [],
+          pathManager,
+          fs,
+          path
+        ),
         path: item.path,
         type: item.type,
       };
+
       return menuItem;
     })
     .filter(Boolean) as DemoData[];

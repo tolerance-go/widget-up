@@ -40,6 +40,7 @@ const getRollupConfig = async () => {
   if (BuildEnvIsDev) {
     const demosManager = getDemosManager({
       folderPath: "demos",
+      pathManager,
     });
 
     const peerDependTreeManager = getPeerDependTreeManager({

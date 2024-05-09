@@ -1,6 +1,3 @@
 {
-  "globals": {
-    "component": "Component_react16",
-    "register": "Register_react16"
-  }
+  "menuTitle": "自定义标题"
 }
