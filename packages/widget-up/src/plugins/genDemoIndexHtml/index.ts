@@ -17,7 +17,7 @@ export const genDemoIndexHtml = ({
     name: "gen-demo-index-html",
     options(options) {
       const genIndexTplPlg = genAssert({
-        src: path.join(pathManager.rootPath, "tpls/index.html.ejs"),
+        src: path.join(pathManager.tplsPath, "index.html.ejs"),
         dest: WupFolderName,
       });
 

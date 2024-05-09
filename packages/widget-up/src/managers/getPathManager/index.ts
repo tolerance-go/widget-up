@@ -13,6 +13,7 @@ export class PathManager {
   public demosPath: string;
   public distPath: string;
   public serverPath: string;
+  public tplsPath: string;
 
   constructor(options: PathManagerOptions) {
     this.cwdPath = options.cwdPath;
@@ -20,6 +21,7 @@ export class PathManager {
     this.demosPath = path.join(this.cwdPath, "demos");
     this.distPath = path.join(this.cwdPath, "dist");
     this.serverPath = path.join(this.distPath, "server");
+    this.tplsPath = path.join(this.rootPath, "tpls");
   }
 }
 
