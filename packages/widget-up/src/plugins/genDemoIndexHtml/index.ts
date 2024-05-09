@@ -5,13 +5,17 @@ import { genAssert } from "@/src/utils/rollup-plugins/genAssert";
 import path from "path";
 import { Plugin } from "rollup";
 import { htmlRender } from "widget-up-utils";
+import { convertDemoDataToMenu } from "./convertDemoDataToMenu";
+import { ConfigManager } from "@/src/managers/getConfigManager";
 
 export const genDemoIndexHtml = ({
   pathManager,
   demosManager,
+  configManager,
 }: {
   pathManager: PathManager;
   demosManager: DemosManager;
+  configManager: ConfigManager;
 }): Plugin => {
   return {
     name: "gen-demo-index-html",
@@ -21,11 +25,16 @@ export const genDemoIndexHtml = ({
         dest: WupFolderName,
       });
 
+      const menus = convertDemoDataToMenu(
+        demosManager.getDemoDatas(),
+        configManager.getPackageConfig()
+      );
+
       const htmlPlugin = htmlRender({
         dest: "dist/server",
         src: path.join(WupFolderName, "index.html.ejs"),
         data: {
-          menus: [],
+          menus,
         },
       });
 

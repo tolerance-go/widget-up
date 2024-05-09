@@ -1,3 +1,4 @@
+import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { getEnv } from "@/src/utils/env";
 import { logger } from "@/src/utils/logger";
@@ -5,7 +6,7 @@ import { normalizePath } from "@/src/utils/normalizePath";
 import runtimeRollup, {
   RuntimeRollupOptions,
 } from "@/src/utils/rollup-plugins/runtimeRollup";
-import { DemoInput } from "@/types";
+import { DemoData, DemoInput } from "@/types";
 import path from "path";
 import { InputPluginOption } from "rollup";
 import {
@@ -23,7 +24,7 @@ export const getDemoRuntimePlgs = ({
   demoInputList,
   devBuildPlugins,
 }: {
-  demoInputList: DemoInput[];
+  demoInputList: DemoData[];
   cwdPath: string;
   config: NormalizedConfig;
   packageConfig: PackageJson;
@@ -42,7 +43,7 @@ export const getDemoRuntimePlgs = ({
           path.join("dist/server", inputData.dir, inputData.name, "index.js")
         ),
         format: "umd",
-        name: config.umd.name,
+        name: getGlobalNameWithDemo(inputItem, packageConfig),
         sourcemap: BuildEnvIsDev,
         globals: {
           /**

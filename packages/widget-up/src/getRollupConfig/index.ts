@@ -31,10 +31,8 @@ const getRollupConfig = async () => {
   logger.info(`cwdPath is ${cwdPath}`);
   logger.info(`demosPath is ${demosPath}`);
 
-  const packageConfig = JSON.parse(
-    fs.readFileSync(path.resolve("package.json"), "utf8")
-  ) as PackageJson;
   const configManager = getConfigManager();
+  const packageConfig = configManager.getPackageConfig();
   const config = configManager.getConfig();
 
   let rollupConfig: RollupOptions[] | RollupOptions = [];

@@ -1,17 +1,18 @@
+import { genDemoIndexHtml } from "@/src/plugins/genDemoIndexHtml";
+import { genRuntimeLib } from "@/src/plugins/genRuntimeLib";
+import { genServerInputs } from "@/src/plugins/genServerInputs";
 import { DemoData } from "@/types/demoFileMeta";
 import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
-import path from "path";
+import typescript from "@rollup/plugin-typescript";
 import { InputPluginOption } from "rollup";
-import postcss from "rollup-plugin-postcss";
 import {
-  PackageJson,
   NormalizedConfig,
+  PackageJson,
   deleteDist,
-  htmlRender,
   peerDependenciesAsExternal,
   serveLivereload,
 } from "widget-up-utils";
@@ -23,16 +24,11 @@ import { PathManager } from "../../managers/getPathManager";
 import { PeerDependTreeManager } from "../../managers/getPeerDependTreeManager";
 import genServerLibs from "../../plugins/genServerLibs";
 import { genStart } from "../../plugins/genStart";
-import { getEnv } from "../../utils/env";
 import { logger } from "../../utils/logger";
 import { genAssert } from "../../utils/rollup-plugins/genAssert";
 import { getDemoInputList } from "../getDemoInputList";
-import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
-import { genServerInputs } from "@/src/plugins/genServerInputs";
-import typescript from "@rollup/plugin-typescript";
-import { genRuntimeLib } from "@/src/plugins/genRuntimeLib";
-import { genDemoIndexHtml } from "@/src/plugins/genDemoIndexHtml";
 import { getPostCSSPlg } from "../getPostCSSPlg";
+import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
 
 export const getDevPlugins = async ({
   rootPath,
