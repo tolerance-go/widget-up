@@ -2,10 +2,10 @@ import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { DependencyTreeNodeJson, TechStack, TechType } from "@/types";
 import { getMajorVersion } from "widget-up-utils";
 
-export function getInputByFrame(
-  stacks: TechStack[],
+export function getInputByFrameStack(
+  stack: TechStack,
   inputNpmManager: InputNpmManager
-): DependencyTreeNodeJson[] {
+): DependencyTreeNodeJson {
   // 这是一个示例映射，用于将技术栈映射到入口文件
   const techStackMap: Record<
     TechType,
@@ -40,11 +40,9 @@ export function getInputByFrame(
     }),
   };
 
-  return stacks.map((stack) => {
-    const mapper = techStackMap[stack.name];
-    if (!mapper) {
-      throw new Error(`Unsupported tech stack: ${stack.name}`);
-    }
-    return mapper(stack.version.exact);
-  });
+  const mapper = techStackMap[stack.name];
+  if (!mapper) {
+    throw new Error(`Unsupported tech stack: ${stack.name}`);
+  }
+  return mapper(stack.version.exact);
 }

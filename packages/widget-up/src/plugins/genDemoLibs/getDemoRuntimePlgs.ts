@@ -46,7 +46,7 @@ export const getDemoRuntimePlgs = ({
           path.join("dist/server", inputData.dir, inputData.name, "index.js")
         ),
         format: "umd",
-        name: getGlobalNameWithDemo(inputItem, config.umd),
+        name: getGlobalNameWithDemo(inputItem, config.umd, pathManager.demosPath),
         sourcemap: BuildEnvIsDev,
         globals: {
           /**

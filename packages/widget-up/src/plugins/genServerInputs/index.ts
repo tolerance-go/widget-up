@@ -2,7 +2,7 @@ import { ConfigManager } from "@/src/managers/getConfigManager";
 import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { PathManager } from "@/src/managers/getPathManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
-import { getInputByFrame } from "@/src/utils/getInputByFrame";
+import { getInputByFrameStack } from "@/src/utils/getInputByFrameStack";
 import { resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
 import fs from "fs-extra";
 import path from "path";
@@ -24,24 +24,22 @@ export function genServerInputs({
   let once = false;
 
   const build = () => {
-    const techStacks = detectTechStack();
-    const inputs = getInputByFrame(techStacks, inputNpmManager);
+    const techStack = detectTechStack();
+    const input = getInputByFrameStack(techStack, inputNpmManager);
     fs.ensureDirSync(outputPath);
 
-    inputs.forEach((input) => {
-      const inputNpmInfo = resolveNpmInfo({
-        cwd: pathManager.rootPath,
-        name: input.name,
-      });
-
-      const content = fs.readFileSync(inputNpmInfo.moduleEntryPath, "utf-8");
-
-      fs.writeFileSync(
-        path.join(outputPath, `${input.name}.js`),
-        content,
-        "utf-8"
-      );
+    const inputNpmInfo = resolveNpmInfo({
+      cwd: pathManager.rootPath,
+      name: input.name,
     });
+
+    const content = fs.readFileSync(inputNpmInfo.moduleEntryPath, "utf-8");
+
+    fs.writeFileSync(
+      path.join(outputPath, `${input.name}.js`),
+      content,
+      "utf-8"
+    );
   };
 
   configManager.watch(() => {

@@ -11,7 +11,7 @@ import path from "path";
 import { Plugin } from "rollup";
 import { PackageJson } from "widget-up-utils";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
-import { getInputByFrame } from "../../utils/getInputByFrame";
+import { getInputByFrameStack } from "../../utils/getInputByFrameStack";
 
 interface GenStartOptions {
   outputPath: string;
@@ -35,9 +35,9 @@ export function genStart({
   const build = () => {
     const demoDatas = demosManager.getDemoDataList();
     const techStacks = detectTechStack();
-    const inputs = getInputByFrame(techStacks, inputNpmManager);
+    const input = getInputByFrameStack(techStacks, inputNpmManager);
 
-    const deps = inputs.map((input) => {
+    const deps = [input].map((input) => {
       return {
         ...input,
         depends: demoDatas.map((demo) => ({

@@ -13,7 +13,11 @@ export const convertDemoDataToMenu = (
     return {
       name: config.menuTitle,
       globals: {
-        component: getGlobalNameWithDemo(demoData, umdConfig),
+        component: getGlobalNameWithDemo(
+          demoData,
+          umdConfig,
+          pathManager.demosPath
+        ),
         register: `Register${config.menuTitle}Component`,
       },
       children: convertDemoDataToMenu(children || [], umdConfig, pathManager),
