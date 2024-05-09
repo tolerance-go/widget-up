@@ -16,7 +16,7 @@ export function getInputByFrame(
       version: inputNpmManager.getInputByName(
         `widget-up-input-react${getMajorVersion(version)}`
       ).packageJson.version,
-      scriptSrc: `() => \`/inputs/input.react\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
+      scriptSrc: `() => \`/inputs/widget-up-input-react\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
       linkHref: `() => ''`,
       depends: [],
     }),
@@ -25,7 +25,7 @@ export function getInputByFrame(
       version: inputNpmManager.getInputByName(
         `widget-up-input-vue${getMajorVersion(version)}`
       ).packageJson.version,
-      scriptSrc: `() => \`/inputs/input.vue\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
+      scriptSrc: `() => \`/inputs/widget-up-input-vue\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
       linkHref: `() => ''`,
       depends: [],
     }),
@@ -34,7 +34,7 @@ export function getInputByFrame(
       version: inputNpmManager.getInputByName(
         `widget-up-input-jquery${getMajorVersion(version)}`
       ).packageJson.version,
-      scriptSrc: `() => \`/inputs/input.jquery\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
+      scriptSrc: `() => \`/inputs/widget-up-input-jquery\${WidgetUpRuntime.utils.getMajorVersion(version)}.js\``,
       linkHref: `() => ''`,
       depends: [],
     }),
