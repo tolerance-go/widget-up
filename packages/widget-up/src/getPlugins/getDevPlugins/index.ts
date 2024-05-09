@@ -112,26 +112,7 @@ export const getDevPlugins = async ({
     genServerLibs({
       peerDependTreeManager,
       configManager,
-      // modifyCode: (code, lib) => {
-      //   return wrapUMDAsyncEventCode({
-      //     eventId,
-      //     eventBusPath: "WidgetUpRuntime.globalEventBus",
-      //     scriptContent: wrapUMDAliasCode({
-      //       scriptContent: code,
-      //       imports: [
-
-      //       ],
-      //       exports: [
-      //         {
-      //           globalVar: `${config.umd.name}_${semverToIdentifier(
-      //             packageConfig.version
-      //           )}`,
-      //           scopeVar: config.umd.name,
-      //         },
-      //       ],
-      //     }),
-      //   });
-      // },
+      pathManager,
     }),
     genRuntimeLib({
       pathManager,

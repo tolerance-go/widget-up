@@ -3,11 +3,12 @@ import path from "path";
 import { EventEmitter } from "events";
 
 // 假设 parseConfig 可以从 "widget-up-utils" 正确导入
-import { ParseConfig, parseConfig } from "widget-up-utils";
+import { parseConfig } from "widget-up-utils";
+import { NormalizedConfig } from "widget-up-utils";
 
 export class ConfigManager extends EventEmitter {
   private configPath: string;
-  private config: any;
+  private config: NormalizedConfig | null = null;
 
   constructor() {
     super();
@@ -20,6 +21,14 @@ export class ConfigManager extends EventEmitter {
         this.loadConfig();
       }
     });
+  }
+
+  public getConfig() {
+    if (!this.config) {
+      throw new Error("Config not loaded yet");
+    }
+
+    return this.config;
   }
 
   // 加载配置文件并触发事件
@@ -42,7 +51,7 @@ export class ConfigManager extends EventEmitter {
   }
 
   // 注册监听配置变化的回调函数
-  public watch(callback: (config: ParseConfig) => void) {
+  public watch(callback: (config: NormalizedConfig) => void) {
     this.on("change", callback);
     return () => this.removeListener("change", callback); // 返回一个取消监听的函数
   }

@@ -11,13 +11,13 @@ export * from "./wrapUMDAsyncEventCode";
 export * from "./getMajorVersion";
 
 export type {
-  NormalizedConfig as ParseConfig,
+  NormalizedConfig,
   SchemaConfig,
   GlobalsSchemaConfig,
   PackageJson,
   JQueryComponent,
   JQueryComponentProps,
-  NormalizedUMDConfig as ParedUMDConfig,
+  NormalizedUMDConfig,
 } from "@/types";
 export type * from "@/types/form";
 export type * from "@/types/runtime";

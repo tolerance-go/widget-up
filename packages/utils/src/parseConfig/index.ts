@@ -1,4 +1,9 @@
-import { SchemaConfig, NormalizedUMDConfig, NormalizedConfig } from "@/types";
+import {
+  NormalizedConfig,
+  NormalizedExternalDependency,
+  NormalizedUMDConfig,
+  SchemaConfig,
+} from "@/types";
 
 export function parseConfig(config: SchemaConfig): NormalizedConfig {
   // 首先处理 UMD 配置的解析，特别是 external 字段
@@ -6,20 +11,23 @@ export function parseConfig(config: SchemaConfig): NormalizedConfig {
     name: config.umd.name,
     external: config.umd.external,
     globals: config.umd.globals,
-    dependenciesEntries: Object.fromEntries(
-      Object.entries(config.umd.dependenciesEntries ?? {}).map(
+    externalDependencies: Object.fromEntries(
+      Object.entries(config.umd.externalDependencies ?? {}).map(
         ([key, value]) => {
           return [
             key,
-            typeof value === "string"
-              ? {
-                  development: value,
-                  production: value,
-                }
-              : {
-                  development: value.development,
-                  production: value.production,
-                },
+            {
+              name: value.name,
+              external: value.external || [],
+              globals: value.globals || {},
+              browser:
+                typeof value.browser === "string"
+                  ? {
+                      development: value.browser,
+                      production: value.browser,
+                    }
+                  : value.browser,
+            } as NormalizedExternalDependency,
           ];
         }
       )
@@ -30,10 +38,10 @@ export function parseConfig(config: SchemaConfig): NormalizedConfig {
   const normalizedConfig: NormalizedConfig = {
     input: config.input,
     umd: normalizedUMD,
-    cjs: config.cjs,
-    esm: config.esm,
-    css: config.css,
-    form: config.form,
+    cjs: config.cjs || false,
+    esm: config.esm || false,
+    css: config.css || false,
+    form: config.form || {},
   };
 
   return normalizedConfig;

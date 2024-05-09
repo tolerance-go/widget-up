@@ -1,27 +1,36 @@
 import { FormSchemaConfig } from "../form";
 import { CSSModuleType } from "./base";
-import { GlobalsSchemaConfig } from "./schema";
+import {
+  BrowserEntry,
+  ExternalConfig,
+  ExternalDependencies,
+  GlobalsSchemaConfig,
+} from "./schema";
+
+export type NormalizedExternalDependency = {
+  name: string;
+  external: ExternalConfig;
+  globals: GlobalsSchemaConfig;
+  browser: BrowserEntry;
+};
+
+export interface NormalizedUMDConfig {
+  name: string;
+  external: ExternalConfig;
+  globals: GlobalsSchemaConfig;
+  externalDependencies: NormalizedExternalDependencies;
+}
+
+export type NormalizedExternalDependencies = Record<
+  string,
+  NormalizedExternalDependency
+>;
 
 export interface NormalizedConfig {
   input: string;
   umd: NormalizedUMDConfig;
-  cjs?: boolean;
-  esm?: boolean;
-  css?: boolean | CSSModuleType;
-  form?: FormSchemaConfig;
+  cjs: boolean;
+  esm: boolean;
+  css: boolean | CSSModuleType;
+  form: FormSchemaConfig;
 }
-
-export interface NormalizedUMDConfig {
-  name: string;
-  external: string[];
-  globals: GlobalsSchemaConfig;
-  dependenciesEntries: NormalizedUMDDependenciesEntries;
-}
-
-export type NormalizedUMDDependenciesEntries = Record<
-  string,
-  {
-    development: string;
-    production: string;
-  }
->;

@@ -3,18 +3,9 @@ import { convertConfigUmdToAliasImports } from ".";
 describe("convertConfigUmdToAliasImports", () => {
   it("base", () => {
     const result = convertConfigUmdToAliasImports({
-      umdConfig: {
-        name: "MyComponent",
-        external: ['rollup'],
-        globals: {
-          rollup: "Rollup",
-        },
-        dependenciesEntries: {
-          rollup: {
-            development: "/dist/rollup.min.js",
-            production: "/dist/rollup.js",
-          }
-        }
+      external: ["rollup"],
+      globals: {
+        rollup: "Rollup",
       },
     });
 

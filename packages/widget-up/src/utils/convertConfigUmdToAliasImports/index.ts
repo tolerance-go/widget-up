@@ -1,20 +1,22 @@
 import {
-  ParedUMDConfig,
+  NormalizedUMDConfig,
   UMDAliasOptions,
   semverToIdentifier,
 } from "widget-up-utils";
-import { resolveNpmInfo } from "../../../utils/resolveNpmInfo";
+import { resolveNpmInfo } from "../resolveNpmInfo";
 
 export const convertConfigUmdToAliasImports = ({
-  umdConfig,
+  external,
+  globals,
 }: {
-  umdConfig: ParedUMDConfig;
+  external: NormalizedUMDConfig["external"];
+  globals: NormalizedUMDConfig["globals"];
 }) => {
   const imports: UMDAliasOptions["imports"] = [];
 
   // 处理每个外部库配置
-  umdConfig.external.forEach((libName) => {
-    const globalVar = umdConfig.globals[libName]; // 获取全局变量名称
+  external.forEach((libName) => {
+    const globalVar = globals[libName]; // 获取全局变量名称
     if (!globalVar) {
       throw new Error(`Global variable not found for ${libName}`);
     }

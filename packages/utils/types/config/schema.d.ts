@@ -8,22 +8,29 @@ export interface GlobalsSchemaConfig {
   [libName: string]: string;
 }
 
+export type ExternalConfig = string[];
+
 // 定义 UMD 配置的类型
 export interface UMDSchemaConfig {
   name: string;
   external: string[];
   globals: GlobalsSchemaConfig;
-  dependenciesEntries?: UMDDependenciesEntries;
+  externalDependencies?: ExternalDependencies;
 }
 
-export type UMDDependenciesEntries = Record<
-  string,
-  | {
-      development: string;
-      production: string;
-    }
-  | string
->;
+export type BrowserEntry = {
+  development: string;
+  production: string;
+};
+
+export type ExternalDependency = {
+  name: string;
+  external?: ExternalConfig;
+  globals?: GlobalsSchemaConfig;
+  browser?: BrowserEntry | string;
+};
+
+export type ExternalDependencies = Record<string, ExternalDependency>;
 
 // 定义最顶层的配置对象类型
 export interface SchemaConfig {

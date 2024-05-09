@@ -5,14 +5,20 @@
     "name": "Component_react16",
     "external": ["react", "react-dom"],
     "globals": { "react": "React", "react-dom": "ReactDOM" },
-    "dependenciesEntries": {
+    "externalDependencies": {
       "react": {
-        "development": "/umd/react.development.js",
-        "production": "/umd/react.production.min.js"
+        "name": "React",
+        "browser": {
+          "development": "/umd/react.development.js",
+          "production": "/umd/react.production.min.js"
+        }
       },
       "react-dom": {
-        "development": "/umd/react-dom.development.js",
-        "production": "/umd/react-dom.production.min.js"
+        "name": "ReactDOM",
+        "browser": {
+          "development": "/umd/react-dom.development.js",
+          "production": "/umd/react-dom.production.min.js"
+        }
       }
     }
   },

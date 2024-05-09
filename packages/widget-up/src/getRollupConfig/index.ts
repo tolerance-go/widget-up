@@ -37,7 +37,7 @@ const getRollupConfig = async () => {
     fs.readFileSync(path.resolve("package.json"), "utf8")
   ) as PackageJson;
   const configManager = getConfigManager();
-  const config = configManager.get();
+  const config = configManager.getConfig();
 
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 

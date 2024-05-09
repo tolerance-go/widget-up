@@ -5,10 +5,13 @@
     "name": "SchemaForm",
     "external": ["jquery"],
     "globals": { "jquery": "$" },
-    "dependenciesEntries": {
+    "dependencies": {
       "jquery": {
-        "development": "/dist/jquery.js",
-        "production": "/dist/jquery.min.js"
+        "name": "$",
+        "browser": {
+          "development": "/dist/jquery.js",
+          "production": "/dist/jquery.min.js"
+        }
       }
     }
   },

@@ -1,4 +1,4 @@
-import { convertConfigUmdToAliasImports } from "@/src/getPlugins/getDevPlugins/convertConfigUmdToAliasImports";
+import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { getEnv } from "@/src/utils/env";
 import { logger } from "@/src/utils/logger";
 import { normalizePath } from "@/src/utils/normalizePath";
@@ -10,7 +10,7 @@ import path from "path";
 import { InputPluginOption } from "rollup";
 import {
   PackageJson,
-  ParseConfig,
+  NormalizedConfig,
   semverToIdentifier,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
@@ -25,7 +25,7 @@ export const getDemoRuntimePlgs = ({
 }: {
   demoInputList: DemoInput[];
   cwdPath: string;
-  config: ParseConfig;
+  config: NormalizedConfig;
   packageConfig: PackageJson;
   devBuildPlugins: InputPluginOption[];
 }) => {
@@ -87,7 +87,8 @@ export const getDemoRuntimePlgs = ({
           const aliasCode = wrapUMDAliasCode({
             scriptContent: code,
             imports: convertConfigUmdToAliasImports({
-              umdConfig: config.umd,
+              external: config.umd.external,
+              globals: config.umd.globals,
             }),
             exports: [
               {
