@@ -5,10 +5,13 @@
     "name": "Component_jquery3",
     "external": ["jquery"],
     "globals": { "jquery": "$" },
-    "dependenciesEntries": {
+    "externalDependencies": {
       "jquery": {
-        "development": "/dist/jquery.js",
-        "production": "/dist/jquery.min.js"
+        "name": "$",
+        "browser": {
+          "development": "/dist/jquery.js",
+          "production": "/dist/jquery.min.js"
+        }
       }
     }
   },

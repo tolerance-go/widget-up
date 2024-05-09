@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/widget-up/dist/config-schema.json",
+  "$schema": "./node_modules/widget-up/dist-schema/config-schema.json",
   "input": "src/index.tsx",
   "umd": {
     "name": "Component_react18",
@@ -7,12 +7,18 @@
     "globals": { "react": "React", "react-dom": "ReactDOM" },
     "dependenciesEntries": {
       "react": {
-        "development": "/umd/react.development.js",
-        "production": "/umd/react.production.min.js"
+        "name": "React",
+        "browser": {
+          "development": "/umd/react.development.js",
+          "production": "/umd/react.production.min.js"
+        }
       },
       "react-dom": {
-        "development": "/umd/react-dom.development.js",
-        "production": "/umd/react-dom.production.min.js"
+        "name": "ReactDOM",
+        "browser": {
+          "development": "/umd/react-dom.development.js",
+          "production": "/umd/react-dom.production.min.js"
+        }
       }
     }
   },

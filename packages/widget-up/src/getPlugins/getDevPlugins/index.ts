@@ -9,7 +9,7 @@ import { InputPluginOption } from "rollup";
 import postcss from "rollup-plugin-postcss";
 import {
   PackageJson,
-  ParseConfig,
+  NormalizedConfig,
   deleteDist,
   htmlRender,
   peerDependenciesAsExternal,
@@ -51,7 +51,7 @@ export const getDevPlugins = async ({
   demoDatas?: DemoData[];
   rootPath: string;
   cwdPath: string;
-  config: ParseConfig;
+  config: NormalizedConfig;
   packageConfig: PackageJson;
 }) => {
   const inputNpmManager = new InputNpmManager({
