@@ -33,7 +33,8 @@ export const getDemoRuntimePlgs = ({
   const cwdPath = pathManager.cwdPath;
 
   const { BuildEnvIsDev } = getEnv();
-  const runtimeRollupPlgs = demoInputList.map((inputItem) => {
+
+  const createRuntimePlg = (inputItem: DemoData) => {
     const input = normalizePath(path.relative(cwdPath, inputItem.path));
 
     const inputData = path.parse(input);
@@ -112,7 +113,9 @@ export const getDemoRuntimePlgs = ({
       },
       input
     );
-  });
+  };
+
+  const runtimeRollupPlgs = demoInputList.map(createRuntimePlg);
 
   return runtimeRollupPlgs;
 };

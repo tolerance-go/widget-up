@@ -42,8 +42,6 @@ const getRollupConfig = async () => {
       folderPath: "demos",
     });
 
-    const demoDatas = demosManager.getDemoDatas();
-
     const peerDependTreeManager = getPeerDependTreeManager({
       cwd: cwdPath,
     });
