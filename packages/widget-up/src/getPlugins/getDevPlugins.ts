@@ -3,7 +3,6 @@ import { genDemoLibs } from "@/src/plugins/genDemoLibs";
 import { genMenus } from "@/src/plugins/genMenus";
 import { genRuntimeLib } from "@/src/plugins/genRuntimeLib";
 import { genServerInputs } from "@/src/plugins/genServerInputs";
-import { DemoData } from "@/types/demoFileMeta";
 import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
@@ -18,16 +17,16 @@ import {
   peerDependenciesAsExternal,
   serveLivereload,
 } from "widget-up-utils";
-import { WupFolderName } from "../../constants";
-import { ConfigManager } from "../../managers/getConfigManager";
-import { DemosManager } from "../../managers/getDemosManager";
-import { InputNpmManager } from "../../managers/getInputNpmManager";
-import { PathManager } from "../../managers/getPathManager";
-import { PeerDependTreeManager } from "../../managers/getPeerDependTreeManager";
-import genServerLibs from "../../plugins/genServerLibs";
-import { genStart } from "../../plugins/genStart";
-import { genAssert } from "../../utils/rollup-plugins/genAssert";
-import { getPostCSSPlg } from "../getPostCSSPlg";
+import { WupFolderName } from "../constants";
+import { ConfigManager } from "../managers/getConfigManager";
+import { DemosManager } from "../managers/getDemosManager";
+import { InputNpmManager } from "../managers/getInputNpmManager";
+import { PathManager } from "../managers/getPathManager";
+import { PeerDependTreeManager } from "../managers/getPeerDependTreeManager";
+import genServerLibs from "../plugins/genServerLibs";
+import { genStart } from "../plugins/genStart";
+import { genAssert } from "../utils/rollup-plugins/genAssert";
+import { getPostCSSPlg } from "./getPostCSSPlg";
 
 export const getDevPlugins = async ({
   rootPath,
