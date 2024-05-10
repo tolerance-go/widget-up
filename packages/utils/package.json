@@ -20,8 +20,8 @@
     "build": "npm run clean && npm run build:js && npm run build:types && node dist/rollup-plugins/tsDeclarationAlias/exec.js",
     "build:js": "cross-env NODE_ENV=production babel src --config-file ./babel.config.json --out-dir dist --extensions \".ts\" --ignore \"**/*.test.ts\"",
     "build:types": "tsc --project tsconfig.build.json --emitDeclarationOnly",
-    "test": "jest",
-    "test:update": "jest -u",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:update": "node --experimental-vm-modules node_modules/jest/bin/jest.js -u",
     "clean": "rimraf dist",
     "prepublishAll": "npm run test && npm run build"
   },
