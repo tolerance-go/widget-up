@@ -5,6 +5,7 @@ import {
   DependencyTag,
   TagDiff,
 } from "../../../types/HTMLDependencyManager";
+import { tagManagerLogger } from "./logger";
 
 export abstract class TagManagerBase<TTag extends DependencyTag> {
   public tags: TTag[] = [];
@@ -239,6 +240,8 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
 
     // 添加额外的属性
     Object.keys(tag.attributes).forEach((attr) => {
+      // 打印中文日志字符
+      tagManagerLogger.log(`设置属性 "${attr}" 值为 "${tag.attributes[attr]}"`);
       element.setAttribute(attr, tag.attributes[attr]);
     });
 
