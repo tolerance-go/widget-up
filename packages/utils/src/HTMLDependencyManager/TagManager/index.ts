@@ -21,7 +21,6 @@ export class TagManager {
     document,
     scriptSrcBuilder,
     linkSrcBuilder,
-    debug,
   }: {
     eventBus?: EventBus<TagEvents>;
     document: Document;
@@ -33,7 +32,6 @@ export class TagManager {
       document,
       eventBus,
       srcBuilder: scriptSrcBuilder,
-      debug,
     });
 
     this.linkTagManager = new LinkTagManager({
