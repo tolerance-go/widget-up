@@ -27,6 +27,7 @@ import genServerLibs from "../plugins/genServerLibs";
 import { genStart } from "../plugins/genStart";
 import { genAssert } from "../utils/rollup-plugins/genAssert";
 import { getPostCSSPlg } from "./getPostCSSPlg";
+import wrapMainOutput from "../plugins/wrapMainOutput";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -75,6 +76,10 @@ export const getDevPlugins = async ({
       once: true,
     }),
     ...devBuildPlugins,
+    wrapMainOutput({
+      pathManager,
+      configManager,
+    }),
     genDemoLibs({
       pathManager,
       demosManager,
