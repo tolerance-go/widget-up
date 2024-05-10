@@ -232,16 +232,18 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     // 根据标签类型设置对应的资源属性
     if (tag.type === "script") {
       const scriptEl = element as HTMLScriptElement;
+      tagManagerLogger.log(`设置属性 "src" 值为 "${tag.src}"`);
       scriptEl.src = tag.src; // 为script设置src
     } else if (tag.type === "link") {
       const linkEl = element as HTMLLinkElement;
+      tagManagerLogger.log(`设置属性 "href" 值为 "${tag.src}"`);
       linkEl.href = tag.src;
     }
 
     // 添加额外的属性
     Object.keys(tag.attributes).forEach((attr) => {
       // 打印中文日志字符
-      tagManagerLogger.log(`设置属性 "${attr}" 值为 "${tag.attributes[attr]}"`);
+      tagManagerLogger.log(`设置属性xxx "${attr}" 值为 "${tag.attributes[attr]}"`);
       element.setAttribute(attr, tag.attributes[attr]);
     });
 

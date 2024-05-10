@@ -1,12 +1,12 @@
-import { InputPluginOption, Plugin } from "rollup";
-import express from "express";
-import livereload from "livereload";
-import connectLivereload from "connect-livereload";
-import { Server as HttpServer } from "http";
-import path from "path";
-import { logger } from "./logger";
-import open from "open";
 import { findAvailablePort } from "@/src/findAvailablePort";
+import connectLivereload from "connect-livereload";
+import express from "express";
+import { Server as HttpServer } from "http";
+import livereload from "livereload";
+import open from "open";
+import path from "path";
+import { Plugin } from "rollup";
+import { logger } from "./logger";
 
 interface ServeLivereloadOptions {
   contentBase: string | string[]; // contentBase 现在可以是一个字符串或字符串数组
@@ -15,9 +15,9 @@ interface ServeLivereloadOptions {
   openBrowser?: boolean; // 控制是否在服务器启动时自动打开浏览器
 }
 
-const serveLivereload: InputPluginOption = async (
+const serveLivereload = async (
   options: ServeLivereloadOptions
-) => {
+): Promise<Plugin> => {
   const {
     contentBase,
     port = 3000,

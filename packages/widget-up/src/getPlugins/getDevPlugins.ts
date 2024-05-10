@@ -45,7 +45,7 @@ export const getDevPlugins = async ({
   rootPath: string;
   config: NormalizedConfig;
   packageConfig: PackageJson;
-}) => {
+}): Promise<InputPluginOption[]> => {
   const inputNpmManager = new InputNpmManager({
     cwd: rootPath,
   });
@@ -70,7 +70,7 @@ export const getDevPlugins = async ({
     getPostCSSPlg({ config }),
   ];
 
-  const plugins = [
+  const plugins: InputPluginOption[] = [
     deleteDist({
       dist: ["dist", WupFolderName],
       once: true,

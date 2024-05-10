@@ -75,6 +75,6 @@ export default {
       }),
   ].filter(Boolean), // 使用 .filter(Boolean) 去除数组中的 falsy 值，如 undefined 或 false
   watch: {
-    include: ["src/**", "styles/**"],
+    include: ["src/**", "styles/**", /widget-up\/packages\/utils/],
   },
 };
