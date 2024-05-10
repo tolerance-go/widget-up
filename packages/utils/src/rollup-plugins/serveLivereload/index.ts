@@ -1,12 +1,12 @@
-import { Plugin } from "rollup";
+import { InputPluginOption, Plugin } from "rollup";
 import express from "express";
 import livereload from "livereload";
 import connectLivereload from "connect-livereload";
 import { Server as HttpServer } from "http";
 import path from "path";
 import { logger } from "./logger";
-import { findAvailablePort } from "./findAvailablePort";
 import open from "open";
+import { findAvailablePort } from "@/src/findAvailablePort";
 
 interface ServeLivereloadOptions {
   contentBase: string | string[]; // contentBase 现在可以是一个字符串或字符串数组
@@ -15,7 +15,9 @@ interface ServeLivereloadOptions {
   openBrowser?: boolean; // 控制是否在服务器启动时自动打开浏览器
 }
 
-const serveLivereload = (options: ServeLivereloadOptions): Plugin => {
+const serveLivereload: InputPluginOption = async (
+  options: ServeLivereloadOptions
+) => {
   const {
     contentBase,
     port = 3000,
@@ -23,12 +25,16 @@ const serveLivereload = (options: ServeLivereloadOptions): Plugin => {
     openBrowser = true,
   } = options;
 
+  const livereloadPortAvailable = await findAvailablePort(livereloadPort);
+
   // 支持 contentBase 是数组或字符串的情况
   const contentBasePaths = Array.isArray(contentBase)
     ? contentBase.map((base) => path.resolve(base))
     : [path.resolve(contentBase)];
 
-  let liveReloadServer = livereload.createServer({ port: livereloadPort });
+  let liveReloadServer = livereload.createServer({
+    port: livereloadPortAvailable,
+  });
   contentBasePaths.forEach((path) => liveReloadServer.watch(path));
 
   const app = express();

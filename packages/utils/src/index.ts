@@ -11,6 +11,7 @@ export * from "./wrapUMDAliasCode";
 export * from "./wrapUMDAsyncEventCode";
 export * from "./getMajorVersion";
 export * from "./maps";
+export * from "./findAvailablePort";
 
 export type {
   NormalizedConfig,
