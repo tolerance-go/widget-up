@@ -68,11 +68,14 @@ export async function install(
     fetchVersionList,
     document,
     scriptSrcBuilder: (dep) => {
-      const key = `${dep.name}@${dep.version}`;
+      const key = `${dep.name}@${dep.version.exact}`;
+
+      installLogger.log("构建scriptSrc", key, srcMap.get(key));
+
       return srcMap.get(key)?.scriptSrc?.(dep) || "";
     },
     linkHrefBuilder: (dep) => {
-      const key = `${dep.name}@${dep.version}`;
+      const key = `${dep.name}@${dep.version.exact}`;
       return srcMap.get(key)?.linkHref?.(dep) || "";
     },
   });

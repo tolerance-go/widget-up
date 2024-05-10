@@ -1,10 +1,10 @@
 import { EventBus } from "@/src/EventBus";
 import {
-  DependencyListDiff,
   DependencyListItem,
   ScriptTag,
 } from "../../../../types/HTMLDependencyManager";
 import { TagManagerBase } from "../TagManagerBase";
+import { scriptManagerLogger } from "./logger";
 
 export interface TagEvents {
   loaded: { id: string };
@@ -48,11 +48,17 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   }
 
   protected dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
+    scriptManagerLogger.log("dependencyListItemToTagItem", item);
+
+    const src = this.srcBuilder(item);
+
+    scriptManagerLogger.log("dependencyListItemToTagItem src", src);
+
     return {
       name: item.name,
       version: item.version.exact,
       type: "script",
-      src: this.srcBuilder(item),
+      src,
       attributes: {
         async: "true",
       },

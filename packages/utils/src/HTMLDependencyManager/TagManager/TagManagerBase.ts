@@ -4,7 +4,7 @@ import {
   DependencyListItem,
   DependencyTag,
   TagDiff,
-} from "../../../types/HTMLDependencyManager";
+} from "@/types/HTMLDependencyManager";
 import { tagManagerLogger } from "./logger";
 
 export abstract class TagManagerBase<TTag extends DependencyTag> {
@@ -160,6 +160,7 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
   public updateHtml(diff: TagDiff<TTag>) {
     // 处理插入的标签
     diff.insert.forEach((detail) => {
+      tagManagerLogger.log(`插入标签`, detail.tag);
       const element = this.createElementFromTag(detail.tag);
       this.insertElementInHead(element, detail.prevTag, this.container);
     });
@@ -243,7 +244,9 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     // 添加额外的属性
     Object.keys(tag.attributes).forEach((attr) => {
       // 打印中文日志字符
-      tagManagerLogger.log(`设置属性xxx "${attr}" 值为 "${tag.attributes[attr]}"`);
+      tagManagerLogger.log(
+        `设置属性xxx "${attr}" 值为 "${tag.attributes[attr]}"`
+      );
       element.setAttribute(attr, tag.attributes[attr]);
     });
 
