@@ -15,7 +15,8 @@
     "types"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev:js\" \"npm run dev:types\"",
+    "dev:tsDeclarationAlias": "node scripts/watch-tsDeclarationAlias.js",
+    "dev": "concurrently \"npm run dev:js\" \"npm run dev:types\" \"npm run dev:tsDeclarationAlias\"",
     "schema-dev": "schema-builder dev",
     "schema-build": "schema-builder build",
     "build": "npm run clean && npm run build:js && npm run build:types && node dist/rollup-plugins/tsDeclarationAlias/exec.js",
@@ -39,6 +40,7 @@
     "express": "^4.19.2",
     "glob": "^10.3.12",
     "livereload": "^0.9.3",
+    "lodash-es": "^4.17.21",
     "open": "^10.1.0",
     "semver": "^7.6.0",
     "strip-json-comments": "^5.0.1",

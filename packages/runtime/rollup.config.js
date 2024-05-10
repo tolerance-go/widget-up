@@ -1,20 +1,19 @@
-import commonjs from "@rollup/plugin-commonjs";
-import resolve from "@rollup/plugin-node-resolve";
-import { terser } from "rollup-plugin-terser";
-import typescript from "@rollup/plugin-typescript";
-import {
-  autoExternalDependencies,
-  peerDependenciesAsExternal,
-  tsDeclarationAlias,
-  deleteDist,
-  serveLivereload,
-  htmlRender,
-} from "widget-up-utils";
-import json from "@rollup/plugin-json";
-import postcss from "rollup-plugin-postcss";
-import tailwindcss from "tailwindcss";
-import autoprefixer from "autoprefixer";
 import alias from "@rollup/plugin-alias";
+import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
+import resolve from "@rollup/plugin-node-resolve";
+import typescript from "@rollup/plugin-typescript";
+import autoprefixer from "autoprefixer";
+import postcss from "rollup-plugin-postcss";
+import { terser } from "rollup-plugin-terser";
+import tailwindcss from "tailwindcss";
+import {
+  deleteDist,
+  htmlRender,
+  peerDependenciesAsExternal,
+  serveLivereload,
+  tsDeclarationAlias,
+} from "widget-up-utils";
 
 const buildEnvIsProduction = process.env.NODE_ENV === "production";
 const buildEnvIsDevelopment = process.env.NODE_ENV === "development";
