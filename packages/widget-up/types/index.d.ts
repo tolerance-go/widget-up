@@ -18,7 +18,7 @@ export type TechStack = {
  */
 export type DependencyTreeNodeJson = Omit<
   DependencyTreeNode,
-  "scriptSrc" | "linkHref" | 'depends'
+  "scriptSrc" | "linkHref" | "depends"
 > & {
   scriptSrc: string;
   linkHref: string;

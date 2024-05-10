@@ -8,5 +8,5 @@ export const getInputGlobalName = (frameInfo: TechStack) => {
     throw new Error(`未知的框架：${frameInfo.name}`);
   }
 
-  return `${globalName}_${getMajorVersion(frameInfo.version.exact)}`;
+  return `${globalName}${getMajorVersion(frameInfo.version.exact)}`;
 };
