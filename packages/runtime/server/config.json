@@ -2,21 +2,20 @@
   "input": "src/index.tsx",
   "umd": {
     "name": "MyComponent",
-    "external": {
-      "jquery": {
-        "unpkg": {
-          "filePath": "/dist/jquery.min.js",
-          "filePathDev": "/dist/jquery.js"
-        }
+    "external": [
+      "jquery"
+    ],
+    "globals": { "jquery": "$" },
+    "externalDependencies": {
+      "name": "$",
+      "external": [],
+      "globals": {},
+      "browser": {
+        "development": "/dist/jquery.js",
+        "production": "/dist/jquery.min.js"
       },
-      "widget-up-utils": {
-        "unpkg": {
-          "filePath": "/umd/index.production.min.js",
-          "filePathDev": "/umd/index.development.js"
-        }
-      }
-    },
-    "globals": { "jquery": "$" }
+      "exportScopeObjectName": "window"
+    }
   },
   "cjs": true,
   "esm": true

@@ -74,19 +74,16 @@ WidgetUpRuntime.start({
             {
               name: "react-dom",
               version: "18.2.0",
-              scriptSrc: (dep) => `/libs/react-dom18.development.alias-wrap.async-wrap.js`,
+              scriptSrc: (dep) =>
+                `/libs/react-dom18.development.alias-wrap.async-wrap.js`,
               depends: [
                 {
                   name: "react",
-                  version: "16.14.0",
-                  scriptSrc: (dep) => `/libs/react.development.alias-wrap.async-wrap.js`,
+                  version: "18.2.0",
+                  scriptSrc: (dep) =>
+                    `/libs/react18.development.alias-wrap.async-wrap.js`,
                 },
               ],
-            },
-            {
-              name: "react",
-              version: "18.2.0",
-              scriptSrc: (dep) => `/libs/react18.development.alias-wrap.async-wrap.js`,
             },
           ],
         },

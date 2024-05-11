@@ -29,6 +29,7 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
 
   public applyDependencyDiffs(diffs: DependencyListDiff) {
     const tagDiffs = this.convertDependencyListDiffToTagDiff(diffs);
+    tagManagerLogger.log("计算得到tagDiffs", diffs, tagDiffs);
 
     this.updateTags(tagDiffs);
 
@@ -120,6 +121,8 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
 
   // 插入标签
   protected insertTag(tag: TTag, prevTag: TTag | null) {
+    tagManagerLogger.log(`准备插入tag`, tag);
+
     if (prevTag === null) {
       // 如果 beforeSrc 为 null，插入到数组的第一个位置
       this.tags.unshift({ ...tag, loaded: false, executed: false });

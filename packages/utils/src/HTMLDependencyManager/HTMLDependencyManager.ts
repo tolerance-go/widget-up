@@ -8,6 +8,7 @@ import {
   DependencyListItem,
 } from "../../types/HTMLDependencyManager";
 import { EventBus } from "../EventBus";
+import { HTMLDependencyManagerLogger } from "./logger";
 
 interface ConstructorOptions {
   fetchVersionList: (dependencyName: string) => Promise<string[]>;
@@ -39,7 +40,7 @@ class HTMLDependencyManager {
       scriptSrcBuilder: this.scriptSrcBuilder,
       linkSrcBuilder: this.linkHrefBuilder,
       debug: options.debug,
-      eventBus: options.eventBus
+      eventBus: options.eventBus,
     });
   }
   async addDependency(
@@ -76,6 +77,7 @@ class HTMLDependencyManager {
   getSortedDependencies() {
     // 获取当前所有依赖项的信息
     const dependencies = this.getDependencies();
+    HTMLDependencyManagerLogger.log('getSortedDependencies_dependencies', dependencies)
     const allDependencies: DependencyDetail[] = [];
     const visited: { [key: string]: boolean } = {};
     const result: DependencyDetail[] = [];
@@ -88,7 +90,7 @@ class HTMLDependencyManager {
     // DFS 助手函数，用于递归访问每一个依赖及其子依赖
     const dfs = (dep: DependencyDetail) => {
       // 生成唯一标识符，格式为“名称@版本”
-      const depIdentifier = dep.name + "@" + dep.version;
+      const depIdentifier = dep.name + "@" + dep.version.exact;
       // 如果已访问过，则跳过
       if (visited[depIdentifier]) return;
       visited[depIdentifier] = true;
@@ -106,7 +108,7 @@ class HTMLDependencyManager {
 
     // 遍历所有依赖项，使用DFS确保每个依赖及其子依赖都被访问
     allDependencies.forEach((dep) => {
-      if (!visited[dep.name + "@" + dep.version]) {
+      if (!visited[dep.name + "@" + dep.version.exact]) {
         dfs(dep);
       }
     });
@@ -187,11 +189,12 @@ class HTMLDependencyManager {
   // 新方法：计算依赖详情的差异
   calculateDiffs(): DependencyListDiff {
     const currentDependencies = this.getDependencyList(); // 获取当前排序后的依赖详情
+    HTMLDependencyManagerLogger.log("currentDependencies", currentDependencies);
     const oldDependenciesMap = new Map(
-      this.lastDependencies.map((dep) => [dep.name + "@" + dep.version, dep])
+      this.lastDependencies.map((dep) => [dep.name + "@" + dep.version.exact, dep])
     ); // 创建映射以快速访问旧依赖
     const currentDependenciesMap = new Map(
-      currentDependencies.map((dep) => [dep.name + "@" + dep.version, dep])
+      currentDependencies.map((dep) => [dep.name + "@" + dep.version.exact, dep])
     ); // 创建映射以快速访问当前依赖
 
     const diff: DependencyListDiff = {
@@ -205,9 +208,9 @@ class HTMLDependencyManager {
 
     // 遍历当前依赖详情，判断每个依赖的状态（新增、移动、更新）
     currentDependencies.forEach((dep, index) => {
-      const oldDep = oldDependenciesMap.get(dep.name + "@" + dep.version);
+      const oldDep = oldDependenciesMap.get(dep.name + "@" + dep.version.exact);
       const oldIndex = this.lastDependencies.findIndex(
-        (d) => d.name + "@" + d.version === dep.name + "@" + dep.version
+        (d) => d.name + "@" + d.version.exact === dep.name + "@" + dep.version.exact
       );
 
       if (!oldDep) {
@@ -235,7 +238,7 @@ class HTMLDependencyManager {
 
     // 遍历旧依赖详情，判断是否有依赖需要移除
     this.lastDependencies.forEach((dep) => {
-      if (!currentDependenciesMap.has(dep.name + "@" + dep.version)) {
+      if (!currentDependenciesMap.has(dep.name + "@" + dep.version.exact)) {
         diff.remove.push(dep);
       }
     });
@@ -247,6 +250,11 @@ class HTMLDependencyManager {
 
   // 新方法：根据差异信息更新 head 中的标签
   applyDiffs(diff: DependencyListDiff): void {
+    HTMLDependencyManagerLogger.log("获得diff数据", diff);
+    HTMLDependencyManagerLogger.log(
+      "获得diff插入数据",
+      JSON.stringify(diff.insert, null, 2)
+    );
     this.tagManager.applyDependencyDiffs(diff);
   }
 }

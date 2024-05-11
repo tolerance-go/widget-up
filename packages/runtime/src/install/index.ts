@@ -80,6 +80,8 @@ export async function install(
     },
   });
 
+  window.__manager = manager;
+
   // 递归函数用于处理依赖树
   const processDependency = async (node: DependencyTreeNode) => {
     installLogger.log("处理依赖", node.name, node.version);
