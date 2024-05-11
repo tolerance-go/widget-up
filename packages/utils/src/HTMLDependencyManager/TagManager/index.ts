@@ -21,17 +21,20 @@ export class TagManager {
     document,
     scriptSrcBuilder,
     linkSrcBuilder,
+    onAllExecutedCallback
   }: {
     eventBus?: EventBus<TagEvents>;
     document: Document;
     scriptSrcBuilder?: (dep: DependencyListItem) => string;
     linkSrcBuilder?: (dep: DependencyListItem) => string;
     debug?: boolean;
+    onAllExecutedCallback?: () => void; // 定义类型
   }) {
     this.scriptTagManager = new ScriptTagManager({
       document,
       eventBus,
       srcBuilder: scriptSrcBuilder,
+      onAllExecutedCallback
     });
 
     this.linkTagManager = new LinkTagManager({

@@ -16,7 +16,7 @@ export const start = ({
   // 请求跟目录下的 menus.json 然后渲染左边栏菜单
   renderMenus({ containerId: leftPanelId, eventBus: globalEventBus });
 
-  install(dependencies, window.document, globalEventBus);
+  install(dependencies, window.document);
 
   startRender();
 };

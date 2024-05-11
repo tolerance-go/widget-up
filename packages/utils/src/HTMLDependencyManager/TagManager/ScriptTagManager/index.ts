@@ -17,17 +17,20 @@ export const ScriptTagManagerContainerId = "script-tag-manager-container";
 export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   private eventBus: EventBus<TagEvents>;
   private srcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
+  private onAllExecutedCallback?: () => void; // 添加一个可选的回调函数属性
 
   constructor({
     eventBus,
     document,
     container,
     srcBuilder,
+    onAllExecutedCallback, // 新参数
   }: {
     eventBus?: EventBus<TagEvents>;
     document: Document;
     container?: HTMLElement;
     srcBuilder?: (dep: DependencyListItem) => string;
+    onAllExecutedCallback?: () => void; // 定义类型
   }) {
     if (!container) {
       container = document.createElement("div");
@@ -45,6 +48,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     });
 
     this.srcBuilder = srcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
+    this.onAllExecutedCallback = onAllExecutedCallback; // 初始化回调函数
   }
 
   protected dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
@@ -87,14 +91,27 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
 
   // 检查并执行标签
   public checkExecute() {
-    scriptManagerLogger.log(`检查执行情况`, this.tags);
-    let allPreviousLoadedAndExecuted = true;
+    scriptManagerLogger.log("检查执行情况", this.tags);
+
+    let allExecuted = true;
+    let firstNotExecuted = null;
+
     for (const tag of this.tags) {
-      if (tag.loaded && !tag.executed && allPreviousLoadedAndExecuted) {
-        this.eventBus.emit("execute", { id: tag.src });
-        break;
+      if (tag.loaded && !tag.executed) {
+        allExecuted = false;
+        if (!firstNotExecuted) {
+          firstNotExecuted = tag;
+          break; // 一旦找到第一个未执行的标签，退出循环
+        }
+      } else if (!tag.loaded || !tag.executed) {
+        allExecuted = false; // 保证即使后续标签都执行了，也正确记录未完全执行的状态
       }
-      allPreviousLoadedAndExecuted = !!tag.loaded && !!tag.executed;
+    }
+
+    if (allExecuted && this.onAllExecutedCallback) {
+      this.onAllExecutedCallback(); // 如果所有标签都已执行，调用回调
+    } else if (firstNotExecuted) {
+      this.eventBus.emit("execute", { id: firstNotExecuted.src }); // 触发第一个未执行的标签
     }
   }
 }

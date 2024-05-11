@@ -17,6 +17,7 @@ interface ConstructorOptions {
   linkHrefBuilder?: (dep: DependencyListItem) => string;
   debug?: boolean;
   eventBus?: EventBus<TagEvents>;
+  onAllExecutedCallback?: () => void; // 定义类型
 }
 
 class HTMLDependencyManager {
@@ -41,6 +42,7 @@ class HTMLDependencyManager {
       linkSrcBuilder: this.linkHrefBuilder,
       debug: options.debug,
       eventBus: options.eventBus,
+      onAllExecutedCallback: options.onAllExecutedCallback
     });
   }
   async addDependency(

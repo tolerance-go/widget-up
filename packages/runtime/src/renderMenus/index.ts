@@ -14,6 +14,7 @@ import {
 import { insertHtml } from "../utils/insertHtml";
 import { runtimeLogger } from "../utils/logger";
 import { findMenuItemByName } from "./findMenuItemByName";
+import { globalEventBus } from "..";
 
 interface RenderMenusOptions {
   containerId: string;
@@ -106,24 +107,26 @@ export async function renderMenus({
       }
     });
 
-    /**
-     * 从 url 参数获取当前 name，如果存在
-     * 手动触发一次 menuClick
-     */
-    const params = getURLSearchParams(location.href);
+    globalEventBus.on("allScriptsExecuted", () => {
+      /**
+       * 从 url 参数获取当前 name，如果存在
+       * 手动触发一次 menuClick
+       */
+      const params = getURLSearchParams(location.href);
 
-    if (params.name) {
-      const item = findMenuItemByName(menus, params.name);
-      if (item) {
-        eventBus.emit("menuClick", {
-          name: item.name,
-          globals: {
-            component: item.globals.component,
-            register: item.globals.register,
-          },
-        });
+      if (params.name) {
+        const item = findMenuItemByName(menus, params.name);
+        if (item) {
+          eventBus.emit("menuClick", {
+            name: item.name,
+            globals: {
+              component: item.globals.component,
+              register: item.globals.register,
+            },
+          });
+        }
       }
-    }
+    });
   } catch (error) {
     console.error("Error rendering menus:", error);
   }

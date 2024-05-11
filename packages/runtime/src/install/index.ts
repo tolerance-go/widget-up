@@ -1,9 +1,5 @@
-import {
-  HTMLDependencyManager,
-  DependencyListItem,
-  EventBus,
-  TagEvents,
-} from "widget-up-utils";
+import { DependencyListItem, HTMLDependencyManager } from "widget-up-utils";
+import { globalEventBus } from "..";
 import { installLogger } from "./logger";
 
 // 定义一个类型来表示依赖树的节点
@@ -18,8 +14,7 @@ export interface DependencyTreeNode {
 // 实现`install`方法
 export async function install(
   dependencies: DependencyTreeNode[],
-  document: Document,
-  eventBus: EventBus<TagEvents>
+  document: Document
 ) {
   installLogger.log("开始安装依赖", dependencies);
   const fetchVersionList = async (
@@ -63,7 +58,7 @@ export async function install(
 
   // 实例化HTMLDependencyManager
   const manager = new HTMLDependencyManager({
-    eventBus,
+    eventBus: globalEventBus,
     debug: true,
     fetchVersionList,
     document,
@@ -77,6 +72,9 @@ export async function install(
     linkHrefBuilder: (dep) => {
       const key = `${dep.name}@${dep.version.exact}`;
       return srcMap.get(key)?.linkHref?.(dep) || "";
+    },
+    onAllExecutedCallback: () => {
+      globalEventBus.emit("allScriptsExecuted", {});
     },
   });
 
