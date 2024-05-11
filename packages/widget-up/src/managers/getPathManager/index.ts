@@ -49,8 +49,13 @@ export class PathManager {
   /**
    * 获取 demo lib 的服务器请求地址
    */
-  public getDemoLibServerUrl(demoFilePath: string) {
-    return normalizePath(this.getDemoLibServerRelativePath(demoFilePath));
+  public getDemoLibServerUrl(demoCaseAbsPath: string) {
+    const input = path.relative(this.cwdPath, demoCaseAbsPath);
+    const inputPathData = path.parse(input);
+
+    return normalizePath(
+      path.join("/", inputPathData.dir, inputPathData.name, "index.js")
+    );
   }
 
   /**
@@ -72,16 +77,6 @@ export class PathManager {
       inputPathData.dir,
       inputPathData.name,
       "index.js"
-    );
-  }
-
-  /**
-   * 获取请求 demo 资源的 url 地址
-   */
-  public getDemoScriptUrl(demoFilePath: string) {
-    return replaceFileExtension(
-      path.join("/demos", path.relative(this.demosAbsPath, demoFilePath)),
-      ".js"
     );
   }
 }

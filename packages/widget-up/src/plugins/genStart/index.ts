@@ -47,7 +47,7 @@ export function genStart({
         depends: demoDatas.map((demo) => ({
           name: demo.config.menuTitle,
           version: packageConfig.version,
-          scriptSrc: `() => '${pathManager.getDemoScriptUrl(demo.path)}'`,
+          scriptSrc: `() => '${pathManager.getDemoLibServerUrl(demo.path)}'`,
           linkHref: `() => ''`,
           depends: [
             {
