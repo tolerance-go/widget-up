@@ -3,11 +3,16 @@ import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { PathManager } from "@/src/managers/getPathManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getInputByFrameStack } from "@/src/utils/getInputByFrameStack";
+import { getInputGlobalName } from "@/src/utils/getInputGlobalName";
 import { resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
 import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
-import { getMajorVersion, semverToIdentifier } from "widget-up-utils";
+import {
+  semverToIdentifier,
+  wrapUMDAliasCode,
+  wrapUMDAsyncEventCode,
+} from "widget-up-utils";
 
 interface GenServerInputsOptions {
   outputPath: string;
@@ -29,12 +34,42 @@ export function genServerInputs({
     const input = getInputByFrameStack(techStack, inputNpmManager);
     fs.ensureDirSync(outputPath);
 
+    const config = configManager.getConfig();
+    const packageConfig = configManager.getPackageConfig();
+
     const inputNpmInfo = resolveNpmInfo({
       cwd: pathManager.rootPath,
       name: input.name,
     });
 
-    const content = fs.readFileSync(inputNpmInfo.moduleEntryPath, "utf-8");
+    let content = fs.readFileSync(inputNpmInfo.moduleEntryPath, "utf-8");
+
+    const frameInfo = detectTechStack();
+
+    content = wrapUMDAliasCode({
+      scriptContent: content,
+      imports: [
+        {
+          globalVar: "RuntimeComponent",
+          scopeVar: "RuntimeComponent",
+        },
+      ],
+      exports: [
+        {
+          globalVar: getInputGlobalName(frameInfo),
+          scopeVar: getInputGlobalName(frameInfo),
+        },
+      ],
+    });
+
+    content = wrapUMDAsyncEventCode({
+      eventId: pathManager.getInputLibUrl(
+        inputNpmInfo.packageJson.name,
+        inputNpmInfo.packageJson.version
+      ),
+      scriptContent: content,
+      eventBusPath: "WidgetUpRuntime.globalEventBus",
+    });
 
     fs.writeFileSync(
       path.join(

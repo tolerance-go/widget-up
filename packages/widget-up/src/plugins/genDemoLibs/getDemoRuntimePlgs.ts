@@ -84,24 +84,37 @@ export const getDemoRuntimePlgs = ({
           }
 
           // 用服务器中的资源路径做为事件 ID
-          const eventId = normalizePath(
-            path.join("/", path.relative(cwdPath, chunk.facadeModuleId))
-          );
+          const eventId = pathManager.getDemoLibServerUrl(chunk.facadeModuleId);
 
           logger.info("eventId: ", eventId);
 
           const aliasCode = wrapUMDAliasCode({
             scriptContent: code,
-            imports: convertConfigUmdToAliasImports({
-              external: config.umd.external,
-              globals: config.umd.globals,
-            }),
-            exports: [
+            imports: [
+              ...convertConfigUmdToAliasImports({
+                external: config.umd.external,
+                globals: config.umd.globals,
+              }),
+              // 加上对开发组件的依赖
               {
                 globalVar: `${config.umd.name}_${semverToIdentifier(
                   packageConfig.version
                 )}`,
                 scopeVar: config.umd.name,
+              },
+            ],
+            exports: [
+              {
+                globalVar: `${getGlobalNameWithDemo(
+                  inputItem,
+                  config.umd,
+                  pathManager.demosAbsPath
+                )}_${semverToIdentifier(packageConfig.version)}`,
+                scopeVar: getGlobalNameWithDemo(
+                  inputItem,
+                  config.umd,
+                  pathManager.demosAbsPath
+                ),
               },
             ],
           });

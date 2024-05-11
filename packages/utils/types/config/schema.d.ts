@@ -1,3 +1,4 @@
+import { ScopeObjectName } from "@/src";
 import { FormSchemaConfig } from "../form";
 import { CSSModuleType, StyleEntry } from "./base";
 
@@ -27,8 +28,9 @@ export type ExternalDependency = {
   name: string;
   external?: ExternalConfig;
   globals?: GlobalsSchemaConfig;
-  browser?: BrowserEntry | string;
+  browser: BrowserEntry | string;
   style?: StyleEntry | string;
+  exportScopeObjectName?: ScopeObjectName;
 };
 
 export type ExternalDependencies = Record<string, ExternalDependency>;

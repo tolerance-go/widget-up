@@ -1,3 +1,4 @@
+import { ScopeObjectName } from "@/src";
 import { FormSchemaConfig } from "../form";
 import { CSSModuleType, StyleEntry } from "./base";
 import {
@@ -12,7 +13,8 @@ export type NormalizedExternalDependency = {
   external: ExternalConfig;
   globals: GlobalsSchemaConfig;
   browser: BrowserEntry;
-  style: StyleEntry;
+  style?: StyleEntry;
+  exportScopeObjectName: ScopeObjectName;
 };
 
 export interface NormalizedUMDConfig {

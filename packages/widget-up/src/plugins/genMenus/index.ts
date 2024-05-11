@@ -20,6 +20,7 @@ export const genMenus = ({
       const menus = convertDemoDataToMenu(
         demosManager.getDemoDatas(),
         configManager.getConfig().umd,
+        configManager.getPackageConfig(),
         pathManager
       );
 

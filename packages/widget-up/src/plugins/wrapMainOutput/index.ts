@@ -57,7 +57,7 @@ function wrapMainOutput({
     });
 
     return wrapUMDAsyncEventCode({
-      eventId,
+      eventId: '/index.js',
       eventBusPath: "WidgetUpRuntime.globalEventBus",
       scriptContent: aliasCode,
     });

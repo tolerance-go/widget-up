@@ -87,6 +87,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
 
   // 检查并执行标签
   public checkExecute() {
+    scriptManagerLogger.log(`检查执行情况`, this.tags);
     let allPreviousLoadedAndExecuted = true;
     for (const tag of this.tags) {
       if (tag.loaded && !tag.executed && allPreviousLoadedAndExecuted) {

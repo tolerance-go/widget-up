@@ -11,7 +11,8 @@
         "browser": {
           "development": "/dist/jquery.js",
           "production": "/dist/jquery.min.js"
-        }
+        },
+        "exportScopeObjectName": "window"
       }
     }
   },

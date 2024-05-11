@@ -55,6 +55,7 @@ function genServerLibs({
             libNpmInfo.packageJson.version
           )}`,
           scopeVar: externalDependencyConfig.name,
+          scopeName: externalDependencyConfig.exportScopeObjectName,
         },
       ],
     });

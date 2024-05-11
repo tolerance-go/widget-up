@@ -14,25 +14,24 @@ export function parseConfig(config: SchemaConfig): NormalizedConfig {
     externalDependencies: Object.fromEntries(
       Object.entries(config.umd.externalDependencies ?? {}).map(
         ([key, value]) => {
-          return [
-            key,
-            {
-              name: value.name,
-              external: value.external || [],
-              globals: value.globals || {},
-              browser:
-                typeof value.browser === "string"
-                  ? {
-                      development: value.browser,
-                      production: value.browser,
-                    }
-                  : value.browser,
-              style:
-                typeof value.style === "string"
-                  ? { development: value.style, production: value.style }
-                  : value.style,
-            } as NormalizedExternalDependency,
-          ];
+          const obj: NormalizedExternalDependency = {
+            name: value.name,
+            external: value.external || [],
+            globals: value.globals || {},
+            browser:
+              typeof value.browser === "string"
+                ? {
+                    development: value.browser,
+                    production: value.browser,
+                  }
+                : value.browser,
+            style:
+              typeof value.style === "string"
+                ? { development: value.style, production: value.style }
+                : value.style,
+            exportScopeObjectName: value.exportScopeObjectName || "global",
+          };
+          return [key, obj];
         }
       )
     ),

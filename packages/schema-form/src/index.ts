@@ -1,4 +1,4 @@
-// import $ from "jquery";
+import $ from "jquery";
 // import {
 //   ArrayInputSchemaConfig,
 //   EnumInputSchemaConfig,
@@ -81,6 +81,8 @@
 
 const hi = "h23sdfsdf4sdfsddfsdfsdfsdfi";
 
-export default () => {
+export default ({ name }: { name: string }) => {
   console.log(hi);
+
+  return $(`<div>${name ?? "hi"}</div>`);
 };

@@ -24,6 +24,8 @@ export class PathManager {
   /** 服务端 libs 的请求地址 */
   public serverLibsUrl: string;
 
+  public serverInputsUrl: string;
+
   constructor(options: PathManagerOptions) {
     this.cwdPath = options.cwdPath;
     this.rootPath = options.rootPath;
@@ -33,6 +35,8 @@ export class PathManager {
     this.tplsAbsPath = path.join(this.rootPath, "tpls");
     this.distServerLibsAbsPath = path.join(this.distServerAbsPath, "libs");
     this.serverLibsUrl = "/libs";
+    this.serverInputsUrl = '/inputs'
+
     this.distServerRelativePath = path.relative(
       this.cwdPath,
       this.distServerAbsPath
@@ -44,6 +48,13 @@ export class PathManager {
    */
   public getDependsLibServerUrl(depName: string, version: string) {
     return `${this.serverLibsUrl}/${depName}_${semverToIdentifier(version)}.js`;
+  }
+
+  /**
+   * 获取 input lib 的服务器请求地址
+   */
+  public getInputLibUrl(depName: string, version: string) {
+    return `${this.serverInputsUrl}/${depName}_${semverToIdentifier(version)}.js`
   }
 
   /**

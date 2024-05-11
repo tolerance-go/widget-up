@@ -1,15 +1,22 @@
 import { convertPathToVariableName } from "@/src/managers/getDemosManager/convertPathToVariableName";
-import { PathManager } from "@/src/managers/getPathManager";
 import { DemoData } from "@/types";
 import path from "path";
-import { NormalizedUMDConfig, PackageJson } from "widget-up-utils";
+import { NormalizedUMDConfig } from "widget-up-utils";
 
+/**
+ * 获取 demo 的组件的全局变量名
+ *
+ * @param demoData
+ * @param umdConfig
+ * @param demoAbsPath
+ * @returns
+ */
 export const getGlobalNameWithDemo = (
-  data: DemoData,
+  demoData: DemoData,
   umdConfig: NormalizedUMDConfig,
-  demosPath: string,
+  demoAbsPath: string
 ): string => {
   return `${umdConfig.name}_${convertPathToVariableName(
-    path.relative(demosPath, data.path)
+    path.relative(demoAbsPath, demoData.path)
   )}`;
 };
