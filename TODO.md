@@ -11,4 +11,5 @@ wup 开发模式可以像 runtime 一样运行
     - [x] lib 请求地址和资源地址名称不一样
         - why
             - 请求的路径追加了 index.js，资源没有
-    - [] 请求 demo 的 url 地址和资源不一样 
+    - [x] 请求 demo 的 url 地址和资源不一样 
+    - [x] input 请求地址 404 了

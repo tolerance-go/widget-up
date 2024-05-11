@@ -134,7 +134,7 @@ export const getDevPlugins = async ({
       },
     }),
     serveLivereload({
-      contentBase: "dist/server",
+      contentBase: ["dist/server", "dist/umd"],
       port: 3000,
     }),
   ].filter(Boolean);
