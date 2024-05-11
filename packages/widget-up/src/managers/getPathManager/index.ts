@@ -62,9 +62,9 @@ export class PathManager {
      *
      * eg: demos/group/demo3.ts
      */
-    demoCasePath: string
+    demoCaseAbsPath: string
   ) {
-    const input = path.relative(this.cwdPath, demoCasePath);
+    const input = path.relative(this.cwdPath, demoCaseAbsPath);
     const inputPathData = path.parse(input);
 
     return path.join(
