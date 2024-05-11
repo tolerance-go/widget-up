@@ -24,7 +24,7 @@ export const genMenus = ({
       );
 
       const plg = genAssert({
-        dest: pathManager.serverPath,
+        dest: pathManager.distServerAbsPath,
         file: {
           name: "menus.json",
           content: JSON.stringify(menus, null, 2),

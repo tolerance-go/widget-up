@@ -37,16 +37,18 @@ export const getDemoRuntimePlgs = ({
   const createRuntimePlg = (inputItem: DemoData) => {
     const input = normalizePath(path.relative(cwdPath, inputItem.path));
 
-    const inputData = path.parse(input);
-
     const base: RuntimeRollupOptions = {
       input,
       output: {
         file: normalizePath(
-          path.join("dist/server", inputData.dir, inputData.name, "index.js")
+          pathManager.getDemoLibServerRelativePath(inputItem.path)
         ),
         format: "umd",
-        name: getGlobalNameWithDemo(inputItem, config.umd, pathManager.demosPath),
+        name: getGlobalNameWithDemo(
+          inputItem,
+          config.umd,
+          pathManager.demosAbsPath
+        ),
         sourcemap: BuildEnvIsDev,
         globals: {
           /**

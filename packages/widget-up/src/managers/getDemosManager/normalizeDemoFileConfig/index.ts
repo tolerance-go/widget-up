@@ -12,6 +12,6 @@ export const normalizeDemoFileConfig = (
   return {
     menuTitle:
       config.menuTitle ||
-      normalizePath(path.relative(pathManager.demosPath, item.path)),
+      normalizePath(path.relative(pathManager.demosAbsPath, item.path)),
   };
 };

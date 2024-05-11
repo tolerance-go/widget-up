@@ -24,7 +24,7 @@ const getRollupConfig = async () => {
     buildEnv: BuildEnv,
   });
 
-  const demosPath = pathManager.demosPath;
+  const demosPath = pathManager.demosAbsPath;
 
   logger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
   logger.info(`rootPath is ${rootPath}`);

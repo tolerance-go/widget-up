@@ -48,7 +48,7 @@ export function genRuntimeLib({
 
         // 设置JavaScript文件和CSS文件的目标路径
         const destJsFile = path.join(
-          pathManager.serverPath,
+          pathManager.distServerAbsPath,
           `${wupRuntimeLibNpm.packageJson.name}.js`
         );
 
@@ -69,7 +69,7 @@ export function genRuntimeLib({
         );
 
         const destStyleFile = path.join(
-          pathManager.serverPath,
+          pathManager.distServerAbsPath,
           `${wupRuntimeLibNpm.packageJson.name}.css`
         );
 

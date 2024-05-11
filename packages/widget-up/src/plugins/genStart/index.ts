@@ -47,15 +47,7 @@ export function genStart({
         depends: demoDatas.map((demo) => ({
           name: demo.config.menuTitle,
           version: packageConfig.version,
-          scriptSrc: `() => '${normalizePath(
-            replaceFileExtension(
-              path.join(
-                "/demos",
-                path.relative(pathManager.demosPath, demo.path)
-              ),
-              ".js"
-            )
-          )}'`,
+          scriptSrc: `() => '${pathManager.getDemoScriptUrl(demo.path)}'`,
           linkHref: `() => ''`,
           depends: [
             {

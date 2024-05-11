@@ -60,7 +60,7 @@ function genServerLibs({
     });
 
     const asyncEventCode = wrapUMDAsyncEventCode({
-      eventId: pathManager.getServerLibUrl(
+      eventId: pathManager.getDependsLibServerUrl(
         libNpmInfo.packageJson.name,
         libNpmInfo.packageJson.version
       ),
@@ -100,7 +100,7 @@ function genServerLibs({
         let code = fs.readFileSync(sourcePath, "utf8");
 
         const serverPath = normalizePath(
-          path.join("/", path.relative(pathManager.serverPath, destPath))
+          path.join("/", path.relative(pathManager.distServerAbsPath, destPath))
         );
 
         code = modifyCode(code, {

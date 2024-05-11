@@ -18,7 +18,7 @@ export const convertDemoDataToMenu = (
         component: getGlobalNameWithDemo(
           demoData,
           umdConfig,
-          pathManager.demosPath
+          pathManager.demosAbsPath
         ),
         register: getInputGlobalName(detectTechStack()),
       },
