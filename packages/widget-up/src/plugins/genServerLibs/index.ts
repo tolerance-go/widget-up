@@ -60,7 +60,10 @@ function genServerLibs({
     });
 
     const asyncEventCode = wrapUMDAsyncEventCode({
-      eventId: convertPathToVariableName(serverPath),
+      eventId: pathManager.getServerLibUrl(
+        libNpmInfo.packageJson.name,
+        libNpmInfo.packageJson.version
+      ),
       eventBusPath: "WidgetUpRuntime.globalEventBus",
       scriptContent: aliasCode,
     });

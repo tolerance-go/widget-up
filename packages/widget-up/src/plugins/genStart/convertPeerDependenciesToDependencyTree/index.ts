@@ -19,7 +19,7 @@ export function convertPeerDependenciesToDependencyTree(
     const node: DependencyTreeNodeJson = {
       name: packageName,
       version: version.exact,
-      scriptSrc: `dep => \`/libs/\${dep.name}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}/index.js\``,
+      scriptSrc: `dep => \`/libs/\${dep.name}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}.js\``,
       linkHref: hasStyle
         ? `dep => \`/libs/\${dep.name}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}/index.css\``
         : `() => ''`,
