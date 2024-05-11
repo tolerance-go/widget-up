@@ -1,3 +1,4 @@
+import { ConfigManager } from "@/src/managers/getConfigManager";
 import { DemosManager } from "@/src/managers/getDemosManager";
 import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { PathManager } from "@/src/managers/getPathManager";
@@ -10,8 +11,8 @@ import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
 import { PackageJson } from "widget-up-utils";
-import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
 import { getInputByFrameStack } from "../../utils/getInputByFrameStack";
+import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
 
 interface GenStartOptions {
   outputPath: string;
@@ -20,6 +21,7 @@ interface GenStartOptions {
   peerDependTreeManager: PeerDependTreeManager;
   inputNpmManager: InputNpmManager;
   pathManager: PathManager;
+  configManager: ConfigManager;
 }
 
 export function genStart({
@@ -29,6 +31,7 @@ export function genStart({
   peerDependTreeManager,
   inputNpmManager,
   pathManager,
+  configManager,
 }: GenStartOptions): Plugin {
   let once = false;
 
@@ -36,6 +39,7 @@ export function genStart({
     const demoDatas = demosManager.getDemoDataList();
     const techStacks = detectTechStack();
     const input = getInputByFrameStack(techStacks, inputNpmManager);
+    const config = configManager.getConfig();
 
     const deps = [input].map((input) => {
       return {
@@ -60,7 +64,8 @@ export function genStart({
               scriptSrc: `() => '/index.js'`,
               linkHref: `() => ''`,
               depends: convertPeerDependenciesToDependencyTree(
-                peerDependTreeManager.getDependenciesTree()
+                peerDependTreeManager.getDependenciesTree(),
+                config.umd.externalDependencies
               ),
             },
           ],

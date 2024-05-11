@@ -1,5 +1,5 @@
 import { FormSchemaConfig } from "../form";
-import { CSSModuleType } from "./base";
+import { CSSModuleType, StyleEntry } from "./base";
 
 // 定义单个库在 global 中的 unpkg 配置
 
@@ -28,6 +28,7 @@ export type ExternalDependency = {
   external?: ExternalConfig;
   globals?: GlobalsSchemaConfig;
   browser?: BrowserEntry | string;
+  style?: StyleEntry | string;
 };
 
 export type ExternalDependencies = Record<string, ExternalDependency>;

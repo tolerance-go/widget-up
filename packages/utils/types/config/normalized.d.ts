@@ -1,5 +1,5 @@
 import { FormSchemaConfig } from "../form";
-import { CSSModuleType } from "./base";
+import { CSSModuleType, StyleEntry } from "./base";
 import {
   BrowserEntry,
   ExternalConfig,
@@ -12,6 +12,7 @@ export type NormalizedExternalDependency = {
   external: ExternalConfig;
   globals: GlobalsSchemaConfig;
   browser: BrowserEntry;
+  style: StyleEntry;
 };
 
 export interface NormalizedUMDConfig {

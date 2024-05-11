@@ -107,6 +107,7 @@ export const getDevPlugins = async ({
       packageConfig,
       peerDependTreeManager,
       inputNpmManager,
+      configManager,
     }),
     genDemoIndexHtml({
       pathManager,

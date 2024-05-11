@@ -27,6 +27,10 @@ export function parseConfig(config: SchemaConfig): NormalizedConfig {
                       production: value.browser,
                     }
                   : value.browser,
+              style:
+                typeof value.style === "string"
+                  ? { development: value.style, production: value.style }
+                  : value.style,
             } as NormalizedExternalDependency,
           ];
         }

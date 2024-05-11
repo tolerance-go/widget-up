@@ -21,6 +21,7 @@ export type {
   JQueryComponent,
   JQueryComponentProps,
   NormalizedUMDConfig,
+  NormalizedExternalDependencies,
 } from "@/types";
 export type * from "@/types/form";
 export type * from "@/types/runtime";
