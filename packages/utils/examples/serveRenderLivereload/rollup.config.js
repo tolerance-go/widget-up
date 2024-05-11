@@ -26,7 +26,7 @@ export default {
     typescript({
       compilerOptions: !isProduction
         ? {
-            declaration,
+            declaration: true,
           }
         : {
             declaration: true,
@@ -42,7 +42,7 @@ export default {
       }),
     !isProduction &&
       serveLivereload({
-        contentBase: "dist",
+        contentBase: ["dist", 'server/lib'],
         port: 3000,
       }),
   ].filter(Boolean),

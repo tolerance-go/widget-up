@@ -1,1 +1,1 @@
-alert('水电费水ssdfdfsdsdffsdf电费')
+document.write('xxsdfx')
