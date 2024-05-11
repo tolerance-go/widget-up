@@ -1,6 +1,11 @@
 // renderMenus.ts
 import { AppEvents } from "@/types";
-import type { EventBus, DemoMenuItem } from "widget-up-utils";
+import {
+  DemoMenuItem,
+  EventBus,
+  getURLSearchParams,
+  updateURLParameters,
+} from "widget-up-utils";
 import {
   replaceGlobalRegister,
   replaceRuntimeComponent,
@@ -8,6 +13,7 @@ import {
 } from "../registerRender";
 import { insertHtml } from "../utils/insertHtml";
 import { runtimeLogger } from "../utils/logger";
+import { findMenuItemByName } from "./findMenuItemByName";
 
 interface RenderMenusOptions {
   containerId: string;
@@ -73,7 +79,14 @@ export async function renderMenus({
     });
 
     eventBus.on("menuClick", ({ globals, name }) => {
-      runtimeLogger.log("menuClick", JSON.stringify({ globals, name }, null, 2));
+      updateURLParameters({
+        name,
+      });
+
+      runtimeLogger.log(
+        "menuClick",
+        JSON.stringify({ globals, name }, null, 2)
+      );
 
       // 监听菜单点击，然后动态把全局的 Component 组件替换为
       const component = (window as any)[globals.component].default;
@@ -92,6 +105,25 @@ export async function renderMenus({
         }
       }
     });
+
+    /**
+     * 从 url 参数获取当前 name，如果存在
+     * 手动触发一次 menuClick
+     */
+    const params = getURLSearchParams(location.href);
+
+    if (params.name) {
+      const item = findMenuItemByName(menus, params.name);
+      if (item) {
+        eventBus.emit("menuClick", {
+          name: item.name,
+          globals: {
+            component: item.globals.component,
+            register: item.globals.register,
+          },
+        });
+      }
+    }
   } catch (error) {
     console.error("Error rendering menus:", error);
   }

@@ -1,30 +1,32 @@
-export { getLatestPackageVersion } from "./getLatestPackageVersion";
-export { semverToIdentifier } from "./semverToIdentifier";
-export { parseConfig } from "./parseConfig";
-export { FileLogger } from "./loggers/FileLogger";
-export { BrowserLogger } from "./loggers/BrowserLogger";
-export * from "./HTMLDependencyManager";
 export { EventBus } from "./EventBus";
+export * from "./HTMLDependencyManager";
 export { createWindow } from "./createWindow";
+export * from "./findAvailablePort";
+export { getLatestPackageVersion } from "./getLatestPackageVersion";
+export * from "./getMajorVersion";
+export * from "./getURLSearchParams";
+export { BrowserLogger } from "./loggers/BrowserLogger";
+export { FileLogger } from "./loggers/FileLogger";
+export * from "./maps";
+export { parseConfig } from "./parseConfig";
 export * from "./rollup-plugins";
+export { semverToIdentifier } from "./semverToIdentifier";
+export * from "./updateURLParameter";
 export * from "./wrapUMDAliasCode";
 export * from "./wrapUMDAsyncEventCode";
-export * from "./getMajorVersion";
-export * from "./maps";
-export * from "./findAvailablePort";
 
 export type {
-  NormalizedConfig,
-  SchemaConfig,
   GlobalsSchemaConfig,
-  PackageJson,
   JQueryComponent,
   JQueryComponentProps,
-  NormalizedUMDConfig,
+  NormalizedConfig,
   NormalizedExternalDependencies,
+  NormalizedUMDConfig,
+  PackageJson,
+  SchemaConfig,
 } from "@/types";
 export type * from "@/types/form";
 export type * from "@/types/runtime";
+export type * from "@/types/version";
 export type { DependencyListItem } from "../types/HTMLDependencyManager";
 export type { TagEvents } from "./HTMLDependencyManager/TagManager";
-export type * from "@/types/version";
