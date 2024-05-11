@@ -4,8 +4,6 @@ import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { PathManager } from "@/src/managers/getPathManager";
 import { PeerDependTreeManager } from "@/src/managers/getPeerDependTreeManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
-import { normalizePath } from "@/src/utils/normalizePath";
-import { replaceFileExtension } from "@/src/utils/replaceFileExtension";
 import { DependencyTreeNodeJson } from "@/types";
 import fs from "fs-extra";
 import path from "path";

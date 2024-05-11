@@ -7,6 +7,7 @@ import { resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
 import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
+import { getMajorVersion, semverToIdentifier } from "widget-up-utils";
 
 interface GenServerInputsOptions {
   outputPath: string;
@@ -36,7 +37,12 @@ export function genServerInputs({
     const content = fs.readFileSync(inputNpmInfo.moduleEntryPath, "utf-8");
 
     fs.writeFileSync(
-      path.join(outputPath, `${input.name}.js`),
+      path.join(
+        outputPath,
+        `${inputNpmInfo.packageJson.name}_${semverToIdentifier(
+          inputNpmInfo.packageJson.version
+        )}.js`
+      ),
       content,
       "utf-8"
     );

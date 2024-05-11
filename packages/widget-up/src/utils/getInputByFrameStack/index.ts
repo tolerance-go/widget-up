@@ -1,6 +1,7 @@
 import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { DependencyTreeNodeJson, TechStack, TechType } from "@/types";
 import { getInputNpmName } from "../getInputNpmName";
+import { getMajorVersion } from "widget-up-utils";
 
 export function getInputByFrameStack(
   stack: TechStack,
@@ -16,21 +17,27 @@ export function getInputByFrameStack(
     React: (version) => ({
       name: inputNpmName,
       version: inputNpmManager.getInputByName(inputNpmName).packageJson.version,
-      scriptSrc: `(dep) => \`/inputs/widget-up-input-react\${WidgetUpRuntime.utils.getMajorVersion(dep.version.exact)}.js\``,
+      scriptSrc: `(dep) => \`/inputs/widget-up-input-react${getMajorVersion(
+        stack.version.exact
+      )}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}.js\``,
       linkHref: `() => ''`,
       depends: [],
     }),
     Vue: (version) => ({
       name: inputNpmName,
       version: inputNpmManager.getInputByName(inputNpmName).packageJson.version,
-      scriptSrc: `(dep) => \`/inputs/widget-up-input-vue\${WidgetUpRuntime.utils.getMajorVersion(dep.version.exact)}.js\``,
+      scriptSrc: `(dep) => \`/inputs/widget-up-input-vue${getMajorVersion(
+        stack.version.exact
+      )}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}.js\``,
       linkHref: `() => ''`,
       depends: [],
     }),
     JQuery: (version) => ({
       name: inputNpmName,
       version: inputNpmManager.getInputByName(inputNpmName).packageJson.version,
-      scriptSrc: `(dep) => \`/inputs/widget-up-input-jquery\${WidgetUpRuntime.utils.getMajorVersion(dep.version.exact)}.js\``,
+      scriptSrc: `(dep) => \`/inputs/widget-up-input-jquery${getMajorVersion(
+        stack.version.exact
+      )}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}.js\``,
       linkHref: `() => ''`,
       depends: [],
     }),
