@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/widget-up/dist-schema/config-schema.json",
+  "input": "src/index.ts",
+  "umd": {
+    "name": "SchemaForm",
+    "external": ["jquery"],
+    "globals": { "jquery": "$" },
+    "externalDependencies": {
+      "jquery": {
+        "name": "$",
+        "browser": {
+          "development": "/dist/jquery.js",
+          "production": "/dist/jquery.min.js"
+        },
+        "exportScopeObjectName": "window"
+      }
+    }
+  },
+  "cjs": true,
+  "esm": true
+}

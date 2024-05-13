@@ -1,0 +1,40 @@
+{
+  "name": "widget-up-dynamic-demos",
+  "version": "1.0.0",
+  "description": "",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "widget-up.json"
+  ],
+  "scripts": {
+    "build": "wup build",
+    "dev": "wup dev",
+    "prepublishAll": "npm run build"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.29",
+    "jquery": "^3.7.1",
+    "widget-up": "workspace:^",
+    "widget-up-utils": "workspace:^"
+  },
+  "peerDependencies": {
+    "jquery": "^3.7.1"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

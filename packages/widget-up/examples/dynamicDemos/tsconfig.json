@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "ESNext",
+    "target": "es5",
+    "jsx": "react",
+    "declaration": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "widget-up-schema-form": ["./src/index.ts"],
+      "@/*": ["*"]
+    }
+  },
+  "include": ["src/**/*", "demos/**/*"]
+}
