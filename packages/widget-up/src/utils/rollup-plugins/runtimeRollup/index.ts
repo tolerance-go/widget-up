@@ -24,14 +24,7 @@ export interface RuntimeRollupOptions extends RollupOptions {
 function runtimeRollup(options: RuntimeRollupOptions, name?: string): Plugin {
   let watcher: RollupWatcher | null = null;
 
-  const logger = new FileLogger(
-    path.join(
-      process.cwd(),
-      ".logs/runtime-rollup",
-      name || "",
-      new Date().toISOString().substring(0, 10)
-    )
-  );
+  const logger = new FileLogger("runtime-rollup", name || "");
 
   const { output, overwriteChunkCode, ...restRollupOptions } = options;
   logger.log("Configured embedded Rollup build for:", output.file);

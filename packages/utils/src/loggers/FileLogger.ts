@@ -5,9 +5,21 @@ import path from "path";
 export class FileLogger {
   private filePath: string;
   private initialized: boolean = false; // 添加标志来跟踪日志文件是否已初始化
+  private namespaces: string[] = [];
 
-  constructor(filePath: string) {
-    this.filePath = filePath;
+  constructor(...namespaces: string[]) {
+    this.namespaces = namespaces;
+
+    this.filePath = path.join(
+      process.cwd(),
+      ".logs",
+      ...this.namespaces,
+      new Date().toISOString().substring(0, 10)
+    );
+  }
+
+  public extendNamespace(additionalNamespace: string): FileLogger {
+    return new FileLogger(...this.namespaces, additionalNamespace);
   }
 
   private ensureInitialized(): void {
