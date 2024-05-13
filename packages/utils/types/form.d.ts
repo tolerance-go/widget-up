@@ -41,39 +41,44 @@ export interface FileInputSchemaConfig extends InputSchemaConfigBase<File> {
   type: "file";
 }
 
-export interface FilesInputSchemaConfig extends InputSchemaConfigBase<File[]> {
-  type: "files";
-}
-
 export interface ColorInputSchemaConfig extends InputSchemaConfigBase<string> {
   type: "color";
 }
 
 export interface EnumInputSchemaConfig<T = string | number>
   extends InputSchemaConfigBase<T> {
-  options: T[];
+  options: {
+    label: string;
+    value: T;
+  }[];
   type: "enum";
 }
 
-export interface MultiSelectInputSchemaConfig<T = string[] | number[]>
+export interface SelectInputSchemaConfig<T = string | number>
   extends InputSchemaConfigBase<T[]> {
-  options: T[];
-  type: "multiSelect";
+  options: {
+    label: string;
+    value: T;
+  }[];
+  type: "select";
+  multiSelect?: boolean;
 }
+
+export type ContainerInputSchemaConfig =
+  | ArrayInputSchemaConfig
+  | ObjectInputSchemaConfig;
 
 export type InputSchemaConfig =
   | StringInputSchemaConfig
   | NumberInputSchemaConfig
   | BooleanInputSchemaConfig
-  | ArrayInputSchemaConfig
-  | ObjectInputSchemaConfig
   | DateInputSchemaConfig
   | RangeInputSchemaConfig
   | FileInputSchemaConfig
-  | FilesInputSchemaConfig
   | ColorInputSchemaConfig
   | EnumInputSchemaConfig
-  | MultiSelectInputSchemaConfig;
+  | SelectInputSchemaConfig
+  | ContainerInputSchemaConfig;
 
 export interface FormSchemaConfig<T = object> {
   inputs?: InputSchemaConfig[];

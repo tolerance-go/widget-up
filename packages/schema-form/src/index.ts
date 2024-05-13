@@ -28,13 +28,33 @@ function createInput(inputConfig: InputSchemaConfig): JQuery<HTMLElement> {
       inputElement = $(`<input type="range" />`);
       break;
     case "enum":
-    case "multiSelect":
+      inputElement = $("<div></div>");
+
+      inputConfig.options.forEach((option) => {
+        // 创建单选按钮
+        const radioButton = document.createElement("input");
+        radioButton.type = "radio";
+        radioButton.value = option.value + '';
+        radioButton.name = "inputOptions"; // 确保所有单选按钮有相同的 name
+
+        // 创建标签
+        const label = document.createElement("label");
+        label.appendChild(radioButton);
+        label.appendChild(document.createTextNode(option.label));
+
+        // 将单选按钮和标签添加到容器中
+        inputElement.append(label);
+      });
+      break;
+    case "select":
       inputElement = $("<select></select>");
-      if (inputConfig.type === "multiSelect") {
+      if (inputConfig.multiSelect) {
         inputElement.attr("multiple", "multiple");
       }
-      (inputConfig as EnumInputSchemaConfig).options.forEach((option) => {
-        inputElement.append($(`<option value="${option}">${option}</option>`));
+      inputConfig.options.forEach((option) => {
+        inputElement.append(
+          $(`<option value="${option.value}">${option.label}</option>`)
+        );
       });
       break;
     case "array":
