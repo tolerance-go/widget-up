@@ -17,5 +17,9 @@
     }
   },
   "cjs": true,
-  "esm": true
+  "esm": true,
+  "css": {
+    "modules": false,
+    "useTailwind": true
+  }
 }

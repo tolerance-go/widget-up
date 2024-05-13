@@ -71,7 +71,7 @@ function createInput(
       break;
     case "array":
     case "object":
-      inputElement = $("<div></div>");
+      inputElement = $("<div class='border'></div>");
       (
         inputConfig as ArrayInputSchemaConfig | ObjectInputSchemaConfig
       ).children?.forEach((child) => {
