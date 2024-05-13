@@ -2,7 +2,14 @@ import SchemaForm from "widget-up-schema-form";
 
 const Demo1 = () => {
   return SchemaForm({
-    name: "demo1",
+    formSchema: {
+      inputs: [
+        {
+          type: "string",
+          label: "string",
+        },
+      ],
+    },
   });
 };
 
