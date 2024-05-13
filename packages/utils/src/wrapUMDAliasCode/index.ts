@@ -1,10 +1,7 @@
+import { ScopeObjectName } from "@/types/wrapUMDAliasCode";
+
 // 写入文件的 UMDAliasOptions，是UMDAliasOptions 的 required 模式
 export type UMDAliasJSONOptions = Required<UMDAliasOptions>;
-
-/**
- * 作用域对象的名称
- */
-export type ScopeObjectName = "window" | "global";
 
 export type UMDAliasOptions = {
   imports?: {

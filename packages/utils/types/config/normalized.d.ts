@@ -1,11 +1,10 @@
-import { ScopeObjectName } from "@/src";
 import { FormSchemaConfig } from "../form";
+import { ScopeObjectName } from "../wrapUMDAliasCode";
 import { CSSModuleType, StyleEntry } from "./base";
 import {
   BrowserEntry,
   ExternalConfig,
-  ExternalDependencies,
-  GlobalsSchemaConfig,
+  GlobalsSchemaConfig
 } from "./schema";
 
 export type NormalizedExternalDependency = {

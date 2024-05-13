@@ -1,5 +1,5 @@
-import { ScopeObjectName } from "@/src";
 import { FormSchemaConfig } from "../form";
+import { ScopeObjectName } from "../wrapUMDAliasCode";
 import { CSSModuleType, StyleEntry } from "./base";
 
 // 定义单个库在 global 中的 unpkg 配置
