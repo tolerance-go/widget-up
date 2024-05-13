@@ -1,4 +1,5 @@
 import { wrapUMDAsyncEventCode } from ".";
+import { jest } from "@jest/globals";
 
 describe("wrapUMDAsyncEventCode", () => {
   const scriptContent = "console.log('Hello World');";
@@ -7,7 +8,7 @@ describe("wrapUMDAsyncEventCode", () => {
   it("should wrap a script and handle global object dynamically", () => {
     const mockEnv = {
       EventBus: {
-        on: jest.fn((event, handler) => {
+        on: jest.fn((event, handler: Function) => {
           if (event === "execute") {
             // 直接触发回调以模拟事件，确保逻辑对于全局对象的处理正确
             handler({ id: eventId });

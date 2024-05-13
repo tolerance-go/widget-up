@@ -1,4 +1,5 @@
 import { replaceAliasesCore } from "../replaceAliasesCore";
+import { jest } from "@jest/globals";
 
 describe("replaceAliasesCore", () => {
   it("should replace alias with correct relative paths", () => {
@@ -75,7 +76,7 @@ describe("replaceAliasesCore", () => {
     };
     const baseUrl = "/root";
     const fileDir = "/root/src";
-    const mockResolvePath = jest.fn();
+    const mockResolvePath = jest.fn<(relativePath: string) => string>();
 
     const expectedResult = "import ExternalLib from 'external-lib';";
     const result = replaceAliasesCore({

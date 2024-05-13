@@ -1,9 +1,11 @@
 import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
+import { jest } from "@jest/globals";
+import { DependencyListItem } from "@/types/HTMLDependencyManager";
 
 describe("HTMLDependencyManager calculateDiffs", () => {
   let manager: HTMLDependencyManager;
-  const mockFetchVersionList = jest.fn();
+  const mockFetchVersionList = jest.fn<() => Promise<string[]>>();
 
   beforeEach(() => {
     mockFetchVersionList.mockReset();
@@ -18,26 +20,40 @@ describe("HTMLDependencyManager calculateDiffs", () => {
     // 初始标签
     manager.lastDependencies = [
       {
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
         name: "lib1",
       },
       {
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
         name: "lib2",
       },
     ];
 
     // 新标签列表，改变顺序
-    manager.getDependencyList = jest.fn().mockReturnValue([
-      {
-        name: "lib2",
-        version: "1.0.0",
-      },
-      {
-        name: "lib1",
-        version: "1.0.0",
-      },
-    ]);
+    manager.getDependencyList = jest
+      .fn<() => DependencyListItem[]>()
+      .mockReturnValue([
+        {
+          name: "lib2",
+          version: {
+            exact: "1.0.0",
+            range: "1.0.0",
+          },
+        },
+        {
+          name: "lib1",
+          version: {
+            exact: "1.0.0",
+            range: "1.0.0",
+          },
+        },
+      ]);
 
     const diffs = manager.calculateDiffs();
 
@@ -48,7 +64,10 @@ describe("HTMLDependencyManager calculateDiffs", () => {
         {
           "dep": {
             "name": "lib2",
-            "version": "1.0.0",
+            "version": {
+              "exact": "1.0.0",
+              "range": "1.0.0",
+            },
           },
           "prevDep": null,
         },
@@ -61,33 +80,53 @@ describe("HTMLDependencyManager calculateDiffs", () => {
     manager.lastDependencies = [
       {
         name: "lib1",
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
       },
       {
         name: "lib2",
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
       },
       {
         name: "lib3",
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
       },
     ];
 
     // 新标签列表，改变顺序
-    manager.getDependencyList = jest.fn().mockReturnValue([
-      {
-        name: "lib1",
-        version: "1.0.0",
-      },
-      {
-        name: "lib3",
-        version: "1.0.0",
-      },
-      {
-        name: "lib2",
-        version: "1.0.0",
-      },
-    ]);
+    manager.getDependencyList = jest
+      .fn<() => DependencyListItem[]>()
+      .mockReturnValue([
+        {
+          name: "lib1",
+          version: {
+            range: "1.0.0",
+            exact: "1.0.0",
+          },
+        },
+        {
+          name: "lib3",
+          version: {
+            range: "1.0.0",
+            exact: "1.0.0",
+          },
+        },
+        {
+          name: "lib2",
+          version: {
+            range: "1.0.0",
+            exact: "1.0.0",
+          },
+        },
+      ]);
 
     const diffs = manager.calculateDiffs();
 
@@ -98,11 +137,17 @@ describe("HTMLDependencyManager calculateDiffs", () => {
           {
             "dep": {
               "name": "lib3",
-              "version": "1.0.0",
+              "version": {
+                "exact": "1.0.0",
+                "range": "1.0.0",
+              },
             },
             "prevDep": {
               "name": "lib1",
-              "version": "1.0.0",
+              "version": {
+                "exact": "1.0.0",
+                "range": "1.0.0",
+              },
             },
           },
         ],
@@ -117,33 +162,53 @@ describe("HTMLDependencyManager calculateDiffs", () => {
     manager.lastDependencies = [
       {
         name: "lib1",
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
       },
       {
         name: "lib2",
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
       },
       {
         name: "lib3",
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
       },
     ];
 
     // 新标签列表，改变顺序
-    manager.getDependencyList = jest.fn().mockReturnValue([
-      {
-        name: "lib2",
-        version: "1.0.0",
-      },
-      {
-        name: "lib1",
-        version: "1.0.0",
-      },
-      {
-        name: "lib3",
-        version: "1.0.0",
-      },
-    ]);
+    manager.getDependencyList = jest
+      .fn<() => DependencyListItem[]>()
+      .mockReturnValue([
+        {
+          name: "lib2",
+          version: {
+            range: "1.0.0",
+            exact: "1.0.0",
+          },
+        },
+        {
+          name: "lib1",
+          version: {
+            range: "1.0.0",
+            exact: "1.0.0",
+          },
+        },
+        {
+          name: "lib3",
+          version: {
+            range: "1.0.0",
+            exact: "1.0.0",
+          },
+        },
+      ]);
 
     const diffs = manager.calculateDiffs();
 
@@ -154,7 +219,10 @@ describe("HTMLDependencyManager calculateDiffs", () => {
           {
             "dep": {
               "name": "lib2",
-              "version": "1.0.0",
+              "version": {
+                "exact": "1.0.0",
+                "range": "1.0.0",
+              },
             },
             "prevDep": null,
           },
@@ -170,41 +238,67 @@ describe("HTMLDependencyManager calculateDiffs", () => {
     manager.lastDependencies = [
       {
         name: "lib1",
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
       },
       {
         name: "lib2",
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
       },
       {
         name: "lib3",
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
       },
       {
         name: "lib4",
-        version: "1.0.0",
+        version: {
+          exact: "1.0.0",
+          range: "1.0.0",
+        },
       },
     ];
 
     // 新标签列表，改变顺序
-    manager.getDependencyList = jest.fn().mockReturnValue([
-      {
-        name: "lib2",
-        version: "1.0.0",
-      },
-      {
-        name: "lib1",
-        version: "1.0.0",
-      },
-      {
-        name: "lib4",
-        version: "1.0.0",
-      },
-      {
-        name: "lib3",
-        version: "1.0.0",
-      },
-    ]);
+    manager.getDependencyList = jest
+      .fn<() => DependencyListItem[]>()
+      .mockReturnValue([
+        {
+          name: "lib2",
+          version: {
+            range: "1.0.0",
+            exact: "1.0.0",
+          },
+        },
+        {
+          name: "lib1",
+          version: {
+            range: "1.0.0",
+            exact: "1.0.0",
+          },
+        },
+        {
+          name: "lib4",
+          version: {
+            range: "1.0.0",
+            exact: "1.0.0",
+          },
+        },
+        {
+          name: "lib3",
+          version: {
+            range: "1.0.0",
+            exact: "1.0.0",
+          },
+        },
+      ]);
 
     const diffs = manager.calculateDiffs();
 
@@ -215,18 +309,27 @@ describe("HTMLDependencyManager calculateDiffs", () => {
           {
             "dep": {
               "name": "lib2",
-              "version": "1.0.0",
+              "version": {
+                "exact": "1.0.0",
+                "range": "1.0.0",
+              },
             },
             "prevDep": null,
           },
           {
             "dep": {
               "name": "lib4",
-              "version": "1.0.0",
+              "version": {
+                "exact": "1.0.0",
+                "range": "1.0.0",
+              },
             },
             "prevDep": {
               "name": "lib1",
-              "version": "1.0.0",
+              "version": {
+                "exact": "1.0.0",
+                "range": "1.0.0",
+              },
             },
           },
         ],

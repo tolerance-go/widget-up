@@ -1,5 +1,6 @@
 import { parseConfig } from ".";
-import { SchemaConfig } from "../../types";
+import { NormalizedConfig, SchemaConfig } from "../../types";
+import { jest } from "@jest/globals";
 
 describe("parseConfig", () => {
   it("should correctly parse a full configuration object", () => {
@@ -7,7 +8,7 @@ describe("parseConfig", () => {
       input: "src/index.tsx",
       umd: {
         name: "MyComponent",
-        external: ['react', 'react-dom'],
+        external: ["react", "react-dom"],
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
@@ -19,15 +20,16 @@ describe("parseConfig", () => {
       form: {},
     };
 
-    const expectedOutput = {
+    const expectedOutput: NormalizedConfig = {
       input: "src/index.tsx",
       umd: {
         name: "MyComponent",
-        external: ['react', 'react-dom'],
+        external: ["react", "react-dom"],
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
         },
+        externalDependencies: {}
       },
       cjs: true,
       esm: true,
@@ -43,7 +45,7 @@ describe("parseConfig", () => {
     const inputConfig: SchemaConfig = {
       umd: {
         name: "MyComponent",
-        external: ['react', 'react-dom'],
+        external: ["react", "react-dom"],
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
@@ -55,19 +57,21 @@ describe("parseConfig", () => {
       css: true,
     };
 
-    const expectedOutput = {
+    const expectedOutput: NormalizedConfig = {
       umd: {
         name: "MyComponent",
-        external: ['react', 'react-dom'],
+        external: ["react", "react-dom"],
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
         },
+        externalDependencies: {},
       },
       input: "src/index.tsx",
       cjs: false,
       esm: true,
       css: true,
+      form: {},
     };
 
     const result = parseConfig(inputConfig);

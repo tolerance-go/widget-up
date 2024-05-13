@@ -27,7 +27,7 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
     super({ document, container }); // 调用基类构造函数
     this.hrefBuilder =
       hrefBuilder ||
-      ((dep) => `https://cdn.example.com/${dep.name}@${dep.version}.css`);
+      ((dep) => `https://cdn.example.com/${dep.name}@${dep.version.exact}.css`);
   }
 
   protected dependencyListItemToTagItem(item: DependencyListItem): LinkTag {

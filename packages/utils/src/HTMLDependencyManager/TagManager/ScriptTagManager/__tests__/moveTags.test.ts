@@ -27,21 +27,45 @@ describe("ScriptTagManager moveTags", () => {
     tagManager.applyDependencyDiffs({
       insert: [
         {
-          dep: { name: "script1.js", version: "" },
+          dep: {
+            name: "script1.js",
+            version: {
+              exact: "",
+              range: "",
+            },
+          },
           prevDep: null,
         },
         {
-          dep: { name: "script2.js", version: "" },
+          dep: {
+            name: "script2.js",
+            version: {
+              exact: "",
+              range: "",
+            },
+          },
           prevDep: {
             name: "script1.js",
-            version: "",
+            version: {
+              exact: "",
+              range: "",
+            },
           },
         },
         {
-          dep: { name: "script3.js", version: "" },
+          dep: {
+            name: "script3.js",
+            version: {
+              exact: "",
+              range: "",
+            },
+          },
           prevDep: {
             name: "script2.js",
-            version: "",
+            version: {
+              exact: "",
+              range: "",
+            },
           },
         },
       ],
@@ -95,8 +119,20 @@ describe("ScriptTagManager moveTags", () => {
       update: [],
       move: [
         {
-          dep: { name: "script2.js", version: "" },
-          prevDep: { name: "script3.js", version: "" },
+          dep: {
+            name: "script2.js",
+            version: {
+              exact: "",
+              range: "",
+            },
+          },
+          prevDep: {
+            name: "script3.js",
+            version: {
+              exact: "",
+              range: "",
+            },
+          },
         },
       ],
     });
@@ -146,7 +182,13 @@ describe("ScriptTagManager moveTags", () => {
       update: [],
       move: [
         {
-          dep: { name: "script3.js", version: "" },
+          dep: {
+            name: "script3.js",
+            version: {
+              exact: "",
+              range: "",
+            },
+          },
           prevDep: null,
         },
       ],

@@ -47,7 +47,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
       this.onTagLoaded(payload.id);
     });
 
-    this.srcBuilder = srcBuilder || ((dep) => `${dep.name}@${dep.version}.js`);
+    this.srcBuilder = srcBuilder || ((dep) => `${dep.name}@${dep.version.exact}.js`);
     this.onAllExecutedCallback = onAllExecutedCallback; // 初始化回调函数
   }
 

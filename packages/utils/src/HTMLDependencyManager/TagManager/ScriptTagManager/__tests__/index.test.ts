@@ -24,7 +24,13 @@ describe("ScriptTagManager base", () => {
     const diffs: DependencyListDiff = {
       insert: [
         {
-          dep: { name: "script1", version: "0.0.0" },
+          dep: {
+            name: "script1",
+            version: {
+              exact: "0.0.0",
+              range: "0.0.0",
+            },
+          },
           prevDep: null,
         },
       ],
@@ -58,7 +64,13 @@ describe("ScriptTagManager base", () => {
     manager.applyDependencyDiffs({
       insert: [
         {
-          dep: { name: "script1", version: "0.0.0" },
+          dep: {
+            name: "script1",
+            version: {
+              exact: "0.0.0",
+              range: "0.0.0",
+            },
+          },
           prevDep: null,
         },
       ],
@@ -68,7 +80,15 @@ describe("ScriptTagManager base", () => {
     });
     manager.applyDependencyDiffs({
       insert: [],
-      remove: [{ name: "script1", version: "0.0.0" }],
+      remove: [
+        {
+          name: "script1",
+          version: {
+            exact: "0.0.0",
+            range: "0.0.0",
+          },
+        },
+      ],
       update: [],
       move: [],
     });
@@ -81,7 +101,13 @@ describe("ScriptTagManager base", () => {
     manager.applyDependencyDiffs({
       insert: [
         {
-          dep: { name: "script1", version: "0.0.0" },
+          dep: {
+            name: "script1",
+            version: {
+              exact: "0.0.0",
+              range: "0.0.0",
+            },
+          },
           prevDep: null,
         },
       ],
@@ -95,7 +121,10 @@ describe("ScriptTagManager base", () => {
       update: [
         {
           name: "script1",
-          version: "0.0.0",
+          version: {
+            exact: "0.0.0",
+            range: "0.0.0",
+          },
           data: {
             key1: "true",
           },
@@ -124,12 +153,30 @@ describe("ScriptTagManager base", () => {
     manager.applyDependencyDiffs({
       insert: [
         {
-          dep: { name: "script1.js", version: "0.0.0" },
+          dep: {
+            name: "script1.js",
+            version: {
+              exact: "0.0.0",
+              range: "0.0.0",
+            },
+          },
           prevDep: null,
         },
         {
-          dep: { name: "script2.js", version: "0.0.0" },
-          prevDep: { name: "script1.js", version: "0.0.0" },
+          dep: {
+            name: "script2.js",
+            version: {
+              exact: "0.0.0",
+              range: "0.0.0",
+            },
+          },
+          prevDep: {
+            name: "script1.js",
+            version: {
+              exact: "0.0.0",
+              range: "0.0.0",
+            },
+          },
         },
       ],
       remove: [],
@@ -139,8 +186,20 @@ describe("ScriptTagManager base", () => {
     manager.applyDependencyDiffs({
       insert: [
         {
-          dep: { name: "script3.js", version: "0.0.0" },
-          prevDep: { name: "script2.js", version: "0.0.0" },
+          dep: {
+            name: "script3.js",
+            version: {
+              exact: "0.0.0",
+              range: "0.0.0",
+            },
+          },
+          prevDep: {
+            name: "script2.js",
+            version: {
+              exact: "0.0.0",
+              range: "0.0.0",
+            },
+          },
         },
       ],
       remove: [],
@@ -150,8 +209,20 @@ describe("ScriptTagManager base", () => {
     manager.applyDependencyDiffs({
       insert: [
         {
-          dep: { name: "script2.1.js", version: "0.0.0" },
-          prevDep: { name: "script2.js", version: "0.0.0" },
+          dep: {
+            name: "script2.1.js",
+            version: {
+              exact: "0.0.0",
+              range: "0.0.0",
+            },
+          },
+          prevDep: {
+            name: "script2.js",
+            version: {
+              exact: "0.0.0",
+              range: "0.0.0",
+            },
+          },
         },
       ],
       remove: [],

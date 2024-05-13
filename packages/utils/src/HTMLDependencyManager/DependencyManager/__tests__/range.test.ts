@@ -1,4 +1,5 @@
 import { DependencyManager } from "@/src/HTMLDependencyManager/DependencyManager";
+import { jest } from "@jest/globals";
 
 describe("DependencyManager range", () => {
   let dm: DependencyManager;
@@ -13,7 +14,7 @@ describe("DependencyManager range", () => {
 
   test("should handle version ranges by selecting the best match from the list", () => {
     dm.addDependency("react", "^16.0.0");
-    expect(dm.getDependencies()["react"][0].version).toBe("16.8.0");
+    expect(dm.getDependencies()["react"][0].version.exact).toBe("16.8.0");
   });
 
   test("should not add a dependency if no version in the list matches the range", () => {
@@ -23,14 +24,14 @@ describe("DependencyManager range", () => {
 
   test("should add exact versions correctly when specified", () => {
     dm.addDependency("react", "17.0.1");
-    expect(dm.getDependencies()["react"][0].version).toBe("17.0.1");
+    expect(dm.getDependencies()["react"][0].version.exact).toBe("17.0.1");
   });
 
   test("should handle multiple dependencies with mixed version types", () => {
     dm.addDependency("react", "16.8.0");
     dm.addDependency("react", "^17.0.0");
     expect(dm.getDependencies()["react"].length).toBe(2);
-    expect(dm.getDependencies()["react"][0].version).toBe("16.8.0");
-    expect(dm.getDependencies()["react"][1].version).toBe("17.0.1");
+    expect(dm.getDependencies()["react"][0].version.exact).toBe("16.8.0");
+    expect(dm.getDependencies()["react"][1].version.exact).toBe("17.0.1");
   });
 });

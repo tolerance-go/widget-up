@@ -1,4 +1,5 @@
 import { aliasReplace } from "../aliasReplace";
+import { jest } from "@jest/globals";
 
 describe("aliasReplace function", () => {
   const replaceFunc = jest.fn((dependPath) => `./local/${dependPath}`);
@@ -17,7 +18,9 @@ describe("aliasReplace function", () => {
   test("@/styles/index.less", () => {
     const fileContent = `import 'styles/index.less';`;
     const expected = `import './local/styles/index.less';`;
-    expect(aliasReplace(fileContent, "styles/index.less", replaceFunc)).toBe(expected);
+    expect(aliasReplace(fileContent, "styles/index.less", replaceFunc)).toBe(
+      expected
+    );
     expect(replaceFunc).toHaveBeenCalledWith("styles/index.less");
   });
 
@@ -54,7 +57,7 @@ describe("aliasReplace function", () => {
       import { map, reduce } from './local/lodash';
     `;
     expect(aliasReplace(fileContent, "lodash|react", replaceFunc)).toBe(
-      expected,
+      expected
     );
     expect(replaceFunc).toHaveBeenCalledWith("react");
     expect(replaceFunc).toHaveBeenCalledWith("lodash");

@@ -15,10 +15,10 @@ describe("DependencyManager with SubDependencies", () => {
     depManager.addDependency("express", "^4.17.0", { morgan: "^1.10.0" });
     const expressDep = depManager
       .getDependencies()
-      .express.find((dep) => dep.version === "4.18.1");
+      .express.find((dep) => dep.version.exact === "4.18.1");
     const morganDep = depManager
       .getDependencies()
-      .morgan.find((dep) => dep.version === "1.10.0");
+      .morgan.find((dep) => dep.version.exact === "1.10.0");
 
     expect(expressDep!.subDependencies["morgan"]).toBe(morganDep);
   });
@@ -27,7 +27,7 @@ describe("DependencyManager with SubDependencies", () => {
     depManager.addDependency("express", "^4.17.0", { cors: ">=3.0.0" });
     const expressDep = depManager
       .getDependencies()
-      .express.find((dep) => dep.version === "4.18.1");
+      .express.find((dep) => dep.version.exact === "4.18.1");
 
     expect(expressDep!.subDependencies["cors"]).toBeUndefined();
   });
@@ -36,12 +36,12 @@ describe("DependencyManager with SubDependencies", () => {
     depManager.addDependency("express", "^4.17.0", { morgan: "^1.9.0" });
     const expressDep = depManager
       .getDependencies()
-      .express.find((dep) => dep.version === "4.18.1");
+      .express.find((dep) => dep.version.exact === "4.18.1");
     const morganDep = depManager
       .getDependencies()
-      .morgan.find((dep) => dep.version === "1.10.0");
+      .morgan.find((dep) => dep.version.exact === "1.10.0");
 
     expect(expressDep!.subDependencies["morgan"]).toBe(morganDep);
-    expect(morganDep!.version).toEqual("1.10.0");
+    expect(morganDep!.version.exact).toEqual("1.10.0");
   });
 });

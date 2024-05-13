@@ -1,4 +1,5 @@
 import { EventBus } from ".";
+import { jest } from "@jest/globals";
 
 interface TestEvents {
   increment: number;

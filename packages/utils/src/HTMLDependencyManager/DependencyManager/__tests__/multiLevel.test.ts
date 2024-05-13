@@ -29,11 +29,11 @@ describe("DependencyManager for multi-level dependencies", () => {
     expect(dependencies["react-dom"].length).toBe(1);
     expect(dependencies["react-redux"].length).toBe(1);
 
-    expect(dependencies.react[0].subDependencies["react-dom"].version).toBe(
+    expect(dependencies.react[0].subDependencies["react-dom"].version.exact).toBe(
       "16.8.0",
     );
-    expect(dependencies.react[0].subDependencies.redux.version).toBe("4.0.5");
-    expect(dependencies.redux[0].subDependencies["react-redux"].version).toBe(
+    expect(dependencies.react[0].subDependencies.redux.version.exact).toBe("4.0.5");
+    expect(dependencies.redux[0].subDependencies["react-redux"].version.exact).toBe(
       "7.2.0",
     );
   });
@@ -49,14 +49,14 @@ describe("DependencyManager for multi-level dependencies", () => {
 
     const dependencies = dm.getDependencies();
 
-    expect(dependencies.redux[0].subDependencies["react-redux"].version).toBe(
+    expect(dependencies.redux[0].subDependencies["react-redux"].version.exact).toBe(
       "7.2.0",
     );
-    expect(dependencies["react-redux"][0].subDependencies.react.version).toBe(
+    expect(dependencies["react-redux"][0].subDependencies.react.version.exact).toBe(
       "16.8.0",
     );
     expect(
-      dependencies["react-redux"][0].subDependencies["react-dom"].version,
+      dependencies["react-redux"][0].subDependencies["react-dom"].version.exact,
     ).toBe("16.8.0");
   });
 });

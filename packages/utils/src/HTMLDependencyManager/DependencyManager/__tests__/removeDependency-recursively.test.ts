@@ -1,4 +1,5 @@
 import { DependencyManager } from "@/src/HTMLDependencyManager/DependencyManager";
+import { jest } from "@jest/globals";
 
 describe('DependencyManager', () => {
   let depManager: DependencyManager;
@@ -34,7 +35,7 @@ describe('DependencyManager', () => {
     expect(depManager.getDependencies()['lodash']).toBeDefined();
     console.warn = jest.fn();
     depManager.removeDependency('react', '^16.8.0');
-    expect(console.warn).toBeCalledWith(
+    expect(console.warn).toHaveBeenCalledWith(
       expect.stringContaining('still required by another package')
     );
   });

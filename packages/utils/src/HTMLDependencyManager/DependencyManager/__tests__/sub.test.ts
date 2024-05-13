@@ -1,4 +1,5 @@
 import { DependencyManager } from "@/src/HTMLDependencyManager/DependencyManager";
+import { jest } from "@jest/globals";
 
 describe("DependencyManager sub", () => {
   let dm: DependencyManager;
@@ -15,20 +16,20 @@ describe("DependencyManager sub", () => {
   test("should handle subdependencies when adding a new dependency", () => {
     dm.addDependency("react", "16.8.0", { "react-dom": "^16.0.0" });
     expect(
-      dm.getDependencies()["react"][0].subDependencies["react-dom"].version,
+      dm.getDependencies()["react"][0].subDependencies["react-dom"].version.exact,
     ).toBe("16.8.0");
   });
 
   test("should handle subdependencies when adding a new dependency", () => {
     dm.addDependency("react", "16.8.0", { "react-dom": "^16.0.0" });
-    expect(dm.getDependencies()["react-dom"][0].version).toBe("16.8.0");
+    expect(dm.getDependencies()["react-dom"][0].version.exact).toBe("16.8.0");
   });
 
   test("should update subdependencies when the main dependency version is updated", () => {
     dm.addDependency("react", "16.8.0", { "react-dom": "16.0.0" });
     dm.addDependency("react", "16.8.0", { "react-dom": "^16.0.0" }); // Updated range that includes 16.8.0
     expect(
-      dm.getDependencies()["react"][0].subDependencies["react-dom"].version,
+      dm.getDependencies()["react"][0].subDependencies["react-dom"].version.exact,
     ).toBe("16.8.0");
   });
 
@@ -38,10 +39,10 @@ describe("DependencyManager sub", () => {
       "react-dom": "^16.0.0",
     });
     expect(
-      dm.getDependencies()["react"][0].subDependencies["lodash"].version,
+      dm.getDependencies()["react"][0].subDependencies["lodash"].version.exact,
     ).toBe("4.17.15");
     expect(
-      dm.getDependencies()["react"][0].subDependencies["react-dom"].version,
+      dm.getDependencies()["react"][0].subDependencies["react-dom"].version.exact,
     ).toBe("16.8.0");
   });
 

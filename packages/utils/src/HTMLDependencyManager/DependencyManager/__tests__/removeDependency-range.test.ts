@@ -18,7 +18,7 @@ describe('DependencyManager', () => {
     depManager.removeDependency('lodash', '^4.17.15');
     expect(depManager.getDependencies()['lodash']).toBeDefined();
     expect(depManager.getDependencies()['lodash'].length).toBe(2);
-    expect(depManager.getDependencies()['lodash'].find(dep => dep.version === '4.17.21')).toBeUndefined();
+    expect(depManager.getDependencies()['lodash'].find(dep => dep.version.exact === '4.17.21')).toBeUndefined();
   });
 
   test('should not remove anything if no versions match', () => {

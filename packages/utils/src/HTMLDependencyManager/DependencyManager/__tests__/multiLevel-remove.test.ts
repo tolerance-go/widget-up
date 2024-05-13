@@ -17,7 +17,7 @@ describe('DependencyManager', () => {
     });
     const reactDep = depManager.getDependencies()['react'][0];
     expect(reactDep.subDependencies['lodash']).toBeDefined();
-    expect(reactDep.subDependencies['lodash'].version).toBe("4.17.21");
+    expect(reactDep.subDependencies['lodash'].version.exact).toBe("4.17.21");
   });
 
   test('should remove top-level dependency and all its sub-dependencies', () => {
@@ -36,7 +36,7 @@ describe('DependencyManager', () => {
     depManager.addDependency('axios', '^0.19.0');
 
     depManager.removeDependency('lodash', '^4.17.15');
-    expect(depManager.getDependencies()['react'][0].subDependencies['lodash'].version).toBe('4.17.21');
+    expect(depManager.getDependencies()['react'][0].subDependencies['lodash'].version.exact).toBe('4.17.21');
     expect(depManager.getDependencies()['axios']).toBeDefined();
     expect(depManager.getDependencies()['lodash']).toBeDefined();
   });
