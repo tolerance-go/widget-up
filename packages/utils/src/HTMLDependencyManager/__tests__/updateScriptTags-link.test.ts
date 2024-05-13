@@ -18,9 +18,9 @@ describe("HTMLDependencyManager", () => {
       fetchVersionList: async () => ["1.0.0", "2.0.0"],
       document,
       scriptSrcBuilder: (dep: DependencyListItem) =>
-        `path/to/${dep.name}@${dep.version}.js`,
+        `path/to/${dep.name}@${dep.version.exact}.js`,
       linkHrefBuilder: (dep: DependencyListItem) =>
-        `path/to/${dep.name}@${dep.version}.css`,
+        `path/to/${dep.name}@${dep.version.exact}.css`,
     });
     scriptContainer = manager.tagManager.getScriptContainer();
     linkContainer = manager.tagManager.getLinkContainer();

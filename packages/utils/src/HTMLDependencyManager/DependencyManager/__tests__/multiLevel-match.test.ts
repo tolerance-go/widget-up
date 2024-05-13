@@ -35,8 +35,10 @@ describe("DependencyManager for multi-level dependencies", () => {
                 "isGlobal": false,
                 "name": "react-dom",
                 "subDependencies": {},
-                "version": "16.8.0",
-                "versionRange": "^16.0.0",
+                "version": {
+                  "exact": "16.8.0",
+                  "range": "^16.0.0",
+                },
               },
               "redux": {
                 "isGlobal": true,
@@ -46,16 +48,22 @@ describe("DependencyManager for multi-level dependencies", () => {
                     "isGlobal": false,
                     "name": "react-redux",
                     "subDependencies": {},
-                    "version": "7.2.0",
-                    "versionRange": "^7.1.0",
+                    "version": {
+                      "exact": "7.2.0",
+                      "range": "^7.1.0",
+                    },
                   },
                 },
-                "version": "4.0.5",
-                "versionRange": "^4.0.0",
+                "version": {
+                  "exact": "4.0.5",
+                  "range": "^4.0.0",
+                },
               },
             },
-            "version": "16.8.0",
-            "versionRange": "16.8.0",
+            "version": {
+              "exact": "16.8.0",
+              "range": "16.8.0",
+            },
           },
         ],
         "react-dom": [
@@ -63,8 +71,10 @@ describe("DependencyManager for multi-level dependencies", () => {
             "isGlobal": false,
             "name": "react-dom",
             "subDependencies": {},
-            "version": "16.8.0",
-            "versionRange": "^16.0.0",
+            "version": {
+              "exact": "16.8.0",
+              "range": "^16.0.0",
+            },
           },
         ],
         "react-redux": [
@@ -72,8 +82,10 @@ describe("DependencyManager for multi-level dependencies", () => {
             "isGlobal": false,
             "name": "react-redux",
             "subDependencies": {},
-            "version": "7.2.0",
-            "versionRange": "^7.1.0",
+            "version": {
+              "exact": "7.2.0",
+              "range": "^7.1.0",
+            },
           },
         ],
         "redux": [
@@ -85,12 +97,16 @@ describe("DependencyManager for multi-level dependencies", () => {
                 "isGlobal": false,
                 "name": "react-redux",
                 "subDependencies": {},
-                "version": "7.2.0",
-                "versionRange": "^7.1.0",
+                "version": {
+                  "exact": "7.2.0",
+                  "range": "^7.1.0",
+                },
               },
             },
-            "version": "4.0.5",
-            "versionRange": "^4.0.0",
+            "version": {
+              "exact": "4.0.5",
+              "range": "^4.0.0",
+            },
           },
         ],
       }
@@ -115,8 +131,10 @@ describe("DependencyManager for multi-level dependencies", () => {
             "isGlobal": false,
             "name": "react",
             "subDependencies": {},
-            "version": "16.8.0",
-            "versionRange": "16.8.0",
+            "version": {
+              "exact": "16.8.0",
+              "range": "16.8.0",
+            },
           },
         ],
         "react-dom": [
@@ -124,8 +142,10 @@ describe("DependencyManager for multi-level dependencies", () => {
             "isGlobal": false,
             "name": "react-dom",
             "subDependencies": {},
-            "version": "16.8.0",
-            "versionRange": "^16.0.0",
+            "version": {
+              "exact": "16.8.0",
+              "range": "^16.0.0",
+            },
           },
         ],
         "react-redux": [
@@ -137,19 +157,25 @@ describe("DependencyManager for multi-level dependencies", () => {
                 "isGlobal": false,
                 "name": "react",
                 "subDependencies": {},
-                "version": "16.8.0",
-                "versionRange": "16.8.0",
+                "version": {
+                  "exact": "16.8.0",
+                  "range": "16.8.0",
+                },
               },
               "react-dom": {
                 "isGlobal": false,
                 "name": "react-dom",
                 "subDependencies": {},
-                "version": "16.8.0",
-                "versionRange": "^16.0.0",
+                "version": {
+                  "exact": "16.8.0",
+                  "range": "^16.0.0",
+                },
               },
             },
-            "version": "7.2.0",
-            "versionRange": "^7.1.0",
+            "version": {
+              "exact": "7.2.0",
+              "range": "^7.1.0",
+            },
           },
         ],
         "redux": [
@@ -165,23 +191,31 @@ describe("DependencyManager for multi-level dependencies", () => {
                     "isGlobal": false,
                     "name": "react",
                     "subDependencies": {},
-                    "version": "16.8.0",
-                    "versionRange": "16.8.0",
+                    "version": {
+                      "exact": "16.8.0",
+                      "range": "16.8.0",
+                    },
                   },
                   "react-dom": {
                     "isGlobal": false,
                     "name": "react-dom",
                     "subDependencies": {},
-                    "version": "16.8.0",
-                    "versionRange": "^16.0.0",
+                    "version": {
+                      "exact": "16.8.0",
+                      "range": "^16.0.0",
+                    },
                   },
                 },
-                "version": "7.2.0",
-                "versionRange": "^7.1.0",
+                "version": {
+                  "exact": "7.2.0",
+                  "range": "^7.1.0",
+                },
               },
             },
-            "version": "4.0.5",
-            "versionRange": "4.0.5",
+            "version": {
+              "exact": "4.0.5",
+              "range": "4.0.5",
+            },
           },
         ],
       }
@@ -208,8 +242,10 @@ describe("DependencyManager for multi-level dependencies", () => {
             "isGlobal": false,
             "name": "react-redux",
             "subDependencies": {},
-            "version": "7.2.0",
-            "versionRange": "^7.1.0",
+            "version": {
+              "exact": "7.2.0",
+              "range": "^7.1.0",
+            },
           },
         ],
         "redux": [
@@ -221,12 +257,16 @@ describe("DependencyManager for multi-level dependencies", () => {
                 "isGlobal": false,
                 "name": "react-redux",
                 "subDependencies": {},
-                "version": "7.2.0",
-                "versionRange": "^7.1.0",
+                "version": {
+                  "exact": "7.2.0",
+                  "range": "^7.1.0",
+                },
               },
             },
-            "version": "4.0.5",
-            "versionRange": "^4.0.0",
+            "version": {
+              "exact": "4.0.5",
+              "range": "^4.0.0",
+            },
           },
         ],
       }
@@ -255,19 +295,25 @@ describe("DependencyManager for multi-level dependencies", () => {
                 "isGlobal": false,
                 "name": "react-dom",
                 "subDependencies": {},
-                "version": "16.8.0",
-                "versionRange": "^16.8.0",
+                "version": {
+                  "exact": "16.8.0",
+                  "range": "^16.8.0",
+                },
               },
             },
-            "version": "16.8.0",
-            "versionRange": "^16.8.0",
+            "version": {
+              "exact": "16.8.0",
+              "range": "^16.8.0",
+            },
           },
           {
             "isGlobal": false,
             "name": "react",
             "subDependencies": {},
-            "version": "17.0.1",
-            "versionRange": "^17.0.0",
+            "version": {
+              "exact": "17.0.1",
+              "range": "^17.0.0",
+            },
           },
         ],
         "react-dom": [
@@ -275,8 +321,10 @@ describe("DependencyManager for multi-level dependencies", () => {
             "isGlobal": false,
             "name": "react-dom",
             "subDependencies": {},
-            "version": "16.8.0",
-            "versionRange": "^16.8.0",
+            "version": {
+              "exact": "16.8.0",
+              "range": "^16.8.0",
+            },
           },
         ],
         "redux": [
@@ -288,12 +336,16 @@ describe("DependencyManager for multi-level dependencies", () => {
                 "isGlobal": false,
                 "name": "react",
                 "subDependencies": {},
-                "version": "17.0.1",
-                "versionRange": "^17.0.0",
+                "version": {
+                  "exact": "17.0.1",
+                  "range": "^17.0.0",
+                },
               },
             },
-            "version": "4.0.5",
-            "versionRange": "^4.0.5",
+            "version": {
+              "exact": "4.0.5",
+              "range": "^4.0.5",
+            },
           },
         ],
       }

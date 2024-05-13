@@ -27,8 +27,8 @@ describe("HTMLDependencyManager", () => {
         return versions[dependencyName] || [];
       },
       document,
-      scriptSrcBuilder: (dep) => `path/to/${dep.name}@${dep.version}.js`,
-      linkHrefBuilder: (dep) => `path/to/${dep.name}@${dep.version}.css`,
+      scriptSrcBuilder: (dep) => `path/to/${dep.name}@${dep.version.exact}.js`,
+      linkHrefBuilder: (dep) => `path/to/${dep.name}@${dep.version.exact}.css`,
     });
     scriptContainer = manager.tagManager.getScriptContainer();
     linkContainer = manager.tagManager.getLinkContainer();
@@ -75,8 +75,10 @@ describe("HTMLDependencyManager", () => {
           "isGlobal": false,
           "name": "react-dom",
           "subDependencies": {},
-          "version": "16.13.1",
-          "versionRange": "^16.8.0",
+          "version": {
+            "exact": "16.13.1",
+            "range": "^16.8.0",
+          },
         },
         {
           "isGlobal": true,
@@ -86,19 +88,25 @@ describe("HTMLDependencyManager", () => {
               "isGlobal": false,
               "name": "react-dom",
               "subDependencies": {},
-              "version": "16.13.1",
-              "versionRange": "^16.8.0",
+              "version": {
+                "exact": "16.13.1",
+                "range": "^16.8.0",
+              },
             },
           },
-          "version": "17.0.0",
-          "versionRange": "^17.0.0",
+          "version": {
+            "exact": "17.0.0",
+            "range": "^17.0.0",
+          },
         },
         {
           "isGlobal": false,
           "name": "axios",
           "subDependencies": {},
-          "version": "0.21.1",
-          "versionRange": "^0.21.1",
+          "version": {
+            "exact": "0.21.1",
+            "range": "^0.21.1",
+          },
         },
         {
           "isGlobal": true,
@@ -108,12 +116,16 @@ describe("HTMLDependencyManager", () => {
               "isGlobal": false,
               "name": "axios",
               "subDependencies": {},
-              "version": "0.21.1",
-              "versionRange": "^0.21.1",
+              "version": {
+                "exact": "0.21.1",
+                "range": "^0.21.1",
+              },
             },
           },
-          "version": "2.4.0",
-          "versionRange": "^2.3.0",
+          "version": {
+            "exact": "2.4.0",
+            "range": "^2.3.0",
+          },
         },
         {
           "isGlobal": true,
@@ -127,12 +139,16 @@ describe("HTMLDependencyManager", () => {
                   "isGlobal": false,
                   "name": "react-dom",
                   "subDependencies": {},
-                  "version": "16.13.1",
-                  "versionRange": "^16.8.0",
+                  "version": {
+                    "exact": "16.13.1",
+                    "range": "^16.8.0",
+                  },
                 },
               },
-              "version": "17.0.0",
-              "versionRange": "^17.0.0",
+              "version": {
+                "exact": "17.0.0",
+                "range": "^17.0.0",
+              },
             },
             "redux-thunk": {
               "isGlobal": true,
@@ -142,16 +158,22 @@ describe("HTMLDependencyManager", () => {
                   "isGlobal": false,
                   "name": "axios",
                   "subDependencies": {},
-                  "version": "0.21.1",
-                  "versionRange": "^0.21.1",
+                  "version": {
+                    "exact": "0.21.1",
+                    "range": "^0.21.1",
+                  },
                 },
               },
-              "version": "2.4.0",
-              "versionRange": "^2.3.0",
+              "version": {
+                "exact": "2.4.0",
+                "range": "^2.3.0",
+              },
             },
           },
-          "version": "4.1.0",
-          "versionRange": "^4.0.5",
+          "version": {
+            "exact": "4.1.0",
+            "range": "^4.0.5",
+          },
         },
       ]
     `);

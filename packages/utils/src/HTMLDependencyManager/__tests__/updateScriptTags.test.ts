@@ -15,7 +15,7 @@ describe("HTMLDependencyManager", () => {
     manager = new HTMLDependencyManager({
       fetchVersionList: async () => ["1.0.0", "2.0.0"],
       document,
-      scriptSrcBuilder: (dep) => `path/to/${dep.name}@${dep.version}.js`,
+      scriptSrcBuilder: (dep) => `path/to/${dep.name}@${dep.version.exact}.js`,
     });
     container = manager.tagManager.getScriptContainer();
   });

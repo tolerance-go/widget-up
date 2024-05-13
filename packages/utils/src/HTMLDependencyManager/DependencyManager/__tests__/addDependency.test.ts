@@ -24,8 +24,10 @@ describe("DependencyManager addDependency", () => {
             "isGlobal": true,
             "name": "lodash",
             "subDependencies": {},
-            "version": "4.17.19",
-            "versionRange": "4.17.19",
+            "version": {
+              "exact": "4.17.19",
+              "range": "4.17.19",
+            },
           },
         ],
       }
@@ -43,8 +45,10 @@ describe("DependencyManager addDependency", () => {
             "isGlobal": false,
             "name": "lodash",
             "subDependencies": {},
-            "version": "4.17.15",
-            "versionRange": "4.17.15",
+            "version": {
+              "exact": "4.17.15",
+              "range": "4.17.15",
+            },
           },
         ],
         "react": [
@@ -56,12 +60,16 @@ describe("DependencyManager addDependency", () => {
                 "isGlobal": false,
                 "name": "lodash",
                 "subDependencies": {},
-                "version": "4.17.15",
-                "versionRange": "4.17.15",
+                "version": {
+                  "exact": "4.17.15",
+                  "range": "4.17.15",
+                },
               },
             },
-            "version": "16.12.0",
-            "versionRange": "^16.8.0",
+            "version": {
+              "exact": "16.12.0",
+              "range": "^16.8.0",
+            },
           },
         ],
       }
@@ -94,8 +102,10 @@ describe("DependencyManager addDependency", () => {
             "isGlobal": false,
             "name": "babel-core",
             "subDependencies": {},
-            "version": "7.0.0",
-            "versionRange": "^7.0.0",
+            "version": {
+              "exact": "7.0.0",
+              "range": "^7.0.0",
+            },
           },
         ],
         "lodash": [
@@ -103,8 +113,10 @@ describe("DependencyManager addDependency", () => {
             "isGlobal": false,
             "name": "lodash",
             "subDependencies": {},
-            "version": "4.17.21",
-            "versionRange": "4.17.21",
+            "version": {
+              "exact": "4.17.21",
+              "range": "4.17.21",
+            },
           },
         ],
         "react": [
@@ -120,16 +132,22 @@ describe("DependencyManager addDependency", () => {
                     "isGlobal": false,
                     "name": "lodash",
                     "subDependencies": {},
-                    "version": "4.17.21",
-                    "versionRange": "4.17.21",
+                    "version": {
+                      "exact": "4.17.21",
+                      "range": "4.17.21",
+                    },
                   },
                 },
-                "version": "17.0.0",
-                "versionRange": "^17.0.0",
+                "version": {
+                  "exact": "17.0.0",
+                  "range": "^17.0.0",
+                },
               },
             },
-            "version": "17.0.0",
-            "versionRange": "^17.0.0",
+            "version": {
+              "exact": "17.0.0",
+              "range": "^17.0.0",
+            },
           },
         ],
         "react-dom": [
@@ -141,12 +159,16 @@ describe("DependencyManager addDependency", () => {
                 "isGlobal": false,
                 "name": "lodash",
                 "subDependencies": {},
-                "version": "4.17.21",
-                "versionRange": "4.17.21",
+                "version": {
+                  "exact": "4.17.21",
+                  "range": "4.17.21",
+                },
               },
             },
-            "version": "17.0.0",
-            "versionRange": "^17.0.0",
+            "version": {
+              "exact": "17.0.0",
+              "range": "^17.0.0",
+            },
           },
         ],
         "webpack": [
@@ -158,15 +180,19 @@ describe("DependencyManager addDependency", () => {
                 "isGlobal": false,
                 "name": "babel-core",
                 "subDependencies": {},
-                "version": "7.0.0",
-                "versionRange": "^7.0.0",
+                "version": {
+                  "exact": "7.0.0",
+                  "range": "^7.0.0",
+                },
               },
               "lodash": {
                 "isGlobal": false,
                 "name": "lodash",
                 "subDependencies": {},
-                "version": "4.17.21",
-                "versionRange": "4.17.21",
+                "version": {
+                  "exact": "4.17.21",
+                  "range": "4.17.21",
+                },
               },
               "react": {
                 "isGlobal": true,
@@ -180,20 +206,28 @@ describe("DependencyManager addDependency", () => {
                         "isGlobal": false,
                         "name": "lodash",
                         "subDependencies": {},
-                        "version": "4.17.21",
-                        "versionRange": "4.17.21",
+                        "version": {
+                          "exact": "4.17.21",
+                          "range": "4.17.21",
+                        },
                       },
                     },
-                    "version": "17.0.0",
-                    "versionRange": "^17.0.0",
+                    "version": {
+                      "exact": "17.0.0",
+                      "range": "^17.0.0",
+                    },
                   },
                 },
-                "version": "17.0.0",
-                "versionRange": "^17.0.0",
+                "version": {
+                  "exact": "17.0.0",
+                  "range": "^17.0.0",
+                },
               },
             },
-            "version": "4.44.1",
-            "versionRange": "^4.44.0",
+            "version": {
+              "exact": "4.44.1",
+              "range": "^4.44.0",
+            },
           },
         ],
       }
