@@ -2,6 +2,7 @@ export interface InputSchemaConfigBase<T = any> {
   initialValue?: T;
   type: string;
   label?: string;
+  name: string;
 }
 
 export interface StringInputSchemaConfig extends InputSchemaConfigBase<string> {

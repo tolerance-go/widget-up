@@ -7,6 +7,7 @@ const Demo1 = () => {
         {
           type: "string",
           label: "string",
+          name: "string",
         },
       ],
     },

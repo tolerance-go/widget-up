@@ -7,9 +7,15 @@ import {
   ObjectInputSchemaConfig,
 } from "widget-up-utils";
 
-// 创建具体的输入元素
-function createInput(inputConfig: InputSchemaConfig): JQuery<HTMLElement> {
+function createInput(
+  inputConfig: InputSchemaConfig,
+  initialValues?: Record<string, any>
+): JQuery<HTMLElement> {
   let inputElement: JQuery<HTMLElement>;
+  let initialValue = initialValues
+    ? initialValues[inputConfig.name]
+    : undefined;
+
   switch (inputConfig.type) {
     case "string":
     case "number":
@@ -17,32 +23,34 @@ function createInput(inputConfig: InputSchemaConfig): JQuery<HTMLElement> {
     case "color":
     case "file":
       inputElement = $(`<input type="${inputConfig.type}" />`);
+      if (initialValue !== undefined) {
+        inputElement.val(initialValue);
+      }
       break;
     case "boolean":
       inputElement = $('<input type="checkbox" />');
-      if (inputConfig.initialValue) {
-        inputElement.prop("checked", inputConfig.initialValue);
-      }
+      inputElement.prop("checked", initialValue === true);
       break;
     case "range":
       inputElement = $(`<input type="range" />`);
+      if (initialValue !== undefined) {
+        inputElement.val(initialValue);
+      }
       break;
     case "enum":
       inputElement = $("<div></div>");
-
       inputConfig.options.forEach((option) => {
-        // 创建单选按钮
         const radioButton = document.createElement("input");
         radioButton.type = "radio";
-        radioButton.value = option.value + '';
-        radioButton.name = "inputOptions"; // 确保所有单选按钮有相同的 name
+        radioButton.value = option.value + "";
+        radioButton.name = inputConfig.name; // 使用 inputConfig.name 以保证唯一性
+        if (option.value === initialValue) {
+          radioButton.checked = true;
+        }
 
-        // 创建标签
         const label = document.createElement("label");
         label.appendChild(radioButton);
         label.appendChild(document.createTextNode(option.label));
-
-        // 将单选按钮和标签添加到容器中
         inputElement.append(label);
       });
       break;
@@ -52,42 +60,47 @@ function createInput(inputConfig: InputSchemaConfig): JQuery<HTMLElement> {
         inputElement.attr("multiple", "multiple");
       }
       inputConfig.options.forEach((option) => {
-        inputElement.append(
-          $(`<option value="${option.value}">${option.label}</option>`)
+        const optionElement = $(
+          `<option value="${option.value}">${option.label}</option>`
         );
+        if (initialValue?.includes(option.value)) {
+          optionElement.attr("selected", "selected");
+        }
+        inputElement.append(optionElement);
       });
       break;
     case "array":
     case "object":
-      // 递归创建表单组件以处理嵌套数据结构
       inputElement = $("<div></div>");
       (
         inputConfig as ArrayInputSchemaConfig | ObjectInputSchemaConfig
       ).children?.forEach((child) => {
-        inputElement.append(createInput(child));
+        inputElement.append(createInput(child, initialValues));
       });
       break;
     default:
       inputElement = $("<input />");
+      if (initialValue !== undefined) {
+        inputElement.val(initialValue);
+      }
       break;
-  }
-
-  if (
-    inputConfig.initialValue !== undefined &&
-    inputConfig.type !== "boolean"
-  ) {
-    inputElement.val(inputConfig.initialValue as any);
   }
 
   return inputElement;
 }
 
-// 定义 SchemaForm 组件
-const SchemaForm = ({ formSchema }: { formSchema?: FormSchemaConfig }) => {
+// 更新 SchemaForm 组件以接受 initialValues 作为参数
+const SchemaForm = ({
+  formSchema,
+  initialValues,
+}: {
+  formSchema?: FormSchemaConfig;
+  initialValues?: Record<string, any>;
+}) => {
   const form = $("<form></form>");
   formSchema?.inputs?.forEach((inputConfig) => {
     const label = $("<label></label>").text(inputConfig.label + ": ");
-    const inputElement = createInput(inputConfig);
+    const inputElement = createInput(inputConfig, initialValues);
     const wrapper = $("<div></div>").append(label).append(inputElement);
     form.append(wrapper);
   });
