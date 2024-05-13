@@ -72,11 +72,16 @@ function createInput(
       break;
     case "array":
     case "object":
-      inputElement = $("<div class='border'></div>");
+      inputElement = $("<div class='border p-2'></div>");
       (
         inputConfig as ArrayInputSchemaConfig | ObjectInputSchemaConfig
       ).children?.forEach((child) => {
-        inputElement.append(createInput(child, initialValues));
+        inputElement.append(
+          wrapWithLabel(
+            child.label + ": ",
+            createInput(child, initialValues)
+          )
+        );
       });
       break;
     default:
@@ -90,6 +95,15 @@ function createInput(
   return inputElement;
 }
 
+function wrapWithLabel(
+  labelText: string,
+  inputElement: JQuery<HTMLElement>
+): JQuery<HTMLElement> {
+  const label = $("<label></label>").text(labelText);
+  const wrapper = $("<div></div>").append(label).append(inputElement);
+  return wrapper;
+}
+
 // 更新 SchemaForm 组件以接受 initialValues 作为参数
 const SchemaForm = ({
   formSchema,
@@ -100,9 +114,8 @@ const SchemaForm = ({
 }) => {
   const form = $("<form></form>");
   formSchema?.inputs?.forEach((inputConfig) => {
-    const label = $("<label></label>").text(inputConfig.label + ": ");
     const inputElement = createInput(inputConfig, initialValues);
-    const wrapper = $("<div></div>").append(label).append(inputElement);
+    const wrapper = wrapWithLabel(inputConfig.label + ": ", inputElement);
     form.append(wrapper);
   });
   return form;
