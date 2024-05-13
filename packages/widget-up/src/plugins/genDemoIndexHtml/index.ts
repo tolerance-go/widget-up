@@ -24,9 +24,14 @@ export const genDemoIndexHtml = ({
         dest: WupFolderName,
       });
 
+      const config = configManager.getConfig();
+
       const htmlPlugin = htmlRender({
         dest: "dist/server",
         src: path.join(WupFolderName, "index.html.ejs"),
+        data: {
+          includeCSS: !!config.css,
+        },
       });
 
       if (Array.isArray(options.plugins)) {

@@ -6,6 +6,7 @@ import {
   InputSchemaConfig,
   ObjectInputSchemaConfig,
 } from "widget-up-utils";
+import "@/styles/index.less";
 
 function createInput(
   inputConfig: InputSchemaConfig,
