@@ -2,6 +2,8 @@
  * @jest-environment jsdom
  */
 import { createWindow } from ".";
+import { jest } from "@jest/globals";
+import { MockInstance } from "jest-mock";
 
 // types.d.ts
 declare global {
@@ -12,7 +14,7 @@ declare global {
 }
 
 describe("createWindow", () => {
-  let globalWindowSpy: jest.SpyInstance;
+  let globalWindowSpy: MockInstance<(message?: any) => void> | null = null;
 
   beforeEach(() => {
     // 在每个测试开始前，监视全局 window 对象的行为
@@ -21,7 +23,7 @@ describe("createWindow", () => {
 
   afterEach(() => {
     // 测试完成后，恢复原始实现
-    globalWindowSpy.mockRestore();
+    globalWindowSpy?.mockRestore();
   });
 
   it("should create an isolated window proxy", () => {

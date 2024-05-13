@@ -1,11 +1,12 @@
 // HTMLDependencyManager.test.ts
 import { JSDOM } from "jsdom";
-
+import { jest } from "@jest/globals";
 import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 
 describe("HTMLDependencyManager getSortedDependencies", () => {
   let manager: HTMLDependencyManager;
-  const mockFetchVersionList = jest.fn();
+  const mockFetchVersionList =
+    jest.fn<(dependencyName: string) => Promise<string[]>>();
   let scriptContainer: HTMLElement;
   let linkContainer: HTMLElement;
 
@@ -37,8 +38,10 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "isGlobal": false,
           "name": "react-dom",
           "subDependencies": {},
-          "version": "16.13.1",
-          "versionRange": "^16.8.0",
+          "version": {
+            "exact": "16.13.1",
+            "range": "^16.8.0",
+          },
         },
         {
           "isGlobal": true,
@@ -48,19 +51,25 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "isGlobal": false,
               "name": "react-dom",
               "subDependencies": {},
-              "version": "16.13.1",
-              "versionRange": "^16.8.0",
+              "version": {
+                "exact": "16.13.1",
+                "range": "^16.8.0",
+              },
             },
           },
-          "version": "16.13.1",
-          "versionRange": "^16.8.0",
+          "version": {
+            "exact": "16.13.1",
+            "range": "^16.8.0",
+          },
         },
         {
           "isGlobal": false,
           "name": "react",
           "subDependencies": {},
-          "version": "17.0.0",
-          "versionRange": "^17.0.0",
+          "version": {
+            "exact": "17.0.0",
+            "range": "^17.0.0",
+          },
         },
         {
           "isGlobal": true,
@@ -70,12 +79,16 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "isGlobal": false,
               "name": "react",
               "subDependencies": {},
-              "version": "17.0.0",
-              "versionRange": "^17.0.0",
+              "version": {
+                "exact": "17.0.0",
+                "range": "^17.0.0",
+              },
             },
           },
-          "version": "4.1.0",
-          "versionRange": "^4.0.5",
+          "version": {
+            "exact": "4.1.0",
+            "range": "^4.0.5",
+          },
         },
       ]
     `);

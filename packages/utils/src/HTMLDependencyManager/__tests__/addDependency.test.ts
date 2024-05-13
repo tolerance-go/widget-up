@@ -1,9 +1,11 @@
 import { HTMLDependencyManager } from "../HTMLDependencyManager";
 import { JSDOM } from "jsdom";
+import { jest } from "@jest/globals";
 
 describe("HTMLDependencyManager addDependency", () => {
   let manager: HTMLDependencyManager;
-  const mockFetchVersionList = jest.fn();
+  const mockFetchVersionList =
+    jest.fn<(dependencyName: string) => Promise<string[]>>();
 
   beforeEach(() => {
     mockFetchVersionList.mockReset();

@@ -1,9 +1,11 @@
 import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
+import { jest } from "@jest/globals";
 
 describe("HTMLDependencyManager getSortedDependencies", () => {
   let manager: HTMLDependencyManager;
-  const mockFetchVersionList = jest.fn();
+  const mockFetchVersionList =
+    jest.fn<(dependencyName: string) => Promise<string[]>>();
 
   beforeEach(async () => {
     mockFetchVersionList.mockReset();
@@ -40,15 +42,19 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "isGlobal": false,
           "name": "react-dom",
           "subDependencies": {},
-          "version": "16.13.1",
-          "versionRange": "^16.8.0",
+          "version": {
+            "exact": "16.13.1",
+            "range": "^16.8.0",
+          },
         },
         {
           "isGlobal": false,
           "name": "lodash",
           "subDependencies": {},
-          "version": "4.17.19",
-          "versionRange": "^4.17.15",
+          "version": {
+            "exact": "4.17.19",
+            "range": "^4.17.15",
+          },
         },
         {
           "isGlobal": true,
@@ -58,12 +64,16 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "isGlobal": false,
               "name": "lodash",
               "subDependencies": {},
-              "version": "4.17.19",
-              "versionRange": "^4.17.15",
+              "version": {
+                "exact": "4.17.19",
+                "range": "^4.17.15",
+              },
             },
           },
-          "version": "5.2.0",
-          "versionRange": "^5.1.2",
+          "version": {
+            "exact": "5.2.0",
+            "range": "^5.1.2",
+          },
         },
         {
           "isGlobal": true,
@@ -73,8 +83,10 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "isGlobal": false,
               "name": "react-dom",
               "subDependencies": {},
-              "version": "16.13.1",
-              "versionRange": "^16.8.0",
+              "version": {
+                "exact": "16.13.1",
+                "range": "^16.8.0",
+              },
             },
             "react-router": {
               "isGlobal": true,
@@ -84,16 +96,22 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
                   "isGlobal": false,
                   "name": "lodash",
                   "subDependencies": {},
-                  "version": "4.17.19",
-                  "versionRange": "^4.17.15",
+                  "version": {
+                    "exact": "4.17.19",
+                    "range": "^4.17.15",
+                  },
                 },
               },
-              "version": "5.2.0",
-              "versionRange": "^5.1.2",
+              "version": {
+                "exact": "5.2.0",
+                "range": "^5.1.2",
+              },
             },
           },
-          "version": "16.13.1",
-          "versionRange": "^16.8.0",
+          "version": {
+            "exact": "16.13.1",
+            "range": "^16.8.0",
+          },
         },
       ]
     `);
@@ -108,8 +126,10 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "isGlobal": true,
           "name": "lodash",
           "subDependencies": {},
-          "version": "4.17.19",
-          "versionRange": "^4.17.15",
+          "version": {
+            "exact": "4.17.19",
+            "range": "^4.17.15",
+          },
         },
       ]
     `);
@@ -127,15 +147,19 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "isGlobal": false,
           "name": "react",
           "subDependencies": {},
-          "version": "17.0.0",
-          "versionRange": "^17.0.0",
+          "version": {
+            "exact": "17.0.0",
+            "range": "^17.0.0",
+          },
         },
         {
           "isGlobal": false,
           "name": "lodash",
           "subDependencies": {},
-          "version": "4.17.19",
-          "versionRange": "^4.17.19",
+          "version": {
+            "exact": "4.17.19",
+            "range": "^4.17.19",
+          },
         },
         {
           "isGlobal": false,
@@ -145,19 +169,25 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "isGlobal": false,
               "name": "lodash",
               "subDependencies": {},
-              "version": "4.17.19",
-              "versionRange": "^4.17.19",
+              "version": {
+                "exact": "4.17.19",
+                "range": "^4.17.19",
+              },
             },
             "react": {
               "isGlobal": false,
               "name": "react",
               "subDependencies": {},
-              "version": "17.0.0",
-              "versionRange": "^17.0.0",
+              "version": {
+                "exact": "17.0.0",
+                "range": "^17.0.0",
+              },
             },
           },
-          "version": "4.1.0",
-          "versionRange": "^4.0.5",
+          "version": {
+            "exact": "4.1.0",
+            "range": "^4.0.5",
+          },
         },
         {
           "isGlobal": true,
@@ -171,23 +201,31 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
                   "isGlobal": false,
                   "name": "lodash",
                   "subDependencies": {},
-                  "version": "4.17.19",
-                  "versionRange": "^4.17.19",
+                  "version": {
+                    "exact": "4.17.19",
+                    "range": "^4.17.19",
+                  },
                 },
                 "react": {
                   "isGlobal": false,
                   "name": "react",
                   "subDependencies": {},
-                  "version": "17.0.0",
-                  "versionRange": "^17.0.0",
+                  "version": {
+                    "exact": "17.0.0",
+                    "range": "^17.0.0",
+                  },
                 },
               },
-              "version": "4.1.0",
-              "versionRange": "^4.0.5",
+              "version": {
+                "exact": "4.1.0",
+                "range": "^4.0.5",
+              },
             },
           },
-          "version": "16.13.1",
-          "versionRange": "^16.8.0",
+          "version": {
+            "exact": "16.13.1",
+            "range": "^16.8.0",
+          },
         },
       ]
     `);
@@ -202,8 +240,10 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "isGlobal": true,
           "name": "moment",
           "subDependencies": {},
-          "version": "2.25.0",
-          "versionRange": "^2.24.0",
+          "version": {
+            "exact": "2.25.0",
+            "range": "^2.24.0",
+          },
         },
       ]
     `);

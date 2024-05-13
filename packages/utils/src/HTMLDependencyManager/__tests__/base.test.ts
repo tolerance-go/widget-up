@@ -1,9 +1,10 @@
 import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
+import { jest } from "@jest/globals";
 
 describe("HTMLDependencyManager base", () => {
   let manager: HTMLDependencyManager;
-  const mockFetchVersionList = jest.fn();
+  const mockFetchVersionList = jest.fn<() => Promise<string[]>>();
 
   beforeEach(() => {
     // 每个测试前重置 mock 和实例

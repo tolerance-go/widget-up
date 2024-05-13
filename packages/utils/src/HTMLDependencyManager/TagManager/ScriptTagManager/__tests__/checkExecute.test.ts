@@ -1,6 +1,8 @@
 import { EventBus } from "@/src/EventBus";
 import { ScriptTagManager, TagEvents } from "..";
 import { JSDOM } from "jsdom";
+import { jest } from "@jest/globals";
+import { SpiedFunction } from "jest-mock";
 
 describe("ScriptTagManager", () => {
   const jsdom = new JSDOM(
@@ -8,7 +10,7 @@ describe("ScriptTagManager", () => {
   );
   const document = jsdom.window.document;
   const eventBus = new EventBus<TagEvents>();
-  let emitSpy: jest.SpyInstance;
+  let emitSpy: SpiedFunction<InstanceType<typeof EventBus<TagEvents>>["emit"]>;
   let manager: ScriptTagManager;
 
   beforeEach(() => {
@@ -32,8 +34,8 @@ describe("ScriptTagManager", () => {
 
     manager.tags = [
       {
-        name: 'script1',
-        version: '',
+        name: "script1",
+        version: "",
         type: "script",
         attributes: {},
         src: "script1.js",
@@ -41,8 +43,8 @@ describe("ScriptTagManager", () => {
         executed: false,
       },
       {
-        name: 'script2',
-        version: '',
+        name: "script2",
+        version: "",
         type: "script",
         attributes: {},
         src: "script2.js",
@@ -50,8 +52,8 @@ describe("ScriptTagManager", () => {
         executed: false,
       },
       {
-        name: 'script3',
-        version: '',
+        name: "script3",
+        version: "",
         type: "script",
         attributes: {},
         src: "script3.js",
@@ -72,8 +74,8 @@ describe("ScriptTagManager", () => {
   it("当脚本加载完成但前一个脚本尚未执行时不应执行当前脚本", () => {
     manager.tags = [
       {
-        name: 'script1',
-        version: '',
+        name: "script1",
+        version: "",
         attributes: {},
         type: "script",
         src: "script1.js",
@@ -81,8 +83,8 @@ describe("ScriptTagManager", () => {
         executed: false,
       },
       {
-        name: 'script2',
-        version: '',
+        name: "script2",
+        version: "",
         attributes: {},
         type: "script",
         src: "script2.js",
@@ -90,8 +92,8 @@ describe("ScriptTagManager", () => {
         executed: false,
       },
       {
-        name: 'script3',
-        version: '',
+        name: "script3",
+        version: "",
         attributes: {},
         type: "script",
         src: "script3.js",

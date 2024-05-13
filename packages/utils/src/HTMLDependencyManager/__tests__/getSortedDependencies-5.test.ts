@@ -1,9 +1,11 @@
 import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
 import { JSDOM } from "jsdom";
+import { jest } from "@jest/globals";
 
 describe("HTMLDependencyManager getSortedDependencies", () => {
   let manager: HTMLDependencyManager;
-  const mockFetchVersionList = jest.fn();
+  const mockFetchVersionList =
+    jest.fn<(dependencyName: string) => Promise<string[]>>();
 
   beforeEach(async () => {
     mockFetchVersionList.mockReset();
@@ -42,27 +44,105 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
     });
 
     expect(manager.getDependencies()).toMatchInlineSnapshot(`
+      {
+        "babel-core": [
           {
-            "babel-core": [
-              {
-                "isGlobal": false,
-                "name": "babel-core",
-                "subDependencies": {},
-                "version": "7.0.0",
-                "versionRange": "^7.0.0",
+            "isGlobal": false,
+            "name": "babel-core",
+            "subDependencies": {},
+            "version": {
+              "exact": "7.0.0",
+              "range": "^7.0.0",
+            },
+          },
+        ],
+        "lodash": [
+          {
+            "isGlobal": false,
+            "name": "lodash",
+            "subDependencies": {},
+            "version": {
+              "exact": "4.17.21",
+              "range": "4.17.21",
+            },
+          },
+        ],
+        "react": [
+          {
+            "isGlobal": true,
+            "name": "react",
+            "subDependencies": {
+              "react-dom": {
+                "isGlobal": true,
+                "name": "react-dom",
+                "subDependencies": {
+                  "lodash": {
+                    "isGlobal": false,
+                    "name": "lodash",
+                    "subDependencies": {},
+                    "version": {
+                      "exact": "4.17.21",
+                      "range": "4.17.21",
+                    },
+                  },
+                },
+                "version": {
+                  "exact": "17.0.0",
+                  "range": "^17.0.0",
+                },
               },
-            ],
-            "lodash": [
-              {
+            },
+            "version": {
+              "exact": "17.0.0",
+              "range": "^17.0.0",
+            },
+          },
+        ],
+        "react-dom": [
+          {
+            "isGlobal": true,
+            "name": "react-dom",
+            "subDependencies": {
+              "lodash": {
                 "isGlobal": false,
                 "name": "lodash",
                 "subDependencies": {},
-                "version": "4.17.21",
-                "versionRange": "4.17.21",
+                "version": {
+                  "exact": "4.17.21",
+                  "range": "4.17.21",
+                },
               },
-            ],
-            "react": [
-              {
+            },
+            "version": {
+              "exact": "17.0.0",
+              "range": "^17.0.0",
+            },
+          },
+        ],
+        "webpack": [
+          {
+            "isGlobal": true,
+            "name": "webpack",
+            "subDependencies": {
+              "babel-core": {
+                "isGlobal": false,
+                "name": "babel-core",
+                "subDependencies": {},
+                "version": {
+                  "exact": "7.0.0",
+                  "range": "^7.0.0",
+                },
+              },
+              "lodash": {
+                "isGlobal": false,
+                "name": "lodash",
+                "subDependencies": {},
+                "version": {
+                  "exact": "4.17.21",
+                  "range": "4.17.21",
+                },
+              },
+              "react": {
                 "isGlobal": true,
                 "name": "react",
                 "subDependencies": {
@@ -74,84 +154,32 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
                         "isGlobal": false,
                         "name": "lodash",
                         "subDependencies": {},
-                        "version": "4.17.21",
-                        "versionRange": "4.17.21",
-                      },
-                    },
-                    "version": "17.0.0",
-                    "versionRange": "^17.0.0",
-                  },
-                },
-                "version": "17.0.0",
-                "versionRange": "^17.0.0",
-              },
-            ],
-            "react-dom": [
-              {
-                "isGlobal": true,
-                "name": "react-dom",
-                "subDependencies": {
-                  "lodash": {
-                    "isGlobal": false,
-                    "name": "lodash",
-                    "subDependencies": {},
-                    "version": "4.17.21",
-                    "versionRange": "4.17.21",
-                  },
-                },
-                "version": "17.0.0",
-                "versionRange": "^17.0.0",
-              },
-            ],
-            "webpack": [
-              {
-                "isGlobal": true,
-                "name": "webpack",
-                "subDependencies": {
-                  "babel-core": {
-                    "isGlobal": false,
-                    "name": "babel-core",
-                    "subDependencies": {},
-                    "version": "7.0.0",
-                    "versionRange": "^7.0.0",
-                  },
-                  "lodash": {
-                    "isGlobal": false,
-                    "name": "lodash",
-                    "subDependencies": {},
-                    "version": "4.17.21",
-                    "versionRange": "4.17.21",
-                  },
-                  "react": {
-                    "isGlobal": true,
-                    "name": "react",
-                    "subDependencies": {
-                      "react-dom": {
-                        "isGlobal": true,
-                        "name": "react-dom",
-                        "subDependencies": {
-                          "lodash": {
-                            "isGlobal": false,
-                            "name": "lodash",
-                            "subDependencies": {},
-                            "version": "4.17.21",
-                            "versionRange": "4.17.21",
-                          },
+                        "version": {
+                          "exact": "4.17.21",
+                          "range": "4.17.21",
                         },
-                        "version": "17.0.0",
-                        "versionRange": "^17.0.0",
                       },
                     },
-                    "version": "17.0.0",
-                    "versionRange": "^17.0.0",
+                    "version": {
+                      "exact": "17.0.0",
+                      "range": "^17.0.0",
+                    },
                   },
                 },
-                "version": "4.44.1",
-                "versionRange": "^4.44.0",
+                "version": {
+                  "exact": "17.0.0",
+                  "range": "^17.0.0",
+                },
               },
-            ],
-          }
-      `);
+            },
+            "version": {
+              "exact": "4.44.1",
+              "range": "^4.44.0",
+            },
+          },
+        ],
+      }
+    `);
 
     const sortedDependencies = manager.getSortedDependencies();
 
@@ -161,15 +189,19 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
           "isGlobal": false,
           "name": "babel-core",
           "subDependencies": {},
-          "version": "7.0.0",
-          "versionRange": "^7.0.0",
+          "version": {
+            "exact": "7.0.0",
+            "range": "^7.0.0",
+          },
         },
         {
           "isGlobal": false,
           "name": "lodash",
           "subDependencies": {},
-          "version": "4.17.21",
-          "versionRange": "4.17.21",
+          "version": {
+            "exact": "4.17.21",
+            "range": "4.17.21",
+          },
         },
         {
           "isGlobal": true,
@@ -179,12 +211,16 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "isGlobal": false,
               "name": "lodash",
               "subDependencies": {},
-              "version": "4.17.21",
-              "versionRange": "4.17.21",
+              "version": {
+                "exact": "4.17.21",
+                "range": "4.17.21",
+              },
             },
           },
-          "version": "17.0.0",
-          "versionRange": "^17.0.0",
+          "version": {
+            "exact": "17.0.0",
+            "range": "^17.0.0",
+          },
         },
         {
           "isGlobal": true,
@@ -198,16 +234,22 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
                   "isGlobal": false,
                   "name": "lodash",
                   "subDependencies": {},
-                  "version": "4.17.21",
-                  "versionRange": "4.17.21",
+                  "version": {
+                    "exact": "4.17.21",
+                    "range": "4.17.21",
+                  },
                 },
               },
-              "version": "17.0.0",
-              "versionRange": "^17.0.0",
+              "version": {
+                "exact": "17.0.0",
+                "range": "^17.0.0",
+              },
             },
           },
-          "version": "17.0.0",
-          "versionRange": "^17.0.0",
+          "version": {
+            "exact": "17.0.0",
+            "range": "^17.0.0",
+          },
         },
         {
           "isGlobal": true,
@@ -217,15 +259,19 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
               "isGlobal": false,
               "name": "babel-core",
               "subDependencies": {},
-              "version": "7.0.0",
-              "versionRange": "^7.0.0",
+              "version": {
+                "exact": "7.0.0",
+                "range": "^7.0.0",
+              },
             },
             "lodash": {
               "isGlobal": false,
               "name": "lodash",
               "subDependencies": {},
-              "version": "4.17.21",
-              "versionRange": "4.17.21",
+              "version": {
+                "exact": "4.17.21",
+                "range": "4.17.21",
+              },
             },
             "react": {
               "isGlobal": true,
@@ -239,20 +285,28 @@ describe("HTMLDependencyManager getSortedDependencies", () => {
                       "isGlobal": false,
                       "name": "lodash",
                       "subDependencies": {},
-                      "version": "4.17.21",
-                      "versionRange": "4.17.21",
+                      "version": {
+                        "exact": "4.17.21",
+                        "range": "4.17.21",
+                      },
                     },
                   },
-                  "version": "17.0.0",
-                  "versionRange": "^17.0.0",
+                  "version": {
+                    "exact": "17.0.0",
+                    "range": "^17.0.0",
+                  },
                 },
               },
-              "version": "17.0.0",
-              "versionRange": "^17.0.0",
+              "version": {
+                "exact": "17.0.0",
+                "range": "^17.0.0",
+              },
             },
           },
-          "version": "4.44.1",
-          "versionRange": "^4.44.0",
+          "version": {
+            "exact": "4.44.1",
+            "range": "^4.44.0",
+          },
         },
       ]
     `);
