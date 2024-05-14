@@ -8,6 +8,15 @@ import {
 } from "widget-up-utils";
 import "@/styles/index.less";
 
+function wrapWithLabel(
+  labelText: string,
+  inputElement: JQuery<HTMLElement>
+): JQuery<HTMLElement> {
+  const label = $("<label></label>").text(labelText);
+  const wrapper = $("<div class='border-b py-1'></div>").append(label).append(inputElement);
+  return wrapper;
+}
+
 function createInput(
   inputConfig: InputSchemaConfig,
   initialValues?: Record<string, any>
@@ -77,10 +86,7 @@ function createInput(
         inputConfig as ArrayInputSchemaConfig | ObjectInputSchemaConfig
       ).children?.forEach((child) => {
         inputElement.append(
-          wrapWithLabel(
-            child.label + ": ",
-            createInput(child, initialValues)
-          )
+          wrapWithLabel(child.label + ": ", createInput(child, initialValues))
         );
       });
       break;
@@ -93,15 +99,6 @@ function createInput(
   }
 
   return inputElement;
-}
-
-function wrapWithLabel(
-  labelText: string,
-  inputElement: JQuery<HTMLElement>
-): JQuery<HTMLElement> {
-  const label = $("<label></label>").text(labelText);
-  const wrapper = $("<div></div>").append(label).append(inputElement);
-  return wrapper;
 }
 
 // 更新 SchemaForm 组件以接受 initialValues 作为参数
