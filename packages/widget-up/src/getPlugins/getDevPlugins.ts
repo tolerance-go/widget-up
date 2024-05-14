@@ -137,7 +137,7 @@ export const getDevPlugins = async ({
       contentBase: ["dist/server", "dist/umd"],
       port: 3000,
     }),
-  ].filter(Boolean);
+  ];
 
   return plugins;
 };
