@@ -13,6 +13,6 @@
       "@/*": ["*"]
     }
   },
-  "include": ["src/**/*", "types/**/*"],
+  "include": ["src/**/*", "types/**/*", "./typings.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

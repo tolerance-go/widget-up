@@ -789,6 +789,9 @@ importers:
       widget-up-utils:
         specifier: workspace:^
         version: link:../../../utils
+      yargs:
+        specifier: ^17.7.2
+        version: 17.7.2
 
   packages/widget-up/examples/runtimeRollup:
     devDependencies:

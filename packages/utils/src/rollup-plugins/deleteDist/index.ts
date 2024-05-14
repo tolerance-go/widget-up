@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 interface DeleteDistOptions {
-  dist: string | string[]; // 指定需要删除的目录，支持数组
+  dist: string | string[]; // 指定需要删除的目录或文件，支持数组
   once?: boolean;
 }
 
@@ -17,7 +17,6 @@ function deleteDist(options: DeleteDistOptions): Plugin {
         return;
       }
 
-      // 确保 dist 总是一个数组
       const distPaths =
         typeof options.dist === "string" ? [options.dist] : options.dist;
 
@@ -25,13 +24,20 @@ function deleteDist(options: DeleteDistOptions): Plugin {
         const fullPath = path.resolve(process.cwd(), distPath); // 获取绝对路径
         try {
           if (fs.existsSync(fullPath)) {
-            // 检查目录是否存在
-            fs.rmSync(fullPath, { recursive: true, force: true }); // 同步删除目录及其内容
-            console.log(`Directory ${fullPath} has been successfully deleted.`);
+            const stats = fs.statSync(fullPath);
+            if (stats.isDirectory()) {
+              fs.rmSync(fullPath, { recursive: true, force: true }); // 删除目录及其内容
+              console.log(
+                `Directory ${fullPath} has been successfully deleted.`
+              );
+            } else if (stats.isFile()) {
+              fs.unlinkSync(fullPath); // 删除单个文件
+              console.log(`File ${fullPath} has been successfully deleted.`);
+            }
           }
         } catch (error) {
-          console.error(`Error deleting directory ${fullPath}: ${error}`);
-          throw error; // 在发生错误时抛出异常
+          console.error(`Error deleting ${fullPath}: ${error}`);
+          throw error;
         }
       });
 

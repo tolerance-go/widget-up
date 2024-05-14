@@ -1,93 +1,35 @@
-import { RollupBuild, RollupOptions, rollup, watch } from "rollup";
-import getRollupConfig from "../getRollupConfig";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import { exec } from "child_process";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 import packageJson from "@/package.json" assert { type: "json" };
 
-async function processBundle(
-  config: RollupOptions,
-  isWatch: boolean
-): Promise<boolean> {
-  let buildFailed = false;
-  if (isWatch) {
-    // 如果是 watch 模式，创建一个 watcher 来监控文件变动
-    const watcher = watch(config);
-    watcher.on("event", (event) => {
-      /**
-       * 假设你正在开发一个复杂的前端项目，每次源码修改可能只影响部分模块，
-       * Rollup 会为这些变更触发一次 BUNDLE_START 和一次 BUNDLE_END。
-       * 如果在一个较短的时间内有多次文件修改，每次修改都会对应一次 BUNDLE_END，
-       * 而 END 事件只有在所有这些更改都被处理完毕后才会触发。
-       * 因此，END 用于确保所有的连续构建任务都已彻底完成，而 BUNDLE_END 更关注单个构建的完成。
-       */
-      // 输出错误信息
-      if (event.code === "ERROR") {
-        console.error("Error during build:", event.error);
+// Get the directory of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Construct the path to the Rollup configuration file
+const rollupConfigPath = join(__dirname, "./rollup.config.js");
+const rollupBinPath = join(__dirname, "../node_modules/.bin/rollup");
+
+
+function runRollupCommand(command: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const child = exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing command: ${command}`);
+        console.error(stderr);
+        reject(error);
+        return;
       }
-      // START 事件表示监控开始
-      if (event.code === "START") {
-        console.log("Watching for changes...");
-      }
-      // // BUNDLE_START 事件表示构建开始
-      // if (event.code === "BUNDLE_START") {
-      //   console.log("Building...");
-      // }
-      // 输出 BUNDLE_END 事件表示构建结束
-      if (event.code === "BUNDLE_END") {
-        console.log("BUNDLE_END: Watching for changes...");
-        event.result.close(); // 关闭上一次的 bundle
-      }
-      // 监控到构建结束时，输出提示信息
-      if (event.code === "END") {
-        console.log("Watching for changes...");
-      }
+      console.log(stdout);
+      resolve();
     });
-  } else {
-    let bundle: RollupBuild | undefined;
 
-    if (!config.output) {
-      throw new Error("Output configuration is missing.");
-    }
-
-    try {
-      bundle = await rollup(config);
-    } catch (error) {
-      console.error("Error during the bundle build:", error);
-      buildFailed = true;
-      return buildFailed;
-    }
-
-    try {
-      if (Array.isArray(config.output)) {
-        await Promise.all(config.output.map((output) => bundle.write(output)));
-      } else {
-        await bundle.write(config.output);
-      }
-      await bundle.close(); // 确保释放资源
-    } catch (error) {
-      console.error("Error during the bundle write:", error);
-      buildFailed = true;
-    }
-  }
-  return buildFailed;
-}
-
-async function buildRollup(
-  env: "production" | "development",
-  isWatch: boolean = false
-): Promise<boolean> {
-  process.env.NODE_ENV = env;
-
-  const options: RollupOptions | RollupOptions[] = await getRollupConfig();
-
-  if (Array.isArray(options)) {
-    const buildFails = await Promise.all(
-      options.map((config) => processBundle(config, isWatch))
-    );
-    return buildFails.some((result) => result);
-  } else {
-    return await processBundle(options, isWatch);
-  }
+    child.stdout?.pipe(process.stdout);
+    child.stderr?.pipe(process.stderr);
+  });
 }
 
 export const bin = () => {
@@ -101,10 +43,13 @@ export const bin = () => {
       async () => {
         console.log("Start Building...");
         try {
-          const buildFailed = await buildRollup("production");
-          process.exit(buildFailed ? 1 : 0);
+          await runRollupCommand(
+             `${rollupBinPath} -c ${rollupConfigPath} --environment NODE_ENV:production`
+          );
+          process.exit(0);
         } catch (error) {
           console.error("Error during the build:", error);
+          process.exit(1);
         }
       }
     )
@@ -115,9 +60,12 @@ export const bin = () => {
       async () => {
         console.log("Starting development server...");
         try {
-          await buildRollup("development", true);
+          await runRollupCommand(
+             `${rollupBinPath} -c ${rollupConfigPath} --watch --environment NODE_ENV:development`
+          );
         } catch (error) {
           console.error("Error during the development build:", error);
+          process.exit(1);
         }
       }
     )

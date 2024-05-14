@@ -21,7 +21,6 @@ export default {
       entries: [{ find: "@", replacement: process.cwd() }],
     }),
     resolve({
-      preferBuiltins: true,
     }), // 解析 node_modules 中的模块
     commonjs({}),
     postcss({

@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development rollup -c -w",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "dev": "cross-env NODE_ENV=development node ./dev.js",
+    "build": "cross-env NODE_ENV=production node ./build.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -24,7 +24,8 @@
     "rollup": "^4.14.3",
     "rollup-plugin-postcss": "^4.0.2",
     "tailwindcss": "^3.4.3",
-    "widget-up-utils": "workspace:^"
+    "widget-up-utils": "workspace:^",
+    "yargs": "^17.7.2"
   },
   "dependencies": {
     "jquery": "^3.7.1"
