@@ -13,7 +13,7 @@ function wrapWithLabel(
   inputElement: JQuery<HTMLElement>
 ): JQuery<HTMLElement> {
   const label = $("<label></label>").text(labelText);
-  const wrapper = $("<div class='border-b py-10'></div>").append(label).append(inputElement);
+  const wrapper = $("<div class='border-b py-4'></div>").append(label).append(inputElement);
   return wrapper;
 }
 
