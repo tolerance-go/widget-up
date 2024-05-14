@@ -6,14 +6,14 @@ import {
   InputSchemaConfig,
   ObjectInputSchemaConfig,
 } from "widget-up-utils";
-import "@/styles/index.less";
+import "../styles/index.less";
 
 function wrapWithLabel(
   labelText: string,
   inputElement: JQuery<HTMLElement>
 ): JQuery<HTMLElement> {
   const label = $("<label></label>").text(labelText);
-  const wrapper = $("<div class='border-b py-1'></div>").append(label).append(inputElement);
+  const wrapper = $("<div class='border-b py-10'></div>").append(label).append(inputElement);
   return wrapper;
 }
 

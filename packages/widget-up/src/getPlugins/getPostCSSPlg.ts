@@ -36,7 +36,12 @@ export const getPostCSSPlg = async ({
     const postCssOptions: PostCSSPluginConf = {
       extract: true, // 提取 CSS 到单独文件
       plugins,
-      extensions: [".css", ".less"],
+      extensions: [".css", ".less", '.sass', '.styl'],
+      use: {
+        less: { javascriptEnabled: true },
+        sass: { indentedSyntax: true },
+        stylus: {},
+      },
     };
 
     // 根据配置条件添加模块化配置
