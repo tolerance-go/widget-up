@@ -22,7 +22,17 @@ function wrapWithLabel(
 function createInput(
   inputConfig: InputSchemaConfig,
   initialValues?: Record<string, any>,
-  prefixName: string = "" // 新增参数，用于传递字段名称前缀
+  prefixName: string = "",
+  onChange?: (
+    name: string,
+    value: any,
+    event: JQuery.TriggeredEvent<
+      HTMLElement,
+      undefined,
+      HTMLElement,
+      HTMLElement
+    >
+  ) => void
 ): JQuery<HTMLElement> {
   let inputElement: JQuery<HTMLElement>;
   const fullName = prefixName
@@ -39,36 +49,46 @@ function createInput(
     case "date":
     case "color":
     case "file":
-      inputElement = $(`<input type="${inputConfig.type}" name="${fullName}" />`);
+    case "range":
+      inputElement = $(
+        `<input type="${inputConfig.type}" name="${fullName}" />`
+      );
       if (initialValue !== undefined) {
         inputElement.val(initialValue);
+      }
+      if (onChange) {
+        inputElement.on("input", (event) => {
+          onChange(fullName, inputElement.val(), event);
+        });
       }
       break;
     case "boolean":
       inputElement = $(`<input type="checkbox" name="${fullName}" />`);
       inputElement.prop("checked", initialValue === true);
-      break;
-    case "range":
-      inputElement = $(`<input type="range" name="${fullName}" />`);
-      if (initialValue !== undefined) {
-        inputElement.val(initialValue);
+      if (onChange) {
+        inputElement.on("input", (event) => {
+          onChange(fullName, inputElement.is(":checked"), event);
+        });
       }
       break;
     case "enum":
       inputElement = $("<div></div>");
       inputConfig.options.forEach((option) => {
-        const radioButton = document.createElement("input");
-        radioButton.type = "radio";
-        radioButton.value = option.value + "";
-        radioButton.name = fullName; // 更新 name 为全路径
+        const radioButton = $("<input>", {
+          type: "radio",
+          name: fullName,
+          value: option.value,
+        });
         if (option.value === initialValue) {
-          radioButton.checked = true;
+          radioButton.prop("checked", true);
         }
-
-        const label = document.createElement("label");
-        label.appendChild(radioButton);
-        label.appendChild(document.createTextNode(option.label));
-        inputElement.append(label);
+        radioButton.on("input", (event) => {
+          onChange(fullName, option.value, event);
+        });
+        const label = $("<label>")
+          .append(radioButton)
+          .append(document.createTextNode(option.label));
+        $(inputElement).append(label);
       });
       break;
     case "select":
@@ -81,17 +101,26 @@ function createInput(
           `<option value="${option.value}">${option.label}</option>`
         );
         if (initialValue?.includes(option.value)) {
-          optionElement.attr("selected", "selected");
+          optionElement.prop("selected", true);
         }
         inputElement.append(optionElement);
       });
+      if (onChange) {
+        inputElement.on("input", (event) => {
+          const selectedOptions = $(event.currentTarget).val();
+          onChange(fullName, selectedOptions, event);
+        });
+      }
       break;
     case "array":
     case "object":
       inputElement = $("<div class='border p-2'></div>");
       inputConfig.children?.forEach((child) => {
         inputElement.append(
-          wrapWithLabel(child.label + ": ", createInput(child, initialValues, fullName))
+          wrapWithLabel(
+            child.label + ": ",
+            createInput(child, initialValues, fullName, onChange)
+          )
         );
       });
       break;
@@ -100,23 +129,38 @@ function createInput(
       if (initialValue !== undefined) {
         inputElement.val(initialValue);
       }
+      if (onChange) {
+        inputElement.on("input", (event) => {
+          onChange(fullName, inputElement.val(), event);
+        });
+      }
       break;
   }
 
   return inputElement;
 }
 
-// 更新 SchemaForm 组件以接受 initialValues 作为参数
 const SchemaForm = ({
   formSchema,
   initialValues,
+  onChange,
 }: {
   formSchema?: FormSchemaConfig;
   initialValues?: Record<string, any>;
+  onChange?: (
+    name: string,
+    value: any,
+    event: JQuery.TriggeredEvent<
+      HTMLElement,
+      undefined,
+      HTMLElement,
+      HTMLElement
+    >
+  ) => void;
 }) => {
   const form = $("<form></form>");
   formSchema?.inputs?.forEach((inputConfig) => {
-    const inputElement = createInput(inputConfig, initialValues);
+    const inputElement = createInput(inputConfig, initialValues, "", onChange);
     const wrapper = wrapWithLabel(inputConfig.label + ": ", inputElement);
     form.append(wrapper);
   });
