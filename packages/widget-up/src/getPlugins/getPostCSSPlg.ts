@@ -1,6 +1,6 @@
 import { NormalizedConfig } from "widget-up-utils";
 import postcss, { PostCSSPluginConf } from "rollup-plugin-postcss";
-import tailwindcss from "tailwindcss";
+import tailwindcss, { Config } from "tailwindcss";
 import autoprefixer from "autoprefixer";
 
 export const getPostCSSPlg = async ({
@@ -14,17 +14,19 @@ export const getPostCSSPlg = async ({
   if (config.css) {
     // 如果配置了 Tailwind CSS 并指定了配置文件，则动态导入配置
     if (typeof config.css === "object" && config.css.useTailwind) {
+      const defaultCfg: Config = {
+        content: ["./src/**/*.{html,ts}"],
+        theme: {
+          extend: {},
+        },
+        plugins: [],
+      };
+
       const tailwindOptions = config.css.tailwindConfigPath
         ? await import(config.css.tailwindConfigPath).then(
             (m) => m.default || m
           )
-        : {
-            content: ["./src/**/*.{html,ts}"],
-            theme: {
-              extend: {},
-            },
-            plugins: [],
-          };
+        : defaultCfg;
       plugins.push(tailwindcss(tailwindOptions)); // 使用 Tailwind CSS 配置
     }
 
