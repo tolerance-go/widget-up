@@ -66,7 +66,7 @@ const getRollupConfig = async () => {
         configManager,
       }),
       watch: {
-        include: ["src/**"],
+        include: ["src/**", "styles/**"],
       },
     };
   } else {

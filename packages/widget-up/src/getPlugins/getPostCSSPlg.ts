@@ -1,14 +1,7 @@
 import { NormalizedConfig } from "widget-up-utils";
-import postcss from "rollup-plugin-postcss";
+import postcss, { PostCSSPluginConf } from "rollup-plugin-postcss";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
-
-interface PostCSSOptions {
-  extract: boolean; // 是否提取 CSS 到单独文件
-  plugins: any[]; // 插件列表
-  modules?: boolean; // 是否启用 CSS 模块
-  autoModules?: boolean; // 是否自动启用 CSS 模块
-}
 
 export const getPostCSSPlg = async ({
   config,
@@ -22,17 +15,26 @@ export const getPostCSSPlg = async ({
     // 如果配置了 Tailwind CSS 并指定了配置文件，则动态导入配置
     if (typeof config.css === "object" && config.css.useTailwind) {
       const tailwindOptions = config.css.tailwindConfigPath
-        ? await import(config.css.tailwindConfigPath).then((m) => m.default || m)
-        : {};
+        ? await import(config.css.tailwindConfigPath).then(
+            (m) => m.default || m
+          )
+        : {
+            content: ["./src/**/*.{html,ts}"],
+            theme: {
+              extend: {},
+            },
+            plugins: [],
+          };
       plugins.push(tailwindcss(tailwindOptions)); // 使用 Tailwind CSS 配置
     }
 
     plugins.push(autoprefixer()); // 总是添加 Autoprefixer 插件
 
     // 准备带扩展类型的 PostCSS 配置选项
-    const postCssOptions: PostCSSOptions = {
+    const postCssOptions: PostCSSPluginConf = {
       extract: true, // 提取 CSS 到单独文件
       plugins,
+      extensions: [".css", ".less"],
     };
 
     // 根据配置条件添加模块化配置
