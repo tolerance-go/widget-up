@@ -83,7 +83,7 @@ function createInput(
           radioButton.prop("checked", true);
         }
         radioButton.on("input", (event) => {
-          onChange(fullName, option.value, event);
+          onChange?.(fullName, option.value, event);
         });
         const label = $("<label>")
           .append(radioButton)
@@ -113,6 +113,38 @@ function createInput(
       }
       break;
     case "array":
+      inputElement = $("<div class='array-input border p-2'></div>");
+      const addButton = $("<button type='button'>Add</button>").on(
+        "click",
+        () => {
+          const newItemWrapper = createArrayItem(
+            inputConfig,
+            fullName,
+            {},
+            onChange,
+            inputElement.children(".array-item").length
+          );
+          inputElement.append(newItemWrapper);
+          if (onChange) {
+            onChange(fullName, getArrayValues(inputElement), $.Event("add"));
+          }
+        }
+      );
+      inputElement.append(addButton);
+
+      if (initialValue) {
+        initialValue.forEach((itemValue: any, index: number) => {
+          const itemWrapper = createArrayItem(
+            inputConfig,
+            fullName,
+            itemValue,
+            onChange,
+            index
+          );
+          inputElement.append(itemWrapper);
+        });
+      }
+      break;
     case "object":
       inputElement = $("<div class='border p-2'></div>");
       inputConfig.children?.forEach((child) => {
@@ -138,6 +170,71 @@ function createInput(
   }
 
   return inputElement;
+}
+
+function createArrayItem(
+  inputConfig: ArrayInputSchemaConfig,
+  prefixName: string,
+  initialValues: any,
+  onChange?: (
+    name: string,
+    value: any,
+    event: JQuery.TriggeredEvent<
+      HTMLElement,
+      undefined,
+      HTMLElement,
+      HTMLElement
+    >
+  ) => void,
+  index?: number
+): JQuery<HTMLElement> {
+  const itemWrapper = $("<div class='array-item border p-2 mb-2'></div>");
+  const itemPrefixName = `${prefixName}[${index}]`;
+  inputConfig.children?.forEach((child) => {
+    itemWrapper.append(
+      wrapWithLabel(
+        child.label + ": ",
+        createInput(child, initialValues, itemPrefixName, onChange)
+      )
+    );
+  });
+
+  const removeButton = $("<button type='button'>Remove</button>").on(
+    "click",
+    () => {
+      itemWrapper.remove();
+      if (onChange) {
+        onChange(
+          prefixName,
+          getArrayValues(itemWrapper.parent()),
+          $.Event("remove")
+        );
+      }
+    }
+  );
+
+  itemWrapper.append(removeButton);
+  return itemWrapper;
+}
+
+function getArrayValues(arrayElement: JQuery<HTMLElement>): any[] {
+  const values: any[] = [];
+  arrayElement.find(".array-item").each((index, element) => {
+    const itemValues: Record<string, any> = {};
+    $(element)
+      .find("input, select")
+      .each((_, inputElement) => {
+        const name = $(inputElement).attr("name")?.split(".").pop() ?? "";
+        const value = $(inputElement).val();
+        if ($(inputElement).attr("type") === "checkbox") {
+          itemValues[name] = $(inputElement).is(":checked");
+        } else {
+          itemValues[name] = value;
+        }
+      });
+    values.push(itemValues);
+  });
+  return values;
 }
 
 const SchemaForm = ({
