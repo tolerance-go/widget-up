@@ -43,12 +43,18 @@ yargs(hideBin(process.argv))
   .command(
     "build",
     "Builds the widget for production",
-    () => {},
-    async () => {
+    (yargs) => {
+      yargs.option("tsconfigPath", {
+        type: "string",
+        describe: "Path to the TypeScript configuration file",
+        demandOption: true,
+      });
+    },
+    async (argv) => {
       console.log("Start Building...");
       try {
         await runCommand(
-          `${crossEnvBinPath} NODE_ENV=production ${rollupBinPath} -c ${rollupConfigPath}`
+          `${crossEnvBinPath} NODE_ENV=production TSCONFIG_PATH=${argv.tsconfigPath} ${rollupBinPath} -c ${rollupConfigPath}`
         );
         process.exit(0);
       } catch (error) {

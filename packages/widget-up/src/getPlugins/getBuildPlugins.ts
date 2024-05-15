@@ -35,7 +35,9 @@ export const getBuildPlugins = async ({
     resolve(),
     commonjs(),
     json(),
-    typescript(),
+    typescript({
+      tsconfig: process.env.TSCONFIG_PATH,
+    }),
     getPostCSSPlg({ config }),
     terser(), // 仅在生产模式下压缩代码
   ].filter(Boolean);
