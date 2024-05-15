@@ -6,12 +6,11 @@
   "main": "dist/index.js",
   "type": "module",
   "bin": {
-    "wup": "./bin/index.js"
+    "wup": "./dist/bin.js"
   },
   "sideEffects": false,
   "files": [
     "dist",
-    "bin",
     "dist-schema",
     "tpls"
   ],
