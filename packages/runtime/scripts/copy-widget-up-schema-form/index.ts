@@ -48,9 +48,9 @@ async function main() {
     const browserEntryPath = path.join(packageDir, browserEntry);
     const styleEntryPath = path.join(packageDir, styleEntry);
 
-    // 定义目标文件路径
-    const targetBrowserPath = path.join(targetDir, path.basename(browserEntry));
-    const targetStylePath = path.join(targetDir, path.basename(styleEntry));
+    // 定义目标文件路径，使用固定文件名
+    const targetBrowserPath = path.join(targetDir, `${packageName}.js`);
+    const targetStylePath = path.join(targetDir, `${packageName}.css`);
 
     // 创建目标目录（如果不存在）
     await fs.mkdir(targetDir, { recursive: true });
