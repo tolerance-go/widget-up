@@ -7,10 +7,18 @@ export const applyDependencies = (
 ): DependencyTreeNode[] => {
   return [
     {
-      name: "widget-up-schema-form",
+      name: "widget-up-input-jquery3",
       version: "0.0.0",
-      scriptSrc: () => "/libs/widget-up-schema-form.alias-wrap.async-wrap.js",
-      linkHref: () => "/libs/widget-up-schema-form.css",
+      scriptSrc: () => "/libs/input.jquery3.alias-wrap.async-wrap.js",
+      depends: [
+        {
+          name: "widget-up-schema-form",
+          version: "0.0.0",
+          scriptSrc: () =>
+            "/libs/widget-up-schema-form.alias-wrap.async-wrap.js",
+          linkHref: () => "/libs/widget-up-schema-form.css",
+        },
+      ],
     },
     ...dependencies,
   ];

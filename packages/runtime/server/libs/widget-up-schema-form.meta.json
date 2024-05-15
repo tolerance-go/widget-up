@@ -1,0 +1,14 @@
+{
+  "imports": [
+    {
+      "globalVar": "RuntimeComponent",
+      "scopeVar": "RuntimeComponent"
+    }
+  ],
+  "exports": [
+    {
+      "globalVar": "Register_jquery3",
+      "scopeVar": "Register_jquery3"
+    }
+  ]
+}
