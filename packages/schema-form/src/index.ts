@@ -80,7 +80,7 @@ function createInput(
           type: "radio",
           name: fullName,
           value: option.value,
-          class: 'mr-1.5'
+          class: "mr-1.5",
         });
         if (option.value === initialValue) {
           radioButton.prop("checked", true);
@@ -120,7 +120,7 @@ function createInput(
     case "array":
       inputElement = $("<div class='array-input border p-2'></div>");
       const addButton = $(
-        "<button type='button' class='bg-blue-500 text-white px-2 py-1 rounded my-1'>Add</button>"
+        "<button type='button' class='bg-blue-500 text-white px-2 py-1 rounded my-1'>新增</button>"
       ).on("click", () => {
         const newItemWrapper = createArrayItem(
           inputConfig,
@@ -194,10 +194,16 @@ function createArrayItem(
   ) => void,
   index?: number
 ): JQuery<HTMLElement> {
-  const itemWrapper = $("<div class='array-item border p-2 mb-2'></div>");
+  // Create the main wrapper with flex and align items center
+  const itemWrapper = $(
+    "<div class='array-item border p-2 mb-2 flex items-center gap-1'></div>"
+  );
   const itemPrefixName = `${prefixName}[${index}]`;
+
+  // Create the inner wrapper to hold the input elements
+  const itemInner = $("<div class='item-inner flex-grow'></div>");
   inputConfig.children?.forEach((child) => {
-    itemWrapper.append(
+    itemInner.append(
       wrapWithLabel(
         child.label + ": ",
         createInput(child, initialValues, itemPrefixName, onChange)
@@ -205,8 +211,9 @@ function createArrayItem(
     );
   });
 
+  // Create the remove button
   const removeButton = $(
-    "<button type='button' class='bg-red-500 text-white px-2 py-1 rounded my-1'>Remove</button>"
+    "<button type='button' class='bg-red-500 text-white px-2 py-1 rounded my-1'>删除</button>"
   ).on("click", () => {
     itemWrapper.remove();
     if (onChange) {
@@ -218,7 +225,9 @@ function createArrayItem(
     }
   });
 
-  itemWrapper.append(removeButton);
+  // Append the itemInner and removeButton to itemWrapper
+  itemWrapper.append(itemInner).append(removeButton);
+
   return itemWrapper;
 }
 
