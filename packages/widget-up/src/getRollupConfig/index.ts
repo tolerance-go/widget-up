@@ -74,11 +74,20 @@ const getRollupConfig = async () => {
     rollupConfig = getProdOutputs(config).map((output) => ({
       input: config.input,
       output,
-      plugins: getBuildPlugins({
-        rootPath,
-        config,
-        output,
-      }),
+      plugins: [
+        ...getBuildPlugins({
+          rootPath,
+          config,
+          output,
+        }),
+        {
+          name: "hook-end",
+          buildEnd: () => {
+            console.log("buildEnd");
+            configManager.clear();
+          },
+        },
+      ],
     }));
   }
 

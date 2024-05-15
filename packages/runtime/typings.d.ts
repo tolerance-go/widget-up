@@ -14,11 +14,13 @@ declare global {
     Register_jquery3: {
       render: (args: {
         rootElement: HTMLElement;
-        component?: (props: SchemaFormProps) => HTMLElement;
+        component?: HTMLElement;
       }) => void;
       unmount: (args: { rootElement: HTMLElement }) => void;
     };
 
-    "SchemaForm_widget-up-schema-form": () => JQuery<HTMLElement>;
+    "SchemaForm_widget-up-schema-form": (
+      props: SchemaFormProps
+    ) => JQuery<HTMLElement>;
   }
 }

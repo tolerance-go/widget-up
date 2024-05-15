@@ -10,6 +10,7 @@ export class ConfigManager extends EventEmitter {
   private configPath: string;
   private config: NormalizedConfig | null = null;
   private packageConfig: PackageJson | null = null;
+  private fsWatcher: fs.FSWatcher | null = null;
 
   constructor() {
     super();
@@ -18,7 +19,7 @@ export class ConfigManager extends EventEmitter {
     this.loadPackageConfig(); // 初始加载 package.json
 
     // 监听文件变化
-    fs.watch(this.configPath, (eventType, filename) => {
+    this.fsWatcher = fs.watch(this.configPath, (eventType, filename) => {
       if (eventType === "change") {
         this.loadConfig();
       }
@@ -71,6 +72,15 @@ export class ConfigManager extends EventEmitter {
   public watch(callback: (config: NormalizedConfig) => void) {
     this.on("change", callback);
     return () => this.removeListener("change", callback); // 返回一个取消监听的函数
+  }
+
+  // 解除所有监听配置变化的回调函数
+  // 解除所有监听配置变化的回调函数
+  public clear() {
+    if (this.fsWatcher) {
+      this.fsWatcher.close();
+      this.fsWatcher = null;
+    }
   }
 }
 

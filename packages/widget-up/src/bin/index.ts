@@ -23,11 +23,9 @@ function runCommand(command: string) {
     const child = exec(command, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error executing command: ${command}`);
-        console.error(stderr);
         reject(error);
         return;
       }
-      console.log(stdout);
       resolve(true);
     });
 

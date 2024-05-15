@@ -4,24 +4,22 @@ import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
 import typescript from "@rollup/plugin-typescript";
-import { OutputOptions } from "rollup";
+import { InputPluginOption, OutputOptions, Plugin } from "rollup";
 import del from "rollup-plugin-delete";
 import { terser } from "rollup-plugin-terser";
-import { NormalizedConfig } from "widget-up-utils";
+import { NormalizedConfig, tsDeclarationAlias } from "widget-up-utils";
 import { getEnv } from "../utils/env.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
 import { getPostCSSPlg } from "./getPostCSSPlg.js";
 
-export const getBuildPlugins = async ({
+export const getBuildPlugins = ({
   config,
   output,
 }: {
   rootPath: string;
   config: NormalizedConfig;
   output: OutputOptions;
-}) => {
-  const { BuildEnvIsDev } = getEnv();
-
+}): InputPluginOption[] => {
   const plugins = [
     del({ targets: ["dist", output.format, "*"].filter(Boolean).join("/") }),
     getExternalPlugin(output.format),
@@ -39,8 +37,9 @@ export const getBuildPlugins = async ({
       tsconfig: process.env.TSCONFIG_PATH,
     }),
     getPostCSSPlg({ config }),
+    tsDeclarationAlias(),
     terser(), // 仅在生产模式下压缩代码
-  ].filter(Boolean);
+  ];
 
   return plugins;
 };
