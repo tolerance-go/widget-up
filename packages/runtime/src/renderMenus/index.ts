@@ -18,7 +18,6 @@ import { globalEventBus } from "..";
 
 interface RenderMenusOptions {
   containerId: string;
-  eventBus: EventBus<AppEvents>;
 }
 
 async function fetchMenus(): Promise<DemoMenuItem[]> {
@@ -52,7 +51,6 @@ function buildMenuHtml(menus: DemoMenuItem[]): string {
 }
 
 export async function renderMenus({
-  eventBus,
   containerId,
 }: RenderMenusOptions): Promise<void> {
   try {
@@ -69,7 +67,7 @@ export async function renderMenus({
     container?.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
       if (target.tagName === "A" && target.dataset.name) {
-        eventBus.emit("menuClick", {
+        globalEventBus.emit("menuClick", {
           name: target.dataset.name,
           globals: {
             component: target.dataset.globalComponent || "",
@@ -79,7 +77,7 @@ export async function renderMenus({
       }
     });
 
-    eventBus.on("menuClick", ({ globals, name }) => {
+    globalEventBus.on("menuClick", ({ globals, name }) => {
       updateURLParameters({
         name,
       });
@@ -117,7 +115,7 @@ export async function renderMenus({
       if (params.name) {
         const item = findMenuItemByName(menus, params.name);
         if (item) {
-          eventBus.emit("menuClick", {
+          globalEventBus.emit("menuClick", {
             name: item.name,
             globals: {
               component: item.globals.component,
