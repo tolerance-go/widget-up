@@ -51,7 +51,7 @@ function createInput(
     case "file":
     case "range":
       inputElement = $(
-        `<input type="${inputConfig.type}" name="${fullName}" />`
+        `<input type="${inputConfig.type}" name="${fullName}" class="border rounded p-1" />`
       );
       if (initialValue !== undefined) {
         inputElement.val(initialValue);
@@ -63,7 +63,9 @@ function createInput(
       }
       break;
     case "boolean":
-      inputElement = $(`<input type="checkbox" name="${fullName}" />`);
+      inputElement = $(
+        `<input type="checkbox" name="${fullName}" class="mr-2" />`
+      );
       inputElement.prop("checked", initialValue === true);
       if (onChange) {
         inputElement.on("input", (event) => {
@@ -78,6 +80,7 @@ function createInput(
           type: "radio",
           name: fullName,
           value: option.value,
+          class: "mr-2",
         });
         if (option.value === initialValue) {
           radioButton.prop("checked", true);
@@ -85,14 +88,16 @@ function createInput(
         radioButton.on("input", (event) => {
           onChange?.(fullName, option.value, event);
         });
-        const label = $("<label>")
+        const label = $("<label class='mr-4'>")
           .append(radioButton)
           .append(document.createTextNode(option.label));
         $(inputElement).append(label);
       });
       break;
     case "select":
-      inputElement = $(`<select name="${fullName}"></select>`);
+      inputElement = $(
+        `<select name="${fullName}" class="border rounded p-1"></select>`
+      );
       if (inputConfig.multiSelect) {
         inputElement.attr("multiple", "multiple");
       }
@@ -114,22 +119,21 @@ function createInput(
       break;
     case "array":
       inputElement = $("<div class='array-input border p-2'></div>");
-      const addButton = $("<button type='button'>Add</button>").on(
-        "click",
-        () => {
-          const newItemWrapper = createArrayItem(
-            inputConfig,
-            fullName,
-            {},
-            onChange,
-            inputElement.children(".array-item").length
-          );
-          inputElement.append(newItemWrapper);
-          if (onChange) {
-            onChange(fullName, getArrayValues(inputElement), $.Event("add"));
-          }
+      const addButton = $(
+        "<button type='button' class='bg-blue-500 text-white px-2 py-1 rounded mt-2'>Add</button>"
+      ).on("click", () => {
+        const newItemWrapper = createArrayItem(
+          inputConfig,
+          fullName,
+          {},
+          onChange,
+          inputElement.children(".array-item").length
+        );
+        inputElement.append(newItemWrapper);
+        if (onChange) {
+          onChange(fullName, getArrayValues(inputElement), $.Event("add"));
         }
-      );
+      });
       inputElement.append(addButton);
 
       if (initialValue) {
@@ -157,7 +161,9 @@ function createInput(
       });
       break;
     default:
-      inputElement = $(`<input name="${fullName}" />`);
+      inputElement = $(
+        `<input name="${fullName}" class="border rounded p-1" />`
+      );
       if (initialValue !== undefined) {
         inputElement.val(initialValue);
       }
@@ -199,19 +205,18 @@ function createArrayItem(
     );
   });
 
-  const removeButton = $("<button type='button'>Remove</button>").on(
-    "click",
-    () => {
-      itemWrapper.remove();
-      if (onChange) {
-        onChange(
-          prefixName,
-          getArrayValues(itemWrapper.parent()),
-          $.Event("remove")
-        );
-      }
+  const removeButton = $(
+    "<button type='button' class='bg-red-500 text-white px-2 py-1 rounded mt-2'>Remove</button>"
+  ).on("click", () => {
+    itemWrapper.remove();
+    if (onChange) {
+      onChange(
+        prefixName,
+        getArrayValues(itemWrapper.parent()),
+        $.Event("remove")
+      );
     }
-  );
+  });
 
   itemWrapper.append(removeButton);
   return itemWrapper;
