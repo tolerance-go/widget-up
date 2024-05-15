@@ -5,12 +5,14 @@
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
   "main": "dist/cjs/index.js",
+  "browser": "dist/umd/index.js",
+  "style": "dist/umd/index.css",
   "type": "module",
   "sideEffects": [
     "*.less",
     "**/*.less"
   ],
-  "files": [
+  "files": [ 
     "dist",
     "widget-up.json"
   ],
