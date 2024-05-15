@@ -1,5 +1,12 @@
 import { VersionData } from "../version";
 
+export interface TagEvents {
+  loaded: { id: string };
+  execute: { id: string };
+  executed: { id: string };
+  allScriptsExecuted: {};
+}
+
 export interface DependencyDetail {
   // 精确 version
   version: VersionData;

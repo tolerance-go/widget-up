@@ -73,9 +73,6 @@ export async function install(
       const key = `${dep.name}@${dep.version.exact}`;
       return srcMap.get(key)?.linkHref?.(dep) || "";
     },
-    onAllExecutedCallback: () => {
-      globalEventBus.emit("allScriptsExecuted", {});
-    },
   });
 
   window.__manager = manager;

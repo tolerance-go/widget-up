@@ -17,7 +17,7 @@
     "widget-up.json"
   ],
   "scripts": {
-    "build": "wup build",
+    "build": "wup build --tsconfigPath ./tsconfig.build.json",
     "dev": "wup dev",
     "prepublishAll": "npm run build"
   },

@@ -43,4 +43,35 @@ describe("EventBus", () => {
     bus.emit("decrement", -1);
     expect(listener).toHaveBeenCalledTimes(1); // 确保移除后不再调用
   });
+
+  test("should immediately trigger listener if event already emitted", () => {
+    const mockListener = jest.fn();
+
+    bus.emit("increment", 1);
+    bus.on("increment", mockListener, { immediate: true });
+
+    expect(mockListener).toHaveBeenCalledWith(1);
+  });
+
+  test("should not trigger listener immediately if event not emitted", () => {
+    const mockListener = jest.fn();
+
+    bus.on("increment", mockListener, { immediate: true });
+
+    expect(mockListener).not.toHaveBeenCalled();
+  });
+
+  test("should only trigger listener once if event emitted and then registered with immediate option", () => {
+    const mockListener = jest.fn();
+
+    bus.emit("increment", 1);
+    bus.on("increment", mockListener, { immediate: true });
+
+    expect(mockListener).toHaveBeenCalledTimes(1);
+    expect(mockListener).toHaveBeenCalledWith(1);
+
+    bus.emit("increment", 2);
+    expect(mockListener).toHaveBeenCalledTimes(2);
+    expect(mockListener).toHaveBeenCalledWith(2);
+  });
 });

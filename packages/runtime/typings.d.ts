@@ -1,4 +1,5 @@
 import { HTMLDependencyManager } from "widget-up-utils";
+import { SchemaFormProps } from "widget-up-schema-form";
 
 export {};
 
@@ -7,7 +8,17 @@ declare global {
     RuntimeComponent: {
       Component: any; // You can replace 'any' with a more specific type if known
     };
-    
+
     __manager?: HTMLDependencyManager;
+
+    Register_jquery3: {
+      render: (args: {
+        rootElement: HTMLElement;
+        component?: (props: SchemaFormProps) => HTMLElement;
+      }) => void;
+      unmount: (args: { rootElement: HTMLElement }) => void;
+    };
+
+    "SchemaForm_widget-up-schema-form": () => JQuery<HTMLElement>;
   }
 }

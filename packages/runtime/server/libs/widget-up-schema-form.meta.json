@@ -1,14 +1,14 @@
 {
   "imports": [
     {
-      "globalVar": "RuntimeComponent",
-      "scopeVar": "RuntimeComponent"
+      "globalVar": "$v3_7_1",
+      "scopeVar": "$"
     }
   ],
   "exports": [
     {
-      "globalVar": "Register_jquery3",
-      "scopeVar": "Register_jquery3"
+      "globalVar": "SchemaForm_widget-up-schema-form",
+      "scopeVar": "SchemaForm"
     }
   ]
 }

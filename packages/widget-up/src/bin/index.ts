@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+
+// Import necessary modules
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { exec } from "child_process";
@@ -10,11 +12,13 @@ import packageJson from "@/package.json" assert { type: "json" };
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Construct the path to the Rollup configuration file
+// Construct the path to the Rollup configuration file and binaries
 const rollupConfigPath = join(__dirname, "./rollup.config.js");
 const rollupBinPath = join(__dirname, "../node_modules/.bin/rollup");
+const crossEnvBinPath = join(__dirname, "../node_modules/.bin/cross-env");
 
-function runRollupCommand(command: string): Promise<void> {
+// Function to run a command
+function runCommand(command: string) {
   return new Promise((resolve, reject) => {
     const child = exec(command, (error, stdout, stderr) => {
       if (error) {
@@ -24,7 +28,7 @@ function runRollupCommand(command: string): Promise<void> {
         return;
       }
       console.log(stdout);
-      resolve();
+      resolve(true);
     });
 
     child.stdout?.pipe(process.stdout);
@@ -32,8 +36,9 @@ function runRollupCommand(command: string): Promise<void> {
   });
 }
 
+// Configure yargs for command-line arguments and commands
 yargs(hideBin(process.argv))
-  .scriptName("wup") // 可以设置脚本名称
+  .scriptName("wup")
   .usage("$0 <cmd> [args]")
   .command(
     "build",
@@ -42,8 +47,8 @@ yargs(hideBin(process.argv))
     async () => {
       console.log("Start Building...");
       try {
-        await runRollupCommand(
-          `${rollupBinPath} -c ${rollupConfigPath} --environment NODE_ENV:production`
+        await runCommand(
+          `${crossEnvBinPath} NODE_ENV=production ${rollupBinPath} -c ${rollupConfigPath}`
         );
         process.exit(0);
       } catch (error) {
@@ -59,8 +64,8 @@ yargs(hideBin(process.argv))
     async () => {
       console.log("Starting development server...");
       try {
-        await runRollupCommand(
-          `${rollupBinPath} -c ${rollupConfigPath} --watch --environment NODE_ENV:development`
+        await runCommand(
+          `${crossEnvBinPath} NODE_ENV=development ${rollupBinPath} -c ${rollupConfigPath} --watch`
         );
       } catch (error) {
         console.error("Error during the development build:", error);
@@ -68,7 +73,7 @@ yargs(hideBin(process.argv))
       }
     }
   )
-  .version(packageJson.version) // 使用package.json中的版本号
+  .version(packageJson.version)
   .alias("version", "v")
   .help()
   .alias("help", "h")

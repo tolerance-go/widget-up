@@ -14,8 +14,10 @@ export const start = ({
   dependencies: DependencyTreeNode[];
 }) => {
   const leftPanelId = "leftPanel";
+  const rightPanelId = "rightPanel";
   renderFrame({
     leftPanelId,
+    rightPanelId,
   });
   // 请求跟目录下的 menus.json 然后渲染左边栏菜单
   renderMenus({ containerId: leftPanelId });

@@ -2,35 +2,27 @@ import { EventBus } from "@/src/EventBus";
 import {
   DependencyListItem,
   ScriptTag,
+  TagEvents,
 } from "../../../../types/HTMLDependencyManager";
 import { TagManagerBase } from "../TagManagerBase";
 import { scriptManagerLogger } from "./logger";
-
-export interface TagEvents {
-  loaded: { id: string };
-  execute: { id: string };
-  executed: { id: string };
-}
 
 export const ScriptTagManagerContainerId = "script-tag-manager-container";
 
 export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   private eventBus: EventBus<TagEvents>;
   private srcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
-  private onAllExecutedCallback?: () => void; // 添加一个可选的回调函数属性
 
   constructor({
     eventBus,
     document,
     container,
     srcBuilder,
-    onAllExecutedCallback, // 新参数
   }: {
     eventBus?: EventBus<TagEvents>;
     document: Document;
     container?: HTMLElement;
     srcBuilder?: (dep: DependencyListItem) => string;
-    onAllExecutedCallback?: () => void; // 定义类型
   }) {
     if (!container) {
       container = document.createElement("div");
@@ -47,8 +39,8 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
       this.onTagLoaded(payload.id);
     });
 
-    this.srcBuilder = srcBuilder || ((dep) => `${dep.name}@${dep.version.exact}.js`);
-    this.onAllExecutedCallback = onAllExecutedCallback; // 初始化回调函数
+    this.srcBuilder =
+      srcBuilder || ((dep) => `${dep.name}@${dep.version.exact}.js`);
   }
 
   protected dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
@@ -108,8 +100,8 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
       }
     }
 
-    if (allExecuted && this.onAllExecutedCallback) {
-      this.onAllExecutedCallback(); // 如果所有标签都已执行，调用回调
+    if (allExecuted) {
+      this.eventBus.emit("allScriptsExecuted", {}); // 触发第一个未执行的标签
     } else if (firstNotExecuted) {
       this.eventBus.emit("execute", { id: firstNotExecuted.src }); // 触发第一个未执行的标签
     }

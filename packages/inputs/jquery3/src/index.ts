@@ -1,13 +1,19 @@
 import { Component } from "runtime-component";
 
-const render = ({ rootElement }: { rootElement: HTMLElement }) => {
+const render = ({
+  rootElement,
+  component,
+}: {
+  rootElement: HTMLElement;
+  component?: HTMLElement;
+}) => {
   // 确认 rootElement 存在
   if (!rootElement) {
     console.error("Root element not found.");
     return;
   }
 
-  const element = Component().get(0);
+  const element = component ?? Component().get(0);
   if (element) {
     rootElement.appendChild(element);
   }

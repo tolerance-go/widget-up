@@ -1,8 +1,8 @@
 !(function (e, n) {
   "object" == typeof exports && "undefined" != typeof module
-    ? n(exports, require("@widget-up-demo/jquery3"))
+    ? n(exports, require("runtime-component"))
     : "function" == typeof define && define.amd
-    ? define(["exports", "@widget-up-demo/jquery3"], n)
+    ? define(["exports", "runtime-component"], n)
     : n(
         ((e =
           "undefined" != typeof globalThis
@@ -13,10 +13,11 @@
 })(this, function (e, n) {
   "use strict";
   (e.render = function (e) {
-    var o = e.rootElement;
+    var o = e.rootElement,
+      t = e.component;
     if (o) {
-      var t = n.Component().get(0);
-      t && o.appendChild(t);
+      var i = null != t ? t : n.Component().get(0);
+      i && o.appendChild(i);
     } else console.error("Root element not found.");
   }),
     (e.unmount = function (e) {

@@ -2,15 +2,10 @@ import { EventBus } from "@/src/EventBus";
 import {
   DependencyListDiff,
   DependencyListItem,
+  TagEvents,
 } from "../../../types/HTMLDependencyManager";
 import { ScriptTagManager } from "./ScriptTagManager";
 import { LinkTagManager } from "./LinkTagManager";
-
-export interface TagEvents {
-  loaded: { id: string };
-  execute: { id: string };
-  executed: { id: string };
-}
 
 export class TagManager {
   private scriptTagManager: ScriptTagManager;
@@ -21,20 +16,17 @@ export class TagManager {
     document,
     scriptSrcBuilder,
     linkSrcBuilder,
-    onAllExecutedCallback
   }: {
     eventBus?: EventBus<TagEvents>;
     document: Document;
     scriptSrcBuilder?: (dep: DependencyListItem) => string;
     linkSrcBuilder?: (dep: DependencyListItem) => string;
     debug?: boolean;
-    onAllExecutedCallback?: () => void; // 定义类型
   }) {
     this.scriptTagManager = new ScriptTagManager({
       document,
       eventBus,
       srcBuilder: scriptSrcBuilder,
-      onAllExecutedCallback
     });
 
     this.linkTagManager = new LinkTagManager({
