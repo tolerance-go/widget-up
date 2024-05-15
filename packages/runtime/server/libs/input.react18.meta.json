@@ -15,8 +15,8 @@
   ],
   "exports": [
     {
-      "globalVar": "Register_react18",
-      "scopeVar": "Register_react18"
+      "globalVar": "Connector_react18",
+      "scopeVar": "Connector_react18"
     }
   ]
 }

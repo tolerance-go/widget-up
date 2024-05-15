@@ -1,6 +1,6 @@
 import { globalEventBus } from "./globalEventBus";
 import { DependencyTreeNode, install } from "./install";
-import { startRender } from "./registerRender";
+import { startRender } from "./connectorRender";
 import { renderFrame } from "./renderFrame";
 import { renderMenus } from "./renderMenus";
 import {

@@ -25,7 +25,7 @@ export const convertDemoDataToMenu = (
           umdConfig,
           pathManager.demosAbsPath
         )}_${semverToIdentifier(packageConfig.version)}`,
-        register: getInputGlobalName(detectTechStack()),
+        connector: getInputGlobalName(detectTechStack()),
       },
       children: convertDemoDataToMenu(
         children || [],

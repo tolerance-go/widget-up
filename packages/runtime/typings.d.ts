@@ -11,7 +11,7 @@ declare global {
 
     __manager?: HTMLDependencyManager;
 
-    Register_jquery3: {
+    Connector_jquery3: {
       render: (args: {
         rootElement: HTMLElement;
         component?: HTMLElement;

@@ -7,7 +7,7 @@
         ((e =
           "undefined" != typeof globalThis
             ? globalThis
-            : e || self).Register_jquery3 = {}),
+            : e || self).Connector_jquery3 = {}),
         e.RuntimeComponent
       );
 })(this, function (e, n) {

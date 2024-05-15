@@ -21,7 +21,7 @@ export const renderSettings = () => {
               select: ["option1"], // select 的初始值为数组形式，尤其是对于多选情况
             };
 
-            window.Register_jquery3.render({
+            window.Connector_jquery3.render({
               rootElement: rightPanel,
               component: window["SchemaForm_widget-up-schema-form"]({
                 formSchema: {

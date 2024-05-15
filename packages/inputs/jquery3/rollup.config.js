@@ -15,7 +15,7 @@ export default {
   output: {
     file: `dist/index.js`,
     format: "umd",
-    name: 'Register_jquery3',
+    name: 'Connector_jquery3',
     globals: {
       jquery: "jQuery",
       "runtime-component": "RuntimeComponent",

@@ -3,21 +3,21 @@
     "name": "@widget-up-demo/react16",
     "globals": {
       "component": "Component_react16",
-      "register": "Register_react16"
+      "connector": "Connector_react16"
     }
   },
   {
     "name": "@widget-up-demo/react18",
     "globals": {
       "component": "Component_react18",
-      "register": "Register_react18"
+      "connector": "Connector_react18"
     }
   },
   {
     "name": "@widget-up-demo/jquery3",
     "globals": {
       "component": "Component_jquery3",
-      "register": "Register_jquery3"
+      "connector": "Connector_jquery3"
     }
   },
   {
@@ -27,7 +27,7 @@
         "name": "@widget-up-demo/react16-2",
         "globals": {
           "component": "Component_react16_2",
-          "register": "Register_react16"
+          "connector": "Connector_react16"
         }
       }
     ]

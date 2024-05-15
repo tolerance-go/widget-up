@@ -1,6 +1,6 @@
 import { globalEventBus } from "../globalEventBus";
 
-// 类型定义，用于 registerRender 参数
+// 类型定义，用于 connectorRender 参数
 export type RenderCallback = ({
   rootElement,
 }: {
@@ -26,8 +26,8 @@ export function replaceRuntimeComponent(component: any) {
   window.RuntimeComponent.Component = component;
 }
 
-// registerRender 函数实现
-export function replaceGlobalRegister(
+// connectorRender 函数实现
+export function replaceGlobalConnector(
   render: RenderCallback,
   unmount: UnmountCallback
 ): void {

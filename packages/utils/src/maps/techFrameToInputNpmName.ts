@@ -11,7 +11,7 @@ export const TechFrameMapToInputNpmName = {
  * 框架名称到入口组件的全局变量名的映射
  */
 export const TechFrameMapToInputGlobalName = {
-  React: "Register_react",
-  Vue: "Register_vue",
-  JQuery: "Register_jquery",
+  React: "Connector_react",
+  Vue: "Connector_vue",
+  JQuery: "Connector_jquery",
 };

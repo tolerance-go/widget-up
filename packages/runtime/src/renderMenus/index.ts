@@ -7,10 +7,10 @@ import {
   updateURLParameters,
 } from "widget-up-utils";
 import {
-  replaceGlobalRegister,
+  replaceGlobalConnector,
   replaceRuntimeComponent,
   triggerGlobalCompUpdate,
-} from "../registerRender";
+} from "../connectorRender";
 import { insertHtml } from "../utils/insertHtml";
 import { runtimeLogger } from "../utils/logger";
 import { findMenuItemByName } from "./findMenuItemByName";
@@ -38,8 +38,8 @@ function buildMenuHtml(menus: DemoMenuItem[]): string {
         return `<li class="${childrenHtml ? "mb-2" : ""}">
           <a data-name="${item.name}" data-global-component="${
           item.globals?.component
-        }" data-global-register-render="${
-          item.globals?.register
+        }" data-global-connector-render="${
+          item.globals?.connector
         }" class="text-blue-500 hover:text-blue-700">${item.name}</a>
           ${childrenHtml}
         </li>`;
@@ -71,7 +71,7 @@ export async function renderMenus({
           name: target.dataset.name,
           globals: {
             component: target.dataset.globalComponent || "",
-            register: target.dataset.globalRegisterRender || "",
+            connector: target.dataset.globalConnectorRender || "",
           },
         });
       }
@@ -89,10 +89,10 @@ export async function renderMenus({
 
       // 监听菜单点击，然后动态把全局的 Component 组件替换为
       const component = (window as any)[globals.component].default;
-      const register = (window as any)[globals.register];
+      const connector = (window as any)[globals.connector];
 
-      if (register) {
-        replaceGlobalRegister(register.render, register.unmount);
+      if (connector) {
+        replaceGlobalConnector(connector.render, connector.unmount);
 
         if (component) {
           replaceRuntimeComponent(component);
@@ -119,7 +119,7 @@ export async function renderMenus({
             name: item.name,
             globals: {
               component: item.globals.component,
-              register: item.globals.register,
+              connector: item.globals.connector,
             },
           });
         }

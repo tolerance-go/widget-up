@@ -15,7 +15,7 @@ export default {
   output: {
     file: `dist/index.js`,
     format: "umd",
-    name: 'Register_react18',
+    name: 'Connector_react18',
     globals: {
       react: "React",
       "react-dom/client": "ReactDOM",

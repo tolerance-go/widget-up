@@ -1,7 +1,7 @@
 export interface DemoMenuItem {
   globals: {
     component: string;
-    register: string;
+    connector: string;
   };
   name: string;
   children?: DemoMenuItem[];

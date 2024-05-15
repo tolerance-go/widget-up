@@ -12,7 +12,7 @@
         ((e =
           "undefined" != typeof globalThis
             ? globalThis
-            : e || self).Register_react16 = {}),
+            : e || self).Connector_react16 = {}),
         e.React,
         e.ReactDOM,
         e.RuntimeComponent

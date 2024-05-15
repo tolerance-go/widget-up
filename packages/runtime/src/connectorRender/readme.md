@@ -14,9 +14,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Component from "@widget-up-demo/react16";
-import { registerRender } from "widget-up-runtime";
+import { connectorRender } from "widget-up-runtime";
 
-registerRender(({ rootElement }) => {
+connectorRender(({ rootElement }) => {
   ReactDOM.render(<Component />, rootElement);
 });
 ```
