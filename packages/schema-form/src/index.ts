@@ -13,7 +13,7 @@ function wrapWithLabel(
   inputElement: JQuery<HTMLElement>
 ): JQuery<HTMLElement> {
   const label = $("<label></label>").text(labelText);
-  const wrapper = $("<div class='border-b py-1'></div>")
+  const wrapper = $("<div class='border-b py-1 flex items-start gap-1'></div>")
     .append(label)
     .append(inputElement);
   return wrapper;
@@ -64,7 +64,7 @@ function createInput(
       break;
     case "boolean":
       inputElement = $(
-        `<input type="checkbox" name="${fullName}" class="mr-2" />`
+        `<input type="checkbox" name="${fullName}" class="mt-2"/>`
       );
       inputElement.prop("checked", initialValue === true);
       if (onChange) {
@@ -74,13 +74,13 @@ function createInput(
       }
       break;
     case "enum":
-      inputElement = $("<div></div>");
+      inputElement = $(`<div class="inline-flex flex-wrap"></div>`);
       inputConfig.options.forEach((option) => {
         const radioButton = $("<input>", {
           type: "radio",
           name: fullName,
           value: option.value,
-          class: "mr-2",
+          class: 'mr-1.5'
         });
         if (option.value === initialValue) {
           radioButton.prop("checked", true);
@@ -120,7 +120,7 @@ function createInput(
     case "array":
       inputElement = $("<div class='array-input border p-2'></div>");
       const addButton = $(
-        "<button type='button' class='bg-blue-500 text-white px-2 py-1 rounded mt-2'>Add</button>"
+        "<button type='button' class='bg-blue-500 text-white px-2 py-1 rounded my-1'>Add</button>"
       ).on("click", () => {
         const newItemWrapper = createArrayItem(
           inputConfig,
@@ -206,7 +206,7 @@ function createArrayItem(
   });
 
   const removeButton = $(
-    "<button type='button' class='bg-red-500 text-white px-2 py-1 rounded mt-2'>Remove</button>"
+    "<button type='button' class='bg-red-500 text-white px-2 py-1 rounded my-1'>Remove</button>"
   ).on("click", () => {
     itemWrapper.remove();
     if (onChange) {
