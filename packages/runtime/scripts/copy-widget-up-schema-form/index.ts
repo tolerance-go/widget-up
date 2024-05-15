@@ -8,10 +8,10 @@ const __dirname = path.dirname(__filename);
 
 // 定义源包名和目标路径
 const packageName = "widget-up-schema-form";
-const targetDir = path.resolve(__dirname, "server/libs");
 
 // 获取当前工作目录
 const cwd = process.cwd();
+const targetDir = path.resolve(cwd, "server/libs");
 
 // 定义源包路径
 const packageDir = path.join(cwd, "node_modules", packageName);
