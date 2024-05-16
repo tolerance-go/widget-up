@@ -45,7 +45,7 @@ yargs(hideBin(process.argv))
       yargs.option("tsconfigPath", {
         type: "string",
         describe: "Path to the TypeScript configuration file",
-        demandOption: true,
+        default: "./tsconfig.json",
       });
     },
     async (argv) => {

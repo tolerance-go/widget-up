@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/widget-up/dist-schema/config-schema.json",
-  "input": "src/index.tsx",
+  "input": "src/index.ts",
   "umd": {
     "name": "Component_jquery3",
     "external": ["jquery"],

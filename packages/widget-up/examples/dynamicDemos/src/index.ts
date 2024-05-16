@@ -28,11 +28,9 @@ function createInput(inputConfig: InputSchemaConfig): JQuery<HTMLElement> {
       inputElement = $(`<input type="range" />`);
       break;
     case "enum":
-    case "multiSelect":
+    case "select":
       inputElement = $("<select></select>");
-      if (inputConfig.type === "multiSelect") {
-        inputElement.attr("multiple", "multiple");
-      }
+      inputElement.attr("multiple", "multiple");
       (inputConfig as EnumInputSchemaConfig).options.forEach((option) => {
         inputElement.append($(`<option value="${option}">${option}</option>`));
       });
