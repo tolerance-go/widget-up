@@ -1,11 +1,12 @@
 import { isExactVersion } from "../isExactVersion";
 import { DependencyManager } from "./DependencyManager";
-import { TagEvents, TagManager } from "./TagManager";
+import { TagManager } from "./TagManager";
 import {
   DependencyTag,
   DependencyListDiff,
   DependencyDetail,
   DependencyListItem,
+  TagEvents,
 } from "../../types/HTMLDependencyManager";
 import { EventBus } from "../EventBus";
 import { HTMLDependencyManagerLogger } from "./logger";
@@ -77,7 +78,10 @@ class HTMLDependencyManager {
   getSortedDependencies() {
     // 获取当前所有依赖项的信息
     const dependencies = this.getDependencies();
-    HTMLDependencyManagerLogger.log('getSortedDependencies_dependencies', dependencies)
+    HTMLDependencyManagerLogger.log(
+      "getSortedDependencies_dependencies",
+      dependencies
+    );
     const allDependencies: DependencyDetail[] = [];
     const visited: { [key: string]: boolean } = {};
     const result: DependencyDetail[] = [];
@@ -191,10 +195,16 @@ class HTMLDependencyManager {
     const currentDependencies = this.getDependencyList(); // 获取当前排序后的依赖详情
     HTMLDependencyManagerLogger.log("currentDependencies", currentDependencies);
     const oldDependenciesMap = new Map(
-      this.lastDependencies.map((dep) => [dep.name + "@" + dep.version.exact, dep])
+      this.lastDependencies.map((dep) => [
+        dep.name + "@" + dep.version.exact,
+        dep,
+      ])
     ); // 创建映射以快速访问旧依赖
     const currentDependenciesMap = new Map(
-      currentDependencies.map((dep) => [dep.name + "@" + dep.version.exact, dep])
+      currentDependencies.map((dep) => [
+        dep.name + "@" + dep.version.exact,
+        dep,
+      ])
     ); // 创建映射以快速访问当前依赖
 
     const diff: DependencyListDiff = {
@@ -210,7 +220,8 @@ class HTMLDependencyManager {
     currentDependencies.forEach((dep, index) => {
       const oldDep = oldDependenciesMap.get(dep.name + "@" + dep.version.exact);
       const oldIndex = this.lastDependencies.findIndex(
-        (d) => d.name + "@" + d.version.exact === dep.name + "@" + dep.version.exact
+        (d) =>
+          d.name + "@" + d.version.exact === dep.name + "@" + dep.version.exact
       );
 
       if (!oldDep) {
