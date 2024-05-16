@@ -3,7 +3,7 @@ WidgetUpRuntime.start({
     {
       name: "widget-up-input-react16",
       version: "0.0.0",
-      scriptSrc: () => "/libs/input.react16.alias-wrap.async-wrap.js",
+      scriptSrc: () => "/connectors/input.react16.alias-wrap.async-wrap.js",
       depends: [
         {
           name: "@widget-up-demo/react16",
@@ -64,7 +64,7 @@ WidgetUpRuntime.start({
     {
       name: "widget-up-input-react18",
       version: "0.0.0",
-      scriptSrc: () => "/libs/input.react18.alias-wrap.async-wrap.js",
+      scriptSrc: () => "/connectors/input.react18.alias-wrap.async-wrap.js",
       depends: [
         {
           name: "@widget-up-demo/react18",
@@ -92,7 +92,7 @@ WidgetUpRuntime.start({
     {
       name: "widget-up-input-jquery3",
       version: "0.0.0",
-      scriptSrc: () => "/libs/input.jquery3.alias-wrap.async-wrap.js",
+      scriptSrc: () => "/connectors/input.jquery3.alias-wrap.async-wrap.js",
       depends: [
         {
           name: "@widget-up-demo/jquery3",

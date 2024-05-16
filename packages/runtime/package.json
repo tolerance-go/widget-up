@@ -12,10 +12,10 @@
   ],
   "scripts": {
     "copy:schema-form": "node --loader ts-node/esm ./scripts/copy-widget-up-schema-form/index.ts",
-    "clean:wrap": "rimraf server/{libs,demos}/*wrap.js -g",
+    "clean:wrap": "rimraf server/{libs,demos,connectors}/*wrap.js -g",
     "gen:wrap": "pnpm gen:alias-wrap && pnpm gen:async-wrap",
-    "gen:alias-wrap": "pnpm genUMDAliasWrap server/{libs,demos}/!(*wrap).js",
-    "gen:async-wrap": "pnpm genUMDAsyncEventWrap server/{libs,demos}/*alias-wrap.js --serverBase server --eventBusPath WidgetUpRuntime.globalEventBus",
+    "gen:alias-wrap": "pnpm genUMDAliasWrap server/{libs,demos,connectors}/!(*wrap).js",
+    "gen:async-wrap": "pnpm genUMDAsyncEventWrap server/{libs,demos,connectors}/*alias-wrap.js --serverBase server --eventBusPath WidgetUpRuntime.globalEventBus",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "build": "cross-env NODE_ENV=production rollup -c",
     "test": "jest"
