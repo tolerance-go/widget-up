@@ -11,7 +11,7 @@ import { logger } from "../utils/logger";
 import { getProdOutputs } from "./getProdOutputs";
 import { PathManager } from "../managers/PathManager";
 
-const getRollupConfig = async () => {
+export default async () => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const rootPath = path.join(__dirname, "..");
@@ -93,5 +93,3 @@ const getRollupConfig = async () => {
 
   return rollupConfig;
 };
-
-export default getRollupConfig;

@@ -1,11 +1,11 @@
-import { DependencyTreeNode, install } from "./install";
-import { startRender } from "./connectorRender";
-import { renderFrame } from "./renderFrame";
-import { renderMenus } from "./renderMenus";
+import { DependencyTreeNode, install } from "../install";
+import { startRender } from "../connectorRender";
+import { renderFrame } from "../renderFrame";
+import { renderMenus } from "../renderMenus";
 import {
   applyDependencies as renderSettingsApplyDependencies,
   renderSettings,
-} from "./renderSettings";
+} from "../renderSettings";
 
 export const start = ({
   dependencies,
