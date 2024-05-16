@@ -1,7 +1,9 @@
 packages:
   - "packages/*"
   - "!packages/inputs"
+  - "!packages/connectors"
   - "!packages/components"
   - "packages/inputs/*"
+  - "packages/connectors/*"
   - "packages/components/*"
   - "packages/**/examples/*"
