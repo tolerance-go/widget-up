@@ -1,10 +1,10 @@
 import { ConfigManager } from "@/src/managers/getConfigManager";
 import { DemosManager } from "@/src/managers/getDemosManager";
-import { PathManager } from "@/src/managers/getPathManager";
 import { logger } from "@/src/utils/logger";
 import { InputPluginOption, Plugin } from "rollup";
 import { getDemoInputList } from "./getDemoInputList";
 import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
+import { PathManager } from "@/src/managers/PathManager";
 
 export const genDemoLibs = ({
   pathManager,

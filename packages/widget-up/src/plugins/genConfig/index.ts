@@ -1,34 +1,25 @@
 import { ConfigManager } from "@/src/managers/getConfigManager";
 import { DemosManager } from "@/src/managers/getDemosManager";
+import { PathManager } from "@/src/managers/PathManager";
 import { genAssert } from "@/src/utils/rollup-plugins/genAssert";
 import { Plugin } from "rollup";
-import { convertDemoDataToMenu } from "./convertDemoDataToMenu";
-import { PathManager } from "@/src/managers/PathManager";
+import { PackageJson } from "widget-up-utils";
 
-export const genMenus = ({
-  pathManager,
-  demosManager,
+export const genConfig = ({
   configManager,
+  pathManager,
 }: {
-  pathManager: PathManager;
-  demosManager: DemosManager;
   configManager: ConfigManager;
+  pathManager: PathManager;
 }): Plugin => {
   return {
-    name: "gen-menus",
+    name: "genConfig",
     options(options) {
-      const menus = convertDemoDataToMenu(
-        demosManager.getDemoDatas(),
-        configManager.getConfig().umd,
-        configManager.getPackageConfig(),
-        pathManager
-      );
-
       const plg = genAssert({
         dest: pathManager.distServerAssetsAbsPath,
         file: {
-          name: "menus.json",
-          content: JSON.stringify(menus, null, 2),
+          name: "config.json",
+          content: JSON.stringify(configManager.getConfig(), null, 2),
         },
       });
 

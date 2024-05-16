@@ -1,4 +1,4 @@
-import { PathManager } from "@/src/managers/getPathManager";
+import { PathManager } from "@/src/managers/PathManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
 import { getInputGlobalName } from "@/src/utils/getInputGlobalName";

@@ -1,15 +1,30 @@
 import { normalizePath } from "@/src/utils/normalizePath";
-import { replaceFileExtension } from "@/src/utils/replaceFileExtension";
 import path from "path";
 import { semverToIdentifier } from "widget-up-utils";
 
 interface PathManagerOptions {
   cwdPath: string;
   rootPath: string;
-  buildEnv: "development" | "production";
 }
 
 export class PathManager {
+  private static instance: PathManager;
+
+  public static createInstance(options: PathManagerOptions) {
+    if (!PathManager.instance) {
+      PathManager.instance = new PathManager(options);
+    }
+  }
+
+  public static getInstance(): PathManager {
+    if (!PathManager.instance) {
+      throw new Error("没有初始化");
+    }
+    return PathManager.instance;
+  }
+
+  public connectorsFolderName: string = "connectors";
+
   public cwdPath: string;
   public rootPath: string;
   public demosAbsPath: string;
@@ -24,7 +39,14 @@ export class PathManager {
   /** 服务端 libs 的请求地址 */
   public serverLibsUrl: string;
 
-  public serverInputsUrl: string;
+  public serverConnectorsUrl: string;
+
+  /** 本地服务端的资源文件夹  */
+  public distServerAssetsAbsPath: string;
+  public distServerScriptsAbsPath: string;
+  public distServerScriptsRelativePath: string;
+  public distServerConnectorsAbsPath: string;
+  public distServerConnectorsRelativePath: string;
 
   constructor(options: PathManagerOptions) {
     this.cwdPath = options.cwdPath;
@@ -34,12 +56,28 @@ export class PathManager {
     this.distServerAbsPath = path.join(this.distAbsPath, "server");
     this.tplsAbsPath = path.join(this.rootPath, "tpls");
     this.distServerLibsAbsPath = path.join(this.distServerAbsPath, "libs");
+    this.distServerConnectorsAbsPath = path.join(
+      this.distServerAbsPath,
+      this.connectorsFolderName
+    );
+    this.distServerAssetsAbsPath = path.join(this.distServerAbsPath, "assets");
+    this.distServerScriptsAbsPath = path.join(
+      this.distServerAbsPath,
+      "scripts"
+    );
     this.serverLibsUrl = "/libs";
-    this.serverInputsUrl = '/inputs'
-
+    this.serverConnectorsUrl = `/${this.connectorsFolderName}`;
     this.distServerRelativePath = path.relative(
       this.cwdPath,
       this.distServerAbsPath
+    );
+    this.distServerScriptsRelativePath = path.relative(
+      this.cwdPath,
+      this.distServerScriptsAbsPath
+    );
+    this.distServerConnectorsRelativePath = path.relative(
+      this.cwdPath,
+      this.distServerConnectorsAbsPath
     );
   }
 
@@ -54,7 +92,9 @@ export class PathManager {
    * 获取 input lib 的服务器请求地址
    */
   public getInputLibUrl(depName: string, version: string) {
-    return `${this.serverInputsUrl}/${depName}_${semverToIdentifier(version)}.js`
+    return `${this.serverConnectorsUrl}/${depName}_${semverToIdentifier(
+      version
+    )}.js`;
   }
 
   /**
@@ -90,10 +130,4 @@ export class PathManager {
       "index.js"
     );
   }
-}
-
-export default function getPathManager(
-  options: PathManagerOptions
-): PathManager {
-  return new PathManager(options);
 }

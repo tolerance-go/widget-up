@@ -1,27 +1,25 @@
-// renderMenus.ts
-import { AppEvents } from "@/types";
 import {
   DemoMenuItem,
-  EventBus,
   getURLSearchParams,
   updateURLParameters,
 } from "widget-up-utils";
+import { globalEventBus } from "..";
 import {
   replaceGlobalConnector,
   replaceRuntimeComponent,
   triggerGlobalCompUpdate,
 } from "../connectorRender";
+import { pathManager } from "../pathManager";
 import { insertHtml } from "../utils/insertHtml";
 import { runtimeLogger } from "../utils/logger";
 import { findMenuItemByName } from "./findMenuItemByName";
-import { globalEventBus } from "..";
 
 interface RenderMenusOptions {
   containerId: string;
 }
 
 async function fetchMenus(): Promise<DemoMenuItem[]> {
-  const response = await fetch("/menus.json");
+  const response = await fetch(pathManager.menusDataUrl);
   if (!response.ok) {
     throw new Error("Failed to fetch menus");
   }

@@ -4,7 +4,7 @@ import realFs from "fs";
 import realPath from "path";
 import { convertDirectoryToDemo } from "./convertDirectoryToDemo";
 import { parseDirectoryStructure } from "@/src/utils/parseDirectoryStructure";
-import { PathManager } from "../getPathManager";
+import { PathManager } from "../PathManager";
 
 export class DemosManager extends EventEmitter {
   private folderPath: string;

@@ -21,13 +21,15 @@ import { WupFolderName } from "../constants";
 import { ConfigManager } from "../managers/getConfigManager";
 import { DemosManager } from "../managers/getDemosManager";
 import { InputNpmManager } from "../managers/getInputNpmManager";
-import { PathManager } from "../managers/getPathManager";
+import { PathManager } from "../managers/PathManager";
 import { PeerDependTreeManager } from "../managers/getPeerDependTreeManager";
 import genServerLibs from "../plugins/genServerLibs";
 import { genStart } from "../plugins/genStart";
 import { genAssert } from "../utils/rollup-plugins/genAssert";
 import { getPostCSSPlg } from "./getPostCSSPlg";
 import wrapMainOutput from "../plugins/wrapMainOutput";
+import { genPackageConfig } from "../plugins/genPackageConfig";
+import { genConfig } from "../plugins/genConfig";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -95,14 +97,12 @@ export const getDevPlugins = async ({
       pathManager,
     }),
     genServerInputs({
-      outputPath: "dist/server/inputs",
       inputNpmManager,
       configManager,
       pathManager,
     }),
     genStart({
       pathManager,
-      outputPath: "./dist/server/start.js",
       demosManager,
       packageConfig,
       peerDependTreeManager,
@@ -119,19 +119,13 @@ export const getDevPlugins = async ({
       demosManager,
       configManager,
     }),
-    genAssert({
-      dest: "dist/server",
-      file: {
-        name: "packageConfig.json",
-        content: JSON.stringify(packageConfig, null, 2),
-      },
+    genPackageConfig({
+      packageConfig,
+      pathManager,
     }),
-    genAssert({
-      dest: "dist/server",
-      file: {
-        name: "config.json",
-        content: JSON.stringify(config, null, 2),
-      },
+    genConfig({
+      configManager,
+      pathManager,
     }),
     serveLivereload({
       contentBase: ["dist/server", "dist/umd"],

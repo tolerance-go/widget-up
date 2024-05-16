@@ -1,6 +1,6 @@
 import { WupFolderName } from "@/src/constants";
 import { DemosManager } from "@/src/managers/getDemosManager";
-import { PathManager } from "@/src/managers/getPathManager";
+import { PathManager } from "@/src/managers/PathManager";
 import { genAssert } from "@/src/utils/rollup-plugins/genAssert";
 import path from "path";
 import { Plugin } from "rollup";
@@ -27,7 +27,7 @@ export const genDemoIndexHtml = ({
       const config = configManager.getConfig();
 
       const htmlPlugin = htmlRender({
-        dest: "dist/server",
+        dest: pathManager.distServerRelativePath,
         src: path.join(WupFolderName, "index.html.ejs"),
         data: {
           includeCSS: !!config.css,

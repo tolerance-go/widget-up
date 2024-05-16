@@ -1,4 +1,4 @@
-import { globalEventBus } from "../globalEventBus";
+import { globalEventBus } from "../events";
 import { DependencyTreeNode } from "../install";
 
 export const renderSettings = () => {

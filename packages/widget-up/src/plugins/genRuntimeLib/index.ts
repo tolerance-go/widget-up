@@ -1,5 +1,5 @@
 // 导入PathManager类，用于路径管理
-import { PathManager } from "@/src/managers/getPathManager";
+import { PathManager } from "@/src/managers/PathManager";
 
 // 导入resolveNpmInfo函数，用于解析NPM包信息
 import { resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
@@ -48,7 +48,7 @@ export function genRuntimeLib({
 
         // 设置JavaScript文件和CSS文件的目标路径
         const destJsFile = path.join(
-          pathManager.distServerAbsPath,
+          pathManager.distServerScriptsAbsPath,
           `${wupRuntimeLibNpm.packageJson.name}.js`
         );
 
@@ -69,7 +69,7 @@ export function genRuntimeLib({
         );
 
         const destStyleFile = path.join(
-          pathManager.distServerAbsPath,
+          pathManager.distServerScriptsAbsPath,
           `${wupRuntimeLibNpm.packageJson.name}.css`
         );
 

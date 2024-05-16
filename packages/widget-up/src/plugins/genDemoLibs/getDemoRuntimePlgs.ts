@@ -1,5 +1,5 @@
 import { ConfigManager } from "@/src/managers/getConfigManager";
-import { PathManager } from "@/src/managers/getPathManager";
+import { PathManager } from "@/src/managers/PathManager";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { getEnv } from "@/src/utils/env";
 import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";

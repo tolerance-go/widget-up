@@ -1,5 +1,5 @@
+import { PathManager } from "@/src/managers/PathManager";
 import { ConfigManager } from "@/src/managers/getConfigManager";
-import { PathManager } from "@/src/managers/getPathManager";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { normalizePath } from "@/src/utils/normalizePath";
 import MagicString from "magic-string";

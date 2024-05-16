@@ -1,6 +1,6 @@
+import { PathManager } from "@/src/managers/PathManager";
 import { ConfigManager } from "@/src/managers/getConfigManager";
 import { InputNpmManager } from "@/src/managers/getInputNpmManager";
-import { PathManager } from "@/src/managers/getPathManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getInputByFrameStack } from "@/src/utils/getInputByFrameStack";
 import { getInputGlobalName } from "@/src/utils/getInputGlobalName";
@@ -15,14 +15,12 @@ import {
 } from "widget-up-utils";
 
 interface GenServerInputsOptions {
-  outputPath: string;
   inputNpmManager: InputNpmManager;
   configManager: ConfigManager;
   pathManager: PathManager;
 }
 
 export function genServerInputs({
-  outputPath,
   inputNpmManager,
   configManager,
   pathManager,
@@ -30,12 +28,10 @@ export function genServerInputs({
   let once = false;
 
   const build = () => {
+    const outputPath = pathManager.distServerConnectorsRelativePath;
     const techStack = detectTechStack();
     const input = getInputByFrameStack(techStack, inputNpmManager);
     fs.ensureDirSync(outputPath);
-
-    const config = configManager.getConfig();
-    const packageConfig = configManager.getPackageConfig();
 
     const inputNpmInfo = resolveNpmInfo({
       cwd: pathManager.rootPath,

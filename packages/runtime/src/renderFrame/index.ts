@@ -1,4 +1,4 @@
-import { globalEventBus } from "../globalEventBus";
+import { globalEventBus } from "../events";
 import { insertHtml } from "../utils/insertHtml";
 
 export function renderFrame({

@@ -2,15 +2,14 @@ import fs from "fs";
 import path from "path";
 import { RollupOptions } from "rollup";
 import { fileURLToPath } from "url";
-import { PackageJson } from "widget-up-utils";
 import { getConfigManager } from "../managers/getConfigManager";
 import { getDemosManager } from "../managers/getDemosManager";
-import getPathManager from "../managers/getPathManager";
 import { getPeerDependTreeManager } from "../managers/getPeerDependTreeManager";
 import { getBuildPlugins, getDevPlugins } from "../getPlugins";
 import { getEnv } from "../utils/env";
 import { logger } from "../utils/logger";
 import { getProdOutputs } from "./getProdOutputs";
+import { PathManager } from "../managers/PathManager";
 
 const getRollupConfig = async () => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
@@ -18,11 +17,12 @@ const getRollupConfig = async () => {
   const rootPath = path.join(__dirname, "..");
   const cwdPath = process.cwd();
 
-  const pathManager = getPathManager({
+  PathManager.createInstance({
     cwdPath,
     rootPath,
-    buildEnv: BuildEnv,
   });
+
+  const pathManager = PathManager.getInstance();
 
   const demosPath = pathManager.demosAbsPath;
 
