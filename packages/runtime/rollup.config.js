@@ -65,7 +65,7 @@ export default {
     tsDeclarationAlias(),
     buildEnvIsDevelopment &&
       htmlRender({
-        dest: "dist",
+        dest: "server",
         src: "index.html.ejs",
       }),
     buildEnvIsDevelopment &&
