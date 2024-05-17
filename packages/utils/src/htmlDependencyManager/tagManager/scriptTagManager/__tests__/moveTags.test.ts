@@ -1,7 +1,7 @@
 import { EventBus } from "@/src/eventBus";
-import { TagEvents, TagManager } from "../..";
 import { JSDOM } from "jsdom";
 import { ScriptTagManager } from "..";
+import { TagEvents } from "@/types/htmlDependencyManager";
 
 describe("ScriptTagManager moveTags", () => {
   let eventBus: EventBus<TagEvents>;

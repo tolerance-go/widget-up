@@ -3,7 +3,7 @@ import {
   DependencyListItem,
   ScriptTag,
   TagEvents,
-} from "../../../../types/htmlDependencyManager";
+} from "@/types/htmlDependencyManager";
 import { TagManagerBase } from "../tagManagerBase";
 import { scriptManagerLogger } from "./logger";
 
@@ -100,7 +100,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
       }
     }
 
-    if (allExecuted) {
+    if (this.tags.length && allExecuted) {
       this.eventBus.emit("allScriptsExecuted", {}); // 触发第一个未执行的标签
     } else if (firstNotExecuted) {
       this.eventBus.emit("execute", { id: firstNotExecuted.src }); // 触发第一个未执行的标签

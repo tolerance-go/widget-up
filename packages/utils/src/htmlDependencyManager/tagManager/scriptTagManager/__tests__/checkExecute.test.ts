@@ -1,8 +1,9 @@
 import { EventBus } from "@/src/eventBus";
-import { ScriptTagManager, TagEvents } from "..";
+import { ScriptTagManager } from "..";
 import { JSDOM } from "jsdom";
 import { jest } from "@jest/globals";
 import { SpiedFunction } from "jest-mock";
+import { TagEvents } from "@/types/htmlDependencyManager";
 
 describe("ScriptTagManager", () => {
   const jsdom = new JSDOM(

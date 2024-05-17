@@ -3,7 +3,7 @@ import {
   DependencyListDiff,
   DependencyListItem,
   TagEvents,
-} from "../../../types/htmlDependencyManager";
+} from "@/types/htmlDependencyManager";
 import { ScriptTagManager } from "./scriptTagManager";
 import { LinkTagManager } from "./linkTagManager";
 

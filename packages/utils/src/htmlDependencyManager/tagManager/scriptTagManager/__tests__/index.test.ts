@@ -1,8 +1,10 @@
 import { EventBus } from "@/src/eventBus";
-import { TagEvents, TagManager } from "../..";
-import { DependencyListDiff } from "../../../../../types/htmlDependencyManager";
 import { JSDOM } from "jsdom";
 import { ScriptTagManager } from "..";
+import {
+  DependencyListDiff,
+  TagEvents,
+} from "@/types/htmlDependencyManager";
 
 describe("ScriptTagManager base", () => {
   let eventBus: EventBus<TagEvents>;
