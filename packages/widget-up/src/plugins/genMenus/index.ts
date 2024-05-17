@@ -3,7 +3,7 @@ import { DemosManager } from "@/src/managers/getDemosManager";
 import { genAssert } from "@/src/utils/rollup-plugins/genAssert";
 import { Plugin } from "rollup";
 import { convertDemoDataToMenu } from "./convertDemoDataToMenu";
-import { PathManager } from "@/src/managers/PathManager";
+import { PathManager } from "@/src/managers/pathManager";
 
 export const genMenus = ({
   pathManager,

@@ -2,7 +2,7 @@ import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { DependencyTreeNodeJson, TechStack, TechType } from "@/types";
 import { getInputNpmName } from "../getInputNpmName";
 import { getMajorVersion } from "widget-up-utils";
-import { PathManager } from "@/src/managers/PathManager";
+import { PathManager } from "@/src/managers/pathManager";
 
 export function getInputByFrameStack(
   stack: TechStack,

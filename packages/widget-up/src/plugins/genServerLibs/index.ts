@@ -1,4 +1,4 @@
-import { PathManager } from "@/src/managers/PathManager";
+import { PathManager } from "@/src/managers/pathManager";
 import { ConfigManager } from "@/src/managers/getConfigManager";
 import { PeerDependTreeManager } from "@/src/managers/getPeerDependTreeManager";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";

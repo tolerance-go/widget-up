@@ -1,15 +1,14 @@
-import fs from "fs";
 import path from "path";
 import { RollupOptions } from "rollup";
 import { fileURLToPath } from "url";
+import { getBuildPlugins, getDevPlugins } from "../getPlugins";
+import { PathManager } from "../managers/pathManager";
 import { getConfigManager } from "../managers/getConfigManager";
 import { getDemosManager } from "../managers/getDemosManager";
 import { getPeerDependTreeManager } from "../managers/getPeerDependTreeManager";
-import { getBuildPlugins, getDevPlugins } from "../getPlugins";
 import { getEnv } from "../utils/env";
 import { logger } from "../utils/logger";
 import { getProdOutputs } from "./getProdOutputs";
-import { PathManager } from "../managers/PathManager";
 
 export default async () => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();

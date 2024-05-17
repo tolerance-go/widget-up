@@ -25,6 +25,8 @@ export class PathManager {
 
   public connectorsFolderName: string = "connectors";
 
+  public widgetUpRuntimeName: string = "runtime";
+
   public cwdPath: string;
   public rootPath: string;
   public demosAbsPath: string;

@@ -2,7 +2,7 @@ import { normalizePath } from "@/src/utils/normalizePath";
 import { DirectoryStructure } from "@/src/utils/parseDirectoryStructure";
 import { DemoFileConfig, DemoFileNormalizedConfig } from "@/types";
 import path from "path";
-import { PathManager } from "../../PathManager";
+import { PathManager } from "../../pathManager";
 
 export const normalizeDemoFileConfig = (
   config: DemoFileConfig,

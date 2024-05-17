@@ -1,4 +1,4 @@
-import { PathManager } from "@/src/managers/PathManager";
+import { PathManager } from "@/src/managers/pathManager";
 import { genAssert } from "@/src/utils/rollup-plugins/genAssert";
 import { Plugin } from "rollup";
 import { PackageJson } from "widget-up-utils";
@@ -16,7 +16,7 @@ export const genPackageConfig = ({
       const plg = genAssert({
         dest: pathManager.distServerAssetsAbsPath,
         file: {
-          name: "packageConfig.json",
+          name: "package.json",
           content: JSON.stringify(packageConfig, null, 2),
         },
       });

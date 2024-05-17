@@ -1,4 +1,4 @@
-import { PathManager } from "@/src/managers/PathManager";
+import { PathManager } from "@/src/managers/pathManager";
 import { ConfigManager } from "@/src/managers/getConfigManager";
 import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";

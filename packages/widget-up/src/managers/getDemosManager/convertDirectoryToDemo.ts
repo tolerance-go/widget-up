@@ -5,7 +5,7 @@ import realPath from "path";
 import { DirectoryStructure } from "../../utils/parseDirectoryStructure";
 import { normalizeDemoFileConfig } from "./normalizeDemoFileConfig";
 import path from "path";
-import { PathManager } from "../PathManager";
+import { PathManager } from "../pathManager";
 
 const getDemoConfig = (item: DirectoryStructure, fs = realFs) => {
   const parsed = path.parse(item.path);

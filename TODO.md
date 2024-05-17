@@ -20,4 +20,12 @@ wup 开发模式可以像 runtime 一样运行
 
 # 2024/5/16
 
-- [] 生成 json 资源到 assets 文件夹中 
+- [x] 生成 json 资源到 assets 文件夹中
+
+# 2024/5/17
+
+- runtime
+    - [] 配置传入右侧表单
+- widget-up
+    - [] packageConfig 改名为 package.json
+    - [] widget-up-runtime 改名为 runtime.js

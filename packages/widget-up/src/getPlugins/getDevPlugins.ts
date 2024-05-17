@@ -21,7 +21,7 @@ import { WupFolderName } from "../constants";
 import { ConfigManager } from "../managers/getConfigManager";
 import { DemosManager } from "../managers/getDemosManager";
 import { InputNpmManager } from "../managers/getInputNpmManager";
-import { PathManager } from "../managers/PathManager";
+import { PathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/getPeerDependTreeManager";
 import genServerLibs from "../plugins/genServerLibs";
 import { genStart } from "../plugins/genStart";
@@ -93,9 +93,7 @@ export const getDevPlugins = async ({
       configManager,
       pathManager,
     }),
-    genRuntimeLib({
-      pathManager,
-    }),
+    genRuntimeLib(),
     genServerInputs({
       inputNpmManager,
       configManager,

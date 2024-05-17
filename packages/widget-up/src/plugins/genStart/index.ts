@@ -10,7 +10,7 @@ import { Plugin } from "rollup";
 import { PackageJson } from "widget-up-utils";
 import { getInputByFrameStack } from "../../utils/getInputByFrameStack";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
-import { PathManager } from "@/src/managers/PathManager";
+import { PathManager } from "@/src/managers/pathManager";
 
 interface GenStartOptions {
   demosManager: DemosManager;

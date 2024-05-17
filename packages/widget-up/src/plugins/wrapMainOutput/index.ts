@@ -1,4 +1,4 @@
-import { PathManager } from "@/src/managers/PathManager";
+import { PathManager } from "@/src/managers/pathManager";
 import { ConfigManager } from "@/src/managers/getConfigManager";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { normalizePath } from "@/src/utils/normalizePath";

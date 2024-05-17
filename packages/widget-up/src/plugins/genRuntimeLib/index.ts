@@ -1,5 +1,5 @@
 // 导入PathManager类，用于路径管理
-import { PathManager } from "@/src/managers/PathManager";
+import { PathManager } from "@/src/managers/pathManager";
 
 // 导入resolveNpmInfo函数，用于解析NPM包信息
 import { resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
@@ -14,13 +14,11 @@ import path from "path";
 import { Plugin } from "rollup";
 
 // 定义genRuntimeLib函数，用于生成运行时库的Rollup插件
-export function genRuntimeLib({
-  pathManager, // 接收一个PathManager实例作为参数
-}: {
-  pathManager: PathManager;
-}): Plugin {
+export function genRuntimeLib(): Plugin {
   // 初始化标志以防止重复监听器设置
   let initialized = false;
+
+  const pathManager = PathManager.getInstance();
 
   return {
     name: "gen-runtime-lib", // 插件名称
@@ -49,7 +47,7 @@ export function genRuntimeLib({
         // 设置JavaScript文件和CSS文件的目标路径
         const destJsFile = path.join(
           pathManager.distServerScriptsAbsPath,
-          `${wupRuntimeLibNpm.packageJson.name}.js`
+          `${pathManager.widgetUpRuntimeName}.js`
         );
 
         // 确保目标目录存在，不存在则创建
@@ -70,7 +68,7 @@ export function genRuntimeLib({
 
         const destStyleFile = path.join(
           pathManager.distServerScriptsAbsPath,
-          `${wupRuntimeLibNpm.packageJson.name}.css`
+          `${pathManager.widgetUpRuntimeName}.css`
         );
 
         fs.ensureDirSync(path.dirname(destStyleFile));

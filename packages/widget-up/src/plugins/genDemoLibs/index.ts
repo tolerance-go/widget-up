@@ -4,7 +4,7 @@ import { logger } from "@/src/utils/logger";
 import { InputPluginOption, Plugin } from "rollup";
 import { getDemoInputList } from "./getDemoInputList";
 import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
-import { PathManager } from "@/src/managers/PathManager";
+import { PathManager } from "@/src/managers/pathManager";
 
 export const genDemoLibs = ({
   pathManager,
