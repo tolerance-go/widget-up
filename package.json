@@ -8,7 +8,7 @@
     "prepublishAll": "pnpm -r run prepublishAll",
     "build": "pnpm -r run build",
     "test": "pnpm -r --filter widget-up-utils --filter widget-up run test",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
