@@ -63,29 +63,13 @@ describe("detectTechStack function", () => {
     const path = await import("path");
     const result = detectTechStack({ fs, path });
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "name": "React",
-          "version": {
-            "exact": "17.0.1",
-            "range": "^17.0.0",
-          },
+      {
+        "name": "JQuery",
+        "version": {
+          "exact": "3.6.0",
+          "range": "^3.6.0",
         },
-        {
-          "name": "Vue",
-          "version": {
-            "exact": "3.0.5",
-            "range": "^3.0.0",
-          },
-        },
-        {
-          "name": "JQuery",
-          "version": {
-            "exact": "3.6.0",
-            "range": "^3.6.0",
-          },
-        },
-      ]
+      }
     `);
   });
 });

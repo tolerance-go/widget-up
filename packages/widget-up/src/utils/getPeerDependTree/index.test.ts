@@ -51,10 +51,13 @@ describe("getPeerDependTree", () => {
     expect(result).toMatchInlineSnapshot(`
       {
         "react-dom": {
+          "name": "react-dom",
           "peerDependencies": {
             "react": {
+              "name": "react",
               "peerDependencies": {
                 "utils": {
+                  "name": "utils",
                   "peerDependencies": {},
                   "version": {
                     "exact": "1.1.0",
