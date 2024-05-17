@@ -19,7 +19,7 @@
     "dev": "concurrently \"npm run dev:js\" \"npm run dev:types\" \"npm run dev:tsDeclarationAlias\"",
     "schema-dev": "schema-builder dev",
     "schema-build": "schema-builder build",
-    "build": "npm run clean && npm run build:js && npm run build:types && node dist/rollup-plugins/tsDeclarationAlias/exec.js",
+    "build": "npm run clean && npm run build:js && npm run build:types && node dist/rollupPlugins/tsDeclarationAlias/exec.js",
     "build:js": "cross-env NODE_ENV=production babel src --config-file ./babel.config.json --out-dir dist --extensions \".ts\" --ignore \"**/*.test.ts\"",
     "build:types": "tsc --project tsconfig.build.json --emitDeclarationOnly",
     "dev:js": "cross-env NODE_ENV=production babel src --config-file ./babel.config.json --out-dir dist --extensions \".ts\" --ignore \"**/*.test.ts\" --watch",
