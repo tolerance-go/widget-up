@@ -9,7 +9,7 @@ export { BrowserLogger } from "./loggers/BrowserLogger";
 export { FileLogger } from "./loggers/FileLogger";
 export * from "./maps";
 export { parseConfig } from "./parseConfig";
-export * from "./rollup-plugins";
+export * from "./rollupPlugins";
 export { semverToIdentifier } from "./semverToIdentifier";
 export * from "./updateURLParameter";
 export * from "./wrapUMDAliasCode";
