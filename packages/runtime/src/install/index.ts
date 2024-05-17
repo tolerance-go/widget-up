@@ -1,6 +1,6 @@
 import { DependencyListItem, HTMLDependencyManager } from "widget-up-utils";
-import { globalEventBus } from "..";
 import { installLogger } from "./logger";
+import { globalEventBus } from "../events";
 
 // 定义一个类型来表示依赖树的节点
 export interface DependencyTreeNode {

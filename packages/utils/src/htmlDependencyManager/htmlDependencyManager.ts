@@ -1,4 +1,3 @@
-import { isExactVersion } from "../../src/isExactVersion";
 import { DependencyManager } from "./dependencyManager";
 import { TagManager } from "./tagManager";
 import {
@@ -8,8 +7,9 @@ import {
   DependencyListItem,
   TagEvents,
 } from "../../types/htmlDependencyManager";
-import { EventBus } from "../../src/eventBus";
 import { HTMLDependencyManagerLogger } from "./logger";
+import { isExactVersion } from "../isExactVersion";
+import { EventBus } from "../eventBus";
 
 interface ConstructorOptions {
   fetchVersionList: (dependencyName: string) => Promise<string[]>;
