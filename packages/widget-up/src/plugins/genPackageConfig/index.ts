@@ -1,5 +1,5 @@
 import { PathManager } from "@/src/managers/pathManager";
-import { genAssert } from "@/src/utils/rollup-plugins/genAssert";
+import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import { Plugin } from "rollup";
 import { PackageJson } from "widget-up-utils";
 

@@ -1,1 +1,1 @@
-export { default as runtimeRollup } from "./utils/rollup-plugins/runtimeRollup";
+export { default as runtimeRollup } from "./utils/rollupPlugins/runtimeRollup";

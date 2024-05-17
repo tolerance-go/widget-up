@@ -25,7 +25,7 @@ import { PathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/getPeerDependTreeManager";
 import genServerLibs from "../plugins/genServerLibs";
 import { genStart } from "../plugins/genStart";
-import { genAssert } from "../utils/rollup-plugins/genAssert";
+import { genAssert } from "../utils/rollupPlugins/genAssert";
 import { getPostCSSPlg } from "./getPostCSSPlg";
 import wrapMainOutput from "../plugins/wrapMainOutput";
 import { genPackageConfig } from "../plugins/genPackageConfig";

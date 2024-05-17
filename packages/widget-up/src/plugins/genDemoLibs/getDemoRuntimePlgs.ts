@@ -7,7 +7,7 @@ import { logger } from "@/src/utils/logger";
 import { normalizePath } from "@/src/utils/normalizePath";
 import runtimeRollup, {
   RuntimeRollupOptions,
-} from "@/src/utils/rollup-plugins/runtimeRollup";
+} from "@/src/utils/rollupPlugins/runtimeRollup";
 import { DemoData } from "@/types";
 import path from "path";
 import { InputPluginOption } from "rollup";

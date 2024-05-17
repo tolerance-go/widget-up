@@ -1,7 +1,7 @@
 import { WupFolderName } from "@/src/constants";
 import { DemosManager } from "@/src/managers/getDemosManager";
 import { PathManager } from "@/src/managers/pathManager";
-import { genAssert } from "@/src/utils/rollup-plugins/genAssert";
+import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import path from "path";
 import { Plugin } from "rollup";
 import { htmlRender } from "widget-up-utils";
