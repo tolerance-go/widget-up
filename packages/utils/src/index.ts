@@ -1,4 +1,4 @@
-export { EventBus } from "./EventBus";
+export { EventBus } from "./eventBus";
 export * from "./HTMLDependencyManager";
 export { createWindow } from "./createWindow";
 export * from "./findAvailablePort";

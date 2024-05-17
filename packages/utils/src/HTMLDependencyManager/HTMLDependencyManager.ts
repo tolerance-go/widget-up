@@ -8,7 +8,7 @@ import {
   DependencyListItem,
   TagEvents,
 } from "../../types/HTMLDependencyManager";
-import { EventBus } from "../EventBus";
+import { EventBus } from "../eventBus";
 import { HTMLDependencyManagerLogger } from "./logger";
 
 interface ConstructorOptions {

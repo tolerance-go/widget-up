@@ -1,4 +1,4 @@
-import { EventBus } from "@/src/EventBus";
+import { EventBus } from "@/src/eventBus";
 import { ScriptTagManager, TagEvents } from "..";
 import { JSDOM } from "jsdom";
 import { jest } from "@jest/globals";
