@@ -7,7 +7,7 @@ import {
   DependencyDetail,
   DependencyListItem,
   TagEvents,
-} from "../../types/HTMLDependencyManager";
+} from "../../types/htmlDependencyManager";
 import { EventBus } from "../../src/eventBus";
 import { HTMLDependencyManagerLogger } from "./logger";
 

@@ -31,4 +31,4 @@ export type * from "@/types/version";
 export type {
   DependencyListItem,
   TagEvents,
-} from "../types/HTMLDependencyManager";
+} from "../types/htmlDependencyManager";
