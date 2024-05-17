@@ -4,7 +4,7 @@ import {
   DependencyListItem,
   DependencyTag,
   TagDiff,
-} from "@/types/HTMLDependencyManager";
+} from "@/types/htmlDependencyManager";
 import { tagManagerLogger } from "./logger";
 
 export abstract class TagManagerBase<TTag extends DependencyTag> {

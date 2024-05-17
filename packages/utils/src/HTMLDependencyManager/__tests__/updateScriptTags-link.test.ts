@@ -1,7 +1,7 @@
 import { JSDOM } from "jsdom";
 import { formatElementHtml, formatHeadHtml } from "@/__tests__/_utils";
-import { HTMLDependencyManager } from "../HTMLDependencyManager";
-import { DependencyListItem } from "../../../types/HTMLDependencyManager";
+import { HTMLDependencyManager } from "../htmlDependencyManager";
+import { DependencyListItem } from "../../../types/htmlDependencyManager";
 
 describe("HTMLDependencyManager", () => {
   let manager: HTMLDependencyManager;

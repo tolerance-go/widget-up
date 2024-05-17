@@ -1,7 +1,7 @@
-import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
+import { HTMLDependencyManager } from "@/src/htmlDependencyManager";
 import { JSDOM } from "jsdom";
 import { jest } from "@jest/globals";
-import { DependencyListItem } from "@/types/HTMLDependencyManager";
+import { DependencyListItem } from "@/types/htmlDependencyManager";
 
 describe("HTMLDependencyManager calculateDiffs", () => {
   let manager: HTMLDependencyManager;

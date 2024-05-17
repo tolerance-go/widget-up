@@ -1,13 +1,13 @@
 import { isExactVersion } from "../isExactVersion";
-import { DependencyManager } from "./DependencyManager";
-import { TagManager } from "./TagManager";
+import { DependencyManager } from "./dependencyManager";
+import { TagManager } from "./tagManager";
 import {
   DependencyTag,
   DependencyListDiff,
   DependencyDetail,
   DependencyListItem,
   TagEvents,
-} from "../../types/HTMLDependencyManager";
+} from "../../types/htmlDependencyManager";
 import { EventBus } from "../eventBus";
 import { HTMLDependencyManagerLogger } from "./logger";
 

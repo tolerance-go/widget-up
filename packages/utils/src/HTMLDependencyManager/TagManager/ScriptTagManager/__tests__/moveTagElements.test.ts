@@ -3,7 +3,7 @@ import {
   DependencyListInsertionDetail,
   ScriptTag,
   TagListInsertionDetail,
-} from "../../../../../types/HTMLDependencyManager";
+} from "../../../../../types/htmlDependencyManager";
 import { formatHeadHtml } from "@/__tests__/_utils";
 import { ScriptTagManager } from "..";
 

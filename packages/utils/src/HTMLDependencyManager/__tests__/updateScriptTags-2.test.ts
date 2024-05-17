@@ -1,5 +1,5 @@
 import { formatElementHtml } from "@/__tests__/_utils";
-import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
+import { HTMLDependencyManager } from "@/src/htmlDependencyManager";
 import { JSDOM } from "jsdom";
 
 describe("HTMLDependencyManager", () => {

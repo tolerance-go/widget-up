@@ -3,7 +3,7 @@ import {
   DependencyListItem,
   ScriptTag,
   TagEvents,
-} from "../../../../types/HTMLDependencyManager";
+} from "../../../../types/htmlDependencyManager";
 import { TagManagerBase } from "../TagManagerBase";
 import { scriptManagerLogger } from "./logger";
 

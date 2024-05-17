@@ -1,7 +1,7 @@
 // HTMLDependencyManager.test.ts
 import { JSDOM } from "jsdom";
 import { jest } from "@jest/globals";
-import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
+import { HTMLDependencyManager } from "@/src/htmlDependencyManager";
 
 describe("HTMLDependencyManager getSortedDependencies", () => {
   let manager: HTMLDependencyManager;

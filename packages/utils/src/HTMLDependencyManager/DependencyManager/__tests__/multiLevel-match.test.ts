@@ -1,4 +1,4 @@
-import { DependencyManager } from "@/src/HTMLDependencyManager/DependencyManager";
+import { DependencyManager } from "@/src/htmlDependencyManager/dependencyManager";
 
 describe("DependencyManager for multi-level dependencies", () => {
   let dm: DependencyManager;

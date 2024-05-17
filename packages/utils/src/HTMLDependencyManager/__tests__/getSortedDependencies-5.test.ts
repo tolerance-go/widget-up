@@ -1,4 +1,4 @@
-import { HTMLDependencyManager } from "@/src/HTMLDependencyManager";
+import { HTMLDependencyManager } from "@/src/htmlDependencyManager";
 import { JSDOM } from "jsdom";
 import { jest } from "@jest/globals";
 

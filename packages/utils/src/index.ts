@@ -1,5 +1,5 @@
 export { EventBus } from "./eventBus";
-export * from "./HTMLDependencyManager";
+export * from "./htmlDependencyManager";
 export { createWindow } from "./createWindow";
 export * from "./findAvailablePort";
 export { getLatestPackageVersion } from "./getLatestPackageVersion";
