@@ -42,7 +42,7 @@ export default [
     },
   },
   {
-    input: "src/getRollupConfig/index.ts",
+    input: "src/rollupConfig/index.ts",
     output: {
       file: "dist/rollup.config.js",
       format: "esm",
