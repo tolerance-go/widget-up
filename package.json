@@ -7,7 +7,8 @@
     "lerna:publish": "npm run prepublishAll && lerna publish",
     "prepublishAll": "pnpm -r run prepublishAll",
     "test": "pnpm -r --filter widget-up-utils --filter widget-up run test",
-    "build": "pnpm -r run build"
+    "build": "pnpm -r run build",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
   "devDependencies": {
     "conventional-changelog-cli": "^4.1.0",
     "conventional-changelog-conventionalcommits": "^7.0.2",
+    "husky": "^9.0.11",
     "lerna": "^8.1.2",
     "prettier": "^2.8.8"
   }
