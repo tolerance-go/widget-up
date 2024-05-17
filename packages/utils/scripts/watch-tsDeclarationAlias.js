@@ -25,7 +25,7 @@ function executeCommand() {
   isExecuting = true; // 开始执行，暂停监听
 
   exec(
-    "node dist/rollup-plugins/tsDeclarationAlias/exec.js",
+    "node dist/rollupPlugins/tsDeclarationAlias/exec.js",
     (error, stdout, stderr) => {
       if (error) {
         console.error(`exec error: ${error}`);
