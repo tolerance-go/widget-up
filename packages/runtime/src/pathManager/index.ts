@@ -2,6 +2,7 @@
 export class PathManager {
   public assetsUrl: string;
   public menusDataUrl: string;
+  public formSchemaUrl: string;
 
   private static instance: PathManager;
 
@@ -9,6 +10,7 @@ export class PathManager {
   private constructor() {
     this.assetsUrl = "/assets";
     this.menusDataUrl = `${this.assetsUrl}/menus.json`;
+    this.formSchemaUrl = `${this.assetsUrl}/formSchema.json`;
   }
 
   // 静态方法用于获取唯一实例

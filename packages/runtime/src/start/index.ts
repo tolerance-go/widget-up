@@ -6,11 +6,14 @@ import {
   applyDependencies as renderSettingsApplyDependencies,
   renderSettings,
 } from "../renderSettings";
+import { FormSchemaConfig } from "widget-up-utils";
 
 export const start = ({
   dependencies,
 }: {
   dependencies: DependencyTreeNode[];
+  initialValues: Record<string, any>;
+  formSchema: FormSchemaConfig;
 }) => {
   const leftPanelId = "leftPanel";
   const rightPanelId = "rightPanel";
