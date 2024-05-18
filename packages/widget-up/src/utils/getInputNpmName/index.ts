@@ -10,13 +10,13 @@ export const getInputNpmName = (stack: TechStack): string => {
     }
   > = {
     React: (version) => ({
-      name: `widget-up-input-react${getMajorVersion(version)}`,
+      name: `widget-up-connector-react${getMajorVersion(version)}`,
     }),
     Vue: (version) => ({
-      name: `widget-up-input-vue${getMajorVersion(version)}`,
+      name: `widget-up-connector-vue${getMajorVersion(version)}`,
     }),
     JQuery: (version) => ({
-      name: `widget-up-input-jquery${getMajorVersion(version)}`,
+      name: `widget-up-connector-jquery${getMajorVersion(version)}`,
     }),
   };
 

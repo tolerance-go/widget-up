@@ -832,13 +832,13 @@ importers:
       tailwindcss:
         specifier: ^3.4.3
         version: 3.4.3(ts-node@10.9.2)
-      widget-up-input-jquery3:
+      widget-up-connector-jquery3:
         specifier: workspace:^
         version: link:../inputs/jquery3
-      widget-up-input-react16:
+      widget-up-connector-react16:
         specifier: workspace:^
         version: link:../inputs/react16
-      widget-up-input-react18:
+      widget-up-connector-react18:
         specifier: workspace:^
         version: link:../inputs/react18
       widget-up-runtime:

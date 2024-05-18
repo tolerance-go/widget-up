@@ -18,5 +18,5 @@ const inputNpmManager = getInputNpmManager({
   cwd,
 });
 
-inputNpmManager.getInputByName("widget-up-input-react16");
+inputNpmManager.getInputByName("widget-up-connector-react16");
 ```

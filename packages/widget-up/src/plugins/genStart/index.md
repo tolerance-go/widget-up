@@ -10,7 +10,7 @@
 WidgetUpRuntime.start({
   dependencies: [
     {
-      name: "widget-up-input-react16",
+      name: "widget-up-connector-react16",
       version: "0.0.0",
       scriptSrc: () => "/libs/input.react16.alias-wrap.async-wrap.js",
       depends: [
@@ -71,7 +71,7 @@ WidgetUpRuntime.start({
       ],
     },
     {
-      name: "widget-up-input-react18",
+      name: "widget-up-connector-react18",
       version: "0.0.0",
       scriptSrc: () => "/libs/input.react18.alias-wrap.async-wrap.js",
       depends: [

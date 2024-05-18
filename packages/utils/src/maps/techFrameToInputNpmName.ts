@@ -2,9 +2,9 @@
  * 框架名称到入口组件 npm 包名的映射
  */
 export const TechFrameMapToInputNpmName = {
-  React: "widget-up-input-react",
-  Vue: "widget-up-input-vue",
-  JQuery: "widget-up-input-jquery",
+  React: "widget-up-connector-react",
+  Vue: "widget-up-connector-vue",
+  JQuery: "widget-up-connector-jquery",
 };
 
 /**

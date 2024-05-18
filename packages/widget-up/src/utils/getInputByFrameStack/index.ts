@@ -20,7 +20,7 @@ export function getInputByFrameStack(
       version: inputNpmManager.getInputByName(inputNpmName).packageJson.version,
       scriptSrc: `(dep) => \`${
         PathManager.getInstance().serverConnectorsUrl
-      }/widget-up-input-react${getMajorVersion(
+      }/widget-up-connector-react${getMajorVersion(
         stack.version.exact
       )}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}.js\``,
       linkHref: `() => ''`,
@@ -31,7 +31,7 @@ export function getInputByFrameStack(
       version: inputNpmManager.getInputByName(inputNpmName).packageJson.version,
       scriptSrc: `(dep) => \`${
         PathManager.getInstance().serverConnectorsUrl
-      }/widget-up-input-vue${getMajorVersion(
+      }/widget-up-connector-vue${getMajorVersion(
         stack.version.exact
       )}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}.js\``,
       linkHref: `() => ''`,
@@ -42,7 +42,7 @@ export function getInputByFrameStack(
       version: inputNpmManager.getInputByName(inputNpmName).packageJson.version,
       scriptSrc: `(dep) => \`${
         PathManager.getInstance().serverConnectorsUrl
-      }/widget-up-input-jquery${getMajorVersion(
+      }/widget-up-connector-jquery${getMajorVersion(
         stack.version.exact
       )}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}.js\``,
       linkHref: `() => ''`,

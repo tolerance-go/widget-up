@@ -13,7 +13,7 @@
 import getInputByFrame from "./getInputByFrame";
 
 const [{
-    name: "widget-up-input-react16",
+    name: "widget-up-connector-react16",
     version: "0.0.0",
     scriptSrc: () => "/demos/comp.react16.alias-wrap.async-wrap.js",
     depends: [],

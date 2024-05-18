@@ -57,7 +57,7 @@ export const applyDependencies = (
 ): DependencyTreeNode[] => {
   return [
     {
-      name: "widget-up-input-jquery3",
+      name: "widget-up-connector-jquery3",
       version: "0.0.0",
       scriptSrc: () => "/libs/input.jquery3.alias-wrap.async-wrap.js",
       depends: [
