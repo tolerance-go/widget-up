@@ -1,11 +1,15 @@
 import { normalizePath } from "@/src/utils/normalizePath";
 import path from "path";
 import { semverToIdentifier } from "widget-up-utils";
-
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 interface PathManagerOptions {
   cwdPath: string;
   rootPath: string;
 }
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export class PathManager {
   private static instance: PathManager;
