@@ -1,17 +1,19 @@
 import { configManager } from "@/src/managers/getConfigManager";
-import { pathManager } from "@/src/managers/pathManager";
+import { PathManager } from "@/src/managers/pathManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import { Plugin } from "rollup";
 
-export const genConfig = (): Plugin => {
+export const genFormConfig = (): Plugin => {
+  const pathManager = PathManager.getInstance();
+
   return {
-    name: "genConfig",
+    name: "genFormConfig",
     options(options) {
-      const config = configManager.getBuildConfig();
+      const config = configManager.getFormConfig();
       const plg = genAssert({
         dest: pathManager.distServerAssetsAbsPath,
         file: {
-          name: "config.json",
+          name: "formSchema.json",
           content: JSON.stringify(config, null, 2),
         },
       });

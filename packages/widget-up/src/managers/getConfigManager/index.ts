@@ -1,16 +1,21 @@
+import { EventEmitter } from "events";
 import fs from "fs";
 import path from "path";
-import { EventEmitter } from "events";
-
-// 假设 parseConfig 可以从 "widget-up-utils" 正确导入
-import { PackageJson, parseConfig } from "widget-up-utils";
-import { NormalizedConfig } from "widget-up-utils";
+import { NormalizedConfig, PackageJson, parseConfig } from "widget-up-utils";
 
 export class ConfigManager extends EventEmitter {
+  private static instance: ConfigManager;
   private configPath: string;
   private config: NormalizedConfig | null = null;
   private packageConfig: PackageJson | null = null;
   private fsWatcher: fs.FSWatcher | null = null;
+
+  public static getInstance(): ConfigManager {
+    if (!ConfigManager.instance) {
+      ConfigManager.instance = new ConfigManager();
+    }
+    return ConfigManager.instance;
+  }
 
   constructor() {
     super();
@@ -32,6 +37,26 @@ export class ConfigManager extends EventEmitter {
     }
 
     return this.config;
+  }
+
+  public getBuildConfig() {
+    if (!this.config) {
+      throw new Error("Config not loaded yet");
+    }
+
+    const { form, ...rest } = this.config;
+
+    return rest;
+  }
+
+  public getFormConfig() {
+    if (!this.config) {
+      throw new Error("Config not loaded yet");
+    }
+
+    const { form, ...rest } = this.config;
+
+    return form;
   }
 
   public getPackageConfig() {
@@ -87,3 +112,5 @@ export class ConfigManager extends EventEmitter {
 export function getConfigManager() {
   return new ConfigManager();
 }
+
+export const configManager = ConfigManager.getInstance();

@@ -1,4 +1,3 @@
-
 export class PathManager {
   public assetsUrl: string;
   public menusDataUrl: string;

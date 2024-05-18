@@ -10,15 +10,15 @@ interface PathManagerOptions {
 export class PathManager {
   private static instance: PathManager;
 
-  public static createInstance(options: PathManagerOptions) {
-    if (!PathManager.instance) {
-      PathManager.instance = new PathManager(options);
-    }
-  }
-
   public static getInstance(): PathManager {
     if (!PathManager.instance) {
-      throw new Error("没有初始化");
+      const rootPath = path.join(__dirname, "..");
+      const cwdPath = process.cwd();
+
+      PathManager.instance = new PathManager({
+        cwdPath,
+        rootPath,
+      });
     }
     return PathManager.instance;
   }
@@ -133,3 +133,5 @@ export class PathManager {
     );
   }
 }
+
+export const pathManager = PathManager.getInstance();

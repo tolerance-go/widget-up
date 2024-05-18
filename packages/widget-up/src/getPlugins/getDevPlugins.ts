@@ -30,6 +30,7 @@ import { getPostCSSPlg } from "./getPostCSSPlg";
 import wrapMainOutput from "../plugins/wrapMainOutput";
 import { genPackageConfig } from "../plugins/genPackageConfig";
 import { genConfig } from "../plugins/genConfig";
+import { genFormConfig } from "../plugins/genFormConfig";
 
 export const getDevPlugins = async ({
   rootPath,
@@ -121,10 +122,8 @@ export const getDevPlugins = async ({
       packageConfig,
       pathManager,
     }),
-    genConfig({
-      configManager,
-      pathManager,
-    }),
+    genConfig(),
+    genFormConfig(),
     serveLivereload({
       contentBase: ["dist/server", "dist/umd"],
       port: 3000,

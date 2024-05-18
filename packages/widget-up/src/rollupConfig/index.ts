@@ -1,33 +1,21 @@
-import path from "path";
 import { RollupOptions } from "rollup";
-import { fileURLToPath } from "url";
 import { getBuildPlugins, getDevPlugins } from "../getPlugins";
-import { PathManager } from "../managers/pathManager";
 import { getConfigManager } from "../managers/getConfigManager";
 import { getDemosManager } from "../managers/getDemosManager";
 import { getPeerDependTreeManager } from "../managers/getPeerDependTreeManager";
+import { pathManager } from "../managers/pathManager";
 import { getEnv } from "../utils/env";
 import { logger } from "../utils/logger";
 import { getProdOutputs } from "./getProdOutputs";
 
 export default async () => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
-  const __dirname = path.dirname(fileURLToPath(import.meta.url));
-  const rootPath = path.join(__dirname, "..");
-  const cwdPath = process.cwd();
-
-  PathManager.createInstance({
-    cwdPath,
-    rootPath,
-  });
-
-  const pathManager = PathManager.getInstance();
 
   const demosPath = pathManager.demosAbsPath;
 
   logger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
-  logger.info(`rootPath is ${rootPath}`);
-  logger.info(`cwdPath is ${cwdPath}`);
+  logger.info(`rootPath is ${pathManager.rootPath}`);
+  logger.info(`cwdPath is ${pathManager.cwdPath}`);
   logger.info(`demosPath is ${demosPath}`);
 
   const configManager = getConfigManager();
@@ -43,7 +31,7 @@ export default async () => {
     });
 
     const peerDependTreeManager = getPeerDependTreeManager({
-      cwd: cwdPath,
+      cwd: pathManager.cwdPath,
     });
 
     rollupConfig = {
@@ -59,7 +47,7 @@ export default async () => {
         pathManager,
         demosManager,
         peerDependTreeManager,
-        rootPath,
+        rootPath: pathManager.rootPath,
         config,
         packageConfig,
         configManager,
@@ -75,7 +63,7 @@ export default async () => {
       output,
       plugins: [
         ...getBuildPlugins({
-          rootPath,
+          rootPath: pathManager.rootPath,
           config,
           output,
         }),
