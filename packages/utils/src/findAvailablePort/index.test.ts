@@ -1,16 +1,16 @@
 import { jest } from "@jest/globals";
-import type { Server } from "net";
+import type { Server } from "node:net";
 import { findAvailablePort } from ".";
 
 describe("测试端口查找功能", () => {
-  let mockedNet: typeof import("net");
+  let mockedNet: typeof import("node:net");
 
   beforeEach(async () => {
-    jest.unstable_mockModule("net", () => ({
+    jest.unstable_mockModule("node:net", () => ({
       createServer: jest.fn(),
     }));
 
-    mockedNet = await import("net");
+    mockedNet = await import("node:net");
   });
 
   it("应正确处理端口被占用的情况，并找到可用端口", async () => {
