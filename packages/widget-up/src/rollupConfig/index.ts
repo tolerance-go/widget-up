@@ -1,6 +1,6 @@
 import { RollupOptions } from "rollup";
 import { getBuildPlugins, getDevPlugins } from "../getPlugins";
-import { getConfigManager } from "../managers/getConfigManager";
+import { configManager } from "../managers/configManager";
 import { getDemosManager } from "../managers/getDemosManager";
 import { getPeerDependTreeManager } from "../managers/getPeerDependTreeManager";
 import { pathManager } from "../managers/pathManager";
@@ -18,7 +18,6 @@ export default async () => {
   logger.info(`cwdPath is ${pathManager.cwdPath}`);
   logger.info(`demosPath is ${demosPath}`);
 
-  const configManager = getConfigManager();
   const packageConfig = configManager.getPackageConfig();
   const config = configManager.getConfig();
 

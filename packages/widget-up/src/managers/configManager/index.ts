@@ -109,8 +109,4 @@ export class ConfigManager extends EventEmitter {
   }
 }
 
-export function getConfigManager() {
-  return new ConfigManager();
-}
-
 export const configManager = ConfigManager.getInstance();

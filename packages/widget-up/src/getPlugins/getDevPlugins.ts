@@ -18,7 +18,7 @@ import {
   serveLivereload,
 } from "widget-up-utils";
 import { WupFolderName } from "../constants";
-import { ConfigManager } from "../managers/getConfigManager";
+import { ConfigManager } from "../managers/configManager";
 import { DemosManager } from "../managers/getDemosManager";
 import { InputNpmManager } from "../managers/getInputNpmManager";
 import { PathManager } from "../managers/pathManager";

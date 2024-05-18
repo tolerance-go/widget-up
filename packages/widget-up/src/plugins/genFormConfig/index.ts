@@ -1,4 +1,5 @@
 import { configManager } from "@/src/managers/getConfigManager";
+import { identifierManager } from "@/src/managers/identifierManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import { Plugin } from "rollup";
@@ -13,7 +14,7 @@ export const genFormConfig = (): Plugin => {
       const plg = genAssert({
         dest: pathManager.distServerAssetsAbsPath,
         file: {
-          name: "formSchema.json",
+          name: identifierManager.formSchemaAssetFileName,
           content: JSON.stringify(config, null, 2),
         },
       });
