@@ -22,7 +22,6 @@ function wrapWithLabel(
 
 function createInput(
   inputConfig: InputSchemaConfig,
-  initialValues?: Record<string, any>,
   prefixName: string = "",
   onChange?: (
     name: string,
@@ -40,9 +39,7 @@ function createInput(
     ? `${prefixName}.${inputConfig.name}`
     : inputConfig.name;
 
-  let initialValue = initialValues
-    ? initialValues[inputConfig.name]
-    : undefined;
+  const initialValue = inputConfig.initialValue;
 
   switch (inputConfig.type) {
     case "string":
@@ -259,7 +256,7 @@ const SchemaForm = ({
 }: SchemaFormProps) => {
   const form = $("<form></form>");
   formSchema?.inputs?.forEach((inputConfig) => {
-    const inputElement = createInput(inputConfig, initialValues, "", onChange);
+    const inputElement = createInput(inputConfig, "", onChange);
     const wrapper = wrapWithLabel(inputConfig.label + ": ", inputElement);
     form.append(wrapper);
   });
