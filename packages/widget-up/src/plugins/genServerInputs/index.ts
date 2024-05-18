@@ -1,5 +1,5 @@
 import { PathManager } from "@/src/managers/pathManager";
-import { ConfigManager } from "@/src/managers/getConfigManager";
+import { ConfigManager } from "@/src/managers/configManager";
 import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getInputByFrameStack } from "@/src/utils/getInputByFrameStack";

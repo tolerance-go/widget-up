@@ -1,4 +1,4 @@
-import { ConfigManager } from "@/src/managers/getConfigManager";
+import { ConfigManager } from "@/src/managers/configManager";
 import { DemosManager } from "@/src/managers/getDemosManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import { Plugin } from "rollup";

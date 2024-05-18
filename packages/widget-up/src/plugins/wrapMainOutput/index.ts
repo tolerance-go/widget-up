@@ -1,18 +1,14 @@
+import { ConfigManager } from "@/src/managers/configManager";
 import { PathManager } from "@/src/managers/pathManager";
-import { ConfigManager } from "@/src/managers/getConfigManager";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { normalizePath } from "@/src/utils/normalizePath";
 import MagicString from "magic-string";
 import path from "path";
-import {
-  NormalizedOutputOptions,
-  Plugin,
-  RenderedChunk
-} from "rollup";
+import { NormalizedOutputOptions, Plugin, RenderedChunk } from "rollup";
 import {
   semverToIdentifier,
   wrapUMDAliasCode,
-  wrapUMDAsyncEventCode
+  wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 
 function wrapMainOutput({
@@ -57,7 +53,7 @@ function wrapMainOutput({
     });
 
     return wrapUMDAsyncEventCode({
-      eventId: '/index.js',
+      eventId: "/index.js",
       eventBusPath: "WidgetUpRuntime.globalEventBus",
       scriptContent: aliasCode,
     });

@@ -16,6 +16,7 @@ import {
   deleteDist,
   peerDependenciesAsExternal,
   serveLivereload,
+  tsDeclarationAlias,
 } from "widget-up-utils";
 import { WupFolderName } from "../constants";
 import { ConfigManager } from "../managers/configManager";
@@ -53,7 +54,7 @@ export const getDevPlugins = async ({
     cwd: rootPath,
   });
 
-  const devBuildPlugins: InputPluginOption[] = [
+  const coreDevBuildPlugins: InputPluginOption[] = [
     peerDependenciesAsExternal(),
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
@@ -65,12 +66,13 @@ export const getDevPlugins = async ({
     resolve(),
     commonjs(),
     json(),
-    typescript({
-      compilerOptions: {
-        declaration: false,
-      },
-    }),
+    typescript(),
     getPostCSSPlg({ config }),
+  ];
+
+  const devBuildPlugins: InputPluginOption[] = [
+    ...coreDevBuildPlugins,
+    tsDeclarationAlias(),
   ];
 
   const plugins: InputPluginOption[] = [
@@ -87,7 +89,7 @@ export const getDevPlugins = async ({
       pathManager,
       demosManager,
       configManager,
-      devBuildPlugins,
+      devBuildPlugins: coreDevBuildPlugins,
     }),
     genServerLibs({
       peerDependTreeManager,

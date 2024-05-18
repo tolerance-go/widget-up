@@ -1,4 +1,3 @@
-import { ConfigManager } from "@/src/managers/getConfigManager";
 import { DemosManager } from "@/src/managers/getDemosManager";
 import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { PeerDependTreeManager } from "@/src/managers/getPeerDependTreeManager";
@@ -11,6 +10,7 @@ import { PackageJson } from "widget-up-utils";
 import { getInputByFrameStack } from "../../utils/getInputByFrameStack";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
 import { PathManager } from "@/src/managers/pathManager";
+import { ConfigManager } from "@/src/managers/configManager";
 
 interface GenStartOptions {
   demosManager: DemosManager;

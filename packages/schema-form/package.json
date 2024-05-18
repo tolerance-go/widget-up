@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/umd/src/index.d.ts",
   "main": "dist/cjs/index.js",
   "browser": "dist/umd/index.js",
   "style": "dist/umd/index.css",
@@ -17,7 +17,7 @@
     "widget-up.json"
   ],
   "scripts": {
-    "build": "wup build --tsconfigPath ./tsconfig.build.json",
+    "build": "wup build",
     "dev": "wup dev",
     "prepublishAll": "npm run build"
   },

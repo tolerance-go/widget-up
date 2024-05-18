@@ -5,7 +5,7 @@ import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import path from "path";
 import { Plugin } from "rollup";
 import { htmlRender } from "widget-up-utils";
-import { ConfigManager } from "@/src/managers/getConfigManager";
+import { ConfigManager } from "@/src/managers/configManager";
 
 export const genDemoIndexHtml = ({
   pathManager,

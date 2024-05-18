@@ -1,4 +1,4 @@
-import { configManager } from "@/src/managers/getConfigManager";
+import { configManager } from "@/src/managers/configManager";
 import { identifierManager } from "@/src/managers/identifierManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";

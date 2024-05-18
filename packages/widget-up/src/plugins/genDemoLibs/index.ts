@@ -1,4 +1,4 @@
-import { ConfigManager } from "@/src/managers/getConfigManager";
+import { ConfigManager } from "@/src/managers/configManager";
 import { DemosManager } from "@/src/managers/getDemosManager";
 import { logger } from "@/src/utils/logger";
 import { InputPluginOption, Plugin } from "rollup";

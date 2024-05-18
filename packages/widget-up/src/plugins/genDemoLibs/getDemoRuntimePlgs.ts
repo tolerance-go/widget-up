@@ -1,4 +1,4 @@
-import { ConfigManager } from "@/src/managers/getConfigManager";
+import { ConfigManager } from "@/src/managers/configManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { getEnv } from "@/src/utils/env";
