@@ -1,18 +1,6 @@
 import SchemaForm from "widget-up-schema-form";
 
 const Demo2 = () => {
-  const initialValues = {
-    string: "Initial String",
-    number: 42,
-    date: "2021-04-01",
-    color: "#ff0000",
-    file: null, // 文件类型的初始值通常是 null 或空字符串
-    boolean: true,
-    range: 50,
-    enum: "option1",
-    select: ["option1"], // select 的初始值为数组形式，尤其是对于多选情况
-  };
-
   return SchemaForm({
     formSchema: {
       inputs: [
@@ -20,21 +8,25 @@ const Demo2 = () => {
           name: "string",
           type: "string",
           label: "String",
+          initialValue: "Initial String",
         },
         {
           name: "number",
           type: "number",
           label: "Number",
+          initialValue: 42,
         },
         {
           name: "date",
           type: "date",
           label: "Date",
+          initialValue: "2021-04-01",
         },
         {
           name: "color",
           type: "color",
           label: "Color",
+          initialValue: "#ff0000",
         },
         {
           name: "file",
@@ -45,16 +37,19 @@ const Demo2 = () => {
           name: "boolean",
           type: "boolean",
           label: "Boolean",
+          initialValue: true,
         },
         {
           name: "range",
           type: "range",
           label: "Range",
+          initialValue: 50,
         },
         {
           name: "enum",
           type: "enum",
           label: "Enum",
+          initialValue: "option1",
           options: [
             {
               label: "Option 1",
@@ -70,6 +65,7 @@ const Demo2 = () => {
           name: "select",
           type: "select",
           label: "Select",
+          initialValue: ["option1"],
           options: [
             {
               label: "Option 1",
@@ -443,7 +439,6 @@ const Demo2 = () => {
         },
       ],
     },
-    initialValues: initialValues, // 传递初始化值
     onChange(name, value, event) {
       console.log(name, value, event);
     },

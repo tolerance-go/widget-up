@@ -39,8 +39,6 @@ function createInput(
     ? `${prefixName}.${inputConfig.name}`
     : inputConfig.name;
 
-  const initialValue = inputConfig.initialValue;
-
   switch (inputConfig.type) {
     case "string":
     case "number":
@@ -51,8 +49,8 @@ function createInput(
       inputElement = $(
         `<input type="${inputConfig.type}" name="${fullName}" class="border rounded p-1" />`
       );
-      if (initialValue !== undefined) {
-        inputElement.val(initialValue);
+      if (inputConfig.initialValue !== undefined) {
+        inputElement.val(inputConfig.initialValue);
       }
       if (onChange) {
         inputElement.on("input", (event) => {
@@ -64,7 +62,7 @@ function createInput(
       inputElement = $(
         `<input type="checkbox" name="${fullName}" class="mt-2"/>`
       );
-      inputElement.prop("checked", initialValue === true);
+      inputElement.prop("checked", inputConfig.initialValue === true);
       if (onChange) {
         inputElement.on("input", (event) => {
           onChange(fullName, inputElement.is(":checked"), event);
@@ -80,7 +78,7 @@ function createInput(
           value: option.value,
           class: "mr-1.5",
         });
-        if (option.value === initialValue) {
+        if (option.value === inputConfig.initialValue) {
           radioButton.prop("checked", true);
         }
         radioButton.on("input", (event) => {
@@ -103,7 +101,7 @@ function createInput(
         const optionElement = $(
           `<option value="${option.value}">${option.label}</option>`
         );
-        if (initialValue?.includes(option.value)) {
+        if (inputConfig.initialValue?.includes(option.value)) {
           optionElement.prop("selected", true);
         }
         inputElement.append(optionElement);
@@ -123,7 +121,6 @@ function createInput(
         const newItemWrapper = createArrayItem(
           inputConfig,
           fullName,
-          {},
           onChange,
           inputElement.children(".array-item").length
         );
@@ -134,12 +131,11 @@ function createInput(
       });
       inputElement.append(addButton);
 
-      if (initialValue) {
-        initialValue.forEach((itemValue: any, index: number) => {
+      if (inputConfig.initialValue) {
+        inputConfig.initialValue.forEach((itemValue: any, index: number) => {
           const itemWrapper = createArrayItem(
             inputConfig,
             fullName,
-            itemValue,
             onChange,
             index
           );
@@ -153,7 +149,7 @@ function createInput(
         inputElement.append(
           wrapWithLabel(
             child.label + ": ",
-            createInput(child, initialValues, fullName, onChange)
+            createInput(child, fullName, onChange)
           )
         );
       });
@@ -162,9 +158,6 @@ function createInput(
       inputElement = $(
         `<input name="${fullName}" class="border rounded p-1" />`
       );
-      if (initialValue !== undefined) {
-        inputElement.val(initialValue);
-      }
       if (onChange) {
         inputElement.on("input", (event) => {
           onChange(fullName, inputElement.val(), event);
@@ -179,7 +172,6 @@ function createInput(
 function createArrayItem(
   inputConfig: ArrayInputSchemaConfig,
   prefixName: string,
-  initialValues: any,
   onChange?: (
     name: string,
     value: any,
@@ -204,7 +196,7 @@ function createArrayItem(
     itemInner.append(
       wrapWithLabel(
         child.label + ": ",
-        createInput(child, initialValues, itemPrefixName, onChange)
+        createInput(child, itemPrefixName, onChange)
       )
     );
   });
@@ -251,7 +243,6 @@ function getArrayValues(arrayElement: JQuery<HTMLElement>): any[] {
 
 const SchemaForm = ({
   formSchema,
-  initialValues,
   onChange,
 }: SchemaFormProps) => {
   const form = $("<form></form>");

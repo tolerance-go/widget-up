@@ -3,22 +3,26 @@
     {
       "name": "string",
       "type": "string",
-      "label": "String"
+      "label": "String",
+      "initialValue": "Initial String"
     },
     {
       "name": "number",
       "type": "number",
-      "label": "Number"
+      "label": "Number",
+      "initialValue": 42
     },
     {
       "name": "date",
       "type": "date",
-      "label": "Date"
+      "label": "Date",
+      "initialValue": "2021-04-01"
     },
     {
       "name": "color",
       "type": "color",
-      "label": "Color"
+      "label": "Color",
+      "initialValue": "#ff0000"
     },
     {
       "name": "file",
@@ -28,17 +32,20 @@
     {
       "name": "boolean",
       "type": "boolean",
-      "label": "Boolean"
+      "label": "Boolean",
+      "initialValue": true
     },
     {
       "name": "range",
       "type": "range",
-      "label": "Range"
+      "label": "Range",
+      "initialValue": 50
     },
     {
       "name": "enum",
       "type": "enum",
       "label": "Enum",
+      "initialValue": "option1",
       "options": [
         {
           "label": "Option 1",
@@ -54,6 +61,7 @@
       "name": "select",
       "type": "select",
       "label": "Select",
+      "initialValue": ["option1"],
       "options": [
         {
           "label": "Option 1",

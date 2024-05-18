@@ -30,7 +30,7 @@ export interface ObjectInputSchemaConfig<T = object>
   children?: InputSchemaConfig[];
 }
 
-export interface DateInputSchemaConfig extends InputSchemaConfigBase<Date> {
+export interface DateInputSchemaConfig extends InputSchemaConfigBase<string> {
   type: "date";
 }
 
@@ -38,7 +38,7 @@ export interface RangeInputSchemaConfig extends InputSchemaConfigBase<number> {
   type: "range";
 }
 
-export interface FileInputSchemaConfig extends InputSchemaConfigBase<File> {
+export interface FileInputSchemaConfig extends InputSchemaConfigBase<string> {
   type: "file";
 }
 
