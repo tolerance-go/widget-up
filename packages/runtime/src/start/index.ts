@@ -7,6 +7,7 @@ import {
   renderSettings,
 } from "../renderSettings";
 import { FormSchemaConfig } from "widget-up-utils";
+import { identifierManager } from "../identifierManager";
 
 export const start = ({
   dependencies,
@@ -15,8 +16,8 @@ export const start = ({
   initialValues: Record<string, any>;
   formSchema: FormSchemaConfig;
 }) => {
-  const leftPanelId = "leftPanel";
-  const rightPanelId = "rightPanel";
+  const leftPanelId = identifierManager.leftPanelId;
+  const rightPanelId = identifierManager.rightPanelId;
   renderFrame({
     leftPanelId,
     rightPanelId,

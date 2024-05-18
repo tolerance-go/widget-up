@@ -17,7 +17,7 @@ const init = async () => {
   const formSchema = await fetchFormSchema();
 
   window.Connector_jquery3.render({
-    rootElement: document.getElementById(identifierManager.rightPanel)!,
+    rootElement: document.getElementById(identifierManager.rightPanelId)!,
     component: window["SchemaForm_widget-up-schema-form"]({
       formSchema,
       onChange(name, value, event) {
