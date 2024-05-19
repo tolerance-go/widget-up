@@ -1,5 +1,5 @@
-import realFs from "fs";
-import realPath from "path";
+import nodeFs from "fs";
+import nodePath from "path";
 
 export interface DirectoryStructure {
   name: string;
@@ -10,8 +10,8 @@ export interface DirectoryStructure {
 
 export function parseDirectoryStructure(
   dirPath: string,
-  fs = realFs,
-  path = realPath
+  fs = nodeFs,
+  path = nodePath
 ): DirectoryStructure {
   // Check if the path exists and it is a directory
   if (!fs.existsSync(dirPath) || !fs.statSync(dirPath).isDirectory()) {
