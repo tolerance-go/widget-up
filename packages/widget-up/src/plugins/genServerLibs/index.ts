@@ -1,6 +1,6 @@
 import { PathManager } from "@/src/managers/pathManager";
 import { ConfigManager } from "@/src/managers/configManager";
-import { PeerDependTreeManager } from "@/src/managers/getPeerDependTreeManager";
+import { PeerDependTreeManager } from "@/src/managers/peerDependTreeManager";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { getEnv } from "@/src/utils/env";
 import { normalizePath } from "@/src/utils/normalizePath";

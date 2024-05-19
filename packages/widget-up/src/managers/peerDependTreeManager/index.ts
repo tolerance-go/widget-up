@@ -5,11 +5,23 @@ import getPeerDependTree, {
   PeerDependenciesNode,
   PeerDependenciesTree,
 } from "../../utils/getPeerDependTree";
+import { pathManager } from "../pathManager";
 
 export class PeerDependTreeManager extends EventEmitter {
+  private static instance: PeerDependTreeManager;
+
   private dependenciesTree: PeerDependenciesTree = {};
   private cwd: string;
   private fsWatcher: fs.FSWatcher | null = null;
+
+  public static getInstance(): PeerDependTreeManager {
+    if (!PeerDependTreeManager.instance) {
+      PeerDependTreeManager.instance = new PeerDependTreeManager(
+        pathManager.cwdPath
+      );
+    }
+    return PeerDependTreeManager.instance;
+  }
 
   constructor(cwd: string) {
     super();
@@ -83,10 +95,4 @@ export class PeerDependTreeManager extends EventEmitter {
   }
 }
 
-export function getPeerDependTreeManager({
-  cwd,
-}: {
-  cwd: string;
-}): PeerDependTreeManager {
-  return new PeerDependTreeManager(cwd);
-}
+export const peerDependTreeManager = PeerDependTreeManager.getInstance();

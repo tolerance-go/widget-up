@@ -1,6 +1,6 @@
 import { DemosManager } from "@/src/managers/getDemosManager";
 import { InputNpmManager } from "@/src/managers/getInputNpmManager";
-import { PeerDependTreeManager } from "@/src/managers/getPeerDependTreeManager";
+import { PeerDependTreeManager } from "@/src/managers/peerDependTreeManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { DependencyTreeNodeJson } from "@/types";
 import fs from "fs-extra";

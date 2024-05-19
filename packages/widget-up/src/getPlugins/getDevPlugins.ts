@@ -23,7 +23,7 @@ import { ConfigManager } from "../managers/configManager";
 import { DemosManager } from "../managers/getDemosManager";
 import { InputNpmManager } from "../managers/getInputNpmManager";
 import { PathManager } from "../managers/pathManager";
-import { PeerDependTreeManager } from "../managers/getPeerDependTreeManager";
+import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
 import genServerLibs from "../plugins/genServerLibs";
 import { genStart } from "../plugins/genStart";
 import { genAssert } from "../utils/rollupPlugins/genAssert";
