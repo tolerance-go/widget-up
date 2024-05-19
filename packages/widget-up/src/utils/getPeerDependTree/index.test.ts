@@ -5,13 +5,15 @@ describe("getPeerDependTree", () => {
   beforeEach(async () => {
     jest.unstable_mockModule("fs", async () => ({
       readFileSync: jest.fn((libPath: string) => {
-        if (libPath.endsWith("utils/package.json")) {
+        if (libPath.endsWith("other/package.json")) {
+          return JSON.stringify({ version: "1.1.0" });
+        } else if (libPath.endsWith("utils/package.json")) {
           return JSON.stringify({ version: "1.1.0" });
         } else if (libPath.endsWith("react/package.json")) {
           return JSON.stringify({
             version: "16.8.0",
             peerDependencies: {
-              utils: "^1.0.0",
+              other: "^1.0.0",
             },
           });
         } else if (libPath.endsWith("react-dom/package.json")) {
@@ -26,6 +28,7 @@ describe("getPeerDependTree", () => {
             version: "16.8.0",
             peerDependencies: {
               "react-dom": "^16.8.0",
+              utils: "^1.0.0",
             },
           });
         }
@@ -56,8 +59,57 @@ describe("getPeerDependTree", () => {
             "react": {
               "name": "react",
               "peerDependencies": {
-                "utils": {
-                  "name": "utils",
+                "other": {
+                  "name": "other",
+                  "peerDependencies": {},
+                  "version": {
+                    "exact": "1.1.0",
+                    "range": "^1.0.0",
+                  },
+                },
+              },
+              "version": {
+                "exact": "16.8.0",
+                "range": "^16.8.0",
+              },
+            },
+          },
+          "version": {
+            "exact": "16.8.0",
+            "range": "^16.8.0",
+          },
+        },
+        "utils": {
+          "name": "utils",
+          "peerDependencies": {},
+          "version": {
+            "exact": "1.1.0",
+            "range": "^1.0.0",
+          },
+        },
+      }
+    `);
+  });
+
+  it("should filter first level dependencies based on rootPackageName", async () => {
+    const fs = await import("fs");
+    const path = await import("path");
+
+    const result = getPeerDependTree(
+      { cwd: "/fake/directory", rootPackageName: "react-dom" },
+      { fs, path }
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "react-dom": {
+          "name": "react-dom",
+          "peerDependencies": {
+            "react": {
+              "name": "react",
+              "peerDependencies": {
+                "other": {
+                  "name": "other",
                   "peerDependencies": {},
                   "version": {
                     "exact": "1.1.0",
@@ -78,5 +130,17 @@ describe("getPeerDependTree", () => {
         },
       }
     `);
+  });
+
+  it("should return an empty tree if rootPackageName does not match any first level dependencies", async () => {
+    const fs = await import("fs");
+    const path = await import("path");
+
+    const result = getPeerDependTree(
+      { cwd: "/fake/directory", rootPackageName: "non-existent-package" },
+      { fs, path }
+    );
+
+    expect(result).toMatchInlineSnapshot(`{}`);
   });
 });

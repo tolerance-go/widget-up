@@ -13,7 +13,7 @@ export interface PeerDependenciesTree {
 }
 
 function getPeerDependTree(
-  options: { cwd: string },
+  options: { cwd: string; rootPackageName?: string },
   {
     fs = nodeFs,
     path = nodePath,
@@ -22,11 +22,12 @@ function getPeerDependTree(
     path?: typeof import("path");
   } = {}
 ): PeerDependenciesTree {
-  const { cwd } = options;
+  const { cwd, rootPackageName } = options;
 
   function findPeerDependencies(
     dir: string,
-    parentTree: PeerDependenciesTree = {}
+    parentTree: PeerDependenciesTree = {},
+    isFirstLevel: boolean = true
   ): PeerDependenciesTree {
     const packageJsonPath = path.join(dir, "package.json");
     let packageJson;
@@ -43,6 +44,10 @@ function getPeerDependTree(
 
     const peerDependencies = packageJson?.peerDependencies || {};
     for (const [pkg, range] of Object.entries(peerDependencies)) {
+      if (isFirstLevel && rootPackageName && pkg !== rootPackageName) {
+        continue; // Skip if rootPackageName is specified and does not match the current package at first level
+      }
+
       if (!parentTree[pkg]) {
         const dependencyDir = path.join(dir, "node_modules", pkg);
         const depPackageJsonPath = path.join(dependencyDir, "package.json");
@@ -67,10 +72,11 @@ function getPeerDependTree(
           },
         };
 
-        // Recurse to find nested peer dependencies
+        // Recurse to find nested peer dependencies without first level check
         parentTree[pkg].peerDependencies = findPeerDependencies(
           dependencyDir,
-          parentTree[pkg].peerDependencies
+          parentTree[pkg].peerDependencies,
+          false
         );
       }
     }
