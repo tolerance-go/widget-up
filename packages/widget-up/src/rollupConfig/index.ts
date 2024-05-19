@@ -1,7 +1,7 @@
 import { RollupOptions } from "rollup";
 import { getBuildPlugins, getDevPlugins } from "../getPlugins";
 import { ConfigManager } from "../managers/configManager";
-import { DemosManager } from "../managers/demosManager";
+import { DemosManager } from "../managers/demoManager";
 import { pathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
 import { getEnv } from "../utils/env";

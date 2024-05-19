@@ -1,11 +1,9 @@
-import { normalizePath } from "@/src/utils/normalizePath";
 import { DemoData, DemoFileConfig } from "@/types";
 import realFs from "fs";
-import realPath from "path";
-import { normalizeDemoFileConfig } from "./normalizeDemoFileConfig";
-import path from "path";
-import { PathManager } from "../pathManager";
+import { default as path, default as realPath } from "path";
 import { DirectoryStructure } from "widget-up-utils";
+import { PathManager } from "../pathManager";
+import { normalizeDemoFileConfig } from "./normalizeDemoFileConfig";
 
 const getDemoConfig = (item: DirectoryStructure, fs = realFs) => {
   const parsed = path.parse(item.path);
@@ -23,7 +21,7 @@ const getDemoConfig = (item: DirectoryStructure, fs = realFs) => {
   return config;
 };
 
-export const convertDirectoryToDemo = (
+export const convertDirectoryToDemoData = (
   directory: DirectoryStructure[],
   pathManager: PathManager,
   fs = realFs,
@@ -61,7 +59,7 @@ export const convertDirectoryToDemo = (
 
       const menuItem: DemoData = {
         config: normalizeDemoFileConfig(config, item, pathManager),
-        children: convertDirectoryToDemo(
+        children: convertDirectoryToDemoData(
           item.children ?? [],
           pathManager,
           fs,

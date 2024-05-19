@@ -20,7 +20,7 @@ import {
 } from "widget-up-utils";
 import { WupFolderName } from "../constants";
 import { ConfigManager } from "../managers/configManager";
-import { DemosManager } from "../managers/demosManager";
+import { DemosManager } from "../managers/demoManager";
 import { InputNpmManager } from "../managers/getInputNpmManager";
 import { PathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/peerDependTreeManager";

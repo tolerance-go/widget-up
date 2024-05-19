@@ -1,5 +1,5 @@
 import { ConfigManager } from "@/src/managers/configManager";
-import { DemosManager } from "@/src/managers/demosManager";
+import { DemosManager } from "@/src/managers/demoManager";
 import { logger } from "@/src/utils/logger";
 import { InputPluginOption, Plugin } from "rollup";
 import { getDemoInputList } from "./getDemoInputList";

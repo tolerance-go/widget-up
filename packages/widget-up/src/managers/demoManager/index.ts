@@ -5,7 +5,7 @@ import nodeFs from "fs";
 import nodePath from "path";
 import { IdentifierManager } from "../identifierManager";
 import { PathManager } from "../pathManager";
-import { convertDirectoryToDemo } from "./convertDirectoryToDemo";
+import { convertDirectoryToDemoData } from "./convertDirectoryToDemoData";
 
 export class DemosManager extends EventEmitter {
   private static instance: DemosManager;
@@ -107,7 +107,7 @@ export class DemosManager extends EventEmitter {
     if (this.fs.existsSync(this.folderPath)) {
       const directoryStructure = parseDirectoryStructure(this.folderPath);
 
-      this.demoDatas = convertDirectoryToDemo(
+      this.demoDatas = convertDirectoryToDemoData(
         directoryStructure?.children ?? [],
         this.pathManager,
         this.fs,

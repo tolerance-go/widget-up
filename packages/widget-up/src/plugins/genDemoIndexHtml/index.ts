@@ -1,5 +1,5 @@
 import { WupFolderName } from "@/src/constants";
-import { DemosManager } from "@/src/managers/demosManager";
+import { DemosManager } from "@/src/managers/demoManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import path from "path";
