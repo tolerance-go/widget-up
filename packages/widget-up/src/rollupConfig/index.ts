@@ -1,9 +1,9 @@
 import { RollupOptions } from "rollup";
 import { getBuildPlugins, getDevPlugins } from "../getPlugins";
-import { configManager } from "../managers/configManager";
+import { ConfigManager } from "../managers/configManager";
 import { getDemosManager } from "../managers/getDemosManager";
-import { getPeerDependTreeManager } from "../managers/peerDependTreeManager";
 import { pathManager } from "../managers/pathManager";
+import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
 import { getEnv } from "../utils/env";
 import { logger } from "../utils/logger";
 import { getProdOutputs } from "./getProdOutputs";
@@ -18,8 +18,11 @@ export default async () => {
   logger.info(`cwdPath is ${pathManager.cwdPath}`);
   logger.info(`demosPath is ${demosPath}`);
 
+  const configManager = ConfigManager.getInstance();
   const packageConfig = configManager.getPackageConfig();
   const config = configManager.getConfig();
+
+  const peerDependTreeManager = PeerDependTreeManager.getInstance();
 
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
@@ -27,10 +30,6 @@ export default async () => {
     const demosManager = getDemosManager({
       folderPath: "demos",
       pathManager,
-    });
-
-    const peerDependTreeManager = getPeerDependTreeManager({
-      cwd: pathManager.cwdPath,
     });
 
     rollupConfig = {
@@ -45,7 +44,7 @@ export default async () => {
       plugins: getDevPlugins({
         pathManager,
         demosManager,
-        peerDependTreeManager,
+        peerDependTreeManager: peerDependTreeManager,
         rootPath: pathManager.rootPath,
         config,
         packageConfig,
@@ -70,7 +69,8 @@ export default async () => {
           name: "hook-end",
           buildEnd: () => {
             console.log("buildEnd");
-            configManager.clear();
+            ConfigManager.dispose();
+            PeerDependTreeManager.dispose();
           },
         },
       ],

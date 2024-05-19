@@ -10,7 +10,7 @@ import { pathManager } from "../pathManager";
 export class PeerDependTreeManager extends EventEmitter {
   private static instance: PeerDependTreeManager;
 
-  private dependenciesTree: PeerDependenciesTree = {};
+  private peerDependenciesTree: PeerDependenciesTree = {};
   private cwd: string;
   private fsWatcher: fs.FSWatcher | null = null;
 
@@ -23,6 +23,14 @@ export class PeerDependTreeManager extends EventEmitter {
     return PeerDependTreeManager.instance;
   }
 
+  // 解除所有监听配置变化的回调函数
+  static dispose() {
+    if (this.instance.fsWatcher) {
+      this.instance.fsWatcher.close();
+      this.instance.fsWatcher = null;
+    }
+  }
+
   constructor(cwd: string) {
     super();
     this.cwd = cwd;
@@ -31,8 +39,8 @@ export class PeerDependTreeManager extends EventEmitter {
   }
 
   private updateDependenciesTree(): void {
-    this.dependenciesTree = getPeerDependTree({ cwd: this.cwd });
-    this.emit("dependenciesUpdated", this.dependenciesTree);
+    this.peerDependenciesTree = getPeerDependTree({ cwd: this.cwd });
+    this.emit("dependenciesUpdated", this.peerDependenciesTree);
   }
 
   private watchPackageJson() {
@@ -45,7 +53,7 @@ export class PeerDependTreeManager extends EventEmitter {
   }
 
   public getDependenciesTree(): PeerDependenciesTree {
-    return this.dependenciesTree;
+    return this.peerDependenciesTree;
   }
 
   /**
@@ -76,7 +84,7 @@ export class PeerDependTreeManager extends EventEmitter {
     };
 
     const list: PeerDependenciesNode[] = [];
-    collectLeafNodes(this.dependenciesTree, list);
+    collectLeafNodes(this.peerDependenciesTree, list);
     return list;
   }
 
@@ -94,5 +102,3 @@ export class PeerDependTreeManager extends EventEmitter {
     return () => this.removeListener("dependenciesUpdated", callback); // 返回一个取消监听的函数
   }
 }
-
-export const peerDependTreeManager = PeerDependTreeManager.getInstance();

@@ -17,6 +17,14 @@ export class ConfigManager extends EventEmitter {
     return ConfigManager.instance;
   }
 
+  // 解除所有监听配置变化的回调函数
+  static dispose() {
+    if (this.instance.fsWatcher) {
+      this.instance.fsWatcher.close();
+      this.instance.fsWatcher = null;
+    }
+  }
+
   constructor() {
     super();
     this.configPath = path.join(process.cwd(), "./widget-up.json");
@@ -98,15 +106,4 @@ export class ConfigManager extends EventEmitter {
     this.on("change", callback);
     return () => this.removeListener("change", callback); // 返回一个取消监听的函数
   }
-
-  // 解除所有监听配置变化的回调函数
-  // 解除所有监听配置变化的回调函数
-  public clear() {
-    if (this.fsWatcher) {
-      this.fsWatcher.close();
-      this.fsWatcher = null;
-    }
-  }
 }
-
-export const configManager = ConfigManager.getInstance();
