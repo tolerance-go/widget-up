@@ -1,4 +1,4 @@
-import { DemosManager } from "@/src/managers/getDemosManager";
+import { DemosManager } from "@/src/managers/demosManager";
 import { InputNpmManager } from "@/src/managers/getInputNpmManager";
 import { PeerDependTreeManager } from "@/src/managers/peerDependTreeManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";

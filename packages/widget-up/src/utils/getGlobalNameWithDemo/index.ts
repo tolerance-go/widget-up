@@ -1,4 +1,4 @@
-import { convertPathToVariableName } from "@/src/managers/getDemosManager/convertPathToVariableName";
+import { convertPathToVariableName } from "@/src/managers/demosManager/convertPathToVariableName";
 import { DemoData } from "@/types";
 import path from "path";
 import { NormalizedUMDConfig } from "widget-up-utils";

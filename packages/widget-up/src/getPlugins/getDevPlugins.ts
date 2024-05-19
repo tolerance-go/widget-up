@@ -20,18 +20,17 @@ import {
 } from "widget-up-utils";
 import { WupFolderName } from "../constants";
 import { ConfigManager } from "../managers/configManager";
-import { DemosManager } from "../managers/getDemosManager";
+import { DemosManager } from "../managers/demosManager";
 import { InputNpmManager } from "../managers/getInputNpmManager";
 import { PathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
-import genServerLibs from "../plugins/genServerLibs";
-import { genStart } from "../plugins/genStart";
-import { genAssert } from "../utils/rollupPlugins/genAssert";
-import { getPostCSSPlg } from "./getPostCSSPlg";
-import wrapMainOutput from "../plugins/wrapMainOutput";
-import { genPackageConfig } from "../plugins/genPackageConfig";
 import { genConfig } from "../plugins/genConfig";
 import { genFormConfig } from "../plugins/genFormConfig";
+import { genPackageConfig } from "../plugins/genPackageConfig";
+import genServerLibs from "../plugins/genServerLibs";
+import { genStart } from "../plugins/genStart";
+import wrapMainOutput from "../plugins/wrapMainOutput";
+import { getPostCSSPlg } from "./getPostCSSPlg";
 
 export const getDevPlugins = async ({
   rootPath,

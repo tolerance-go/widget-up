@@ -1,11 +1,12 @@
 import { ConfigManager } from "@/src/managers/configManager";
-import { identifierManager } from "@/src/managers/identifierManager";
+import { IdentifierManager } from "@/src/managers/identifierManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import { Plugin } from "rollup";
 
 export const genFormConfig = (): Plugin => {
   const pathManager = PathManager.getInstance();
+  const identifierManager = IdentifierManager.getInstance();
 
   return {
     name: "genFormConfig",

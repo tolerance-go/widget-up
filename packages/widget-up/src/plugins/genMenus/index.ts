@@ -1,5 +1,5 @@
 import { ConfigManager } from "@/src/managers/configManager";
-import { DemosManager } from "@/src/managers/getDemosManager";
+import { DemosManager } from "@/src/managers/demosManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import { Plugin } from "rollup";
 import { convertDemoDataToMenu } from "./convertDemoDataToMenu";

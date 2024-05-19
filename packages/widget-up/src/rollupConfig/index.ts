@@ -1,7 +1,7 @@
 import { RollupOptions } from "rollup";
 import { getBuildPlugins, getDevPlugins } from "../getPlugins";
 import { ConfigManager } from "../managers/configManager";
-import { DemosManager } from "../managers/getDemosManager";
+import { DemosManager } from "../managers/demosManager";
 import { pathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
 import { getEnv } from "../utils/env";
@@ -68,6 +68,7 @@ export default async () => {
             console.log("buildEnd");
             ConfigManager.dispose();
             PeerDependTreeManager.dispose();
+            DemosManager.dispose();
           },
         },
       ],

@@ -18,5 +18,3 @@ export class IdentifierManager {
     return IdentifierManager.instance;
   }
 }
-
-export const identifierManager = IdentifierManager.getInstance();
