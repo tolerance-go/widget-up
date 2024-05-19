@@ -14,6 +14,7 @@ export { semverToIdentifier } from "./semverToIdentifier";
 export * from "./updateURLParameter";
 export * from "./wrapUMDAliasCode";
 export * from "./wrapUMDAsyncEventCode";
+export * from './parseDirectoryStructure'
 
 export type {
   GlobalsSchemaConfig,

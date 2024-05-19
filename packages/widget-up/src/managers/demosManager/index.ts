@@ -1,4 +1,4 @@
-import { parseDirectoryStructure } from "@/src/utils/parseDirectoryStructure";
+import { parseDirectoryStructure } from "widget-up-utils";
 import { DemoData } from "@/types";
 import { EventEmitter } from "events";
 import nodeFs from "fs";

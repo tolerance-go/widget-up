@@ -2,10 +2,10 @@ import { normalizePath } from "@/src/utils/normalizePath";
 import { DemoData, DemoFileConfig } from "@/types";
 import realFs from "fs";
 import realPath from "path";
-import { DirectoryStructure } from "../../utils/parseDirectoryStructure";
 import { normalizeDemoFileConfig } from "./normalizeDemoFileConfig";
 import path from "path";
 import { PathManager } from "../pathManager";
+import { DirectoryStructure } from "widget-up-utils";
 
 const getDemoConfig = (item: DirectoryStructure, fs = realFs) => {
   const parsed = path.parse(item.path);
