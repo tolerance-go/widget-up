@@ -1,28 +1,47 @@
+import { parseDirectoryStructure } from "@/src/utils/parseDirectoryStructure";
 import { DemoData } from "@/types";
 import { EventEmitter } from "events";
-import realFs from "fs";
-import realPath from "path";
-import { convertDirectoryToDemo } from "./convertDirectoryToDemo";
-import { parseDirectoryStructure } from "@/src/utils/parseDirectoryStructure";
+import nodeFs from "fs";
+import nodePath from "path";
+import { IdentifierManager } from "../identifierManager";
 import { PathManager } from "../pathManager";
+import { convertDirectoryToDemo } from "./convertDirectoryToDemo";
 
 export class DemosManager extends EventEmitter {
+  private static instance: DemosManager;
   private folderPath: string;
   private demoDatas: DemoData[] = [];
-  private fs: typeof realFs;
-  private path: typeof realPath;
+  private fs: typeof nodeFs;
+  private path: typeof nodePath;
   private pathManager: PathManager;
+  private fsWatcher: nodeFs.FSWatcher | null = null;
 
-  constructor(
-    folderPath = "./demos",
-    pathManager: PathManager,
-    fs = realFs,
-    path = realPath
-  ) {
+  public static getInstance(): DemosManager {
+    if (!DemosManager.instance) {
+      DemosManager.instance = new DemosManager();
+    }
+    return DemosManager.instance;
+  }
+
+  // 解除所有监听配置变化的回调函数
+  static dispose() {
+    if (this.instance.fsWatcher) {
+      this.instance.fsWatcher.close();
+      this.instance.fsWatcher = null;
+    }
+  }
+
+  constructor(options?: { fs?: typeof nodeFs; path?: typeof nodePath }) {
+    const { fs = nodeFs, path = nodePath } = options ?? {};
+
     super();
+
+    const identifierManager = IdentifierManager.getInstance();
+    const pathManager = PathManager.getInstance();
+
     this.fs = fs;
     this.path = path;
-    this.folderPath = this.path.resolve(folderPath);
+    this.folderPath = this.path.resolve(identifierManager.demosFolderName);
     this.demoDatas = [];
     this.pathManager = pathManager;
 
@@ -40,7 +59,7 @@ export class DemosManager extends EventEmitter {
   }
 
   private watchFolder(): void {
-    this.fs.watch(
+    this.fsWatcher = this.fs.watch(
       this.folderPath,
       { recursive: true },
       async (eventType, filename) => {
@@ -103,13 +122,3 @@ export class DemosManager extends EventEmitter {
     return () => this.removeListener("change", callback); // 返回一个取消监听的函数
   }
 }
-
-export const getDemosManager = ({
-  folderPath,
-  pathManager,
-}: {
-  folderPath: string;
-  pathManager: PathManager;
-}) => {
-  return new DemosManager(folderPath, pathManager);
-};

@@ -1,7 +1,7 @@
 import { RollupOptions } from "rollup";
 import { getBuildPlugins, getDevPlugins } from "../getPlugins";
 import { ConfigManager } from "../managers/configManager";
-import { getDemosManager } from "../managers/getDemosManager";
+import { DemosManager } from "../managers/getDemosManager";
 import { pathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
 import { getEnv } from "../utils/env";
@@ -27,10 +27,7 @@ export default async () => {
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
   if (BuildEnvIsDev) {
-    const demosManager = getDemosManager({
-      folderPath: "demos",
-      pathManager,
-    });
+    const demosManager = DemosManager.getInstance();
 
     rollupConfig = {
       input: config.input,
