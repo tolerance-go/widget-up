@@ -25,7 +25,14 @@ wup 开发模式可以像 runtime 一样运行
 # 2024/5/17
 
 - runtime
-    - [] 配置传入右侧表单
+    - [x] 配置传入右侧表单
 - widget-up
-    - [] packageConfig 改名为 package.json
-    - [] widget-up-runtime 改名为 runtime.js
+    - [x] packageConfig 改名为 package.json
+    - [x] widget-up-runtime 改名为 runtime.js
+
+# 2024/5/19
+
+- schema-form
+    - [] 和 widget-up 解耦，因为互相依赖了
+- widget-up
+    - [] runtime rollup 去除，使用多配置和 schema-form 同步修改，并且这样减少程序 api 带来的复杂性
