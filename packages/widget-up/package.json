@@ -74,11 +74,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "semver": "^7.6.0",
     "tailwindcss": "^3.4.3",
-    "widget-up-connector-jquery3": "workspace:^",
-    "widget-up-connector-react16": "workspace:^",
-    "widget-up-connector-react18": "workspace:^",
     "widget-up-core": "workspace:^",
-    "widget-up-runtime": "workspace:^",
     "widget-up-utils": "workspace:^",
     "yargs": "^17.7.2"
   }

@@ -8,7 +8,7 @@ import { PathManager } from "../pathManager";
 import { convertDirectoryToDemoData } from "./convertDirectoryToDemoData";
 
 export class DemosManager extends EventEmitter {
-  private static instance: DemosManager;
+  private static instance: DemosManager | null = null;
   private folderPath: string;
   private demoDatas: DemoData[] = [];
   private fs: typeof nodeFs;
@@ -25,7 +25,7 @@ export class DemosManager extends EventEmitter {
 
   // 解除所有监听配置变化的回调函数
   static dispose() {
-    if (this.instance.fsWatcher) {
+    if (this.instance?.fsWatcher) {
       this.instance.fsWatcher.close();
       this.instance.fsWatcher = null;
     }

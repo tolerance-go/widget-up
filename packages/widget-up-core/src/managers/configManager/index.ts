@@ -4,7 +4,7 @@ import path from "path";
 import { NormalizedConfig, PackageJson, parseConfig } from "widget-up-utils";
 
 export class ConfigManager extends EventEmitter {
-  private static instance: ConfigManager;
+  private static instance: ConfigManager | null = null;
   private configPath: string;
   private config: NormalizedConfig | null = null;
   private packageConfig: PackageJson | null = null;
@@ -19,7 +19,7 @@ export class ConfigManager extends EventEmitter {
 
   // 解除所有监听配置变化的回调函数
   static dispose() {
-    if (this.instance.fsWatcher) {
+    if (this.instance?.fsWatcher) {
       this.instance.fsWatcher.close();
       this.instance.fsWatcher = null;
     }

@@ -412,6 +412,9 @@ importers:
         specifier: ^3.7.1
         version: 3.7.1
     devDependencies:
+      '@types/jquery':
+        specifier: ^3.5.29
+        version: 3.5.29
       widget-up-core:
         specifier: workspace:^
         version: link:../widget-up-core
@@ -674,21 +677,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.3
         version: 3.4.3(ts-node@10.9.2)
-      widget-up-connector-jquery3:
-        specifier: workspace:^
-        version: link:../connectors/jquery3
-      widget-up-connector-react16:
-        specifier: workspace:^
-        version: link:../connectors/react16
-      widget-up-connector-react18:
-        specifier: workspace:^
-        version: link:../connectors/react18
       widget-up-core:
         specifier: workspace:^
         version: link:../widget-up-core
-      widget-up-runtime:
-        specifier: workspace:^
-        version: link:../runtime
       widget-up-utils:
         specifier: workspace:^
         version: link:../utils
@@ -895,9 +886,9 @@ importers:
       jquery:
         specifier: ^3.7.1
         version: 3.7.1
-      widget-up:
+      widget-up-core:
         specifier: workspace:^
-        version: link:../../../widget-up
+        version: link:../..
       widget-up-utils:
         specifier: workspace:^
         version: link:../../../utils
@@ -977,9 +968,9 @@ importers:
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
-      widget-up:
+      widget-up-core:
         specifier: workspace:^
-        version: link:../../../widget-up
+        version: link:../..
       widget-up-utils:
         specifier: workspace:^
         version: link:../../../utils

@@ -18,14 +18,14 @@
     "widget-up.json"
   ],
   "scripts": {
-    "build": "wup build",
-    "dev": "wup dev",
+    "build": "wup-core build",
+    "dev": "wup-core dev",
     "prepublishAll": "npm run build"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.29",
     "jquery": "^3.7.1",
-    "widget-up": "workspace:^",
+    "widget-up-core": "workspace:^",
     "widget-up-utils": "workspace:^"
   },
   "peerDependencies": {

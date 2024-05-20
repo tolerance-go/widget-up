@@ -8,7 +8,7 @@ import getPeerDependTree, {
 import { pathManager } from "../pathManager";
 
 export class PeerDependTreeManager extends EventEmitter {
-  private static instance: PeerDependTreeManager;
+  private static instance: PeerDependTreeManager | null = null;
 
   private peerDependenciesTree: PeerDependenciesTree = {};
   private cwd: string;
@@ -25,7 +25,7 @@ export class PeerDependTreeManager extends EventEmitter {
 
   // 解除所有监听配置变化的回调函数
   static dispose() {
-    if (this.instance.fsWatcher) {
+    if (this.instance?.fsWatcher) {
       this.instance.fsWatcher.close();
       this.instance.fsWatcher = null;
     }

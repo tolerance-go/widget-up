@@ -21,6 +21,7 @@
     "prepublishAll": "npm run build"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.29",
     "widget-up-core": "workspace:^",
     "widget-up-utils": "workspace:^"
   },
