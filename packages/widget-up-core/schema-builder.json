@@ -1,0 +1,5 @@
+{
+  "outputFileName": "config-schema.json",
+  "fullTypeName": "SchemaConfig",
+  "typesDirectory": "./node_modules/widget-up-utils/dist"
+}

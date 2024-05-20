@@ -1,26 +1,22 @@
 {
-  "name": "widget-up",
-  "version": "0.5.2",
+  "name": "widget-up-core",
+  "version": "0.0.0",
   "description": "",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "module",
-  "bin": {
-    "wup": "./dist/bin.js"
-  },
   "sideEffects": false,
+  "bin": {
+    "wup-core": "./dist/bin.js"
+  },
   "files": [
     "dist",
     "dist-schema",
     "tpls"
   ],
   "scripts": {
-    "schema-dev": "schema-builder dev",
-    "schema-build": "schema-builder build",
-    "lib-dev": "cross-env NODE_ENV=development rollup -c -w",
-    "lib-build": "cross-env NODE_ENV=production rollup -c",
-    "dev": "concurrently \"npm run schema-dev\" \"npm run lib-dev\"",
-    "build": "npm run lib-build && npm run schema-build",
+    "dev": "cross-env NODE_ENV=development rollup -c -w",
+    "build": "cross-env NODE_ENV=production rollup -c",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:update": "node --experimental-vm-modules node_modules/jest/bin/jest.js -u",
     "prepublishAll": "npm run build"
@@ -50,6 +46,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
+    "cross-env": "^7.0.3",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -57,7 +54,6 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "autoprefixer": "^10.4.19",
     "chokidar": "^3.6.0",
-    "cross-env": "^7.0.3",
     "ejs": "^3.1.10",
     "fs-extra": "^11.2.0",
     "js-yaml": "^4.1.0",
@@ -77,7 +73,6 @@
     "widget-up-connector-jquery3": "workspace:^",
     "widget-up-connector-react16": "workspace:^",
     "widget-up-connector-react18": "workspace:^",
-    "widget-up-core": "workspace:^",
     "widget-up-runtime": "workspace:^",
     "widget-up-utils": "workspace:^",
     "yargs": "^17.7.2"

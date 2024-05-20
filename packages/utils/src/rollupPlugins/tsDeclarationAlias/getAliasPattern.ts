@@ -14,14 +14,14 @@ export const getAliasPattern = (npmNameRegStr: string) => {
   const from = "(\\s*from\\s*)?"; // 'from' 前后也允许没有空格
   const moduleName = `['"](${npmNameRegStr})['"]\\s*;?`; // 模块名后的引号和可选分号后也允许空格
 
+  // 动态导入语句的正则表达式
+  const dynamicImport = `import\\s*\\(\\s*['"](${npmNameRegStr})['"]\\s*\\)\\s*;?`;
+
   // 组合正则表达式字符串
   const pattern = [
-    importOrExport,
-    optionalType,
-    importsExports,
-    from,
-    moduleName,
-  ].join("");
+    dynamicImport,
+    [importOrExport, optionalType, importsExports, from, moduleName].join(""),
+  ].join("|");
 
   return new RegExp(pattern, "g");
 };
