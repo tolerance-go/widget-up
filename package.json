@@ -6,9 +6,9 @@
     "prettier:write": "prettier --write .",
     "lerna:publish": "npm run prepublishAll && lerna publish",
     "prepublishAll": "pnpm -r run prepublishAll",
-    "setup": "pnpm i && pnpm build:base && pnpm build",
+    "setupAll": "pnpm i && pnpm build:base && pnpm i && pnpm build",
     "build": "pnpm -r run build",
-    "build:base": "pnpm -r --filter widget-up run build",
+    "build:base": "pnpm -r --filter widget-up-utils --filter widget-up --filter widget-up-core run build",
     "test": "pnpm -r --filter widget-up-utils --filter widget-up run test",
     "prepare": "husky"
   },
