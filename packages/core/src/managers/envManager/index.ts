@@ -20,5 +20,3 @@ export class EnvManager {
     return EnvManager.instance;
   }
 }
-
-export const envManager = EnvManager.getInstance();

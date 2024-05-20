@@ -8,9 +8,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const nodeModulesPath = join(__dirname, "../node_modules");
-const coreModulePath = join(nodeModulesPath, "widget-up-core");
 
-const rollupConfigPath = join(coreModulePath, "dist/rollup.config.js");
+const rollupConfigPath = join(__dirname, "rollup.config.js");
 const rollupBinPath = join(nodeModulesPath, ".bin/rollup");
 const crossEnvBinPath = join(nodeModulesPath, ".bin/cross-env");
 

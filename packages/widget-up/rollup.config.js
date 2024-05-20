@@ -42,6 +42,34 @@ export default [
     },
   },
   {
+    input: "src/rollupConfig/index.ts",
+    output: {
+      file: "dist/rollup.config.js",
+      format: "esm",
+    },
+    plugins: [
+      deleteDist({ dist: "dist/rollup.config.js" }),
+      autoExternalDependencies(),
+      json(),
+      alias({
+        entries: [{ find: "@", replacement: process.cwd() }],
+      }),
+      resolve({
+        preferBuiltins: true,
+      }), // 解析 node_modules 中的模块
+      commonjs({}),
+      typescript({
+        tsconfig: "tsconfig.build.json",
+      }), // TypeScript 支持
+      // css({ output: "bundle.css" }), // CSS 支持，将导入的 CSS 文件捆绑到单独的文件
+      isProduction && terser(), // 生产环境下压缩代码
+      tsDeclarationAlias(),
+    ],
+    watch: {
+      include: "src/**",
+    },
+  },
+  {
     input: "src/index.ts",
     output: {
       file: "dist/index.js",
