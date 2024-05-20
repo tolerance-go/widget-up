@@ -1,8 +1,19 @@
 import { RollupOptions } from "rollup";
-import { getRollupConfig } from "widget-up-core";
+import { getRollupConfig, EnvManager } from "widget-up-core";
 
 export default async () => {
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
-  return getRollupConfig();
+  const envManager = EnvManager.getInstance();
+
+  const corePlgs = await getRollupConfig({
+    processStartParams: (params) => {
+      return {
+        ...params,
+        widgetUpSchemaFormDependencyTree: [],
+      };
+    },
+  });
+
+  return corePlgs;
 };

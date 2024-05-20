@@ -1,14 +1,26 @@
 import { getInputNpmName } from "@/src/utils/getInputNpmName";
 import { ResolvedNpmResult, resolveNpmInfo } from "../../utils/resolveNpmInfo";
 import { detectTechStack } from "@/src/utils/detectTechStack";
+import { PathManager } from "../pathManager";
 
 interface InputNpmManagerOptions {
   cwd: string;
 }
 
 export class InputNpmManager {
+  private static instance: InputNpmManager | null;
   private cache: Map<string, ResolvedNpmResult>;
   private cwd: string;
+
+  public static getInstance(): InputNpmManager {
+    if (!InputNpmManager.instance) {
+      const pathManager = PathManager.getInstance();
+      InputNpmManager.instance = new InputNpmManager({
+        cwd: pathManager.rootPath,
+      });
+    }
+    return InputNpmManager.instance;
+  }
 
   constructor(options: InputNpmManagerOptions) {
     this.cwd = options.cwd;
@@ -41,10 +53,4 @@ export class InputNpmManager {
       }
     }
   }
-}
-
-export default function getInputNpmManager(
-  options: InputNpmManagerOptions
-): InputNpmManager {
-  return new InputNpmManager(options);
 }

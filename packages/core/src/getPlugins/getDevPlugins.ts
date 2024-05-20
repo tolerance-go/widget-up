@@ -21,14 +21,14 @@ import {
 import { WupFolderName } from "../constants";
 import { ConfigManager } from "../managers/configManager";
 import { DemosManager } from "../managers/demoManager";
-import { InputNpmManager } from "../managers/getInputNpmManager";
+import { InputNpmManager } from "../managers/inputNpmManager";
 import { PathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
 import { genConfig } from "../plugins/genConfig";
 import { genFormConfig } from "../plugins/genFormConfig";
 import { genPackageConfig } from "../plugins/genPackageConfig";
 import genServerLibs from "../plugins/genServerLibs";
-import { genStart } from "../plugins/genStart";
+import { GenStartPlgOptions, genStart } from "../plugins/genStart";
 import wrapMainOutput from "../plugins/wrapMainOutput";
 import { getPostCSSPlg } from "./getPostCSSPlg";
 
@@ -40,6 +40,7 @@ export const getDevPlugins = async ({
   peerDependTreeManager,
   demosManager,
   pathManager,
+  processStartParams,
 }: {
   pathManager: PathManager;
   demosManager: DemosManager;
@@ -48,7 +49,7 @@ export const getDevPlugins = async ({
   rootPath: string;
   config: NormalizedConfig;
   packageConfig: PackageJson;
-}): Promise<InputPluginOption[]> => {
+} & GenStartPlgOptions): Promise<InputPluginOption[]> => {
   const inputNpmManager = new InputNpmManager({
     cwd: rootPath,
   });
@@ -102,12 +103,7 @@ export const getDevPlugins = async ({
       pathManager,
     }),
     genStart({
-      pathManager,
-      demosManager,
-      packageConfig,
-      peerDependTreeManager,
-      inputNpmManager,
-      configManager,
+      processStartParams,
     }),
     genDemoIndexHtml({
       pathManager,

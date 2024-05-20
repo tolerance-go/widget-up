@@ -1,15 +1,10 @@
-import { DependencyListItem, HTMLDependencyManager } from "widget-up-utils";
+import {
+  DependencyListItem,
+  HTMLDependencyManager,
+} from "widget-up-utils";
 import { installLogger } from "./logger";
 import { globalEventBus } from "../events";
-
-// 定义一个类型来表示依赖树的节点
-export interface DependencyTreeNode {
-  name: string;
-  version: string;
-  scriptSrc?: (dep: DependencyListItem) => string;
-  linkHref?: (dep: DependencyListItem) => string;
-  depends?: DependencyTreeNode[];
-}
+import { DependencyTreeNode } from "@/types";
 
 // 实现`install`方法
 export async function install(

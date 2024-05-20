@@ -5,7 +5,7 @@ export { globalEventBus } from "./events";
 export { start } from "./start";
 export { createWindow } from "widget-up-utils";
 
-export type { DependencyTreeNode } from "./install";
+export type * from "@/types";
 
 export const utils = {
   semverToIdentifier,

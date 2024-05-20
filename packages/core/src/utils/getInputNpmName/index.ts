@@ -1,4 +1,4 @@
-import { TechStack, TechType, DependencyTreeNodeJson } from "@/types";
+import { TechStack, TechType, DependencyTreeNodeJSON } from "@/types";
 import { getMajorVersion } from "widget-up-utils";
 
 export const getInputNpmName = (stack: TechStack): string => {

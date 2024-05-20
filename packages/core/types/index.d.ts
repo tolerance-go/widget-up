@@ -16,11 +16,16 @@ export type TechStack = {
  * DependencyTreeNode 的变体，
  * scriptSrc 和 linkHref 类型是字符串
  */
-export type DependencyTreeNodeJson = Omit<
+export type DependencyTreeNodeJSON = Omit<
   DependencyTreeNode,
   "scriptSrc" | "linkHref" | "depends"
 > & {
   scriptSrc: string;
   linkHref: string;
-  depends?: DependencyTreeNodeJson[];
+  depends?: DependencyTreeNodeJSON[];
+};
+
+export type StartParamsJSON = {
+  dependencies: DependencyTreeNodeJSON[];
+  widgetUpSchemaFormDependencyTree?: DependencyTreeNodeJSON[];
 };

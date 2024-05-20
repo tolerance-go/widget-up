@@ -1,5 +1,5 @@
-import { InputNpmManager } from "@/src/managers/getInputNpmManager";
-import { DependencyTreeNodeJson, TechStack, TechType } from "@/types";
+import { InputNpmManager } from "@/src/managers/inputNpmManager";
+import { DependencyTreeNodeJSON, TechStack, TechType } from "@/types";
 import { getInputNpmName } from "../getInputNpmName";
 import { getMajorVersion } from "widget-up-utils";
 import { PathManager } from "@/src/managers/pathManager";
@@ -7,13 +7,13 @@ import { PathManager } from "@/src/managers/pathManager";
 export function getInputByFrameStack(
   stack: TechStack,
   inputNpmManager: InputNpmManager
-): DependencyTreeNodeJson {
+): DependencyTreeNodeJSON {
   const inputNpmName = getInputNpmName(stack);
 
   // 这是一个示例映射，用于将技术栈映射到入口文件
   const techStackMap: Record<
     TechType,
-    (version: string) => DependencyTreeNodeJson
+    (version: string) => DependencyTreeNodeJSON
   > = {
     React: (version) => ({
       name: inputNpmName,

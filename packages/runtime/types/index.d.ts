@@ -10,3 +10,6 @@ export interface AppEvents extends TagEvents {
     rightPanel: HTMLElement;
   };
 }
+
+export type * from "./dependency";
+export type * from './start'

@@ -7,8 +7,9 @@ import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
 import { getEnv } from "../utils/env";
 import { logger } from "../utils/logger";
 import { getProdOutputs } from "./getProdOutputs";
+import { GenStartPlgOptions } from "../plugins/genStart";
 
-export default async () => {
+export default async ({ processStartParams }: GenStartPlgOptions) => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
 
   const demosPath = pathManager.demosAbsPath;
@@ -46,6 +47,7 @@ export default async () => {
         config,
         packageConfig,
         configManager,
+        processStartParams,
       }),
       watch: {
         include: ["src/**", "styles/**"],

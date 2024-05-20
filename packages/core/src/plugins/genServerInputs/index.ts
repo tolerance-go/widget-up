@@ -1,6 +1,6 @@
 import { PathManager } from "@/src/managers/pathManager";
 import { ConfigManager } from "@/src/managers/configManager";
-import { InputNpmManager } from "@/src/managers/getInputNpmManager";
+import { InputNpmManager } from "@/src/managers/inputNpmManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getInputByFrameStack } from "@/src/utils/getInputByFrameStack";
 import { getInputGlobalName } from "@/src/utils/getInputGlobalName";

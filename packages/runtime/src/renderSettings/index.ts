@@ -1,8 +1,8 @@
 import { FormSchemaConfig } from "widget-up-utils";
 import { globalEventBus } from "../events";
 import { identifierManager } from "../identifierManager";
-import { DependencyTreeNode } from "../install";
 import { pathManager } from "../pathManager";
+import { DependencyTreeNode } from "@/types";
 
 async function fetchFormSchema(): Promise<FormSchemaConfig> {
   const response = await fetch(pathManager.formSchemaUrl);

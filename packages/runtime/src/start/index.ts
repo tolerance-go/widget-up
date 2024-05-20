@@ -1,6 +1,7 @@
+import { StartParams } from "@/types/start";
 import { startRender } from "../connectorRender";
 import { identifierManager } from "../identifierManager";
-import { DependencyTreeNode, install } from "../install";
+import { install } from "../install";
 import { renderFrame } from "../renderFrame";
 import { renderMenus } from "../renderMenus";
 import {
@@ -11,10 +12,7 @@ import {
 export const start = ({
   dependencies,
   widgetUpSchemaFormDependencyTree,
-}: {
-  dependencies: DependencyTreeNode[];
-  widgetUpSchemaFormDependencyTree?: DependencyTreeNode[];
-}) => {
+}: StartParams) => {
   const leftPanelId = identifierManager.leftPanelId;
   const rightPanelId = identifierManager.rightPanelId;
   renderFrame({

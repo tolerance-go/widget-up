@@ -1,37 +1,33 @@
+import { ConfigManager } from "@/src/managers/configManager";
 import { DemosManager } from "@/src/managers/demoManager";
-import { InputNpmManager } from "@/src/managers/getInputNpmManager";
+import { InputNpmManager } from "@/src/managers/inputNpmManager";
+import { PathManager } from "@/src/managers/pathManager";
 import { PeerDependTreeManager } from "@/src/managers/peerDependTreeManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
-import { DependencyTreeNodeJson } from "@/types";
+import { DependencyTreeNodeJSON, StartParamsJSON } from "@/types";
 import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
-import { PackageJson } from "widget-up-utils";
 import { getInputByFrameStack } from "../../utils/getInputByFrameStack";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
-import { PathManager } from "@/src/managers/pathManager";
-import { ConfigManager } from "@/src/managers/configManager";
 
-interface GenStartOptions {
-  demosManager: DemosManager;
-  packageConfig: PackageJson;
-  peerDependTreeManager: PeerDependTreeManager;
-  inputNpmManager: InputNpmManager;
-  pathManager: PathManager;
-  configManager: ConfigManager;
-}
+export type GenStartPlgOptions = {
+  processStartParams?: (params: StartParamsJSON) => StartParamsJSON;
+};
 
-export function genStart({
-  demosManager,
-  packageConfig,
-  peerDependTreeManager,
-  inputNpmManager,
-  pathManager,
-  configManager,
-}: GenStartOptions): Plugin {
+export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
   let once = false;
 
+  const peerDependTreeManager = PeerDependTreeManager.getInstance();
+  const demosManager = DemosManager.getInstance();
+
   const build = () => {
+    const pathManager = PathManager.getInstance();
+    const configManager = ConfigManager.getInstance();
+    const inputNpmManager = InputNpmManager.getInstance();
+
+    const packageConfig = configManager.getPackageConfig();
+
     const outputPath = path.join(
       pathManager.distServerScriptsRelativePath,
       "start.js"
@@ -62,15 +58,17 @@ export function genStart({
               ),
             },
           ],
-        })) as DependencyTreeNodeJson[],
+        })) as DependencyTreeNodeJSON[],
       };
     });
 
-    let content = `WidgetUpRuntime.start({dependencies: ${JSON.stringify(
-      deps,
-      null,
-      2
-    )}});`;
+    let params: StartParamsJSON = {
+      dependencies: deps,
+    };
+
+    params = processStartParams?.(params) ?? params;
+
+    let content = `WidgetUpRuntime.start(${JSON.stringify(params, null, 2)});`;
 
     content = content.replace(/"(scriptSrc|linkHref)": "(.*)"/g, "$1: $2");
 
