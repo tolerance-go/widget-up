@@ -1,6 +1,7 @@
 {
   "description": "",
   "scripts": {
+    "reset": "pnpm clean && pnpm i && pnpm setupAll",
     "clean": "git clean -fdX",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
