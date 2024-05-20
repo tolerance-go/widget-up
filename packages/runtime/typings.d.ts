@@ -1,5 +1,4 @@
-import { HTMLDependencyManager } from "widget-up-utils";
-import { SchemaFormProps } from "widget-up-schema-form";
+import { HTMLDependencyManager, SchemaFormProps } from "widget-up-utils";
 
 export {};
 

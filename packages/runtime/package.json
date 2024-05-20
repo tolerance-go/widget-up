@@ -47,7 +47,6 @@
     "ts-node": "^10.9.2"
   },
   "dependencies": {
-    "widget-up-schema-form": "workspace:^",
     "widget-up-utils": "workspace:^"
   }
 }

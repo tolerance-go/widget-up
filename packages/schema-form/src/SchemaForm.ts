@@ -1,13 +1,10 @@
 import $ from "jquery";
 import {
   ArrayInputSchemaConfig,
-  EnumInputSchemaConfig,
-  FormSchemaConfig,
   InputSchemaConfig,
-  ObjectInputSchemaConfig,
+  SchemaFormProps,
 } from "widget-up-utils";
 import "../styles/index.less";
-import { SchemaFormProps } from "@/types";
 
 function wrapWithLabel(
   labelText: string,
@@ -241,10 +238,7 @@ function getArrayValues(arrayElement: JQuery<HTMLElement>): any[] {
   return values;
 }
 
-const SchemaForm = ({
-  formSchema,
-  onChange,
-}: SchemaFormProps) => {
+const SchemaForm = ({ formSchema, onChange }: SchemaFormProps) => {
   const form = $("<form></form>");
   formSchema?.inputs?.forEach((inputConfig) => {
     const inputElement = createInput(inputConfig, "", onChange);

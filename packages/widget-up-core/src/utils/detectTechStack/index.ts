@@ -1,6 +1,7 @@
 import { TechStack, TechType } from "@/types";
 import nodeFs from "fs";
 import nodePath from "path";
+import { logger } from "../logger";
 
 // 定义检测技术栈的函数
 export function detectTechStack({
@@ -24,6 +25,7 @@ export function detectTechStack({
     const dependencies = {
       ...packageJson.dependencies,
       ...packageJson.devDependencies,
+      ...packageJson.peerDependencies,
     };
 
     // 定义支持的技术栈及其关键依赖项
@@ -51,6 +53,7 @@ export function detectTechStack({
             dep,
             "package.json"
           );
+          logger.log(`depPackagePath: ${depPackagePath}`)
           if (fs.existsSync(depPackagePath)) {
             // 读取依赖的 package.json 文件获取实际安装的版本
             const depPackageData = fs.readFileSync(depPackagePath, "utf8");

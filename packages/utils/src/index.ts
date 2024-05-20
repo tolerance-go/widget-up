@@ -16,16 +16,7 @@ export * from "./wrapUMDAliasCode";
 export * from "./wrapUMDAsyncEventCode";
 export * from './parseDirectoryStructure'
 
-export type {
-  GlobalsSchemaConfig,
-  JQueryComponent,
-  JQueryComponentProps,
-  NormalizedConfig,
-  NormalizedExternalDependencies,
-  NormalizedUMDConfig,
-  PackageJson,
-  SchemaConfig,
-} from "@/types";
+export type * from "@/types";
 export type * from "@/types/form";
 export type * from "@/types/runtime";
 export type * from "@/types/version";
