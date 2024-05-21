@@ -34,7 +34,7 @@ export function genRuntimeLib(): Plugin {
       // 使用resolveNpmInfo函数获取运行时库的信息
       const wupRuntimeLibNpm = resolveNpmInfo({
         name: "widget-up-runtime", // 包名
-        cwd: pathManager.rootPath, // 当前工作目录，设置为根路径
+        cwd: pathManager.modulePath, // 当前工作目录，设置为根路径
       });
 
       const copyJS = () => {

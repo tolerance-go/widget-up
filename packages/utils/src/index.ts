@@ -14,7 +14,9 @@ export { semverToIdentifier } from "./semverToIdentifier";
 export * from "./updateURLParameter";
 export * from "./wrapUMDAliasCode";
 export * from "./wrapUMDAsyncEventCode";
-export * from './parseDirectoryStructure'
+export * from "./parseDirectoryStructure";
+export * from "./normalizePath";
+export * from "./resolveNpmInfo";
 
 export type * from "@/types";
 export type * from "@/types/form";

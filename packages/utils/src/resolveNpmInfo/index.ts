@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { PackageJson } from "widget-up-utils";
+import { PackageJson } from "@/types";
 import { normalizePath } from "../normalizePath";
 
 export interface ResolvedNpmResult {

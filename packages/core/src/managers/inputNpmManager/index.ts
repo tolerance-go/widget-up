@@ -1,7 +1,7 @@
 import { getInputNpmName } from "@/src/utils/getInputNpmName";
-import { ResolvedNpmResult, resolveNpmInfo } from "../../utils/resolveNpmInfo";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { PathManager } from "../pathManager";
+import { ResolvedNpmResult, resolveNpmInfo } from "widget-up-utils";
 
 interface InputNpmManagerOptions {
   cwd: string;
@@ -16,7 +16,7 @@ export class InputNpmManager {
     if (!InputNpmManager.instance) {
       const pathManager = PathManager.getInstance();
       InputNpmManager.instance = new InputNpmManager({
-        cwd: pathManager.rootPath,
+        cwd: pathManager.modulePath,
       });
     }
     return InputNpmManager.instance;

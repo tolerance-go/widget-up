@@ -3,12 +3,13 @@ import { ConfigManager } from "@/src/managers/configManager";
 import { PeerDependTreeManager } from "@/src/managers/peerDependTreeManager";
 import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
 import { getEnv } from "@/src/utils/env";
-import { normalizePath } from "@/src/utils/normalizePath";
-import { ResolvedNpmResult, resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
 import fs from "fs";
 import path from "path";
 import { Plugin } from "rollup";
 import {
+  ResolvedNpmResult,
+  normalizePath,
+  resolveNpmInfo,
   semverToIdentifier,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,

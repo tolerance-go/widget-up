@@ -5,7 +5,7 @@ import getPeerDependTree, {
   PeerDependenciesNode,
   PeerDependenciesTree,
 } from "../../utils/getPeerDependTree";
-import { pathManager } from "../pathManager";
+import { PathManager } from "../pathManager";
 
 export class PeerDependTreeManager extends EventEmitter {
   private static instance: PeerDependTreeManager | null = null;
@@ -16,6 +16,7 @@ export class PeerDependTreeManager extends EventEmitter {
 
   public static getInstance(): PeerDependTreeManager {
     if (!PeerDependTreeManager.instance) {
+      const pathManager = PathManager.getInstance();
       PeerDependTreeManager.instance = new PeerDependTreeManager(
         pathManager.cwdPath
       );

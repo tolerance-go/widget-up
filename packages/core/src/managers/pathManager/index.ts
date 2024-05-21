@@ -1,11 +1,10 @@
-import { normalizePath } from "@/src/utils/normalizePath";
 import path from "path";
-import { semverToIdentifier } from "widget-up-utils";
+import { normalizePath, semverToIdentifier } from "widget-up-utils";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 interface PathManagerOptions {
   cwdPath: string;
-  rootPath: string;
+  modulePath: string;
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,12 +15,12 @@ export class PathManager {
 
   public static getInstance(): PathManager {
     if (!PathManager.instance) {
-      const rootPath = path.join(__dirname, "..");
+      const modulePath = path.join(__dirname, "..");
       const cwdPath = process.cwd();
 
       PathManager.instance = new PathManager({
         cwdPath,
-        rootPath,
+        modulePath,
       });
     }
     return PathManager.instance;
@@ -32,7 +31,7 @@ export class PathManager {
   public widgetUpRuntimeName: string = "runtime";
 
   public cwdPath: string;
-  public rootPath: string;
+  public modulePath: string;
   public demosAbsPath: string;
   public distAbsPath: string;
   public distServerAbsPath: string;
@@ -56,11 +55,11 @@ export class PathManager {
 
   constructor(options: PathManagerOptions) {
     this.cwdPath = options.cwdPath;
-    this.rootPath = options.rootPath;
+    this.modulePath = options.modulePath;
     this.demosAbsPath = path.join(this.cwdPath, "demos");
     this.distAbsPath = path.join(this.cwdPath, "dist");
     this.distServerAbsPath = path.join(this.distAbsPath, "server");
-    this.tplsAbsPath = path.join(this.rootPath, "tpls");
+    this.tplsAbsPath = path.join(this.modulePath, "tpls");
     this.distServerLibsAbsPath = path.join(this.distServerAbsPath, "libs");
     this.distServerConnectorsAbsPath = path.join(
       this.distServerAbsPath,
@@ -137,5 +136,3 @@ export class PathManager {
     );
   }
 }
-
-export const pathManager = PathManager.getInstance();

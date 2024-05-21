@@ -4,11 +4,11 @@ import { InputNpmManager } from "@/src/managers/inputNpmManager";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getInputByFrameStack } from "@/src/utils/getInputByFrameStack";
 import { getInputGlobalName } from "@/src/utils/getInputGlobalName";
-import { resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
 import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
 import {
+  resolveNpmInfo,
   semverToIdentifier,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
@@ -34,7 +34,7 @@ export function genServerInputs({
     fs.ensureDirSync(outputPath);
 
     const inputNpmInfo = resolveNpmInfo({
-      cwd: pathManager.rootPath,
+      cwd: pathManager.modulePath,
       name: input.name,
     });
 

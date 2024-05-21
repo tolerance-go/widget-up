@@ -2,20 +2,21 @@ import { RollupOptions } from "rollup";
 import { getBuildPlugins, getDevPlugins } from "../getPlugins";
 import { ConfigManager } from "../managers/configManager";
 import { DemosManager } from "../managers/demoManager";
-import { pathManager } from "../managers/pathManager";
+import { PathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
+import { GenStartPlgOptions } from "../plugins/genStart";
 import { getEnv } from "../utils/env";
 import { logger } from "../utils/logger";
 import { getProdOutputs } from "./getProdOutputs";
-import { GenStartPlgOptions } from "../plugins/genStart";
 
 export default async ({ processStartParams }: GenStartPlgOptions) => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
+  const pathManager = PathManager.getInstance();
 
   const demosPath = pathManager.demosAbsPath;
 
   logger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
-  logger.info(`rootPath is ${pathManager.rootPath}`);
+  logger.info(`rootPath is ${pathManager.modulePath}`);
   logger.info(`cwdPath is ${pathManager.cwdPath}`);
   logger.info(`demosPath is ${demosPath}`);
 
@@ -43,7 +44,7 @@ export default async ({ processStartParams }: GenStartPlgOptions) => {
         pathManager,
         demosManager,
         peerDependTreeManager: peerDependTreeManager,
-        rootPath: pathManager.rootPath,
+        rootPath: pathManager.modulePath,
         config,
         packageConfig,
         configManager,
@@ -60,7 +61,7 @@ export default async ({ processStartParams }: GenStartPlgOptions) => {
       output,
       plugins: [
         ...getBuildPlugins({
-          rootPath: pathManager.rootPath,
+          rootPath: pathManager.modulePath,
           config,
           output,
         }),

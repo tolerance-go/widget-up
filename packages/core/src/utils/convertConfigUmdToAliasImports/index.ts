@@ -1,9 +1,9 @@
 import {
   NormalizedUMDConfig,
   UMDAliasOptions,
+  resolveNpmInfo,
   semverToIdentifier,
 } from "widget-up-utils";
-import { resolveNpmInfo } from "../resolveNpmInfo";
 
 export const convertConfigUmdToAliasImports = ({
   external,
