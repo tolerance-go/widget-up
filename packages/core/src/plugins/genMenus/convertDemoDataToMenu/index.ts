@@ -1,11 +1,10 @@
 import { PathManager } from "@/src/managers/pathManager";
-import { detectTechStack } from "@/src/utils/detectTechStack";
 import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
-import { getInputGlobalName } from "@/src/utils/getInputGlobalName";
 import { DemoData, DemoMenuItem } from "@/types";
 import {
   NormalizedUMDConfig,
   PackageJson,
+  findOnlyFrameworkModule,
   semverToIdentifier,
 } from "widget-up-utils";
 
@@ -15,6 +14,10 @@ export const convertDemoDataToMenu = (
   packageConfig: PackageJson,
   pathManager: PathManager
 ): DemoMenuItem[] => {
+  const frameworkModule = findOnlyFrameworkModule({
+    cwd: pathManager.cwdPath,
+  });
+
   return demosData.map((demoData) => {
     const { config, children } = demoData;
     return {
@@ -25,7 +28,7 @@ export const convertDemoDataToMenu = (
           umdConfig,
           pathManager.demosAbsPath
         )}_${semverToIdentifier(packageConfig.version)}`,
-        connector: getInputGlobalName(detectTechStack()),
+        connector: `Connector_${frameworkModule.name}`,
       },
       children: convertDemoDataToMenu(
         children || [],

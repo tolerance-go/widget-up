@@ -6,3 +6,4 @@ export * from "./schemaFormProps";
 export * from "./version";
 export * from "./runtime";
 export * from "./htmlDependencyManager";
+export * from "./dependency";

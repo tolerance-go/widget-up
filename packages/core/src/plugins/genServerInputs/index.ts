@@ -1,15 +1,13 @@
-import { PathManager } from "@/src/managers/pathManager";
 import { ConfigManager } from "@/src/managers/configManager";
 import { InputNpmManager } from "@/src/managers/inputNpmManager";
-import { detectTechStack } from "@/src/utils/detectTechStack";
-import { getInputByFrameStack } from "@/src/utils/getInputByFrameStack";
-import { getInputGlobalName } from "@/src/utils/getInputGlobalName";
+import { PathManager } from "@/src/managers/pathManager";
+import { getConnectorGlobalName } from "@/src/utils/getConnectorGlobalName";
 import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
 import {
+  findOnlyFrameworkModule,
   resolveNpmInfo,
-  semverToIdentifier,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
@@ -29,18 +27,17 @@ export function genServerInputs({
 
   const build = () => {
     const outputPath = pathManager.distServerConnectorsRelativePath;
-    const techStack = detectTechStack();
-    const input = getInputByFrameStack(techStack, inputNpmManager);
+    const frameworkModule = findOnlyFrameworkModule({
+      cwd: pathManager.cwdPath,
+    });
     fs.ensureDirSync(outputPath);
 
-    const inputNpmInfo = resolveNpmInfo({
+    const connectorModuleInfo = resolveNpmInfo({
       cwd: pathManager.modulePath,
-      name: input.name,
+      name: frameworkModule.name,
     });
 
-    let content = fs.readFileSync(inputNpmInfo.moduleEntryPath, "utf-8");
-
-    const frameInfo = detectTechStack();
+    let content = fs.readFileSync(connectorModuleInfo.moduleEntryPath, "utf-8");
 
     content = wrapUMDAliasCode({
       scriptContent: content,
@@ -52,16 +49,22 @@ export function genServerInputs({
       ],
       exports: [
         {
-          globalVar: getInputGlobalName(frameInfo),
-          scopeVar: getInputGlobalName(frameInfo),
+          globalVar: getConnectorGlobalName(
+            frameworkModule.name,
+            frameworkModule.version
+          ),
+          scopeVar: getConnectorGlobalName(
+            frameworkModule.name,
+            frameworkModule.version
+          ),
         },
       ],
     });
 
     content = wrapUMDAsyncEventCode({
       eventId: pathManager.getInputLibUrl(
-        inputNpmInfo.packageJson.name,
-        inputNpmInfo.packageJson.version
+        connectorModuleInfo.packageJson.name,
+        connectorModuleInfo.packageJson.version
       ),
       scriptContent: content,
       eventBusPath: "WidgetUpRuntime.globalEventBus",
@@ -71,8 +74,8 @@ export function genServerInputs({
       path.join(
         outputPath,
         pathManager.getServerScriptFileName(
-          inputNpmInfo.packageJson.name,
-          inputNpmInfo.packageJson.version
+          connectorModuleInfo.packageJson.name,
+          connectorModuleInfo.packageJson.version
         )
       ),
       content,

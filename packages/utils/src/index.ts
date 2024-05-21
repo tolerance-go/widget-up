@@ -22,5 +22,7 @@ export * from "./convertDependenciesTreeToList";
 export * from "./getConnectorModuleBaseName";
 export * from "./getConnectorModuleName";
 export * from "./findFrameworkModules";
+export * from "./findOnlyFrameworkModule";
+export * from "./convertConnectorModuleToDependencyTreeNode";
 
 export type * from "@/types";

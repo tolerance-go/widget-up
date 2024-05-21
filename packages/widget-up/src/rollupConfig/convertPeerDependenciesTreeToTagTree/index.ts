@@ -1,8 +1,9 @@
+import { PathManager as CorePathManager } from "widget-up-core";
 import {
-  PathManager as CorePathManager,
   DependencyTreeNodeJSON,
-} from "widget-up-core";
-import { PeerDependenciesNode, PeerDependenciesTree } from "widget-up-utils";
+  PeerDependenciesNode,
+  PeerDependenciesTree,
+} from "widget-up-utils";
 
 function convertNode(node: PeerDependenciesNode): DependencyTreeNodeJSON {
   const { name, version, peerDependencies, packageConfig } = node;
@@ -11,11 +12,10 @@ function convertNode(node: PeerDependenciesNode): DependencyTreeNodeJSON {
   return {
     name,
     version: version.exact,
-    scriptSrc: `(dep) => \`${corePathManager.getServerScriptLibFileName(
-      name,
-      version.exact
-    )}\``, // 根据需求填充此字段
-    linkHref: "", // 根据需求填充此字段
+    scriptSrc: `(dep) => \`${
+      corePathManager.serverLibsUrl
+    }/${corePathManager.getServerScriptFileName(name, version.exact)}\``, // 根据需求填充此字段
+    linkHref: "() => ''", // 根据需求填充此字段
     depends: peerDependencies
       ? convertPeerDependenciesTreeToTagTree(peerDependencies)
       : [],

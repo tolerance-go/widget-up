@@ -1,10 +1,10 @@
-import { detectTechStack } from "@/src/utils/detectTechStack";
-import { PathManager } from "../pathManager";
 import {
   ResolvedNpmResult,
+  findOnlyFrameworkModule,
   getConnectorModuleName,
   resolveNpmInfo,
 } from "widget-up-utils";
+import { PathManager } from "../pathManager";
 
 interface InputNpmManagerOptions {
   cwd: string;
@@ -31,9 +31,11 @@ export class InputNpmManager {
   }
 
   public getCurrentInput() {
-    const stack = detectTechStack();
+    const frameworkModule = findOnlyFrameworkModule({
+      cwd: this.cwd,
+    });
     return this.getInputByName(
-      getConnectorModuleName(stack.name, stack.version.exact)
+      getConnectorModuleName(frameworkModule.name, frameworkModule.version)
     );
   }
 

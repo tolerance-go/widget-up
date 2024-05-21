@@ -1,14 +1,16 @@
 import { ConfigManager } from "@/src/managers/configManager";
 import { DemosManager } from "@/src/managers/demoManager";
-import { InputNpmManager } from "@/src/managers/inputNpmManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { PeerDependTreeManager } from "@/src/managers/peerDependTreeManager";
-import { detectTechStack } from "@/src/utils/detectTechStack";
-import { DependencyTreeNodeJSON, StartParamsJSON } from "@/types";
 import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
-import { getInputByFrameStack } from "../../utils/getInputByFrameStack";
+import {
+  DependencyTreeNodeJSON,
+  StartParamsJSON,
+  convertConnectorModuleToDependencyTreeNode,
+  findOnlyFrameworkModule,
+} from "widget-up-utils";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
 
 export type GenStartPlgOptions = {
@@ -24,7 +26,6 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
   const build = () => {
     const pathManager = PathManager.getInstance();
     const configManager = ConfigManager.getInstance();
-    const inputNpmManager = InputNpmManager.getInstance();
 
     const packageConfig = configManager.getPackageConfig();
 
@@ -34,11 +35,21 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
     );
 
     const demoDatas = demosManager.getDemoDataList();
-    const techStacks = detectTechStack();
-    const input = getInputByFrameStack(techStacks, inputNpmManager);
+    const frameworkModule = findOnlyFrameworkModule({
+      cwd: pathManager.cwdPath,
+    });
+
+    const connectorDepNode = convertConnectorModuleToDependencyTreeNode(
+      frameworkModule,
+      pathManager.serverConnectorsUrl,
+      pathManager.getServerScriptFileName(
+        frameworkModule.name,
+        frameworkModule.version
+      )
+    );
     const config = configManager.getConfig();
 
-    const deps = [input].map((input) => {
+    const deps = [connectorDepNode].map((input) => {
       return {
         ...input,
         depends: demoDatas.map((demo) => ({

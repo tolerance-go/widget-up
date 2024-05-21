@@ -1,16 +1,16 @@
+import { RollupOptions } from "rollup";
 import {
-  getRollupConfig,
   PathManager as CorePathManager,
+  getRollupConfig,
 } from "widget-up-core";
 import {
+  convertConnectorModuleToDependencyTreeNode,
   convertDependenciesTreeToList,
-  findFrameworkModules,
-  getConnectorModuleName,
+  findOnlyFrameworkModule,
   getPeerDependTree,
   resolveNpmInfo,
 } from "widget-up-utils";
 import { PathManager } from "../managers/pathManager";
-import { RollupOptions } from "rollup";
 import { convertPeerDependenciesTreeToTagTree } from "./convertPeerDependenciesTreeToTagTree";
 
 export default async (): Promise<RollupOptions | RollupOptions[]> => {
@@ -30,19 +30,9 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     schemaFormModulePeerDependTree
   );
 
-  const frameworkModules = findFrameworkModules({
+  const frameworkModule = findOnlyFrameworkModule({
     cwd: pathManager.cwdPath,
   });
-
-  if (frameworkModules.length > 1) {
-    throw new Error("框架重复出现");
-  }
-
-  const frameworkModule = frameworkModules[0];
-
-  if (!frameworkModule) {
-    throw new Error("框架未检测到");
-  }
 
   const corePlgs = await getRollupConfig({
     processStartParams: (params) => {
@@ -50,16 +40,14 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
         ...params,
         widgetUpSchemaFormDependencyTree: [
           {
-            name: getConnectorModuleName(
-              frameworkModule.name,
-              frameworkModule.version
+            ...convertConnectorModuleToDependencyTreeNode(
+              frameworkModule,
+              corePathManager.serverConnectorsUrl,
+              corePathManager.getServerScriptFileName(
+                frameworkModule.name,
+                frameworkModule.version
+              )
             ),
-            version: frameworkModule.version,
-            scriptSrc: `() => "${corePathManager.getServerScriptFileName(
-              frameworkModule.name,
-              frameworkModule.version
-            )}"`,
-            linkHref: `() => ''`,
             depends: convertPeerDependenciesTreeToTagTree(
               schemaFormModulePeerDependTree
             ),
