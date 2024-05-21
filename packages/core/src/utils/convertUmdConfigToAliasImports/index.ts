@@ -1,7 +1,7 @@
 import {
   NormalizedUMDConfig,
   UMDAliasOptions,
-  resolveNpmInfo,
+  resolveModuleInfo,
   semverToIdentifier,
 } from "widget-up-utils";
 
@@ -21,7 +21,7 @@ export const convertUmdConfigToAliasImports = ({
       throw new Error(`Global variable not found for ${libName}`);
     }
 
-    const libData = resolveNpmInfo({ name: libName });
+    const libData = resolveModuleInfo({ name: libName });
 
     imports.push({
       globalVar: `${globalVar}_${semverToIdentifier(

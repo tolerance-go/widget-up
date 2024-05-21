@@ -1,6 +1,7 @@
 packages:
   - "packages/*"
   - "!packages/connectors"
+  - "!packages/docs"
   - "!packages/components"
   - "packages/connectors/*"
   - "packages/components/*"

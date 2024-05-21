@@ -1,5 +1,5 @@
 import { PathManager } from "@/src/managers/pathManager";
-import { resolveNpmInfo } from "widget-up-utils";
+import { resolveModuleInfo } from "widget-up-utils";
 import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
@@ -22,8 +22,8 @@ export function genRuntimeLib(): Plugin {
       // 标记为已初始化，防止下次构建重复执行
       initialized = true;
 
-      // 使用resolveNpmInfo函数获取运行时库的信息
-      const wupRuntimeLibNpm = resolveNpmInfo({
+      // 使用resolveModuleInfo函数获取运行时库的信息
+      const wupRuntimeLibNpm = resolveModuleInfo({
         name: "widget-up-runtime", // 包名
         cwd: pathManager.modulePath, // 当前工作目录，设置为根路径
       });

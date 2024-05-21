@@ -7,7 +7,7 @@ import {
   convertDependenciesTreeToList,
   getConnectorModuleName,
   getPeerDependTree,
-  resolveNpmInfo,
+  resolveModuleInfo,
 } from "widget-up-utils";
 import { PathManager } from "../managers/pathManager";
 import { convertPeerDependenciesTreeToDependencyTreeNodes } from "./convertPeerDependenciesTreeToDependencyTreeNodes";
@@ -16,7 +16,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
   const pathManager = PathManager.getInstance();
   const corePathManager = CorePathManager.getInstance();
 
-  const schemaFormModuleInfo = resolveNpmInfo({
+  const schemaFormModuleInfo = resolveModuleInfo({
     name: "widget-up-schema-form",
     cwd: pathManager.modulePath,
   });

@@ -10,7 +10,7 @@ import {
   PeerDependenciesNode,
   ResolvedNpmResult,
   normalizePath,
-  resolveNpmInfo,
+  resolveModuleInfo,
   semverToIdentifier,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
@@ -102,7 +102,7 @@ function genServerLibs({
         pathManager.distServerLibsAbsPath,
         pathManager.getServerScriptFileName(libName, lib.version.exact)
       );
-      const libNpmInfo = resolveNpmInfo({ name: libName });
+      const libNpmInfo = resolveModuleInfo({ name: libName });
       const sourcePath = path.join(libNpmInfo.modulePath, umdFilePath);
 
       try {

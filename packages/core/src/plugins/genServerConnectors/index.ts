@@ -6,31 +6,29 @@ import path from "path";
 import { Plugin } from "rollup";
 import {
   findOnlyFrameworkModule,
-  resolveNpmInfo,
+  resolveModuleInfo,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 
-interface GenServerInputsOptions {
-  configManager: ConfigManager;
-  pathManager: PathManager;
-}
+interface GenServerInputsOptions {}
 
-export function genServerInputs({
-  configManager,
-  pathManager,
-}: GenServerInputsOptions): Plugin {
+export function genServerInputs({}: GenServerInputsOptions): Plugin {
+  const configManager = ConfigManager.getInstance();
+  const pathManager = PathManager.getInstance();
+
   let once = false;
 
   const build = () => {
-    const outputPath = pathManager.distServerConnectorsRelativePath;
     const frameworkModule = findOnlyFrameworkModule({
       cwd: pathManager.cwdPath,
     });
 
+    const outputPath = pathManager.distServerConnectorsRelativePath;
+
     fs.ensureDirSync(outputPath);
 
-    const connectorModuleInfo = resolveNpmInfo({
+    const connectorModuleInfo = resolveModuleInfo({
       cwd: pathManager.modulePath,
       name: frameworkModule.name,
     });
