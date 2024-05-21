@@ -100,7 +100,7 @@ function genServerLibs({
         umdConfig.externalDependencies[libName].browser[BuildEnv];
       const destPath = path.join(
         pathManager.distServerLibsAbsPath,
-        pathManager.getServerScriptLibFileName(libName, lib.version.exact)
+        pathManager.getServerScriptFileName(libName, lib.version.exact)
       );
       const libNpmInfo = resolveNpmInfo({ name: libName });
       const sourcePath = path.join(libNpmInfo.modulePath, umdFilePath);

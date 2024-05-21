@@ -137,7 +137,7 @@ export class PathManager {
   }
 
   /** 拼服务器的 lib 的文件名称 */
-  public getServerScriptLibFileName(libName: string, version: string) {
+  public getServerScriptFileName(libName: string, version: string) {
     return `${libName}_${semverToIdentifier(version)}.js`;
   }
 }

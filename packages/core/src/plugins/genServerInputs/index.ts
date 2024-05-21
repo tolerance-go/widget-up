@@ -70,9 +70,10 @@ export function genServerInputs({
     fs.writeFileSync(
       path.join(
         outputPath,
-        `${inputNpmInfo.packageJson.name}_${semverToIdentifier(
+        pathManager.getServerScriptFileName(
+          inputNpmInfo.packageJson.name,
           inputNpmInfo.packageJson.version
-        )}.js`
+        )
       ),
       content,
       "utf-8"

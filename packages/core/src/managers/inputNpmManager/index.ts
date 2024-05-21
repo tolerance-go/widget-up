@@ -1,7 +1,10 @@
-import { getConnectorModuleName } from "@/src/utils/getInputNpmName";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { PathManager } from "../pathManager";
-import { ResolvedNpmResult, resolveNpmInfo } from "widget-up-utils";
+import {
+  ResolvedNpmResult,
+  getConnectorModuleName,
+  resolveNpmInfo,
+} from "widget-up-utils";
 
 interface InputNpmManagerOptions {
   cwd: string;
@@ -28,7 +31,10 @@ export class InputNpmManager {
   }
 
   public getCurrentInput() {
-    return this.getInputByName(getConnectorModuleName(detectTechStack()));
+    const stack = detectTechStack();
+    return this.getInputByName(
+      getConnectorModuleName(stack.name, stack.version.exact)
+    );
   }
 
   // 根据名称获取入口包信息

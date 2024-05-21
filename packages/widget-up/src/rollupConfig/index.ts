@@ -4,6 +4,8 @@ import {
 } from "widget-up-core";
 import {
   convertDependenciesTreeToList,
+  findFrameworkModules,
+  getConnectorModuleName,
   getPeerDependTree,
   resolveNpmInfo,
 } from "widget-up-utils";
@@ -28,15 +30,35 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     schemaFormModulePeerDependTree
   );
 
+  const frameworkModules = findFrameworkModules({
+    cwd: pathManager.cwdPath,
+  });
+
+  if (frameworkModules.length > 1) {
+    throw new Error("框架重复出现");
+  }
+
+  const frameworkModule = frameworkModules[0];
+
+  if (!frameworkModule) {
+    throw new Error("框架未检测到");
+  }
+
   const corePlgs = await getRollupConfig({
     processStartParams: (params) => {
       return {
         ...params,
         widgetUpSchemaFormDependencyTree: [
           {
-            name: "widget-up-connector-jquery3",
-            version: "0.0.0",
-            scriptSrc: `() => "/libs/input.jquery3.alias-wrap.async-wrap.js"`,
+            name: getConnectorModuleName(
+              frameworkModule.name,
+              frameworkModule.version
+            ),
+            version: frameworkModule.version,
+            scriptSrc: `() => "${corePathManager.getServerScriptFileName(
+              frameworkModule.name,
+              frameworkModule.version
+            )}"`,
             linkHref: `() => ''`,
             depends: convertPeerDependenciesTreeToTagTree(
               schemaFormModulePeerDependTree

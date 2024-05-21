@@ -21,5 +21,6 @@ export * from "./getPeerDependTree";
 export * from "./convertDependenciesTreeToList";
 export * from "./getConnectorModuleBaseName";
 export * from "./getConnectorModuleName";
+export * from "./findFrameworkModules";
 
 export type * from "@/types";
