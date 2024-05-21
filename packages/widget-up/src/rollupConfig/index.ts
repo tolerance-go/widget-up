@@ -4,9 +4,8 @@ import {
   getRollupConfig,
 } from "widget-up-core";
 import {
-  convertConnectorModuleToDependencyTreeNode,
   convertDependenciesTreeToList,
-  findOnlyFrameworkModule,
+  getConnectorModuleName,
   getPeerDependTree,
   resolveNpmInfo,
 } from "widget-up-utils";
@@ -21,6 +20,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     name: "widget-up-schema-form",
     cwd: pathManager.modulePath,
   });
+
   const schemaFormModulePeerDependTree = getPeerDependTree({
     cwd: schemaFormModuleInfo.modulePath,
     includeRootPackage: true,
@@ -30,24 +30,24 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     schemaFormModulePeerDependTree
   );
 
-  const frameworkModule = findOnlyFrameworkModule({
-    cwd: pathManager.cwdPath,
-  });
-
   const corePlgs = await getRollupConfig({
     processStartParams: (params) => {
       return {
         ...params,
         widgetUpSchemaFormDependencyTree: [
           {
-            ...convertConnectorModuleToDependencyTreeNode(
-              frameworkModule,
-              corePathManager.serverConnectorsUrl,
-              corePathManager.getServerScriptFileName(
-                frameworkModule.name,
-                frameworkModule.version
-              )
+            name: getConnectorModuleName(
+              schemaFormModuleInfo.packageJson.name,
+              schemaFormModuleInfo.packageJson.version
             ),
+            version: schemaFormModulePeerDependTree.version,
+            scriptSrc: `() => "${
+              corePathManager.serverConnectorsUrl
+            }/${corePathManager.getServerScriptFileName(
+              schemaFormModuleInfo.packageJson.name,
+              schemaFormModuleInfo.packageJson.version
+            )}"`,
+            linkHref: `() => ''`,
             depends: convertPeerDependenciesTreeToDependencyTreeNodes(
               schemaFormModulePeerDependTree
             ),

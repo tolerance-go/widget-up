@@ -1,5 +1,4 @@
 import { ConfigManager } from "@/src/managers/configManager";
-import { InputNpmManager } from "@/src/managers/inputNpmManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { getConnectorGlobalName } from "@/src/utils/getConnectorGlobalName";
 import fs from "fs-extra";
@@ -13,13 +12,11 @@ import {
 } from "widget-up-utils";
 
 interface GenServerInputsOptions {
-  inputNpmManager: InputNpmManager;
   configManager: ConfigManager;
   pathManager: PathManager;
 }
 
 export function genServerInputs({
-  inputNpmManager,
   configManager,
   pathManager,
 }: GenServerInputsOptions): Plugin {
@@ -30,6 +27,7 @@ export function genServerInputs({
     const frameworkModule = findOnlyFrameworkModule({
       cwd: pathManager.cwdPath,
     });
+
     fs.ensureDirSync(outputPath);
 
     const connectorModuleInfo = resolveNpmInfo({
@@ -88,7 +86,7 @@ export function genServerInputs({
   });
 
   return {
-    name: "gen-start",
+    name: "genServerConnectors",
     buildStart() {
       if (once) return;
 

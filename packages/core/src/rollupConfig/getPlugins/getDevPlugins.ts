@@ -2,7 +2,7 @@ import { genDemoIndexHtml } from "@/src/plugins/genDemoIndexHtml";
 import { genDemoLibs } from "@/src/plugins/genDemoLibs";
 import { genMenus } from "@/src/plugins/genMenus";
 import { genRuntimeLib } from "@/src/plugins/genRuntimeLib";
-import { genServerInputs } from "@/src/plugins/genServerInputs";
+import { genServerInputs } from "@/src/plugins/genServerConnectors";
 import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
@@ -21,7 +21,6 @@ import {
 import { WupFolderName } from "../../constants";
 import { ConfigManager } from "../../managers/configManager";
 import { DemosManager } from "../../managers/demoManager";
-import { InputNpmManager } from "../../managers/inputNpmManager";
 import { PathManager } from "../../managers/pathManager";
 import { PeerDependTreeManager } from "../../managers/peerDependTreeManager";
 import { genConfig } from "../../plugins/genConfig";
@@ -56,10 +55,6 @@ export const getDevPlugins = async ({
   Pick<ServerLibsPluginOptions, "processPeerDependenciesList">): Promise<
   InputPluginOption[]
 > => {
-  const inputNpmManager = new InputNpmManager({
-    cwd: rootPath,
-  });
-
   const coreDevBuildPlugins: InputPluginOption[] = [
     peerDependenciesAsExternal(),
     replace({
@@ -102,7 +97,6 @@ export const getDevPlugins = async ({
     }),
     genRuntimeLib(),
     genServerInputs({
-      inputNpmManager,
       configManager,
       pathManager,
     }),
