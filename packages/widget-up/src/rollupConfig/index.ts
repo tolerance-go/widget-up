@@ -5,6 +5,7 @@ import {
 } from "widget-up-core";
 import {
   convertDependenciesTreeToList,
+  findOnlyFrameworkModule,
   getConnectorModuleName,
   getPeerDependTree,
   resolveModuleInfo,
@@ -30,6 +31,10 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     schemaFormModulePeerDependTree
   );
 
+  const frameworkModuleOfSchemaForm = findOnlyFrameworkModule({
+    cwd: schemaFormModuleInfo.modulePath,
+  });
+
   const corePlgs = await getRollupConfig({
     processStartParams: (params) => {
       return {
@@ -37,15 +42,15 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
         widgetUpSchemaFormDependencyTree: [
           {
             name: getConnectorModuleName(
-              schemaFormModuleInfo.packageJson.name,
-              schemaFormModuleInfo.packageJson.version
+              frameworkModuleOfSchemaForm.name,
+              frameworkModuleOfSchemaForm.version
             ),
             version: schemaFormModulePeerDependTree.version,
             scriptSrc: `() => "${
               corePathManager.serverConnectorsUrl
             }/${corePathManager.getServerScriptFileName(
-              schemaFormModuleInfo.packageJson.name,
-              schemaFormModuleInfo.packageJson.version
+              frameworkModuleOfSchemaForm.name,
+              frameworkModuleOfSchemaForm.version
             )}"`,
             linkHref: `() => ''`,
             depends: convertPeerDependenciesTreeToDependencyTreeNodes(
