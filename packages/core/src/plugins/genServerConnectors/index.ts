@@ -5,78 +5,100 @@ import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
 import {
+  PackageJson,
   findOnlyFrameworkModule,
   resolveModuleInfo,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 
-interface GenServerInputsOptions {}
+interface GenServerInputsOptions {
+  additionalFrameworkModules?: () => PackageJson[];
+}
 
-export function genServerInputs({}: GenServerInputsOptions): Plugin {
+export function genServerInputs({
+  additionalFrameworkModules = () => [],
+}: GenServerInputsOptions): Plugin {
   const configManager = ConfigManager.getInstance();
   const pathManager = PathManager.getInstance();
 
   let once = false;
 
   const build = () => {
-    const frameworkModule = findOnlyFrameworkModule({
-      cwd: pathManager.cwdPath,
+    const frameworkModules = [
+      findOnlyFrameworkModule({
+        cwd: pathManager.cwdPath,
+      }),
+      ...additionalFrameworkModules(),
+    ];
+
+    // Filter out duplicate framework modules
+    const uniqueModules = new Map<string, PackageJson>();
+    frameworkModules.forEach((module) => {
+      const key = `${module.name}@${module.version}`;
+      if (!uniqueModules.has(key)) {
+        uniqueModules.set(key, module);
+      }
     });
 
     const outputPath = pathManager.distServerConnectorsRelativePath;
 
     fs.ensureDirSync(outputPath);
 
-    const connectorModuleInfo = resolveModuleInfo({
-      cwd: pathManager.modulePath,
-      name: frameworkModule.name,
-    });
+    uniqueModules.forEach((frameworkModule) => {
+      const connectorModuleInfo = resolveModuleInfo({
+        cwd: pathManager.modulePath,
+        name: frameworkModule.name,
+      });
 
-    let content = fs.readFileSync(connectorModuleInfo.moduleEntryPath, "utf-8");
+      let content = fs.readFileSync(
+        connectorModuleInfo.moduleEntryPath,
+        "utf-8"
+      );
 
-    content = wrapUMDAliasCode({
-      scriptContent: content,
-      imports: [
-        {
-          globalVar: "RuntimeComponent",
-          scopeVar: "RuntimeComponent",
-        },
-      ],
-      exports: [
-        {
-          globalVar: getConnectorGlobalName(
-            frameworkModule.name,
-            frameworkModule.version
-          ),
-          scopeVar: getConnectorGlobalName(
-            frameworkModule.name,
-            frameworkModule.version
-          ),
-        },
-      ],
-    });
+      content = wrapUMDAliasCode({
+        scriptContent: content,
+        imports: [
+          {
+            globalVar: "RuntimeComponent",
+            scopeVar: "RuntimeComponent",
+          },
+        ],
+        exports: [
+          {
+            globalVar: getConnectorGlobalName(
+              frameworkModule.name,
+              frameworkModule.version
+            ),
+            scopeVar: getConnectorGlobalName(
+              frameworkModule.name,
+              frameworkModule.version
+            ),
+          },
+        ],
+      });
 
-    content = wrapUMDAsyncEventCode({
-      eventId: pathManager.getInputLibUrl(
-        connectorModuleInfo.packageJson.name,
-        connectorModuleInfo.packageJson.version
-      ),
-      scriptContent: content,
-      eventBusPath: "WidgetUpRuntime.globalEventBus",
-    });
-
-    fs.writeFileSync(
-      path.join(
-        outputPath,
-        pathManager.getServerScriptFileName(
+      content = wrapUMDAsyncEventCode({
+        eventId: pathManager.getInputLibUrl(
           connectorModuleInfo.packageJson.name,
           connectorModuleInfo.packageJson.version
-        )
-      ),
-      content,
-      "utf-8"
-    );
+        ),
+        scriptContent: content,
+        eventBusPath: "WidgetUpRuntime.globalEventBus",
+      });
+
+      fs.writeFileSync(
+        path.join(
+          outputPath,
+          pathManager.getServerScriptFileName(
+            connectorModuleInfo.packageJson.name,
+            connectorModuleInfo.packageJson.version
+          )
+        ),
+        content,
+        "utf-8"
+      );
+    });
   };
 
   configManager.watch(() => {
