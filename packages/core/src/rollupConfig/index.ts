@@ -1,5 +1,5 @@
 import { RollupOptions } from "rollup";
-import { getBuildPlugins, getDevPlugins } from "../getPlugins";
+import { getBuildPlugins, getDevPlugins } from "./getPlugins";
 import { ConfigManager } from "../managers/configManager";
 import { DemosManager } from "../managers/demoManager";
 import { PathManager } from "../managers/pathManager";

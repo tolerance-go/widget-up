@@ -18,20 +18,20 @@ import {
   serveLivereload,
   tsDeclarationAlias,
 } from "widget-up-utils";
-import { WupFolderName } from "../constants";
-import { ConfigManager } from "../managers/configManager";
-import { DemosManager } from "../managers/demoManager";
-import { InputNpmManager } from "../managers/inputNpmManager";
-import { PathManager } from "../managers/pathManager";
-import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
-import { genConfig } from "../plugins/genConfig";
-import { genFormConfig } from "../plugins/genFormConfig";
-import { genPackageConfig } from "../plugins/genPackageConfig";
+import { WupFolderName } from "../../constants";
+import { ConfigManager } from "../../managers/configManager";
+import { DemosManager } from "../../managers/demoManager";
+import { InputNpmManager } from "../../managers/inputNpmManager";
+import { PathManager } from "../../managers/pathManager";
+import { PeerDependTreeManager } from "../../managers/peerDependTreeManager";
+import { genConfig } from "../../plugins/genConfig";
+import { genFormConfig } from "../../plugins/genFormConfig";
+import { genPackageConfig } from "../../plugins/genPackageConfig";
 import genServerLibs, {
   ServerLibsPluginOptions,
-} from "../plugins/genServerLibs";
-import { GenStartPlgOptions, genStart } from "../plugins/genStart";
-import wrapMainOutput from "../plugins/wrapMainOutput";
+} from "../../plugins/genServerLibs";
+import { GenStartPlgOptions, genStart } from "../../plugins/genStart";
+import wrapMainOutput from "../../plugins/wrapMainOutput";
 import { getPostCSSPlg } from "./getPostCSSPlg";
 
 export const getDevPlugins = async ({
