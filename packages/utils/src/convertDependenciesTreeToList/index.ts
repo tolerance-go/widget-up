@@ -34,9 +34,7 @@ export function convertDependenciesTreeToList(
         // 没有子依赖，是叶子节点，收集信息
         if (!collectedNodes.has(uniqueKey)) {
           list.push({
-            version: child.version,
-            name: child.name,
-            package: child.package,
+            ...child,
           });
           collectedNodes.add(uniqueKey);
         }
