@@ -7,7 +7,7 @@ export * from "./getMajorVersion";
 export * from "./getURLSearchParams";
 export { BrowserLogger } from "./loggers/BrowserLogger";
 export { FileLogger } from "./loggers/FileLogger";
-export * from "./maps";
+export * from "./assets/maps";
 export { parseConfig } from "./parseConfig";
 export * from "./rollupPlugins";
 export { semverToIdentifier } from "./semverToIdentifier";
