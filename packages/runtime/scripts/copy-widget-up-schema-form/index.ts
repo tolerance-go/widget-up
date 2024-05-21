@@ -14,7 +14,7 @@ const cwd = process.cwd();
 const targetDir = path.resolve(cwd, "server/libs");
 
 // 定义源包路径
-const packageDir = path.join(cwd, "node_modules", packageName);
+const packageDir = path.join(cwd, "../schema-form");
 const packageJsonPath = path.join(packageDir, "package.json");
 
 // 读取 package.json 文件

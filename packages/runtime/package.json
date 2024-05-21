@@ -11,6 +11,7 @@
     "types"
   ],
   "scripts": {
+    "preDev": "pnpm copy:schema-form && pnpm gen:wrap",
     "copy:schema-form": "node --loader ts-node/esm ./scripts/copy-widget-up-schema-form/index.ts",
     "clean:wrap": "rimraf server/{libs,demos,connectors}/*wrap.js -g",
     "gen:wrap": "pnpm gen:alias-wrap && pnpm gen:async-wrap",
