@@ -64,12 +64,27 @@ describe("getPeerDependTree", () => {
       {
         "react-dom": {
           "name": "react-dom",
+          "package": {
+            "peerDependencies": {
+              "react": "^16.8.0",
+            },
+            "version": "16.8.0",
+          },
           "peerDependencies": {
             "react": {
               "name": "react",
+              "package": {
+                "peerDependencies": {
+                  "other": "^1.0.0",
+                },
+                "version": "16.8.0",
+              },
               "peerDependencies": {
                 "other": {
                   "name": "other",
+                  "package": {
+                    "version": "1.1.0",
+                  },
                   "peerDependencies": {},
                   "version": {
                     "exact": "1.1.0",
@@ -90,6 +105,9 @@ describe("getPeerDependTree", () => {
         },
         "utils": {
           "name": "utils",
+          "package": {
+            "version": "1.1.0",
+          },
           "peerDependencies": {},
           "version": {
             "exact": "1.1.0",
@@ -114,15 +132,38 @@ describe("getPeerDependTree", () => {
       {
         "root-package": {
           "name": "root-package",
+          "package": {
+            "name": "root-package",
+            "peerDependencies": {
+              "react-dom": "^16.8.0",
+              "utils": "^1.0.0",
+            },
+            "version": "1.0.0",
+          },
           "peerDependencies": {
             "react-dom": {
               "name": "react-dom",
+              "package": {
+                "peerDependencies": {
+                  "react": "^16.8.0",
+                },
+                "version": "16.8.0",
+              },
               "peerDependencies": {
                 "react": {
                   "name": "react",
+                  "package": {
+                    "peerDependencies": {
+                      "other": "^1.0.0",
+                    },
+                    "version": "16.8.0",
+                  },
                   "peerDependencies": {
                     "other": {
                       "name": "other",
+                      "package": {
+                        "version": "1.1.0",
+                      },
                       "peerDependencies": {},
                       "version": {
                         "exact": "1.1.0",
@@ -143,6 +184,9 @@ describe("getPeerDependTree", () => {
             },
             "utils": {
               "name": "utils",
+              "package": {
+                "version": "1.1.0",
+              },
               "peerDependencies": {},
               "version": {
                 "exact": "1.1.0",

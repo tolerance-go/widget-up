@@ -30,7 +30,7 @@ export function getPeerDependTree(
     parentTree: PeerDependenciesTree = {}
   ): PeerDependenciesTree {
     const packageJsonPath = path.join(dir, "package.json");
-    let packageJson;
+    let packageJson: PackageJson;
     try {
       packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
     } catch (error: unknown) {
@@ -47,7 +47,7 @@ export function getPeerDependTree(
       if (!parentTree[pkg]) {
         const dependencyDir = path.join(dir, "node_modules", pkg);
         const depPackageJsonPath = path.join(dependencyDir, "package.json");
-        let depPackageJson;
+        let depPackageJson: PackageJson;
         try {
           depPackageJson = JSON.parse(
             fs.readFileSync(depPackageJsonPath, "utf8")
@@ -66,6 +66,7 @@ export function getPeerDependTree(
             exact: exactVersion,
             range: range as string,
           },
+          package: depPackageJson,
         };
 
         // Recurse to find nested peer dependencies without first level check
@@ -83,7 +84,7 @@ export function getPeerDependTree(
 
   if (includeRootPackage) {
     const rootPackageJsonPath = path.join(cwd, "package.json");
-    let rootPackageJson;
+    let rootPackageJson: PackageJson;
     try {
       rootPackageJson = JSON.parse(
         fs.readFileSync(rootPackageJsonPath, "utf8")
@@ -110,6 +111,7 @@ export function getPeerDependTree(
           range: rootPackageVersion,
         },
         peerDependencies: tree,
+        package: rootPackageJson,
       };
       return { [rootPackageName]: rootPackageNode };
     }
