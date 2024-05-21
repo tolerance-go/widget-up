@@ -72,7 +72,7 @@ function genServerLibs({
   };
 
   const write = () => {
-    const dependenciesList = peerDependTreeManager.getDependenciesList();
+    const peerDependenciesList = peerDependTreeManager.getDependenciesList();
 
     const { umd: umdConfig } = configManager.getConfig();
 
@@ -85,7 +85,7 @@ function genServerLibs({
     }
 
     // 复制每个需要的库
-    dependenciesList.forEach((lib) => {
+    peerDependenciesList.forEach((lib) => {
       const libName = lib.name;
       const umdFilePath =
         umdConfig.externalDependencies[libName].browser[BuildEnv];

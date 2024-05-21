@@ -75,6 +75,7 @@
     "semver": "^7.6.0",
     "tailwindcss": "^3.4.3",
     "widget-up-core": "workspace:^",
+    "widget-up-schema-form": "workspace:^",
     "widget-up-utils": "workspace:^",
     "yargs": "^17.7.2"
   }
