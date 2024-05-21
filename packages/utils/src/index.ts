@@ -16,7 +16,7 @@ export * from "./wrapUMDAliasCode";
 export * from "./wrapUMDAsyncEventCode";
 export * from "./parseDirectoryStructure";
 export * from "./normalizePath";
-export * from "./resolveNpmInfo";
+export * from "./resolveModuleInfo";
 export * from "./getPeerDependTree";
 export * from "./convertDependenciesTreeToList";
 export * from "./getConnectorModuleBaseName";

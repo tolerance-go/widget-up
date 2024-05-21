@@ -1,8 +1,8 @@
-import { resolveNpmInfo } from ".";
+import { resolveModuleInfo } from ".";
 
 describe("resolvedNpm function", () => {
   it("should correctly resolve an npm package and return all paths and package data", () => {
-    const result = resolveNpmInfo({ name: "rollup" });
+    const result = resolveModuleInfo({ name: "rollup" });
 
     expect(result.moduleEntryPath).toMatch(/dist\/rollup.js/);
     expect(result.modulePath).toMatch(/node_modules\/rollup/);
@@ -15,7 +15,7 @@ describe("resolvedNpm function", () => {
 
   it("should return null if the package does not exist", () => {
     expect(() => {
-      resolveNpmInfo({ name: "nonexistent-package" });
+      resolveModuleInfo({ name: "nonexistent-package" });
     }).toThrowErrorMatchingInlineSnapshot(
       `"Module 'nonexistent-package' not found in any 'node_modules' directory from current path."`
     );

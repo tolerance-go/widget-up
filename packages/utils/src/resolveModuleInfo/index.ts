@@ -3,20 +3,20 @@ import fs from "fs";
 import { PackageJson } from "@/types";
 import { normalizePath } from "../normalizePath";
 
-export interface ResolvedNpmResult {
+export interface ResolvedModuleInfo {
   modulePath: string;
   moduleEntryPath: string;
   moduleStyleEntryPath?: string;
   packageJson: PackageJson;
 }
 
-function resolveNpmInfo({
+function resolveModuleInfo({
   name,
   cwd = process.cwd(),
 }: {
   name: string;
   cwd?: string;
-}): ResolvedNpmResult {
+}): ResolvedModuleInfo {
   // 从当前工作目录开始向上查找 'node_modules'
   let currentPath = cwd;
   let modulePath;
@@ -70,4 +70,4 @@ function resolveNpmInfo({
   };
 }
 
-export { resolveNpmInfo };
+export { resolveModuleInfo };
