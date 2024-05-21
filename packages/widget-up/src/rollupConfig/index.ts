@@ -11,7 +11,7 @@ import {
   resolveNpmInfo,
 } from "widget-up-utils";
 import { PathManager } from "../managers/pathManager";
-import { convertPeerDependenciesTreeToDependencyTree } from "./convertPeerDependenciesTreeToDependencyTree";
+import { convertPeerDependenciesTreeToDependencyTreeNodes } from "./convertPeerDependenciesTreeToDependencyTreeNodes";
 
 export default async (): Promise<RollupOptions | RollupOptions[]> => {
   const pathManager = PathManager.getInstance();
@@ -48,7 +48,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
                 frameworkModule.version
               )
             ),
-            depends: convertPeerDependenciesTreeToDependencyTree(
+            depends: convertPeerDependenciesTreeToDependencyTreeNodes(
               schemaFormModulePeerDependTree
             ),
           },

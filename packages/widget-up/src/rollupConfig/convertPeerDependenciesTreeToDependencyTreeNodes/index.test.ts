@@ -1,5 +1,5 @@
 import { PeerDependenciesTree } from "widget-up-utils";
-import { convertPeerDependenciesTreeToDependencyTree } from ".";
+import { convertPeerDependenciesTreeToDependencyTreeNodes } from ".";
 
 describe("convertNode", () => {
   it("应该将 PeerDependenciesNode 转换为 DependencyTreeNodeJSON", () => {
@@ -24,7 +24,7 @@ describe("convertNode", () => {
       },
     };
 
-    expect(convertPeerDependenciesTreeToDependencyTree(node)).toMatchInlineSnapshot(`
+    expect(convertPeerDependenciesTreeToDependencyTreeNodes(node)).toMatchInlineSnapshot(`
       [
         {
           "depends": [
