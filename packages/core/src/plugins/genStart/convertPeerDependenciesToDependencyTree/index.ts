@@ -1,6 +1,5 @@
-import { PeerDependenciesTree } from "@/src/utils/getPeerDependTree";
 import { DependencyTreeNodeJSON } from "@/types";
-import { NormalizedExternalDependencies } from "widget-up-utils";
+import { NormalizedExternalDependencies, PeerDependenciesTree } from "widget-up-utils";
 
 export function convertPeerDependenciesToDependencyTree(
   peers: PeerDependenciesTree,

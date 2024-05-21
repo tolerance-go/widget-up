@@ -1,16 +1,7 @@
-// 导入PathManager类，用于路径管理
 import { PathManager } from "@/src/managers/pathManager";
-
-// 导入resolveNpmInfo函数，用于解析NPM包信息
-import { resolveNpmInfo } from "@/src/utils/resolveNpmInfo";
-
-// 导入fs-extra库，扩展了fs库的功能，提供更多的文件操作API
+import { resolveNpmInfo } from "widget-up-utils";
 import fs from "fs-extra";
-
-// 导入path库，用于处理文件路径
 import path from "path";
-
-// 导入Rollup的Plugin接口
 import { Plugin } from "rollup";
 
 // 定义genRuntimeLib函数，用于生成运行时库的Rollup插件

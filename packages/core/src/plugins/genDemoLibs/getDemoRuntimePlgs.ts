@@ -4,7 +4,6 @@ import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAl
 import { getEnv } from "@/src/utils/env";
 import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
 import { logger } from "@/src/utils/logger";
-import { normalizePath } from "@/src/utils/normalizePath";
 import runtimeRollup, {
   RuntimeRollupOptions,
 } from "@/src/utils/rollupPlugins/runtimeRollup";
@@ -12,6 +11,7 @@ import { DemoData } from "@/types";
 import path from "path";
 import { InputPluginOption } from "rollup";
 import {
+  normalizePath,
   semverToIdentifier,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,

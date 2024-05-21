@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import getPeerDependTree from ".";
+import { getPeerDependTree } from ".";
 
 describe("getPeerDependTree", () => {
   beforeEach(async () => {

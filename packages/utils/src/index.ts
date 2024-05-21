@@ -17,12 +17,7 @@ export * from "./wrapUMDAsyncEventCode";
 export * from "./parseDirectoryStructure";
 export * from "./normalizePath";
 export * from "./resolveNpmInfo";
+export * from "./getPeerDependTree";
+export * from "./convertDependenciesTreeToList";
 
 export type * from "@/types";
-export type * from "@/types/form";
-export type * from "@/types/runtime";
-export type * from "@/types/version";
-export type {
-  DependencyListItem,
-  TagEvents,
-} from "../types/htmlDependencyManager";

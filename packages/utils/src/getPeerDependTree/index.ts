@@ -1,6 +1,6 @@
 import nodeFs from "fs";
 import nodePath from "path";
-import { VersionData } from "widget-up-utils";
+import { VersionData } from "@/types";
 
 export type PeerDependenciesNode = {
   name: string;
@@ -12,7 +12,7 @@ export interface PeerDependenciesTree {
   [packageName: string]: PeerDependenciesNode;
 }
 
-function getPeerDependTree(
+export function getPeerDependTree(
   options: { cwd: string },
   {
     fs = nodeFs,
@@ -80,5 +80,3 @@ function getPeerDependTree(
 
   return findPeerDependencies(cwd);
 }
-
-export default getPeerDependTree;
