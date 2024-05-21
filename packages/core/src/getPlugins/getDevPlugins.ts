@@ -27,7 +27,9 @@ import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
 import { genConfig } from "../plugins/genConfig";
 import { genFormConfig } from "../plugins/genFormConfig";
 import { genPackageConfig } from "../plugins/genPackageConfig";
-import genServerLibs from "../plugins/genServerLibs";
+import genServerLibs, {
+  ServerLibsPluginOptions,
+} from "../plugins/genServerLibs";
 import { GenStartPlgOptions, genStart } from "../plugins/genStart";
 import wrapMainOutput from "../plugins/wrapMainOutput";
 import { getPostCSSPlg } from "./getPostCSSPlg";
@@ -41,6 +43,7 @@ export const getDevPlugins = async ({
   demosManager,
   pathManager,
   processStartParams,
+  processPeerDependenciesList,
 }: {
   pathManager: PathManager;
   demosManager: DemosManager;
@@ -49,7 +52,10 @@ export const getDevPlugins = async ({
   rootPath: string;
   config: NormalizedConfig;
   packageConfig: PackageJson;
-} & GenStartPlgOptions): Promise<InputPluginOption[]> => {
+} & GenStartPlgOptions &
+  Pick<ServerLibsPluginOptions, "processPeerDependenciesList">): Promise<
+  InputPluginOption[]
+> => {
   const inputNpmManager = new InputNpmManager({
     cwd: rootPath,
   });
@@ -92,9 +98,7 @@ export const getDevPlugins = async ({
       devBuildPlugins: coreDevBuildPlugins,
     }),
     genServerLibs({
-      peerDependTreeManager,
-      configManager,
-      pathManager,
+      processPeerDependenciesList,
     }),
     genRuntimeLib(),
     genServerInputs({

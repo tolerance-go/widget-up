@@ -1,6 +1,6 @@
 import { ConfigManager } from "@/src/managers/configManager";
 import { PathManager } from "@/src/managers/pathManager";
-import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
+import { convertUmdConfigToAliasImports } from "@/src/utils/convertUmdConfigToAliasImports";
 import { getEnv } from "@/src/utils/env";
 import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
 import { logger } from "@/src/utils/logger";
@@ -91,7 +91,7 @@ export const getDemoRuntimePlgs = ({
           const aliasCode = wrapUMDAliasCode({
             scriptContent: code,
             imports: [
-              ...convertConfigUmdToAliasImports({
+              ...convertUmdConfigToAliasImports({
                 external: config.umd.external,
                 globals: config.umd.globals,
               }),

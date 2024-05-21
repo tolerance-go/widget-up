@@ -1,8 +1,8 @@
-import { convertConfigUmdToAliasImports } from ".";
+import { convertUmdConfigToAliasImports } from ".";
 
 describe("convertConfigUmdToAliasImports", () => {
   it("base", () => {
-    const result = convertConfigUmdToAliasImports({
+    const result = convertUmdConfigToAliasImports({
       external: ["rollup"],
       globals: {
         rollup: "Rollup",

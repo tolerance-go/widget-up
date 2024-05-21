@@ -5,7 +5,7 @@ import {
   semverToIdentifier,
 } from "widget-up-utils";
 
-export const convertConfigUmdToAliasImports = ({
+export const convertUmdConfigToAliasImports = ({
   external,
   globals,
 }: {

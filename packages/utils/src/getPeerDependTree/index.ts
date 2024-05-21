@@ -1,11 +1,12 @@
 import nodeFs from "fs";
 import nodePath from "path";
-import { VersionData } from "@/types";
+import { PackageJson, VersionData } from "@/types";
 
 export type PeerDependenciesNode = {
   name: string;
   version: VersionData;
   peerDependencies?: PeerDependenciesTree;
+  package: PackageJson;
 };
 
 export interface PeerDependenciesTree {
@@ -13,7 +14,7 @@ export interface PeerDependenciesTree {
 }
 
 export function getPeerDependTree(
-  options: { cwd: string },
+  options: { cwd: string; includeRootPackage?: boolean },
   {
     fs = nodeFs,
     path = nodePath,
@@ -22,7 +23,7 @@ export function getPeerDependTree(
     path?: typeof import("path");
   } = {}
 ): PeerDependenciesTree {
-  const { cwd } = options;
+  const { cwd, includeRootPackage = false } = options;
 
   function findPeerDependencies(
     dir: string,
@@ -78,5 +79,41 @@ export function getPeerDependTree(
     return parentTree;
   }
 
-  return findPeerDependencies(cwd);
+  const tree = findPeerDependencies(cwd);
+
+  if (includeRootPackage) {
+    const rootPackageJsonPath = path.join(cwd, "package.json");
+    let rootPackageJson;
+    try {
+      rootPackageJson = JSON.parse(
+        fs.readFileSync(rootPackageJsonPath, "utf8")
+      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(
+          `Error reading root package.json in ${cwd}: ${error.message}`
+        );
+      } else {
+        console.error(`An unexpected error occurred: ${error}`);
+      }
+      return tree;
+    }
+
+    const rootPackageName = rootPackageJson.name;
+    const rootPackageVersion = rootPackageJson.version;
+
+    if (rootPackageName && rootPackageVersion) {
+      const rootPackageNode: PeerDependenciesNode = {
+        name: rootPackageName,
+        version: {
+          exact: rootPackageVersion,
+          range: rootPackageVersion,
+        },
+        peerDependencies: tree,
+      };
+      return { [rootPackageName]: rootPackageNode };
+    }
+  }
+
+  return tree;
 }

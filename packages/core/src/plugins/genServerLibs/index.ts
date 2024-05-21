@@ -1,12 +1,13 @@
-import { PathManager } from "@/src/managers/pathManager";
 import { ConfigManager } from "@/src/managers/configManager";
+import { EnvManager } from "@/src/managers/envManager";
+import { PathManager } from "@/src/managers/pathManager";
 import { PeerDependTreeManager } from "@/src/managers/peerDependTreeManager";
-import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
-import { getEnv } from "@/src/utils/env";
+import { convertUmdConfigToAliasImports } from "@/src/utils/convertUmdConfigToAliasImports";
 import fs from "fs";
 import path from "path";
 import { Plugin } from "rollup";
 import {
+  PeerDependenciesNode,
   ResolvedNpmResult,
   normalizePath,
   resolveNpmInfo,
@@ -14,30 +15,32 @@ import {
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
+import { filterDuplicateKeys } from "./filterDuplicateKeys";
 
 // 插件接收的参数类型定义
-interface ServerLibsPluginOptions {
-  configManager: ConfigManager;
-  peerDependTreeManager: PeerDependTreeManager;
-  pathManager: PathManager;
+export interface ServerLibsPluginOptions {
+  processPeerDependenciesList?: (
+    list: PeerDependenciesNode[]
+  ) => PeerDependenciesNode[];
 }
 
 // 主插件函数
 function genServerLibs({
-  configManager,
-  peerDependTreeManager,
-  pathManager,
+  processPeerDependenciesList,
 }: ServerLibsPluginOptions): Plugin {
+  const envManager = EnvManager.getInstance();
+  const configManager = ConfigManager.getInstance();
+  const peerDependTreeManager = PeerDependTreeManager.getInstance();
+  const pathManager = PathManager.getInstance();
+
   let once = false;
 
   const modifyCode = (
     code: string,
     {
       libNpmInfo,
-      serverPath,
     }: {
       libNpmInfo: ResolvedNpmResult;
-      serverPath: string;
     }
   ) => {
     const config = configManager.getConfig();
@@ -45,7 +48,7 @@ function genServerLibs({
       config.umd.externalDependencies[libNpmInfo.packageJson.name];
     const aliasCode = wrapUMDAliasCode({
       scriptContent: code,
-      imports: convertConfigUmdToAliasImports({
+      imports: convertUmdConfigToAliasImports({
         external: externalDependencyConfig.external,
         globals: externalDependencyConfig.globals,
       }),
@@ -73,16 +76,21 @@ function genServerLibs({
   };
 
   const write = () => {
-    const peerDependenciesList = peerDependTreeManager.getDependenciesList();
+    let peerDependenciesList = peerDependTreeManager.getDependenciesList();
+
+    peerDependenciesList =
+      processPeerDependenciesList?.(peerDependenciesList) ??
+      peerDependenciesList;
+
+    peerDependenciesList = filterDuplicateKeys(peerDependenciesList);
 
     const { umd: umdConfig } = configManager.getConfig();
 
-    const { BuildEnv } = getEnv();
-    const outputPath = path.resolve("dist", "server", "libs");
+    const { BuildEnv } = envManager;
 
     // 确保输出目录存在
-    if (!fs.existsSync(outputPath)) {
-      fs.mkdirSync(outputPath, { recursive: true });
+    if (!fs.existsSync(pathManager.distServerLibsAbsPath)) {
+      fs.mkdirSync(pathManager.distServerLibsAbsPath, { recursive: true });
     }
 
     // 复制每个需要的库
@@ -91,8 +99,8 @@ function genServerLibs({
       const umdFilePath =
         umdConfig.externalDependencies[libName].browser[BuildEnv];
       const destPath = path.join(
-        outputPath,
-        `${libName}_${semverToIdentifier(lib.version.exact)}.js`
+        pathManager.distServerLibsAbsPath,
+        pathManager.getServerScriptLibFileName(libName, lib.version.exact)
       );
       const libNpmInfo = resolveNpmInfo({ name: libName });
       const sourcePath = path.join(libNpmInfo.modulePath, umdFilePath);
@@ -100,13 +108,8 @@ function genServerLibs({
       try {
         let code = fs.readFileSync(sourcePath, "utf8");
 
-        const serverPath = normalizePath(
-          path.join("/", path.relative(pathManager.distServerAbsPath, destPath))
-        );
-
         code = modifyCode(code, {
           libNpmInfo,
-          serverPath,
         });
 
         fs.writeFileSync(destPath, code, "utf8");

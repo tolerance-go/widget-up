@@ -1,6 +1,6 @@
 import { ConfigManager } from "@/src/managers/configManager";
 import { PathManager } from "@/src/managers/pathManager";
-import { convertConfigUmdToAliasImports } from "@/src/utils/convertConfigUmdToAliasImports";
+import { convertUmdConfigToAliasImports } from "@/src/utils/convertUmdConfigToAliasImports";
 import MagicString from "magic-string";
 import path from "path";
 import { NormalizedOutputOptions, Plugin, RenderedChunk } from "rollup";
@@ -38,7 +38,7 @@ function wrapMainOutput({
 
     const aliasCode = wrapUMDAliasCode({
       scriptContent: code,
-      imports: convertConfigUmdToAliasImports({
+      imports: convertUmdConfigToAliasImports({
         external: config.umd.external,
         globals: config.umd.globals,
       }),
