@@ -1,4 +1,4 @@
-import { VALID_FRAMEWORK_PACKAGES } from "../assets/constants";
+import { VALID_FRAMEWORK_PACKAGES } from "../datas/constants";
 
 export const getConnectorModuleBaseName = (name: string) => {
   // 合法的名称集合
