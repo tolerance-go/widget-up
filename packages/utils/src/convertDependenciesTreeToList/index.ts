@@ -36,6 +36,7 @@ export function convertDependenciesTreeToList(
           list.push({
             version: child.version,
             name: child.name,
+            package: child.package,
           });
           collectedNodes.add(uniqueKey);
         }
