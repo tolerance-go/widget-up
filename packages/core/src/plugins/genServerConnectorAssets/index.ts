@@ -12,13 +12,13 @@ import {
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 
-interface GenServerInputsOptions {
+export interface GenServerConnectorsOptions {
   additionalFrameworkModules?: () => PackageJson[];
 }
 
-export function genServerInputs({
+export function genServerConnectorAssets({
   additionalFrameworkModules = () => [],
-}: GenServerInputsOptions): Plugin {
+}: GenServerConnectorsOptions): Plugin {
   const configManager = ConfigManager.getInstance();
   const pathManager = PathManager.getInstance();
 

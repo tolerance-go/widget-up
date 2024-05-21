@@ -8,8 +8,7 @@ import path from "path";
 import { Plugin } from "rollup";
 import {
   PeerDependenciesNode,
-  ResolvedNpmResult,
-  normalizePath,
+  ResolvedModuleInfo,
   resolveModuleInfo,
   semverToIdentifier,
   wrapUMDAliasCode,
@@ -40,7 +39,7 @@ function genServerLibs({
     {
       libNpmInfo,
     }: {
-      libNpmInfo: ResolvedNpmResult;
+      libNpmInfo: ResolvedModuleInfo;
     }
   ) => {
     const config = configManager.getConfig();

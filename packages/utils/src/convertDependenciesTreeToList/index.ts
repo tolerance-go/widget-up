@@ -1,7 +1,7 @@
 import {
   PeerDependenciesTree,
   PeerDependenciesNode,
-} from "@/src/getPeerDependTree";
+} from "../getPeerDependTree";
 
 /**
  * 将依赖树转换为叶子节点的数据列表。

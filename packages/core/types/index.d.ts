@@ -1,4 +1,4 @@
-import { VersionData } from "widget-up-utils";
+import type { VersionData } from "widget-up-utils";
 
 export type { DemoMenuItem } from "widget-up-utils";
 

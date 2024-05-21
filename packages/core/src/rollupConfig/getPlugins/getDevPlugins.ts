@@ -2,7 +2,10 @@ import { genDemoIndexHtml } from "@/src/plugins/genDemoIndexHtml";
 import { genDemoLibs } from "@/src/plugins/genDemoLibs";
 import { genMenus } from "@/src/plugins/genMenus";
 import { genRuntimeLib } from "@/src/plugins/genRuntimeLib";
-import { genServerInputs } from "@/src/plugins/genServerConnectors";
+import {
+  GenServerConnectorsOptions,
+  genServerConnectorAssets,
+} from "@/src/plugins/genServerConnectorAssets";
 import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
@@ -43,6 +46,7 @@ export const getDevPlugins = async ({
   pathManager,
   processStartParams,
   processPeerDependenciesList,
+  additionalFrameworkModules,
 }: {
   pathManager: PathManager;
   demosManager: DemosManager;
@@ -52,9 +56,8 @@ export const getDevPlugins = async ({
   config: NormalizedConfig;
   packageConfig: PackageJson;
 } & GenStartPlgOptions &
-  Pick<ServerLibsPluginOptions, "processPeerDependenciesList">): Promise<
-  InputPluginOption[]
-> => {
+  ServerLibsPluginOptions &
+  GenServerConnectorsOptions): Promise<InputPluginOption[]> => {
   const coreDevBuildPlugins: InputPluginOption[] = [
     peerDependenciesAsExternal(),
     replace({
@@ -96,9 +99,8 @@ export const getDevPlugins = async ({
       processPeerDependenciesList,
     }),
     genRuntimeLib(),
-    genServerInputs({
-      configManager,
-      pathManager,
+    genServerConnectorAssets({
+      additionalFrameworkModules,
     }),
     genStart({
       processStartParams,

@@ -9,12 +9,15 @@ import { getEnv } from "../utils/env";
 import { logger } from "../utils/logger";
 import { getProdOutputs } from "./getProdOutputs";
 import { ServerLibsPluginOptions } from "../plugins/genServerLibs";
+import { GenServerConnectorsOptions } from "../plugins/genServerConnectorAssets";
 
 export default async ({
   processStartParams,
   processPeerDependenciesList,
+  additionalFrameworkModules,
 }: GenStartPlgOptions &
-  Pick<ServerLibsPluginOptions, "processPeerDependenciesList">) => {
+  ServerLibsPluginOptions &
+  GenServerConnectorsOptions) => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
   const pathManager = PathManager.getInstance();
 
@@ -55,6 +58,7 @@ export default async ({
         configManager,
         processStartParams,
         processPeerDependenciesList,
+        additionalFrameworkModules,
       }),
       watch: {
         include: ["src/**", "styles/**"],
