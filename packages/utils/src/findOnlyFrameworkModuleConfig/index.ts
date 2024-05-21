@@ -1,8 +1,12 @@
 import { PackageJson } from "@/types";
-import { findFrameworkModules } from "../findFrameworkModules";
+import { findFrameworkModuleConfigs } from "../findFrameworkModuleConfigs";
 
-export function findOnlyFrameworkModule({ cwd }: { cwd: string }): PackageJson {
-  const frameworkModules = findFrameworkModules({
+export function findOnlyFrameworkModuleConfig({
+  cwd,
+}: {
+  cwd: string;
+}): PackageJson {
+  const frameworkModules = findFrameworkModuleConfigs({
     cwd,
   });
 

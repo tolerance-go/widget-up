@@ -9,7 +9,7 @@ import {
   DependencyTreeNodeJSON,
   StartParamsJSON,
   convertConnectorModuleToDependencyTreeNode,
-  findOnlyFrameworkModule,
+  findOnlyFrameworkModuleConfig,
 } from "widget-up-utils";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
 
@@ -35,7 +35,7 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
     );
 
     const demoDatas = demosManager.getDemoDataList();
-    const frameworkModule = findOnlyFrameworkModule({
+    const frameworkModule = findOnlyFrameworkModuleConfig({
       cwd: pathManager.cwdPath,
     });
 

@@ -6,7 +6,7 @@ import path from "path";
 import { Plugin } from "rollup";
 import {
   PackageJson,
-  findOnlyFrameworkModule,
+  findOnlyFrameworkModuleConfig,
   resolveModuleInfo,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
@@ -26,7 +26,7 @@ export function genServerConnectorAssets({
 
   const build = () => {
     const frameworkModules = [
-      findOnlyFrameworkModule({
+      findOnlyFrameworkModuleConfig({
         cwd: pathManager.cwdPath,
       }),
       ...additionalFrameworkModules(),

@@ -3,7 +3,7 @@ import path from "path";
 import { PackageJson } from "@/types";
 import { VALID_FRAMEWORK_PACKAGES } from "../datas/constants";
 
-export function findFrameworkModules({ cwd }: { cwd: string }): PackageJson[] {
+export function findFrameworkModuleConfigs({ cwd }: { cwd: string }): PackageJson[] {
   const packageJsonPath = path.join(cwd, "package.json");
 
   // 检查 package.json 文件是否存在

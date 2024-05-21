@@ -5,7 +5,7 @@ import {
 } from "widget-up-core";
 import {
   convertDependenciesTreeToList,
-  findOnlyFrameworkModule,
+  findOnlyFrameworkModuleConfig,
   getConnectorModuleName,
   getPeerDependTree,
   resolveModuleInfo,
@@ -31,7 +31,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     schemaFormModulePeerDependTree
   );
 
-  const frameworkModuleOfSchemaForm = findOnlyFrameworkModule({
+  const frameworkModuleConfigOfSchemaForm = findOnlyFrameworkModuleConfig({
     cwd: schemaFormModuleInfo.modulePath,
   });
 
@@ -42,15 +42,15 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
         widgetUpSchemaFormDependencyTree: [
           {
             name: getConnectorModuleName(
-              frameworkModuleOfSchemaForm.name,
-              frameworkModuleOfSchemaForm.version
+              frameworkModuleConfigOfSchemaForm.name,
+              frameworkModuleConfigOfSchemaForm.version
             ),
-            version: schemaFormModulePeerDependTree.version,
+            version: frameworkModuleConfigOfSchemaForm.version,
             scriptSrc: `() => "${
               corePathManager.serverConnectorsUrl
             }/${corePathManager.getServerScriptFileName(
-              frameworkModuleOfSchemaForm.name,
-              frameworkModuleOfSchemaForm.version
+              frameworkModuleConfigOfSchemaForm.name,
+              frameworkModuleConfigOfSchemaForm.version
             )}"`,
             linkHref: `() => ''`,
             depends: convertPeerDependenciesTreeToDependencyTreeNodes(
@@ -63,7 +63,9 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     processPeerDependenciesList: (list) => {
       return [...list, ...schemaFormModulePeerDependList];
     },
-    // @TODO 需要加上 widget-up-connector-jquery3 依赖
+    additionalFrameworkModules: () => {
+      return [frameworkModuleConfigOfSchemaForm];
+    },
   });
 
   return corePlgs;

@@ -4,7 +4,7 @@ import { DemoData, DemoMenuItem } from "@/types";
 import {
   NormalizedUMDConfig,
   PackageJson,
-  findOnlyFrameworkModule,
+  findOnlyFrameworkModuleConfig,
   semverToIdentifier,
 } from "widget-up-utils";
 
@@ -14,7 +14,7 @@ export const convertDemoDataToMenu = (
   packageConfig: PackageJson,
   pathManager: PathManager
 ): DemoMenuItem[] => {
-  const frameworkModule = findOnlyFrameworkModule({
+  const frameworkModule = findOnlyFrameworkModuleConfig({
     cwd: pathManager.cwdPath,
   });
 
