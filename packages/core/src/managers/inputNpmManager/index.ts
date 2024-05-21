@@ -1,4 +1,4 @@
-import { getInputNpmName } from "@/src/utils/getInputNpmName";
+import { getConnectorModuleName } from "@/src/utils/getInputNpmName";
 import { detectTechStack } from "@/src/utils/detectTechStack";
 import { PathManager } from "../pathManager";
 import { ResolvedNpmResult, resolveNpmInfo } from "widget-up-utils";
@@ -28,7 +28,7 @@ export class InputNpmManager {
   }
 
   public getCurrentInput() {
-    return this.getInputByName(getInputNpmName(detectTechStack()));
+    return this.getInputByName(getConnectorModuleName(detectTechStack()));
   }
 
   // 根据名称获取入口包信息

@@ -19,5 +19,7 @@ export * from "./normalizePath";
 export * from "./resolveNpmInfo";
 export * from "./getPeerDependTree";
 export * from "./convertDependenciesTreeToList";
+export * from "./getConnectorModuleBaseName";
+export * from "./getConnectorModuleName";
 
 export type * from "@/types";

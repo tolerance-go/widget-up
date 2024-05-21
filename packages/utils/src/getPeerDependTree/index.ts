@@ -6,7 +6,7 @@ export type PeerDependenciesNode = {
   name: string;
   version: VersionData;
   peerDependencies?: PeerDependenciesTree;
-  package: PackageJson;
+  packageConfig: PackageJson;
 };
 
 export interface PeerDependenciesTree {
@@ -66,7 +66,7 @@ export function getPeerDependTree(
             exact: exactVersion,
             range: range as string,
           },
-          package: depPackageJson,
+          packageConfig: depPackageJson,
         };
 
         // Recurse to find nested peer dependencies without first level check
@@ -111,7 +111,7 @@ export function getPeerDependTree(
           range: rootPackageVersion,
         },
         peerDependencies: tree,
-        package: rootPackageJson,
+        packageConfig: rootPackageJson,
       };
       return { [rootPackageName]: rootPackageNode };
     }

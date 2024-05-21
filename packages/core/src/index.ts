@@ -7,3 +7,4 @@ export * from "./managers/envManager";
 export * from "./managers/pathManager";
 export * from "./managers/peerDependTreeManager";
 export * from "./utils/convertUmdConfigToAliasImports";
+export type * from "@/types";

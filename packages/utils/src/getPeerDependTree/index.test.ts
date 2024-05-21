@@ -64,7 +64,7 @@ describe("getPeerDependTree", () => {
       {
         "react-dom": {
           "name": "react-dom",
-          "package": {
+          "packageConfig": {
             "peerDependencies": {
               "react": "^16.8.0",
             },
@@ -73,7 +73,7 @@ describe("getPeerDependTree", () => {
           "peerDependencies": {
             "react": {
               "name": "react",
-              "package": {
+              "packageConfig": {
                 "peerDependencies": {
                   "other": "^1.0.0",
                 },
@@ -82,7 +82,7 @@ describe("getPeerDependTree", () => {
               "peerDependencies": {
                 "other": {
                   "name": "other",
-                  "package": {
+                  "packageConfig": {
                     "version": "1.1.0",
                   },
                   "peerDependencies": {},
@@ -105,7 +105,7 @@ describe("getPeerDependTree", () => {
         },
         "utils": {
           "name": "utils",
-          "package": {
+          "packageConfig": {
             "version": "1.1.0",
           },
           "peerDependencies": {},
@@ -132,7 +132,7 @@ describe("getPeerDependTree", () => {
       {
         "root-package": {
           "name": "root-package",
-          "package": {
+          "packageConfig": {
             "name": "root-package",
             "peerDependencies": {
               "react-dom": "^16.8.0",
@@ -143,7 +143,7 @@ describe("getPeerDependTree", () => {
           "peerDependencies": {
             "react-dom": {
               "name": "react-dom",
-              "package": {
+              "packageConfig": {
                 "peerDependencies": {
                   "react": "^16.8.0",
                 },
@@ -152,7 +152,7 @@ describe("getPeerDependTree", () => {
               "peerDependencies": {
                 "react": {
                   "name": "react",
-                  "package": {
+                  "packageConfig": {
                     "peerDependencies": {
                       "other": "^1.0.0",
                     },
@@ -161,7 +161,7 @@ describe("getPeerDependTree", () => {
                   "peerDependencies": {
                     "other": {
                       "name": "other",
-                      "package": {
+                      "packageConfig": {
                         "version": "1.1.0",
                       },
                       "peerDependencies": {},
@@ -184,7 +184,7 @@ describe("getPeerDependTree", () => {
             },
             "utils": {
               "name": "utils",
-              "package": {
+              "packageConfig": {
                 "version": "1.1.0",
               },
               "peerDependencies": {},

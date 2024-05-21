@@ -8,8 +8,10 @@ import {
   resolveNpmInfo,
 } from "widget-up-utils";
 import { PathManager } from "../managers/pathManager";
+import { RollupOptions } from "rollup";
+import { convertPeerDependenciesTreeToTagTree } from "./convertPeerDependenciesTreeToTagTree";
 
-export default async () => {
+export default async (): Promise<RollupOptions | RollupOptions[]> => {
   const pathManager = PathManager.getInstance();
   const corePathManager = CorePathManager.getInstance();
 
@@ -36,25 +38,9 @@ export default async () => {
             version: "0.0.0",
             scriptSrc: `() => "/libs/input.jquery3.alias-wrap.async-wrap.js"`,
             linkHref: `() => ''`,
-            depends: [
-              {
-                name: "widget-up-schema-form",
-                version: "0.0.0",
-                scriptSrc: `() => "/libs/widget-up-schema-form.alias-wrap.async-wrap.js"`,
-                linkHref: `() => "/libs/widget-up-schema-form.css"`,
-                depends: [
-                  {
-                    name: "jquery",
-                    version: "3.7.1",
-                    scriptSrc: `(dep) => \`${corePathManager.getServerScriptLibFileName(
-                      "jquery",
-                      "3.7.1"
-                    )}\``,
-                    linkHref: `() => ''`,
-                  },
-                ],
-              },
-            ],
+            depends: convertPeerDependenciesTreeToTagTree(
+              schemaFormModulePeerDependTree
+            ),
           },
         ],
       };

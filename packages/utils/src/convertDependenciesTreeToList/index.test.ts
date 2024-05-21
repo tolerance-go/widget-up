@@ -14,7 +14,7 @@ describe("convertDependenciesTreeToList", () => {
         },
         name: "packageA",
         peerDependencies: {},
-        package: {
+        packageConfig: {
           name: "packageA",
           version: "1.0.0",
         },
@@ -28,7 +28,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.0.0",
         },
         name: "packageA",
-        package: {
+        packageConfig: {
           name: "packageA",
           version: "1.0.0",
         },
@@ -46,7 +46,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.0.0",
         },
         name: "packageA",
-        package: {
+        packageConfig: {
           name: "packageA",
           version: "1.0.0",
         },
@@ -57,7 +57,7 @@ describe("convertDependenciesTreeToList", () => {
               range: "^1.1.0",
             },
             name: "packageB",
-            package: {
+            packageConfig: {
               name: "packageB",
               version: "1.1.0",
             },
@@ -69,7 +69,7 @@ describe("convertDependenciesTreeToList", () => {
                 },
                 name: "packageC",
                 peerDependencies: {},
-                package: {
+                packageConfig: {
                   name: "packageC",
                   version: "1.2.0",
                 },
@@ -87,7 +87,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.2.0",
         },
         name: "packageC",
-        package: {
+        packageConfig: {
           name: "packageC",
           version: "1.2.0",
         },
@@ -105,7 +105,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.0.0",
         },
         name: "packageA",
-        package: {
+        packageConfig: {
           name: "packageA",
           version: "1.0.0",
         },
@@ -116,7 +116,7 @@ describe("convertDependenciesTreeToList", () => {
               range: "^1.1.0",
             },
             name: "packageB",
-            package: {
+            packageConfig: {
               name: "packageB",
               version: "1.1.0",
             },
@@ -128,7 +128,7 @@ describe("convertDependenciesTreeToList", () => {
               range: "^1.2.0",
             },
             name: "packageC",
-            package: {
+            packageConfig: {
               name: "packageC",
               version: "1.2.0",
             },
@@ -145,7 +145,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.1.0",
         },
         name: "packageB",
-        package: {
+        packageConfig: {
           name: "packageB",
           version: "1.1.0",
         },
@@ -156,7 +156,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.2.0",
         },
         name: "packageC",
-        package: {
+        packageConfig: {
           name: "packageC",
           version: "1.2.0",
         },
@@ -182,7 +182,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.0.0",
         },
         name: "packageA",
-        package: {
+        packageConfig: {
           name: "packageA",
           version: "1.0.0",
         },
@@ -193,7 +193,7 @@ describe("convertDependenciesTreeToList", () => {
               range: "^1.1.0",
             },
             name: "packageB",
-            package: {
+            packageConfig: {
               name: "packageB",
               version: "1.1.0",
             },
@@ -204,7 +204,7 @@ describe("convertDependenciesTreeToList", () => {
                   range: "^1.2.0",
                 },
                 name: "packageC",
-                package: {
+                packageConfig: {
                   name: "packageC",
                   version: "1.2.0",
                 },
@@ -216,7 +216,7 @@ describe("convertDependenciesTreeToList", () => {
                   range: "^1.3.0",
                 },
                 name: "packageD",
-                package: {
+                packageConfig: {
                   name: "packageD",
                   version: "1.3.0",
                 },
@@ -227,7 +227,7 @@ describe("convertDependenciesTreeToList", () => {
                       range: "^1.4.0",
                     },
                     name: "packageE",
-                    package: {
+                    packageConfig: {
                       name: "packageE",
                       version: "1.4.0",
                     },
@@ -248,7 +248,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.2.0",
         },
         name: "packageC",
-        package: {
+        packageConfig: {
           name: "packageC",
           version: "1.2.0",
         },
@@ -259,7 +259,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.4.0",
         },
         name: "packageE",
-        package: {
+        packageConfig: {
           name: "packageE",
           version: "1.4.0",
         },
@@ -277,7 +277,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.0.0",
         },
         name: "packageA",
-        package: {
+        packageConfig: {
           name: "packageA",
           version: "1.0.0",
         },
@@ -288,7 +288,7 @@ describe("convertDependenciesTreeToList", () => {
               range: "^1.1.0",
             },
             name: "packageB",
-            package: {
+            packageConfig: {
               name: "packageB",
               version: "1.1.0",
             },
@@ -299,7 +299,7 @@ describe("convertDependenciesTreeToList", () => {
                   range: "^1.2.0",
                 },
                 name: "packageC",
-                package: {
+                packageConfig: {
                   name: "packageC",
                   version: "1.2.0",
                 },
@@ -313,7 +313,7 @@ describe("convertDependenciesTreeToList", () => {
               range: "^1.2.0",
             },
             name: "packageC",
-            package: {
+            packageConfig: {
               name: "packageC",
               version: "1.2.0",
             },
@@ -330,7 +330,7 @@ describe("convertDependenciesTreeToList", () => {
           range: "^1.2.0",
         },
         name: "packageC",
-        package: {
+        packageConfig: {
           name: "packageC",
           version: "1.2.0",
         },
