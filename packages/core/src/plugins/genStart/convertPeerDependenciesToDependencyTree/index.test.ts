@@ -1,4 +1,4 @@
-import { PeerDependenciesTree } from "@/src/utils/getPeerDependTree";
+import { PeerDependenciesTree } from "widget-up-utils";
 import { convertPeerDependenciesToDependencyTree } from ".";
 
 describe("convertPeerDependenciesToDependencyTree", () => {
@@ -9,6 +9,10 @@ describe("convertPeerDependenciesToDependencyTree", () => {
         version: {
           exact: "17.0.1",
           range: "^17.0.1",
+        },
+        packageConfig: {
+          name: "react",
+          version: "17.0.1",
         },
       },
     };
@@ -35,12 +39,20 @@ describe("convertPeerDependenciesToDependencyTree", () => {
           exact: "17.0.1",
           range: "^17.0.1",
         },
+        packageConfig: {
+          name: "react",
+          version: "17.0.1",
+        },
         peerDependencies: {
           "react-dom": {
             name: "react-dom",
             version: {
               exact: "17.0.1",
               range: "^17.0.1",
+            },
+            packageConfig: {
+              name: "react-dom",
+              version: "17.0.1",
             },
           },
         },

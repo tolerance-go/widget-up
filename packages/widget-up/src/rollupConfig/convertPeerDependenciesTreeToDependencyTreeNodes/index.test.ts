@@ -24,21 +24,22 @@ describe("convertNode", () => {
       },
     };
 
-    expect(convertPeerDependenciesTreeToDependencyTreeNodes(node)).toMatchInlineSnapshot(`
+    expect(convertPeerDependenciesTreeToDependencyTreeNodes(node))
+      .toMatchInlineSnapshot(`
       [
         {
           "depends": [
             {
               "depends": [],
-              "linkHref": "",
+              "linkHref": "() => ''",
               "name": "packageB",
-              "scriptSrc": "(dep) => \`packageB_v1_0_0.js\`",
+              "scriptSrc": "(dep) => \`/libs/packageB_v1_0_0.js\`",
               "version": "1.0.0",
             },
           ],
-          "linkHref": "",
+          "linkHref": "() => ''",
           "name": "packageA",
-          "scriptSrc": "(dep) => \`packageA_v1_0_0.js\`",
+          "scriptSrc": "(dep) => \`/libs/packageA_v1_0_0.js\`",
           "version": "1.0.0",
         },
       ]
