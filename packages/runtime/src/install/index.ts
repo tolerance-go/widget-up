@@ -1,10 +1,10 @@
 import {
   DependencyListItem,
+  DependencyTreeNode,
   HTMLDependencyManager,
 } from "widget-up-utils";
 import { installLogger } from "./logger";
 import { globalEventBus } from "../events";
-import { DependencyTreeNode } from "@/types";
 
 // 实现`install`方法
 export async function install(

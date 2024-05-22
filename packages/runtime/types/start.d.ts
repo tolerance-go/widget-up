@@ -1,4 +1,4 @@
-import { DependencyTreeNode } from "./dependency";
+import { DependencyTreeNode } from "widget-up-utils";
 
 export type StartParams = {
   dependencies: DependencyTreeNode[];

@@ -11,5 +11,4 @@ export interface AppEvents extends TagEvents {
   };
 }
 
-export type * from "./dependency";
 export type * from './start'
