@@ -33,6 +33,10 @@ wup 开发模式可以像 runtime 一样运行
 # 2024/5/19
 
 - schema-form
-    - [] 和 widget-up 解耦，因为互相依赖了
+    - [x] 和 widget-up 解耦，因为互相依赖了
 - widget-up
     - [] runtime rollup 去除，使用多配置和 schema-form 同步修改，并且这样减少程序 api 带来的复杂性
+
+# 2024/5/23
+
+- [] 类型合并为一个单独文件定义，方便重构和设计

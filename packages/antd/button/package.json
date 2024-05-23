@@ -1,0 +1,35 @@
+{
+  "name": "@widget-up-antd/button",
+  "version": "0.0.0",
+  "description": "",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "browser": "dist/umd/index.js",
+  "type": "module",
+  "files": [
+    "dist",
+    "widget-up.json"
+  ],
+  "scripts": {
+    "build": "wup build",
+    "dev": "wup dev",
+    "prepublishAll": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "widget-up": "workspace:^",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
+  },
+  "peerDependencies": {
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}
