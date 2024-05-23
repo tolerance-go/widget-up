@@ -81,7 +81,11 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
 
     let content = `WidgetUpRuntime.start(${JSON.stringify(params, null, 2)});`;
 
-    content = content.replace(/"(scriptSrc|linkHref)": "(.*)"/g, "$1: $2");
+    content = content
+      // 把字符串转为函数代码
+      .replace(/"(scriptSrc|linkHref)": "(.*)"/g, '"$1": $2')
+      // 去除内部的转义 \"
+      .replace(/\\"/g, '"');
 
     fs.ensureDirSync(path.dirname(outputPath));
     fs.writeFileSync(outputPath, content, "utf-8");
