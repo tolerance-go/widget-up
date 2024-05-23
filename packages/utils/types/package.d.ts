@@ -3,6 +3,7 @@ export interface PackageJson {
   version: string;
   description?: string;
   style?: string;
+  browser?: string;
   main?: string;
   types?: string;
   typings?: string; // 同types

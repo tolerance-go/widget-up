@@ -31,7 +31,7 @@ import { genFormConfig } from "../../plugins/genFormConfig";
 import { genPackageConfig } from "../../plugins/genPackageConfig";
 import genServerLibs, {
   ServerLibsPluginOptions,
-} from "../../plugins/genServerLibs";
+} from "../../plugins/genServerLibsAssets";
 import { GenStartPlgOptions, genStart } from "../../plugins/genStart";
 import wrapMainOutput from "../../plugins/wrapMainOutput";
 import { getPostCSSPlg } from "./getPostCSSPlg";

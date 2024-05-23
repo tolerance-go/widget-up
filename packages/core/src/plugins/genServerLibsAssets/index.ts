@@ -16,6 +16,7 @@ import {
 } from "widget-up-utils";
 import { filterDuplicateKeys } from "./filterDuplicateKeys";
 import { plgLogger } from "./logger";
+import { IdentifierManager } from "@/src/managers/identifierManager";
 
 // 插件接收的参数类型定义
 export interface ServerLibsPluginOptions {
@@ -32,6 +33,7 @@ function genServerLibs({
   const configManager = ConfigManager.getInstance();
   const peerDependTreeManager = PeerDependTreeManager.getInstance();
   const pathManager = PathManager.getInstance();
+  const identifierManager = IdentifierManager.getInstance();
 
   let once = false;
 
@@ -131,7 +133,7 @@ function genServerLibs({
   });
 
   return {
-    name: "server-libs-plugin",
+    name: identifierManager.serverLibsPlgName,
     buildStart() {
       // 只执行一次
       if (!once) {

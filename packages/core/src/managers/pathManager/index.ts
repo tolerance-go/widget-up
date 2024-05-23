@@ -26,9 +26,14 @@ export class PathManager {
     return PathManager.instance;
   }
 
+  public widgetUpConfigFileName: string = "widget-up";
+
   public connectorsFolderName: string = "connectors";
 
   public widgetUpRuntimeName: string = "runtime";
+
+  public widgetUpConfigAbsPath: string;
+  public widgetUpConfigRelativePath: string;
 
   public cwdPath: string;
   public modulePath: string;
@@ -83,6 +88,11 @@ export class PathManager {
     this.distServerConnectorsRelativePath = path.relative(
       this.cwdPath,
       this.distServerConnectorsAbsPath
+    );
+    this.widgetUpConfigRelativePath = `./${this.widgetUpConfigFileName}.json`;
+    this.widgetUpConfigAbsPath = path.join(
+      this.cwdPath,
+      this.widgetUpConfigRelativePath
     );
   }
 
