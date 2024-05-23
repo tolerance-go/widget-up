@@ -2,7 +2,9 @@
 
 - [] 类型合并为一个单独文件定义，方便重构和设计
 - [x] 启动的时候，如果 demos 文件夹不存在不报错
-- [] Cannot read properties of undefined (reading 'browser')
+- [x] Cannot read properties of undefined (reading 'browser')
+- [] [!] (plugin server-libs-plugin) Error: Module 'widget-up-schema-form' not found in any 'node_modules' directory from current path. 
+- [] 前置依赖树类型底层可以调用 resolveModuleInfo
 
 # 2024/5/19
 

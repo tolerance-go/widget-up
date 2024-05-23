@@ -1,5 +1,6 @@
 import { ConfigManager } from "@/src/managers/configManager";
 import { EnvManager } from "@/src/managers/envManager";
+import { IdentifierManager } from "@/src/managers/identifierManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { PeerDependTreeManager } from "@/src/managers/peerDependTreeManager";
 import { convertUmdConfigToAliasImports } from "@/src/utils/convertUmdConfigToAliasImports";
@@ -8,26 +9,23 @@ import path from "path";
 import { Plugin } from "rollup";
 import {
   PeerDependenciesNode,
+  PeerDependenciesTree,
   ResolvedModuleInfo,
   resolveModuleInfo,
   semverToIdentifier,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
-import { filterDuplicateKeys } from "./filterDuplicateKeys";
 import { plgLogger } from "./logger";
-import { IdentifierManager } from "@/src/managers/identifierManager";
 
 // 插件接收的参数类型定义
 export interface ServerLibsPluginOptions {
-  processPeerDependenciesList?: (
-    list: PeerDependenciesNode[]
-  ) => PeerDependenciesNode[];
+  extraPeerDependenciesTree?: PeerDependenciesTree;
 }
 
 // 主插件函数
 function genServerLibs({
-  processPeerDependenciesList,
+  extraPeerDependenciesTree,
 }: ServerLibsPluginOptions): Plugin {
   const envManager = EnvManager.getInstance();
   const configManager = ConfigManager.getInstance();
@@ -77,15 +75,13 @@ function genServerLibs({
     return asyncEventCode;
   };
 
-  const write = () => {
-    let peerDependenciesList = peerDependTreeManager.getDependenciesList();
-
-    peerDependenciesList =
-      processPeerDependenciesList?.(peerDependenciesList) ??
-      peerDependenciesList;
-
-    peerDependenciesList = filterDuplicateKeys(peerDependenciesList);
-
+  const writeCore = ({
+    lib,
+    cwd,
+  }: {
+    lib: PeerDependenciesNode;
+    cwd: string;
+  }) => {
     const { umd: umdConfig } = configManager.getConfig();
 
     const { BuildEnv } = envManager;
@@ -98,30 +94,48 @@ function genServerLibs({
     plgLogger.log("umdConfig", umdConfig);
 
     // 复制每个需要的库
-    peerDependenciesList.forEach((lib) => {
-      const libName = lib.name;
-      plgLogger.log("libName", libName);
-      const umdFilePath =
-        umdConfig.externalDependencies[libName].browser[BuildEnv];
-      const destPath = path.join(
-        pathManager.distServerLibsAbsPath,
-        pathManager.getServerScriptFileName(libName, lib.version.exact)
-      );
-      const libNpmInfo = resolveModuleInfo({ name: libName });
-      const sourcePath = path.join(libNpmInfo.modulePath, umdFilePath);
+    const libName = lib.name;
+    plgLogger.log("libName", libName);
+    const umdFilePath =
+      umdConfig.externalDependencies[libName].browser[BuildEnv];
+    const destPath = path.join(
+      pathManager.distServerLibsAbsPath,
+      pathManager.getServerScriptFileName(libName, lib.version.exact)
+    );
+    const libNpmInfo = resolveModuleInfo({ name: libName, cwd });
+    const sourcePath = path.join(libNpmInfo.modulePath, umdFilePath);
 
-      try {
-        let code = fs.readFileSync(sourcePath, "utf8");
+    try {
+      let code = fs.readFileSync(sourcePath, "utf8");
 
-        code = modifyCode(code, {
-          libNpmInfo,
-        });
+      code = modifyCode(code, {
+        libNpmInfo,
+      });
 
-        fs.writeFileSync(destPath, code, "utf8");
-      } catch (error) {
-        console.error(`Error copying file for ${libName}: ${error}`);
-      }
+      fs.writeFileSync(destPath, code, "utf8");
+    } catch (error) {
+      console.error(`Error copying file for ${libName}: ${error}`);
+    }
+  };
+
+  const write = () => {
+    const tree = peerDependTreeManager.getDependenciesTree();
+
+    Object.entries(tree).forEach(([name, lib]) => {
+      writeCore({
+        lib,
+        cwd: lib.hostModulePath,
+      });
     });
+
+    if (extraPeerDependenciesTree) {
+      Object.entries(extraPeerDependenciesTree).forEach(([name, lib]) => {
+        writeCore({
+          lib,
+          cwd: lib.hostModulePath,
+        });
+      });
+    }
   };
 
   configManager.watch(() => {

@@ -6,11 +6,14 @@ import path from "path";
 import { Plugin } from "rollup";
 import {
   PackageJson,
+  convertFrameworkModuleNameToConnectorModuleName,
   findOnlyFrameworkModuleConfig,
   resolveModuleInfo,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
+import { plgLogger } from "./logger";
+import { IdentifierManager } from "@/src/managers/identifierManager";
 
 export interface GenServerConnectorsOptions {
   additionalFrameworkModules?: () => PackageJson[];
@@ -21,6 +24,7 @@ export function genServerConnectorAssets({
 }: GenServerConnectorsOptions): Plugin {
   const configManager = ConfigManager.getInstance();
   const pathManager = PathManager.getInstance();
+  const identifierManager = IdentifierManager.getInstance();
 
   let once = false;
 
@@ -31,6 +35,8 @@ export function genServerConnectorAssets({
       }),
       ...additionalFrameworkModules(),
     ];
+
+    plgLogger.log("frameworkModules:", frameworkModules);
 
     // Filter out duplicate framework modules
     const uniqueModules = new Map<string, PackageJson>();
@@ -48,7 +54,10 @@ export function genServerConnectorAssets({
     uniqueModules.forEach((frameworkModule) => {
       const connectorModuleInfo = resolveModuleInfo({
         cwd: pathManager.modulePath,
-        name: frameworkModule.name,
+        name: convertFrameworkModuleNameToConnectorModuleName(
+          frameworkModule.name,
+          frameworkModule.version
+        ),
       });
 
       let content = fs.readFileSync(
@@ -106,7 +115,7 @@ export function genServerConnectorAssets({
   });
 
   return {
-    name: "genServerConnectors",
+    name: identifierManager.genServerConnectorAssetsPlgName,
     buildStart() {
       if (once) return;
 

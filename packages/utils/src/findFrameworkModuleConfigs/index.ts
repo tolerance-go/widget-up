@@ -3,7 +3,11 @@ import path from "path";
 import { PackageJson } from "@/types";
 import { VALID_FRAMEWORK_PACKAGES } from "../datas/constants";
 
-export function findFrameworkModuleConfigs({ cwd }: { cwd: string }): PackageJson[] {
+export function findFrameworkModuleConfigs({
+  cwd,
+}: {
+  cwd: string;
+}): PackageJson[] {
   const packageJsonPath = path.join(cwd, "package.json");
 
   // 检查 package.json 文件是否存在
@@ -29,14 +33,8 @@ export function findFrameworkModuleConfigs({ cwd }: { cwd: string }): PackageJso
     let version = allDependencies[pkg];
     let pkgJson: PackageJson | null = null;
 
+    // 如果在依赖中找到
     if (version) {
-      // 如果在 dependencies 或 peerDependencies 中找到
-      pkgJson = {
-        name: pkg,
-        version: version,
-      } as PackageJson;
-    } else {
-      // 如果未在 dependencies 中找到，则检查 node_modules 中的包
       const pkgPath = path.join(cwd, "node_modules", pkg, "package.json");
       if (fs.existsSync(pkgPath)) {
         const pkgContent = fs.readFileSync(pkgPath, "utf-8");

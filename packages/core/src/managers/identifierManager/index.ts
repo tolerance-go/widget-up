@@ -2,6 +2,7 @@ export class IdentifierManager {
   public formSchemaAssetFileName: string;
   public demosFolderName: string;
   public serverLibsPlgName: string;
+  public genServerConnectorAssetsPlgName: string;
 
   private static instance: IdentifierManager;
 
@@ -10,6 +11,7 @@ export class IdentifierManager {
     this.formSchemaAssetFileName = "formSchema.json";
     this.demosFolderName = "demos";
     this.serverLibsPlgName = "server-libs";
+    this.genServerConnectorAssetsPlgName = "genServerConnectorAssets";
   }
 
   // 静态方法用于获取唯一实例

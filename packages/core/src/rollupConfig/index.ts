@@ -13,7 +13,7 @@ import { getProdOutputs } from "./getProdOutputs";
 
 export default async ({
   processStartParams,
-  processPeerDependenciesList,
+  extraPeerDependenciesTree,
   additionalFrameworkModules,
 }: GenStartPlgOptions &
   ServerLibsPluginOptions &
@@ -58,7 +58,7 @@ export default async ({
         packageConfig,
         configManager,
         processStartParams,
-        processPeerDependenciesList,
+        extraPeerDependenciesTree,
         additionalFrameworkModules,
       }),
       watch: {

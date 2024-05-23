@@ -37,7 +37,7 @@ function resolveModuleInfo({
 
   if (!modulePath) {
     throw new Error(
-      `Module '${name}' not found in any 'node_modules' directory from current path.`
+      `Module '${name}' not found in any 'node_modules' directory from current path. cwd: ${cwd}`
     );
   }
 

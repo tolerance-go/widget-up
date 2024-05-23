@@ -55,6 +55,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
             },
             exportScopeObjectName: "global",
           },
+          ...schemaFormModuleWidgetUpConfig.umd.externalDependencies,
         },
       },
     };
@@ -68,10 +69,6 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     cwd: schemaFormModuleInfo.modulePath,
     includeRootPackage: true,
   });
-
-  const schemaFormModulePeerDependList = convertDependenciesTreeToList(
-    schemaFormModulePeerDependTree
-  );
 
   const frameworkModuleConfigOfSchemaForm = findOnlyFrameworkModuleConfig({
     cwd: schemaFormModuleInfo.modulePath,
@@ -102,9 +99,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
         ],
       };
     },
-    processPeerDependenciesList: (list) => {
-      return [...list, ...schemaFormModulePeerDependList];
-    },
+    extraPeerDependenciesTree: schemaFormModulePeerDependTree,
     additionalFrameworkModules: () => {
       return [frameworkModuleConfigOfSchemaForm];
     },
