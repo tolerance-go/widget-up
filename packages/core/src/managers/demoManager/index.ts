@@ -59,21 +59,23 @@ export class DemosManager extends EventEmitter {
   }
 
   private watchFolder(): void {
-    this.fsWatcher = this.fs.watch(
-      this.folderPath,
-      { recursive: true },
-      async (eventType, filename) => {
-        if (filename) {
-          // 当检测到变化时重新加载目录结构
-          try {
-            this.convertDatas();
-            this.emit("change", this.demoDatas);
-          } catch (error) {
-            this.emit("error", error);
+    if (this.fs.existsSync(this.folderPath)) {
+      this.fsWatcher = this.fs.watch(
+        this.folderPath,
+        { recursive: true },
+        async (eventType, filename) => {
+          if (filename) {
+            // 当检测到变化时重新加载目录结构
+            try {
+              this.convertDatas();
+              this.emit("change", this.demoDatas);
+            } catch (error) {
+              this.emit("error", error);
+            }
           }
         }
-      }
-    );
+      );
+    }
   }
 
   public getDemoDatas(): DemoData[] {
