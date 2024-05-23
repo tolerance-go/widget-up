@@ -1,7 +1,7 @@
 import fs from "fs";
 import less from "less";
 import path from "path";
-import { logger } from "./logger";
+import { coreLogger } from "./logger";
 
 // 读取 LESS 文件并编译成 CSS
 export const compileLessToCSS = async (
@@ -16,7 +16,7 @@ export const compileLessToCSS = async (
       filename: path.basename(lessFilePath), // 用于错误报告和 @import 解析
     };
 
-    logger.info("less options: ", JSON.stringify(options, null, 2));
+    coreLogger.info("less options: ", JSON.stringify(options, null, 2));
     // 使用 Promise 包装 less.render 以便使用 async/await
     const output = await less.render(lessContent, options);
     return output.css;

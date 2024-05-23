@@ -26,7 +26,7 @@ import { ConfigManager } from "../../managers/configManager";
 import { DemosManager } from "../../managers/demoManager";
 import { PathManager } from "../../managers/pathManager";
 import { PeerDependTreeManager } from "../../managers/peerDependTreeManager";
-import { genConfig } from "../../plugins/genConfig";
+import { genServerConfigAssets } from "../../plugins/genServerConfigAssets";
 import { genFormConfig } from "../../plugins/genFormConfig";
 import { genPackageConfig } from "../../plugins/genPackageConfig";
 import genServerLibs, {
@@ -119,7 +119,7 @@ export const getDevPlugins = async ({
       packageConfig,
       pathManager,
     }),
-    genConfig(),
+    genServerConfigAssets(),
     genFormConfig(),
     serveLivereload({
       contentBase: ["dist/server", "dist/umd"],

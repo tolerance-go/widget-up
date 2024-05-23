@@ -1,6 +1,6 @@
 import { ConfigManager } from "@/src/managers/configManager";
 import { DemosManager } from "@/src/managers/demoManager";
-import { logger } from "@/src/utils/logger";
+import { coreLogger } from "@/src/utils/logger";
 import { InputPluginOption, Plugin } from "rollup";
 import { getDemoInputList } from "./getDemoInputList";
 import { getDemoRuntimePlgs } from "./getDemoRuntimePlgs";
@@ -22,7 +22,7 @@ export const genDemoLibs = ({
     options(options) {
       const demoDatas = demosManager.getDemoDatas();
       const demoInputList = getDemoInputList(demoDatas ?? []);
-      logger.info("demoInputList: ", demoInputList);
+      coreLogger.info("demoInputList: ", demoInputList);
 
       const runtimeRollupPlgs = getDemoRuntimePlgs({
         pathManager,

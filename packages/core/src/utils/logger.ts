@@ -1,4 +1,4 @@
 import path from "path";
 import { FileLogger } from "widget-up-utils";
 
-export const logger = new FileLogger("widget-up-core");
+export const coreLogger = new FileLogger("widget-up-core");

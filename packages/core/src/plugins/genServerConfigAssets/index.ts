@@ -3,9 +3,9 @@ import { PathManager } from "@/src/managers/pathManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import { Plugin } from "rollup";
 
-export const genConfig = (): Plugin => {
+export const genServerConfigAssets = (): Plugin => {
   return {
-    name: "genConfig",
+    name: "genServerConfigAssets",
     options(options) {
       const pathManager = PathManager.getInstance();
       const configManager = ConfigManager.getInstance();

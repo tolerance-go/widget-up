@@ -3,7 +3,7 @@ import { PathManager } from "@/src/managers/pathManager";
 import { convertUmdConfigToAliasImports } from "@/src/utils/convertUmdConfigToAliasImports";
 import { getEnv } from "@/src/utils/env";
 import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
-import { logger } from "@/src/utils/logger";
+import { coreLogger } from "@/src/utils/logger";
 import runtimeRollup, {
   RuntimeRollupOptions,
 } from "@/src/utils/rollupPlugins/runtimeRollup";
@@ -59,7 +59,7 @@ export const getDemoRuntimePlgs = ({
       },
     };
 
-    logger.info("runtimeRollupPlgs base: ", base);
+    coreLogger.info("runtimeRollupPlgs base: ", base);
 
     return runtimeRollup(
       {
@@ -74,7 +74,7 @@ export const getDemoRuntimePlgs = ({
           include: ["src/**", "demos/**"],
         },
         overwriteChunkCode(code, chunk, options) {
-          logger.info(
+          coreLogger.info(
             "overwriteChunkCode chunk: ",
             JSON.stringify(chunk, null, 2)
           );
@@ -86,7 +86,7 @@ export const getDemoRuntimePlgs = ({
           // 用服务器中的资源路径做为事件 ID
           const eventId = pathManager.getDemoLibServerUrl(chunk.facadeModuleId);
 
-          logger.info("eventId: ", eventId);
+          coreLogger.info("eventId: ", eventId);
 
           const aliasCode = wrapUMDAliasCode({
             scriptContent: code,

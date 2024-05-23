@@ -1,7 +1,8 @@
 # 2024/5/23
 
 - [] 类型合并为一个单独文件定义，方便重构和设计
-- [] 启动的时候，如果 demos 文件夹不存在不报错
+- [x] 启动的时候，如果 demos 文件夹不存在不报错
+- [] Cannot read properties of undefined (reading 'browser')
 
 # 2024/5/19
 

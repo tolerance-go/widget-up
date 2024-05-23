@@ -15,6 +15,7 @@ import {
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 import { filterDuplicateKeys } from "./filterDuplicateKeys";
+import { plgLogger } from "./logger";
 
 // 插件接收的参数类型定义
 export interface ServerLibsPluginOptions {
@@ -92,9 +93,12 @@ function genServerLibs({
       fs.mkdirSync(pathManager.distServerLibsAbsPath, { recursive: true });
     }
 
+    plgLogger.log("umdConfig", umdConfig);
+
     // 复制每个需要的库
     peerDependenciesList.forEach((lib) => {
       const libName = lib.name;
+      plgLogger.log("libName", libName);
       const umdFilePath =
         umdConfig.externalDependencies[libName].browser[BuildEnv];
       const destPath = path.join(

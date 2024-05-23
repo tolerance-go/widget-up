@@ -6,7 +6,7 @@ import { PathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
 import { GenStartPlgOptions } from "../plugins/genStart";
 import { getEnv } from "../utils/env";
-import { logger } from "../utils/logger";
+import { coreLogger } from "../utils/logger";
 import { getProdOutputs } from "./getProdOutputs";
 import { ServerLibsPluginOptions } from "../plugins/genServerLibs";
 import { GenServerConnectorsOptions } from "../plugins/genServerConnectorAssets";
@@ -23,10 +23,10 @@ export default async ({
 
   const demosPath = pathManager.demosAbsPath;
 
-  logger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
-  logger.info(`rootPath is ${pathManager.modulePath}`);
-  logger.info(`cwdPath is ${pathManager.cwdPath}`);
-  logger.info(`demosPath is ${demosPath}`);
+  coreLogger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
+  coreLogger.info(`rootPath is ${pathManager.modulePath}`);
+  coreLogger.info(`cwdPath is ${pathManager.cwdPath}`);
+  coreLogger.info(`demosPath is ${demosPath}`);
 
   const configManager = ConfigManager.getInstance();
   const packageConfig = configManager.getPackageConfig();
@@ -65,7 +65,7 @@ export default async ({
       },
     };
   } else {
-    logger.info("BuildEnvIsProd is true, start to build production code");
+    coreLogger.info("BuildEnvIsProd is true, start to build production code");
     rollupConfig = getProdOutputs(config).map((output) => ({
       input: config.input,
       output,
