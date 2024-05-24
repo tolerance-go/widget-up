@@ -3,20 +3,20 @@ import { ModuleEntryPathData, PackageConfig } from "@/types";
 
 export const getModuleEntryPaths = ({
   modulePath,
-  packageJson,
+  packageConfig,
 }: {
   modulePath: string;
-  packageJson: PackageConfig;
+  packageConfig: PackageConfig;
 }): ModuleEntryPathData => {
   // 确定模块的入口文件路径
-  const mainFile = packageJson.main || "index.js"; // 如果package.json中没有指定main，则默认为index.js
+  const mainFile = packageConfig.main || "index.js"; // 如果package.json中没有指定main，则默认为index.js
   const moduleEntryPath = path.join(modulePath, mainFile);
 
   const moduleStyleEntryPath =
-    packageJson.style && path.join(modulePath, packageJson.style);
+    packageConfig.style && path.join(modulePath, packageConfig.style);
 
   const moduleBrowserEntryPath =
-    packageJson.browser && path.join(modulePath, packageJson.browser);
+    packageConfig.browser && path.join(modulePath, packageConfig.browser);
 
   return {
     moduleEntryPath,

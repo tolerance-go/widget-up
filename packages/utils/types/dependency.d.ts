@@ -1,4 +1,4 @@
-import { PackageConfig } from "./module";
+import { ModuleEntryPathData, PackageConfig } from "./module";
 import { VersionData } from "./version";
 
 export type PeerDependenciesNode = {
@@ -12,6 +12,7 @@ export type PeerDependenciesNode = {
    * 那么 B 的 hostModulePath 就是 A 所在的路径
    */
   hostModulePath: string;
+  moduleEntries: ModuleEntryPathData;
 };
 
 export interface PeerDependenciesTree {

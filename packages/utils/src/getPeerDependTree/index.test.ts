@@ -63,6 +63,13 @@ describe("getPeerDependTree", () => {
     expect(result).toMatchInlineSnapshot(`
       {
         "react-dom": {
+          "hostModulePath": "/fake/directory/node_modules/react-dom",
+          "moduleEntries": {
+            "moduleBrowserEntryPath": undefined,
+            "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\index.js",
+            "modulePath": "/fake/directory/node_modules/react-dom",
+            "moduleStyleEntryPath": undefined,
+          },
           "name": "react-dom",
           "packageConfig": {
             "peerDependencies": {
@@ -72,6 +79,13 @@ describe("getPeerDependTree", () => {
           },
           "peerDependencies": {
             "react": {
+              "hostModulePath": "/fake/directory/node_modules/react-dom/node_modules/react",
+              "moduleEntries": {
+                "moduleBrowserEntryPath": undefined,
+                "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\index.js",
+                "modulePath": "/fake/directory/node_modules/react-dom/node_modules/react",
+                "moduleStyleEntryPath": undefined,
+              },
               "name": "react",
               "packageConfig": {
                 "peerDependencies": {
@@ -81,6 +95,13 @@ describe("getPeerDependTree", () => {
               },
               "peerDependencies": {
                 "other": {
+                  "hostModulePath": "/fake/directory/node_modules/react-dom/node_modules/react/node_modules/other",
+                  "moduleEntries": {
+                    "moduleBrowserEntryPath": undefined,
+                    "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\node_modules\\other\\index.js",
+                    "modulePath": "/fake/directory/node_modules/react-dom/node_modules/react/node_modules/other",
+                    "moduleStyleEntryPath": undefined,
+                  },
                   "name": "other",
                   "packageConfig": {
                     "version": "1.1.0",
@@ -104,6 +125,13 @@ describe("getPeerDependTree", () => {
           },
         },
         "utils": {
+          "hostModulePath": "/fake/directory/node_modules/utils",
+          "moduleEntries": {
+            "moduleBrowserEntryPath": undefined,
+            "moduleEntryPath": "\\fake\\directory\\node_modules\\utils\\index.js",
+            "modulePath": "/fake/directory/node_modules/utils",
+            "moduleStyleEntryPath": undefined,
+          },
           "name": "utils",
           "packageConfig": {
             "version": "1.1.0",
@@ -131,6 +159,13 @@ describe("getPeerDependTree", () => {
     expect(result).toMatchInlineSnapshot(`
       {
         "root-package": {
+          "hostModulePath": "/fake/directory",
+          "moduleEntries": {
+            "moduleBrowserEntryPath": undefined,
+            "moduleEntryPath": "\\fake\\directory\\index.js",
+            "modulePath": "/fake/directory",
+            "moduleStyleEntryPath": undefined,
+          },
           "name": "root-package",
           "packageConfig": {
             "name": "root-package",
@@ -142,6 +177,13 @@ describe("getPeerDependTree", () => {
           },
           "peerDependencies": {
             "react-dom": {
+              "hostModulePath": "/fake/directory/node_modules/react-dom",
+              "moduleEntries": {
+                "moduleBrowserEntryPath": undefined,
+                "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\index.js",
+                "modulePath": "/fake/directory/node_modules/react-dom",
+                "moduleStyleEntryPath": undefined,
+              },
               "name": "react-dom",
               "packageConfig": {
                 "peerDependencies": {
@@ -151,6 +193,13 @@ describe("getPeerDependTree", () => {
               },
               "peerDependencies": {
                 "react": {
+                  "hostModulePath": "/fake/directory/node_modules/react-dom/node_modules/react",
+                  "moduleEntries": {
+                    "moduleBrowserEntryPath": undefined,
+                    "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\index.js",
+                    "modulePath": "/fake/directory/node_modules/react-dom/node_modules/react",
+                    "moduleStyleEntryPath": undefined,
+                  },
                   "name": "react",
                   "packageConfig": {
                     "peerDependencies": {
@@ -160,6 +209,13 @@ describe("getPeerDependTree", () => {
                   },
                   "peerDependencies": {
                     "other": {
+                      "hostModulePath": "/fake/directory/node_modules/react-dom/node_modules/react/node_modules/other",
+                      "moduleEntries": {
+                        "moduleBrowserEntryPath": undefined,
+                        "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\node_modules\\other\\index.js",
+                        "modulePath": "/fake/directory/node_modules/react-dom/node_modules/react/node_modules/other",
+                        "moduleStyleEntryPath": undefined,
+                      },
                       "name": "other",
                       "packageConfig": {
                         "version": "1.1.0",
@@ -183,6 +239,13 @@ describe("getPeerDependTree", () => {
               },
             },
             "utils": {
+              "hostModulePath": "/fake/directory/node_modules/utils",
+              "moduleEntries": {
+                "moduleBrowserEntryPath": undefined,
+                "moduleEntryPath": "\\fake\\directory\\node_modules\\utils\\index.js",
+                "modulePath": "/fake/directory/node_modules/utils",
+                "moduleStyleEntryPath": undefined,
+              },
               "name": "utils",
               "packageConfig": {
                 "version": "1.1.0",

@@ -1,7 +1,4 @@
-import {
-  PeerDependenciesTree,
-  PeerDependenciesNode,
-} from "../getPeerDependTree";
+import { PeerDependenciesTree, PeerDependenciesNode } from "@/types";
 
 /**
  * 将依赖树转换为所有节点的数据列表。

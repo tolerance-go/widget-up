@@ -5,6 +5,7 @@ import {
   PeerDependenciesNode,
   PeerDependenciesTree,
 } from "@/types";
+import { getModuleEntryPaths } from "../getModuleEntryPaths";
 
 export function getPeerDependTree(
   options: { cwd: string; includeRootPackage?: boolean },
@@ -61,6 +62,10 @@ export function getPeerDependTree(
           },
           packageConfig: depPackageJson,
           hostModulePath: dependencyDir,
+          moduleEntries: getModuleEntryPaths({
+            modulePath: dependencyDir,
+            packageConfig: depPackageJson,
+          }),
         };
 
         // Recurse to find nested peer dependencies without first level check
@@ -107,6 +112,10 @@ export function getPeerDependTree(
         peerDependencies: tree,
         packageConfig: rootPackageJson,
         hostModulePath: cwd,
+        moduleEntries: getModuleEntryPaths({
+          modulePath: cwd,
+          packageConfig: rootPackageJson,
+        }),
       };
       return { [rootPackageName]: rootPackageNode };
     }

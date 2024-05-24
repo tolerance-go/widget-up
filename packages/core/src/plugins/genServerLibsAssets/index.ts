@@ -41,16 +41,25 @@ function genServerLibs({
 
   let once = false;
 
-  const modifyCode = (
+  /**
+   * 对脚本内容进行包装
+   *
+   * @param code
+   * @param param1
+   * @returns
+   */
+  const wrapScriptCode = (
     code: string,
     {
-      libNpmInfo,
+      moduleName,
+      version,
     }: {
-      libNpmInfo: ResolvedModuleInfo;
+      moduleName: string;
+      version: string;
     }
   ) => {
     const externalDependencyConfig =
-      config.umd.externalDependencies[libNpmInfo.packageJson.name];
+      config.umd.externalDependencies[moduleName];
 
     const aliasCode = wrapUMDAliasCode({
       scriptContent: code,
@@ -61,7 +70,7 @@ function genServerLibs({
       exports: [
         {
           globalVar: `${externalDependencyConfig.name}_${semverToIdentifier(
-            libNpmInfo.packageJson.version
+            version
           )}`,
           scopeVar: externalDependencyConfig.name,
           scopeName: externalDependencyConfig.exportScopeObjectName,
@@ -70,10 +79,7 @@ function genServerLibs({
     });
 
     const asyncEventCode = wrapUMDAsyncEventCode({
-      eventId: pathManager.getDependsLibServerUrl(
-        libNpmInfo.packageJson.name,
-        libNpmInfo.packageJson.version
-      ),
+      eventId: pathManager.getDependsLibServerUrl(moduleName, version),
       eventBusPath: "WidgetUpRuntime.globalEventBus",
       scriptContent: aliasCode,
     });
@@ -81,62 +87,95 @@ function genServerLibs({
     return asyncEventCode;
   };
 
-  const writeCore = ({
-    lib,
-    cwd,
-  }: {
-    lib: PeerDependenciesNode;
-    cwd: string;
-  }) => {
-    // 确保输出目录存在
-    if (!fs.existsSync(pathManager.distServerLibsAbsPath)) {
-      fs.mkdirSync(pathManager.distServerLibsAbsPath, { recursive: true });
+  // 遍历依赖树
+  const traverseDependencyTree = (
+    tree: PeerDependenciesTree,
+    handler: (item: PeerDependenciesNode) => void
+  ) => {
+    Object.entries(tree).forEach(([name, lib]) => {
+      if (lib.peerDependencies) {
+        traverseDependencyTree(lib.peerDependencies, handler);
+      }
+    });
+  };
+
+  /**
+   * 获取模块的 umd 脚本文件路径
+   */
+  const getBrowserScriptPath = (item: PeerDependenciesNode) => {
+    if (item.moduleEntries.moduleBrowserEntryPath) {
+      return item.moduleEntries.moduleBrowserEntryPath;
+    }
+    const a = config.umd.externalDependencies[item.name];
+
+    if (!a) {
+      throw new Error("浏览器脚本入口没有在模块定义，并且外部依赖也没有定义");
     }
 
-    // 复制每个需要的库
-    const libName = lib.name;
-    plgLogger.log("libName", libName);
-    const umdFilePath =
-      umdConfig.externalDependencies[libName].browser[BuildEnv];
-    const destPath = path.join(
-      pathManager.distServerLibsAbsPath,
-      pathManager.getServerScriptFileName(libName, lib.version.exact)
-    );
-
-    plgLogger.log("resolveModuleInfo libName:", libName);
-
-    const libNpmInfo = resolveModuleInfo({ name: libName, cwd });
-    const sourcePath = path.join(libNpmInfo.modulePath, umdFilePath);
-
-    plgLogger.log("readFileSync sourcePath", sourcePath);
-    let code = fs.readFileSync(sourcePath, "utf8");
-
-    code = modifyCode(code, {
-      libNpmInfo,
-    });
-
-    fs.writeFileSync(destPath, code, "utf8");
+    return a.browser[BuildEnv];
   };
 
   const write = () => {
     const tree = peerDependTreeManager.getDependenciesTree();
     plgLogger.log("tree", tree);
 
-    Object.entries(tree).forEach(([name, lib]) => {
-      writeCore({
-        lib,
-        cwd: lib.hostModulePath,
+    const handler = (item: PeerDependenciesNode) => {
+      // 确保输出目录存在
+      if (!fs.existsSync(pathManager.distServerLibsAbsPath)) {
+        fs.mkdirSync(pathManager.distServerLibsAbsPath, { recursive: true });
+      }
+
+      /**
+       * 找到脚本文件
+       */
+      const scriptFilePath = getBrowserScriptPath(item);
+
+      let scriptContent = fs.readFileSync(scriptFilePath, "utf8");
+
+      // 包裹文件内容
+      scriptContent = wrapScriptCode(scriptContent, {
+        moduleName: item.name,
+        version: item.version.exact,
       });
-    });
+
+      /**
+       * 找到样式文件
+       */
+
+      const styleFilePath = item.moduleEntries.moduleStyleEntryPath;
+
+      const styleContent = styleFilePath
+        ? fs.readFileSync(styleFilePath, "utf8")
+        : "";
+
+      /**
+       * 写入文件目标
+       */
+
+      // 找到脚本目标地址
+      const destScriptPath = path.join(
+        pathManager.distServerLibsAbsPath,
+        pathManager.getServerScriptFileName(item.name, item.version.exact)
+      );
+
+      // 找到样式目标地址
+      const destStylePath = path.join(
+        pathManager.distServerLibsAbsPath,
+        pathManager.getServerStyleFileName(item.name, item.version.exact)
+      );
+
+      // 写入脚本文件
+      fs.writeFileSync(destScriptPath, scriptContent, "utf8");
+
+      // 写入样式文件
+      fs.writeFileSync(destStylePath, styleContent, "utf8");
+    };
+
+    traverseDependencyTree(tree, handler);
 
     plgLogger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
     if (extraPeerDependenciesTree) {
-      Object.entries(extraPeerDependenciesTree).forEach(([name, lib]) => {
-        writeCore({
-          lib,
-          cwd: lib.hostModulePath,
-        });
-      });
+      traverseDependencyTree(extraPeerDependenciesTree, handler);
     }
   };
 

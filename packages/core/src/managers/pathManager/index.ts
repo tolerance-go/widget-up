@@ -146,8 +146,13 @@ export class PathManager {
     );
   }
 
-  /** 拼服务器的 lib 的文件名称 */
+  /** 拼服务器的 lib 的脚本文件名称 */
   public getServerScriptFileName(libName: string, version: string) {
     return `${libName}_${semverToIdentifier(version)}.js`;
+  }
+
+  /** 拼服务器的 lib 的样式文件名称 */
+  public getServerStyleFileName(libName: string, version: string) {
+    return `${libName}_${semverToIdentifier(version)}.css`;
   }
 }

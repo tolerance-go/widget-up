@@ -7,6 +7,7 @@
 - [] 前置依赖树类型底层可以调用 resolveModuleInfo
 - [x] 生成的 start.js 脚本格式不对
 - [] libs 中没有 jquery 包
+- [] 考虑去除所有 version 的 range
 
 # 2024/5/19
 
