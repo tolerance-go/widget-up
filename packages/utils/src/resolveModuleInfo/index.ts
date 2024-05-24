@@ -1,14 +1,7 @@
 import path from "path";
 import fs from "fs";
-import { PackageJson } from "@/types";
+import { PackageConfig, ResolvedModuleInfo } from "@/types";
 import { normalizePath } from "../normalizePath";
-
-export interface ResolvedModuleInfo {
-  modulePath: string;
-  moduleEntryPath: string;
-  moduleStyleEntryPath?: string;
-  packageJson: PackageJson;
-}
 
 function resolveModuleInfo({
   name,
@@ -51,7 +44,7 @@ function resolveModuleInfo({
   }
 
   // 读取并解析 package.json 文件
-  const packageJson: PackageJson = JSON.parse(
+  const packageJson: PackageConfig = JSON.parse(
     fs.readFileSync(packageJsonPath, "utf8")
   );
 

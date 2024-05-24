@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
-import { PackageJson } from "@/types";
+import { PackageConfig } from "@/types";
 import { VALID_FRAMEWORK_PACKAGES } from "../datas/constants";
 
 export function findFrameworkModuleConfigs({
   cwd,
 }: {
   cwd: string;
-}): PackageJson[] {
+}): PackageConfig[] {
   const packageJsonPath = path.join(cwd, "package.json");
 
   // 检查 package.json 文件是否存在
@@ -17,7 +17,7 @@ export function findFrameworkModuleConfigs({
 
   // 读取 package.json 文件内容
   const packageJsonContent = fs.readFileSync(packageJsonPath, "utf-8");
-  const packageJson: PackageJson = JSON.parse(packageJsonContent);
+  const packageJson: PackageConfig = JSON.parse(packageJsonContent);
 
   // 合并 dependencies 和 peerDependencies
   const allDependencies = {
@@ -27,18 +27,18 @@ export function findFrameworkModuleConfigs({
 
   // 要查找的包
   const packagesToFind = VALID_FRAMEWORK_PACKAGES;
-  const foundPackages: PackageJson[] = [];
+  const foundPackages: PackageConfig[] = [];
 
   packagesToFind.forEach((pkg) => {
     let version = allDependencies[pkg];
-    let pkgJson: PackageJson | null = null;
+    let pkgJson: PackageConfig | null = null;
 
     // 如果在依赖中找到
     if (version) {
       const pkgPath = path.join(cwd, "node_modules", pkg, "package.json");
       if (fs.existsSync(pkgPath)) {
         const pkgContent = fs.readFileSync(pkgPath, "utf-8");
-        pkgJson = JSON.parse(pkgContent) as PackageJson;
+        pkgJson = JSON.parse(pkgContent) as PackageConfig;
       }
     }
 

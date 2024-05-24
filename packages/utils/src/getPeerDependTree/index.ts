@@ -1,12 +1,12 @@
 import nodeFs from "fs";
 import nodePath from "path";
-import { PackageJson, VersionData } from "@/types";
+import { PackageConfig, VersionData } from "@/types";
 
 export type PeerDependenciesNode = {
   name: string;
   version: VersionData;
   peerDependencies?: PeerDependenciesTree;
-  packageConfig: PackageJson;
+  packageConfig: PackageConfig;
   /**
    * 依赖所在的 module 的 path
    * 比如依赖 A 前置依赖 B，
@@ -36,7 +36,7 @@ export function getPeerDependTree(
     parentTree: PeerDependenciesTree = {}
   ): PeerDependenciesTree {
     const packageJsonPath = path.join(dir, "package.json");
-    let packageJson: PackageJson;
+    let packageJson: PackageConfig;
     try {
       packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
     } catch (error: unknown) {
@@ -53,7 +53,7 @@ export function getPeerDependTree(
       if (!parentTree[pkg]) {
         const dependencyDir = path.join(dir, "node_modules", pkg);
         const depPackageJsonPath = path.join(dependencyDir, "package.json");
-        let depPackageJson: PackageJson;
+        let depPackageJson: PackageConfig;
         try {
           depPackageJson = JSON.parse(
             fs.readFileSync(depPackageJsonPath, "utf8")
@@ -91,7 +91,7 @@ export function getPeerDependTree(
 
   if (includeRootPackage) {
     const rootPackageJsonPath = path.join(cwd, "package.json");
-    let rootPackageJson: PackageJson;
+    let rootPackageJson: PackageConfig;
     try {
       rootPackageJson = JSON.parse(
         fs.readFileSync(rootPackageJsonPath, "utf8")

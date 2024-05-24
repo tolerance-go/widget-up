@@ -1,8 +1,8 @@
-import { DependencyTreeNodeJSON, PackageJson } from "@/types";
+import { DependencyTreeNodeJSON, PackageConfig } from "@/types";
 import { getConnectorModuleName } from "../getConnectorModuleName";
 
 export const convertConnectorModuleToDependencyTreeNode = (
-  config: PackageJson,
+  config: PackageConfig,
   serverConnectorsUrl: string,
   scriptFileName: string
 ): DependencyTreeNodeJSON => {
