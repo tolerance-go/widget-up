@@ -139,7 +139,6 @@ function genServerLibs({
       /**
        * 找到样式文件
        */
-
       const styleFilePath = item.moduleEntries.moduleStyleEntryPath;
 
       const styleContent = styleFilePath
