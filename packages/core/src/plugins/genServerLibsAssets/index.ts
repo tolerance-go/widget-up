@@ -33,6 +33,12 @@ function genServerLibs({
   const pathManager = PathManager.getInstance();
   const identifierManager = IdentifierManager.getInstance();
 
+  const config = configManager.getConfig();
+  const { umd: umdConfig } = configManager.getConfig();
+  plgLogger.log("umdConfig", umdConfig);
+
+  const { BuildEnv } = envManager;
+
   let once = false;
 
   const modifyCode = (
@@ -43,9 +49,9 @@ function genServerLibs({
       libNpmInfo: ResolvedModuleInfo;
     }
   ) => {
-    const config = configManager.getConfig();
     const externalDependencyConfig =
       config.umd.externalDependencies[libNpmInfo.packageJson.name];
+
     const aliasCode = wrapUMDAliasCode({
       scriptContent: code,
       imports: convertUmdConfigToAliasImports({
@@ -82,16 +88,10 @@ function genServerLibs({
     lib: PeerDependenciesNode;
     cwd: string;
   }) => {
-    const { umd: umdConfig } = configManager.getConfig();
-
-    const { BuildEnv } = envManager;
-
     // 确保输出目录存在
     if (!fs.existsSync(pathManager.distServerLibsAbsPath)) {
       fs.mkdirSync(pathManager.distServerLibsAbsPath, { recursive: true });
     }
-
-    plgLogger.log("umdConfig", umdConfig);
 
     // 复制每个需要的库
     const libName = lib.name;
@@ -102,24 +102,25 @@ function genServerLibs({
       pathManager.distServerLibsAbsPath,
       pathManager.getServerScriptFileName(libName, lib.version.exact)
     );
+
+    plgLogger.log("resolveModuleInfo libName:", libName);
+
     const libNpmInfo = resolveModuleInfo({ name: libName, cwd });
     const sourcePath = path.join(libNpmInfo.modulePath, umdFilePath);
 
-    try {
-      let code = fs.readFileSync(sourcePath, "utf8");
+    plgLogger.log("readFileSync sourcePath", sourcePath);
+    let code = fs.readFileSync(sourcePath, "utf8");
 
-      code = modifyCode(code, {
-        libNpmInfo,
-      });
+    code = modifyCode(code, {
+      libNpmInfo,
+    });
 
-      fs.writeFileSync(destPath, code, "utf8");
-    } catch (error) {
-      console.error(`Error copying file for ${libName}: ${error}`);
-    }
+    fs.writeFileSync(destPath, code, "utf8");
   };
 
   const write = () => {
     const tree = peerDependTreeManager.getDependenciesTree();
+    plgLogger.log("tree", tree);
 
     Object.entries(tree).forEach(([name, lib]) => {
       writeCore({
@@ -128,6 +129,7 @@ function genServerLibs({
       });
     });
 
+    plgLogger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
     if (extraPeerDependenciesTree) {
       Object.entries(extraPeerDependenciesTree).forEach(([name, lib]) => {
         writeCore({

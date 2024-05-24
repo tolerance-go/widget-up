@@ -5,7 +5,8 @@
 - [x] Cannot read properties of undefined (reading 'browser')
 - [x] [!] (plugin server-libs-plugin) Error: Module 'widget-up-schema-form' not found in any 'node_modules' directory from current path. 
 - [] 前置依赖树类型底层可以调用 resolveModuleInfo
-- [] 生成的 start.js 脚本格式不对
+- [x] 生成的 start.js 脚本格式不对
+- [] libs 中没有 jquery 包
 
 # 2024/5/19
 

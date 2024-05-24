@@ -20,6 +20,8 @@ export default async ({
   GenServerConnectorsOptions) => {
   const { BuildEnvIsDev, BuildEnv } = getEnv();
 
+  coreLogger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
+
   const pathManager = PathManager.getInstance();
 
   const demosPath = pathManager.demosAbsPath;
@@ -32,8 +34,6 @@ export default async ({
   const configManager = ConfigManager.getInstance();
   const packageConfig = configManager.getPackageConfig();
   const config = configManager.getConfig();
-
-  const peerDependTreeManager = PeerDependTreeManager.getInstance();
 
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
@@ -52,8 +52,6 @@ export default async ({
       plugins: getDevPlugins({
         pathManager,
         demosManager,
-        peerDependTreeManager: peerDependTreeManager,
-        rootPath: pathManager.modulePath,
         config,
         packageConfig,
         configManager,

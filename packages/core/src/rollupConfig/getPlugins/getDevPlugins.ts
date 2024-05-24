@@ -37,11 +37,9 @@ import wrapMainOutput from "../../plugins/wrapMainOutput";
 import { getPostCSSPlg } from "./getPostCSSPlg";
 
 export const getDevPlugins = async ({
-  rootPath,
   config,
   packageConfig,
   configManager,
-  peerDependTreeManager,
   demosManager,
   pathManager,
   processStartParams,
@@ -50,9 +48,7 @@ export const getDevPlugins = async ({
 }: {
   pathManager: PathManager;
   demosManager: DemosManager;
-  peerDependTreeManager: PeerDependTreeManager;
   configManager: ConfigManager;
-  rootPath: string;
   config: NormalizedConfig;
   packageConfig: PackageJson;
 } & GenStartPlgOptions &

@@ -70,6 +70,8 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     includeRootPackage: true,
   });
 
+  topLogger.log('schemaFormModulePeerDependTree', schemaFormModulePeerDependTree)
+
   const frameworkModuleConfigOfSchemaForm = findOnlyFrameworkModuleConfig({
     cwd: schemaFormModuleInfo.modulePath,
   });

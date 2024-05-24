@@ -2,7 +2,7 @@
   "$schema": "./node_modules/widget-up/dist-schema/config-schema.json",
   "input": "src/index.tsx",
   "umd": {
-    "name": "Component_react16",
+    "name": "Button_antd3",
     "external": ["react", "react-dom"],
     "globals": { "react": "React", "react-dom": "ReactDOM" },
     "externalDependencies": {
