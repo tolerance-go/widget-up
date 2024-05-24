@@ -22,7 +22,7 @@ export interface ServerLibsPluginOptions {
 }
 
 // 主插件函数
-function genServerLibs({
+function generateServerLibraries({
   extraPeerDependenciesTree,
 }: ServerLibsPluginOptions): Plugin {
   const envManager = EnvManager.getInstance();
@@ -46,7 +46,7 @@ function genServerLibs({
    * @param param1
    * @returns
    */
-  const wrapScriptCode = (
+  const wrapScriptContent = (
     code: string,
     {
       moduleName,
@@ -86,13 +86,13 @@ function genServerLibs({
   };
 
   // 遍历依赖树
-  const traverseDependencyTree = (
+  const traverseDependencies = (
     tree: PeerDependenciesTree,
     handler: (item: PeerDependenciesNode) => void
   ) => {
     Object.entries(tree).forEach(([name, lib]) => {
       if (lib.peerDependencies) {
-        traverseDependencyTree(lib.peerDependencies, handler);
+        traverseDependencies(lib.peerDependencies, handler);
       }
     });
   };
@@ -100,20 +100,20 @@ function genServerLibs({
   /**
    * 获取模块的 umd 脚本文件路径
    */
-  const getBrowserScriptPath = (item: PeerDependenciesNode) => {
+  const getModuleBrowserScriptPath = (item: PeerDependenciesNode) => {
     if (item.moduleEntries.moduleBrowserEntryPath) {
       return item.moduleEntries.moduleBrowserEntryPath;
     }
-    const a = config.umd.externalDependencies[item.name];
+    const externalDepConfig = config.umd.externalDependencies[item.name];
 
-    if (!a) {
+    if (!externalDepConfig) {
       throw new Error("浏览器脚本入口没有在模块定义，并且外部依赖也没有定义");
     }
 
-    return a.browser[BuildEnv];
+    return externalDepConfig.browser[BuildEnv];
   };
 
-  const write = () => {
+  const writeOutputFiles = () => {
     const tree = peerDependTreeManager.getDependenciesTree();
     plgLogger.log("tree", tree);
 
@@ -126,12 +126,12 @@ function genServerLibs({
       /**
        * 找到脚本文件
        */
-      const scriptFilePath = getBrowserScriptPath(item);
+      const scriptFilePath = getModuleBrowserScriptPath(item);
 
       let scriptContent = fs.readFileSync(scriptFilePath, "utf8");
 
       // 包裹文件内容
-      scriptContent = wrapScriptCode(scriptContent, {
+      scriptContent = wrapScriptContent(scriptContent, {
         moduleName: item.name,
         version: item.version.exact,
       });
@@ -168,20 +168,20 @@ function genServerLibs({
       fs.writeFileSync(destStylePath, styleContent, "utf8");
     };
 
-    traverseDependencyTree(tree, handler);
+    traverseDependencies(tree, handler);
 
     plgLogger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
     if (extraPeerDependenciesTree) {
-      traverseDependencyTree(extraPeerDependenciesTree, handler);
+      traverseDependencies(extraPeerDependenciesTree, handler);
     }
   };
 
   configManager.watch(() => {
-    write();
+    writeOutputFiles();
   });
 
   peerDependTreeManager.watch(() => {
-    write();
+    writeOutputFiles();
   });
 
   return {
@@ -190,10 +190,10 @@ function genServerLibs({
       // 只执行一次
       if (!once) {
         once = true;
-        write();
+        writeOutputFiles();
       }
     },
   };
 }
 
-export default genServerLibs;
+export default generateServerLibraries;
