@@ -18,7 +18,7 @@ export const getModuleEntryPaths = ({
     moduleStyleEntryPath = path.join(modulePath, packageConfig.style);
   }
 
-  let moduleBrowserEntryPath;
+  let moduleBrowserEntryRelPath, moduleBrowserEntryAbsPath;
   logger.log(`packageConfig.browser`, packageConfig.browser);
 
   if (typeof packageConfig.browser === "object") {
@@ -30,19 +30,27 @@ export const getModuleEntryPaths = ({
      * "." 才是 umd 入口文件
      */
     if (packageConfig.browser["."]) {
-      moduleBrowserEntryPath = path.join(
+      moduleBrowserEntryRelPath = packageConfig.browser["."];
+      moduleBrowserEntryAbsPath = path.join(
         modulePath,
-        packageConfig.browser["."]
+        moduleBrowserEntryRelPath
       );
     }
   } else if (typeof packageConfig.browser === "string") {
-    moduleBrowserEntryPath = path.join(modulePath, packageConfig.browser);
+    moduleBrowserEntryRelPath = packageConfig.browser;
+    moduleBrowserEntryAbsPath = path.join(
+      modulePath,
+      moduleBrowserEntryRelPath
+    );
   }
 
   return {
-    moduleEntryPath,
+    moduleEntryAbsPath: moduleEntryPath,
+    moduleEntryRelPath: mainFile,
     modulePath,
-    moduleStyleEntryPath,
-    moduleBrowserEntryPath,
+    moduleStyleEntryAbsPath: moduleStyleEntryPath,
+    moduleStyleEntryRelPath: packageConfig.style,
+    moduleBrowserEntryAbsPath,
+    moduleBrowserEntryRelPath,
   };
 };

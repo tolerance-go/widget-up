@@ -4,9 +4,12 @@ export type ResolvedModuleInfo = ModuleEntryPathData & {
 
 export type ModuleEntryPathData = {
   modulePath: string;
-  moduleEntryPath: string;
-  moduleStyleEntryPath?: string;
-  moduleBrowserEntryPath?: string;
+  moduleEntryAbsPath: string;
+  moduleStyleEntryAbsPath?: string;
+  moduleBrowserEntryAbsPath?: string;
+  moduleEntryRelPath: string;
+  moduleStyleEntryRelPath?: string;
+  moduleBrowserEntryRelPath?: string;
 };
 
 export interface PackageConfig {

@@ -31,7 +31,7 @@ export function genRuntimeLib(): Plugin {
       const copyJS = () => {
         // 读取模块的入口文件内容
         const content = fs.readFileSync(
-          wupRuntimeLibNpm.moduleEntryPath,
+          wupRuntimeLibNpm.moduleEntryAbsPath,
           "utf-8"
         );
 
@@ -49,11 +49,11 @@ export function genRuntimeLib(): Plugin {
       };
 
       const copyStyle = () => {
-        if (!wupRuntimeLibNpm.moduleStyleEntryPath) return;
+        if (!wupRuntimeLibNpm.moduleStyleEntryAbsPath) return;
 
         // 根据是否存在样式入口路径，读取样式文件内容
         const styleContent = fs.readFileSync(
-          wupRuntimeLibNpm.moduleStyleEntryPath,
+          wupRuntimeLibNpm.moduleStyleEntryAbsPath,
           "utf-8"
         );
 
@@ -67,16 +67,16 @@ export function genRuntimeLib(): Plugin {
       };
 
       // 监听JavaScript文件和CSS文件的变化
-      fs.watch(wupRuntimeLibNpm.moduleEntryPath, (eventType, filename) => {
+      fs.watch(wupRuntimeLibNpm.moduleEntryAbsPath, (eventType, filename) => {
         if (eventType === "change") {
           console.log(`${filename} has been changed, copying...`);
           copyJS();
         }
       });
 
-      if (wupRuntimeLibNpm.moduleStyleEntryPath) {
+      if (wupRuntimeLibNpm.moduleStyleEntryAbsPath) {
         fs.watch(
-          wupRuntimeLibNpm.moduleStyleEntryPath,
+          wupRuntimeLibNpm.moduleStyleEntryAbsPath,
           (eventType, filename) => {
             if (eventType === "change") {
               console.log(`${filename} has been changed, copying...`);

@@ -4,7 +4,7 @@ describe("resolvedNpm function", () => {
   it("should correctly resolve an npm package and return all paths and package data", () => {
     const result = resolveModuleInfo({ name: "rollup" });
 
-    expect(result.moduleEntryPath).toMatch(/dist\/rollup.js/);
+    expect(result.moduleEntryAbsPath).toMatch(/dist\/rollup.js/);
     expect(result.modulePath).toMatch(/node_modules\/rollup/);
     expect(result.packageJson).toMatchObject({
       name: "rollup",

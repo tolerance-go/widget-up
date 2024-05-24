@@ -56,9 +56,10 @@ function resolveModuleInfo({
     packageJson.style && path.join(modulePath, packageJson.style);
 
   return {
-    moduleEntryPath: normalizePath(moduleEntryPath),
+    moduleEntryAbsPath: normalizePath(moduleEntryPath),
+    moduleEntryRelPath: mainFile,
     modulePath: normalizePath(modulePath),
-    moduleStyleEntryPath,
+    moduleStyleEntryAbsPath: moduleStyleEntryPath,
     packageJson,
   };
 }

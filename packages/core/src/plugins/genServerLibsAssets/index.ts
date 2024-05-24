@@ -14,7 +14,7 @@ import {
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
-import { plgLogger } from "./logger";
+import { logger } from "./logger";
 
 // 插件接收的参数类型定义
 export interface ServerLibsPluginOptions {
@@ -33,7 +33,7 @@ function generateServerLibraries({
 
   const config = configManager.getConfig();
   const { umd: umdConfig } = configManager.getConfig();
-  plgLogger.log("umdConfig", umdConfig);
+  logger.log("umdConfig", umdConfig);
 
   const { BuildEnv } = envManager;
 
@@ -91,8 +91,9 @@ function generateServerLibraries({
     handler: (item: PeerDependenciesNode) => void
   ) => {
     Object.entries(tree).forEach(([name, lib]) => {
+      handler(lib); // 处理当前节点
       if (lib.peerDependencies) {
-        traverseDependencies(lib.peerDependencies, handler);
+        traverseDependencies(lib.peerDependencies, handler); // 递归处理子节点
       }
     });
   };
@@ -101,8 +102,8 @@ function generateServerLibraries({
    * 获取模块的 umd 脚本文件路径
    */
   const getModuleBrowserScriptPath = (item: PeerDependenciesNode) => {
-    if (item.moduleEntries.moduleBrowserEntryPath) {
-      return item.moduleEntries.moduleBrowserEntryPath;
+    if (item.moduleEntries.moduleBrowserEntryRelPath) {
+      return item.moduleEntries.moduleBrowserEntryRelPath;
     }
     const externalDepConfig = config.umd.externalDependencies[item.name];
 
@@ -115,7 +116,7 @@ function generateServerLibraries({
 
   const writeOutputFiles = () => {
     const tree = peerDependTreeManager.getDependenciesTree();
-    plgLogger.log("tree", tree);
+    logger.log("tree", tree);
 
     const handler = (item: PeerDependenciesNode) => {
       // 确保输出目录存在
@@ -126,7 +127,12 @@ function generateServerLibraries({
       /**
        * 找到脚本文件
        */
-      const scriptFilePath = getModuleBrowserScriptPath(item);
+      const scriptFilePath = path.join(
+        item.moduleEntries.modulePath,
+        getModuleBrowserScriptPath(item)
+      );
+
+      logger.log("scriptFilePath", scriptFilePath);
 
       let scriptContent = fs.readFileSync(scriptFilePath, "utf8");
 
@@ -139,10 +145,15 @@ function generateServerLibraries({
       /**
        * 找到样式文件
        */
-      const styleFilePath = item.moduleEntries.moduleStyleEntryPath;
+      const styleFileRelativePath = item.moduleEntries.moduleStyleEntryAbsPath;
+      const styleFileAbsPath = styleFileRelativePath
+        ? path.join(item.moduleEntries.modulePath, styleFileRelativePath)
+        : undefined;
 
-      const styleContent = styleFilePath
-        ? fs.readFileSync(styleFilePath, "utf8")
+      logger.log("styleFileRelativePath", styleFileRelativePath);
+
+      const styleContent = styleFileAbsPath
+        ? fs.readFileSync(styleFileAbsPath, "utf8")
         : "";
 
       /**
@@ -170,7 +181,7 @@ function generateServerLibraries({
 
     traverseDependencies(tree, handler);
 
-    plgLogger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
+    logger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
     if (extraPeerDependenciesTree) {
       traverseDependencies(extraPeerDependenciesTree, handler);
     }
