@@ -25,5 +25,6 @@ export * from "./findFrameworkModuleConfigs";
 export * from "./findOnlyFrameworkModuleConfig";
 export * from "./convertConnectorModuleToDependencyTreeNode";
 export * from "./convertFrameworkModuleNameToConnectorModuleName";
+export * from "./getModuleEntryPaths";
 
 export type * from "@/types";

@@ -1,3 +1,5 @@
+import { DependencyTreeNodeJSON } from "./htmlDependencyManager";
+
 export interface DemoMenuItem {
   globals: {
     component: string;
@@ -6,3 +8,8 @@ export interface DemoMenuItem {
   name: string;
   children?: DemoMenuItem[];
 }
+
+export type StartParamsJSON = {
+  dependencies: DependencyTreeNodeJSON[];
+  widgetUpSchemaFormDependencyTree?: DependencyTreeNodeJSON[];
+};
