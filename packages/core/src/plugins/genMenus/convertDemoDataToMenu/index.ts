@@ -3,7 +3,7 @@ import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
 import { DemoData, DemoMenuItem } from "@/types";
 import {
   NormalizedUMDConfig,
-  PackageJson,
+  PackageConfig,
   findOnlyFrameworkModuleConfig,
   semverToIdentifier,
 } from "widget-up-utils";
@@ -11,7 +11,7 @@ import {
 export const convertDemoDataToMenu = (
   demosData: DemoData[],
   umdConfig: NormalizedUMDConfig,
-  packageConfig: PackageJson,
+  packageConfig: PackageConfig,
   pathManager: PathManager
 ): DemoMenuItem[] => {
   const frameworkModule = findOnlyFrameworkModuleConfig({

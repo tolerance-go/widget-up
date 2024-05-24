@@ -5,7 +5,7 @@ import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
 import {
-  PackageJson,
+  PackageConfig,
   convertFrameworkModuleNameToConnectorModuleName,
   findOnlyFrameworkModuleConfig,
   resolveModuleInfo,
@@ -16,7 +16,7 @@ import { plgLogger } from "./logger";
 import { IdentifierManager } from "@/src/managers/identifierManager";
 
 export interface GenServerConnectorsOptions {
-  additionalFrameworkModules?: () => PackageJson[];
+  additionalFrameworkModules?: () => PackageConfig[];
 }
 
 export function genServerConnectorAssets({
@@ -39,7 +39,7 @@ export function genServerConnectorAssets({
     plgLogger.log("frameworkModules:", frameworkModules);
 
     // Filter out duplicate framework modules
-    const uniqueModules = new Map<string, PackageJson>();
+    const uniqueModules = new Map<string, PackageConfig>();
     frameworkModules.forEach((module) => {
       const key = `${module.name}@${module.version}`;
       if (!uniqueModules.has(key)) {

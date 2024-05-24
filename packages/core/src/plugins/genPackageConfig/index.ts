@@ -1,13 +1,13 @@
 import { PathManager } from "@/src/managers/pathManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import { Plugin } from "rollup";
-import { PackageJson } from "widget-up-utils";
+import { PackageConfig } from "widget-up-utils";
 
 export const genPackageConfig = ({
   packageConfig,
   pathManager,
 }: {
-  packageConfig: PackageJson;
+  packageConfig: PackageConfig;
   pathManager: PathManager;
 }): Plugin => {
   return {

@@ -1,13 +1,13 @@
 import { EventEmitter } from "events";
 import fs from "fs";
 import path from "path";
-import { NormalizedConfig, PackageJson, parseConfig } from "widget-up-utils";
+import { NormalizedConfig, PackageConfig, parseConfig } from "widget-up-utils";
 import { PathManager } from "../pathManager";
 
 export class ConfigManager extends EventEmitter {
   private static instance: ConfigManager | null = null;
   private config: NormalizedConfig | null = null;
-  private packageConfig: PackageJson | null = null;
+  private packageConfig: PackageConfig | null = null;
   private fsWatcher: fs.FSWatcher | null = null;
   private pathManager: PathManager;
 
@@ -97,7 +97,7 @@ export class ConfigManager extends EventEmitter {
   private loadPackageConfig() {
     const packageConfig = JSON.parse(
       fs.readFileSync(path.resolve("package.json"), "utf8")
-    ) as PackageJson;
+    ) as PackageConfig;
     this.packageConfig = packageConfig;
   }
 

@@ -15,7 +15,7 @@ import typescript from "@rollup/plugin-typescript";
 import { InputPluginOption } from "rollup";
 import {
   NormalizedConfig,
-  PackageJson,
+  PackageConfig,
   deleteDist,
   peerDependenciesAsExternal,
   serveLivereload,
@@ -50,7 +50,7 @@ export const getDevPlugins = async ({
   demosManager: DemosManager;
   configManager: ConfigManager;
   config: NormalizedConfig;
-  packageConfig: PackageJson;
+  packageConfig: PackageConfig;
 } & GenStartPlgOptions &
   ServerLibsPluginOptions &
   GenServerConnectorsOptions): Promise<InputPluginOption[]> => {
