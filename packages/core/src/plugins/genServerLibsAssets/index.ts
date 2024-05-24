@@ -10,8 +10,6 @@ import { Plugin } from "rollup";
 import {
   PeerDependenciesNode,
   PeerDependenciesTree,
-  ResolvedModuleInfo,
-  resolveModuleInfo,
   semverToIdentifier,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
