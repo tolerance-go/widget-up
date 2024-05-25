@@ -21,9 +21,9 @@ export function convertPeerDependenciesToDependencyTree(
     const node: DependencyTreeNodeJSON = {
       name: packageName,
       version: version.exact,
-      scriptSrc: `dep => \`/libs/\${dep.name}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}.js\``,
+      scriptSrc: `dep => \`/libs/\${dep.name}_\${WidgetUpRuntime.utils.convertSemverVersionToIdentify(dep.version.exact)}.js\``,
       linkHref: hasStyle
-        ? `dep => \`/libs/\${dep.name}_\${WidgetUpRuntime.utils.semverToIdentifier(dep.version.exact)}/index.css\``
+        ? `dep => \`/libs/\${dep.name}_\${WidgetUpRuntime.utils.convertSemverVersionToIdentify(dep.version.exact)}/index.css\``
         : `() => ''`,
       depends: peerDependencies
         ? convertPeerDependenciesToDependencyTree(

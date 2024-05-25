@@ -19,7 +19,7 @@ import {
   NormalizedUMDConfig,
   UMDAliasOptions,
   resolveModuleInfo,
-  semverToIdentifier,
+  convertSemverVersionToIdentify,
 } from "widget-up-utils";
 ```
 
@@ -63,7 +63,7 @@ export const convertConfigUmdToAliasImports = ({
     const libData = resolveModuleInfo({ name: libName });
 
     imports.push({
-      globalVar: `${globalVar}_${semverToIdentifier(
+      globalVar: `${globalVar}_${convertSemverVersionToIdentify(
         libData.packageJson.version
       )}`,
       scopeVar: globalVar,
@@ -78,4 +78,4 @@ export const convertConfigUmdToAliasImports = ({
 
 1. **错误处理**: 如果在 `globals` 中找不到对应 `external` 的全局变量名，函数会抛出一个错误。
 2. **依赖解析**: 该函数依赖于 `resolveModuleInfo` 函数来获取 NPM 包信息，因此在使用前需要确保 `resolveModuleInfo` 已经正确实现。
-3. **版本标识**: 使用 `semverToIdentifier` 函数将版本号转换为标识符，以避免不同版本的库之间的命名冲突。
+3. **版本标识**: 使用 `convertSemverVersionToIdentify` 函数将版本号转换为标识符，以避免不同版本的库之间的命名冲突。

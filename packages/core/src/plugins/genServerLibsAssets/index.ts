@@ -10,7 +10,8 @@ import { Plugin } from "rollup";
 import {
   PeerDependenciesNode,
   PeerDependenciesTree,
-  semverToIdentifier,
+  convertSemverVersionToIdentify,
+  getModuleAliasImports,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
@@ -51,9 +52,11 @@ function generateServerLibraries({
     {
       moduleName,
       version,
+      peerDependenciesTree,
     }: {
       moduleName: string;
       version: string;
+      peerDependenciesTree: PeerDependenciesTree;
     }
   ) => {
     const externalDependencyConfig =
@@ -61,15 +64,16 @@ function generateServerLibraries({
 
     const aliasCode = wrapUMDAliasCode({
       scriptContent: code,
-      imports: convertUmdConfigToAliasImports({
+      imports: getModuleAliasImports({
         external: externalDependencyConfig.external,
         globals: externalDependencyConfig.globals,
+        peerDependenciesTree,
       }),
       exports: [
         {
-          globalVar: `${externalDependencyConfig.name}_${semverToIdentifier(
-            version
-          )}`,
+          globalVar: `${
+            externalDependencyConfig.name
+          }_${convertSemverVersionToIdentify(version)}`,
           scopeVar: externalDependencyConfig.name,
           scopeName: externalDependencyConfig.exportScopeObjectName,
         },
@@ -118,7 +122,7 @@ function generateServerLibraries({
     const tree = peerDependTreeManager.getDependenciesTree();
     logger.log("tree", tree);
 
-    const handler = (item: PeerDependenciesNode) => {
+    const handler = (node: PeerDependenciesNode) => {
       // 确保输出目录存在
       if (!fs.existsSync(pathManager.distServerLibsAbsPath)) {
         fs.mkdirSync(pathManager.distServerLibsAbsPath, { recursive: true });
@@ -128,8 +132,8 @@ function generateServerLibraries({
        * 找到脚本文件
        */
       const scriptFilePath = path.join(
-        item.moduleEntries.modulePath,
-        getModuleBrowserScriptPath(item)
+        node.moduleEntries.modulePath,
+        getModuleBrowserScriptPath(node)
       );
 
       logger.log("scriptFilePath", scriptFilePath);
@@ -138,16 +142,17 @@ function generateServerLibraries({
 
       // 包裹文件内容
       scriptContent = wrapScriptContent(scriptContent, {
-        moduleName: item.name,
-        version: item.version.exact,
+        moduleName: node.name,
+        version: node.version.exact,
+        peerDependenciesTree: node.peerDependencies ?? {},
       });
 
       /**
        * 找到样式文件
        */
-      const styleFileRelativePath = item.moduleEntries.moduleStyleEntryAbsPath;
+      const styleFileRelativePath = node.moduleEntries.moduleStyleEntryAbsPath;
       const styleFileAbsPath = styleFileRelativePath
-        ? path.join(item.moduleEntries.modulePath, styleFileRelativePath)
+        ? path.join(node.moduleEntries.modulePath, styleFileRelativePath)
         : undefined;
 
       logger.log("styleFileRelativePath", styleFileRelativePath);
@@ -163,13 +168,13 @@ function generateServerLibraries({
       // 找到脚本目标地址
       const destScriptPath = path.join(
         pathManager.distServerLibsAbsPath,
-        pathManager.getServerScriptFileName(item.name, item.version.exact)
+        pathManager.getServerScriptFileName(node.name, node.version.exact)
       );
 
       // 找到样式目标地址
       const destStylePath = path.join(
         pathManager.distServerLibsAbsPath,
-        pathManager.getServerStyleFileName(item.name, item.version.exact)
+        pathManager.getServerStyleFileName(node.name, node.version.exact)
       );
 
       // 写入脚本文件

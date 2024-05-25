@@ -1,5 +1,5 @@
 import path from "path";
-import { normalizePath, semverToIdentifier } from "widget-up-utils";
+import { normalizePath, convertSemverVersionToIdentify } from "widget-up-utils";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 

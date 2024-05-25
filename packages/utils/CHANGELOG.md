@@ -74,7 +74,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- **@widget-up/utils:** 新增 getLatestPackageVersion 和 semverToIdentifier 方法 ([4264b3c](https://github.com/tolerance-go/widget-up/commit/4264b3cbdff5dd4cca7ec87b3132714052da1477))
+- **@widget-up/utils:** 新增 getLatestPackageVersion 和 convertSemverVersionToIdentify 方法 ([4264b3c](https://github.com/tolerance-go/widget-up/commit/4264b3cbdff5dd4cca7ec87b3132714052da1477))
 
 ### Bug Fixes
 
@@ -85,7 +85,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- **@widget-up/utils:** 新增 getLatestPackageVersion 和 semverToIdentifier 方法 ([4264b3c](https://github.com/tolerance-go/widget-up/commit/4264b3cbdff5dd4cca7ec87b3132714052da1477))
+- **@widget-up/utils:** 新增 getLatestPackageVersion 和 convertSemverVersionToIdentify 方法 ([4264b3c](https://github.com/tolerance-go/widget-up/commit/4264b3cbdff5dd4cca7ec87b3132714052da1477))
 
 ### Bug Fixes
 

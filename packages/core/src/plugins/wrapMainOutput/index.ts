@@ -6,7 +6,7 @@ import path from "path";
 import { NormalizedOutputOptions, Plugin, RenderedChunk } from "rollup";
 import {
   normalizePath,
-  semverToIdentifier,
+  convertSemverVersionToIdentify,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
@@ -44,7 +44,7 @@ function wrapMainOutput({
       }),
       exports: [
         {
-          globalVar: `${config.umd.name}_${semverToIdentifier(
+          globalVar: `${config.umd.name}_${convertSemverVersionToIdentify(
             packageConfig.version
           )}`,
           scopeVar: config.umd.name,

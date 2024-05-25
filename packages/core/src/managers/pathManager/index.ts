@@ -1,5 +1,5 @@
 import path from "path";
-import { normalizePath, semverToIdentifier } from "widget-up-utils";
+import { normalizePath, convertSemverVersionToIdentify } from "widget-up-utils";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 interface PathManagerOptions {
@@ -100,14 +100,14 @@ export class PathManager {
    * 获取外部依赖在服务器端的请求路径
    */
   public getDependsLibServerUrl(depName: string, version: string) {
-    return `${this.serverLibsUrl}/${depName}_${semverToIdentifier(version)}.js`;
+    return `${this.serverLibsUrl}/${depName}_${convertSemverVersionToIdentify(version)}.js`;
   }
 
   /**
    * 获取 input lib 的服务器请求地址
    */
   public getInputLibUrl(depName: string, version: string) {
-    return `${this.serverConnectorsUrl}/${depName}_${semverToIdentifier(
+    return `${this.serverConnectorsUrl}/${depName}_${convertSemverVersionToIdentify(
       version
     )}.js`;
   }
@@ -148,11 +148,11 @@ export class PathManager {
 
   /** 拼服务器的 lib 的脚本文件名称 */
   public getServerScriptFileName(libName: string, version: string) {
-    return `${libName}_${semverToIdentifier(version)}.js`;
+    return `${libName}_${convertSemverVersionToIdentify(version)}.js`;
   }
 
   /** 拼服务器的 lib 的样式文件名称 */
   public getServerStyleFileName(libName: string, version: string) {
-    return `${libName}_${semverToIdentifier(version)}.css`;
+    return `${libName}_${convertSemverVersionToIdentify(version)}.css`;
   }
 }

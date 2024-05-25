@@ -10,7 +10,7 @@ export { FileLogger } from "./loggers/FileLogger";
 export * from "./datas/maps";
 export { parseConfig } from "./parseConfig";
 export * from "./rollupPlugins";
-export { semverToIdentifier } from "./semverToIdentifier";
+export { convertSemverVersionToIdentify } from "./convertSemverVersionToIdentify";
 export * from "./updateURLParameter";
 export * from "./wrapUMDAliasCode";
 export * from "./wrapUMDAsyncEventCode";
@@ -27,5 +27,6 @@ export * from "./convertConnectorModuleToDependencyTreeNode";
 export * from "./convertFrameworkModuleNameToConnectorModuleName";
 export * from "./getModuleEntryPaths";
 export * from "./ensure";
+export * from "./getModuleAliasImports";
 
 export type * from "@/types";

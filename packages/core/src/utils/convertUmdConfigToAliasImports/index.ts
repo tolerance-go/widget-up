@@ -2,7 +2,7 @@ import {
   NormalizedUMDConfig,
   UMDAliasOptions,
   resolveModuleInfo,
-  semverToIdentifier,
+  convertSemverVersionToIdentify,
 } from "widget-up-utils";
 
 export const convertUmdConfigToAliasImports = ({
@@ -24,7 +24,7 @@ export const convertUmdConfigToAliasImports = ({
     const libData = resolveModuleInfo({ name: libName });
 
     imports.push({
-      globalVar: `${globalVar}_${semverToIdentifier(
+      globalVar: `${globalVar}_${convertSemverVersionToIdentify(
         libData.packageJson.version
       )}`,
       scopeVar: globalVar,

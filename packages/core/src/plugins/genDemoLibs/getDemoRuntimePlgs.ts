@@ -12,7 +12,7 @@ import path from "path";
 import { InputPluginOption } from "rollup";
 import {
   normalizePath,
-  semverToIdentifier,
+  convertSemverVersionToIdentify,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
@@ -97,7 +97,7 @@ export const getDemoRuntimePlgs = ({
               }),
               // 加上对开发组件的依赖
               {
-                globalVar: `${config.umd.name}_${semverToIdentifier(
+                globalVar: `${config.umd.name}_${convertSemverVersionToIdentify(
                   packageConfig.version
                 )}`,
                 scopeVar: config.umd.name,
@@ -109,7 +109,7 @@ export const getDemoRuntimePlgs = ({
                   inputItem,
                   config.umd,
                   pathManager.demosAbsPath
-                )}_${semverToIdentifier(packageConfig.version)}`,
+                )}_${convertSemverVersionToIdentify(packageConfig.version)}`,
                 scopeVar: getGlobalNameWithDemo(
                   inputItem,
                   config.umd,
