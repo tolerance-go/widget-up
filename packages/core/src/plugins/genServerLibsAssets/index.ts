@@ -150,7 +150,8 @@ function generateServerLibraries({
       /**
        * 找到样式文件
        */
-      const styleFileRelativePath = node.moduleEntries.moduleStyleEntryAbsPath;
+      const styleFileRelativePath =
+        node.moduleEntries.moduleBrowserEntryRelPath;
       const styleFileAbsPath = styleFileRelativePath
         ? path.join(node.moduleEntries.modulePath, styleFileRelativePath)
         : undefined;
@@ -180,8 +181,11 @@ function generateServerLibraries({
       // 写入脚本文件
       fs.writeFileSync(destScriptPath, scriptContent, "utf8");
 
-      // 写入样式文件
-      fs.writeFileSync(destStylePath, styleContent, "utf8");
+      // 当样式文件存在
+      if (styleFileAbsPath && fs.existsSync(styleFileAbsPath)) {
+        // 写入样式文件
+        fs.writeFileSync(destStylePath, styleContent, "utf8");
+      }
     };
 
     traverseDependencies(tree, handler);
