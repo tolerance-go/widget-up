@@ -1,8 +1,5 @@
 import { convertDependenciesTreeToList } from ".";
-import {
-  PeerDependenciesTree,
-  PeerDependenciesNode,
-} from "../getPeerDependTree";
+import { PeerDependenciesTree } from "@/types";
 
 describe("convertDependenciesTreeToList", () => {
   it("应将包含一个叶子节点的简单树转换为列表", () => {
@@ -18,12 +15,24 @@ describe("convertDependenciesTreeToList", () => {
           name: "packageA",
           version: "1.0.0",
         },
+        hostModulePath: "",
+        moduleEntries: {
+          modulePath: "",
+          moduleEntryAbsPath: "",
+          moduleEntryRelPath: "",
+        },
       },
     };
 
     expect(convertDependenciesTreeToList(tree)).toMatchInlineSnapshot(`
       [
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageA",
           "packageConfig": {
             "name": "packageA",
@@ -51,6 +60,12 @@ describe("convertDependenciesTreeToList", () => {
           name: "packageA",
           version: "1.0.0",
         },
+        hostModulePath: "",
+        moduleEntries: {
+          modulePath: "",
+          moduleEntryAbsPath: "",
+          moduleEntryRelPath: "",
+        },
         peerDependencies: {
           packageB: {
             version: {
@@ -74,7 +89,19 @@ describe("convertDependenciesTreeToList", () => {
                   name: "packageC",
                   version: "1.2.0",
                 },
+                hostModulePath: "",
+                moduleEntries: {
+                  modulePath: "",
+                  moduleEntryAbsPath: "",
+                  moduleEntryRelPath: "",
+                },
               },
+            },
+            hostModulePath: "",
+            moduleEntries: {
+              modulePath: "",
+              moduleEntryAbsPath: "",
+              moduleEntryRelPath: "",
             },
           },
         },
@@ -84,6 +111,12 @@ describe("convertDependenciesTreeToList", () => {
     expect(convertDependenciesTreeToList(tree)).toMatchInlineSnapshot(`
       [
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageA",
           "packageConfig": {
             "name": "packageA",
@@ -91,6 +124,12 @@ describe("convertDependenciesTreeToList", () => {
           },
           "peerDependencies": {
             "packageB": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageB",
               "packageConfig": {
                 "name": "packageB",
@@ -98,6 +137,12 @@ describe("convertDependenciesTreeToList", () => {
               },
               "peerDependencies": {
                 "packageC": {
+                  "hostModulePath": "",
+                  "moduleEntries": {
+                    "moduleEntryAbsPath": "",
+                    "moduleEntryRelPath": "",
+                    "modulePath": "",
+                  },
                   "name": "packageC",
                   "packageConfig": {
                     "name": "packageC",
@@ -122,6 +167,12 @@ describe("convertDependenciesTreeToList", () => {
           },
         },
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageB",
           "packageConfig": {
             "name": "packageB",
@@ -129,6 +180,12 @@ describe("convertDependenciesTreeToList", () => {
           },
           "peerDependencies": {
             "packageC": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageC",
               "packageConfig": {
                 "name": "packageC",
@@ -147,6 +204,12 @@ describe("convertDependenciesTreeToList", () => {
           },
         },
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageC",
           "packageConfig": {
             "name": "packageC",
@@ -174,6 +237,12 @@ describe("convertDependenciesTreeToList", () => {
           name: "packageA",
           version: "1.0.0",
         },
+        hostModulePath: "",
+        moduleEntries: {
+          modulePath: "",
+          moduleEntryAbsPath: "",
+          moduleEntryRelPath: "",
+        },
         peerDependencies: {
           packageB: {
             version: {
@@ -186,6 +255,12 @@ describe("convertDependenciesTreeToList", () => {
               version: "1.1.0",
             },
             peerDependencies: {},
+            hostModulePath: "",
+            moduleEntries: {
+              modulePath: "",
+              moduleEntryAbsPath: "",
+              moduleEntryRelPath: "",
+            },
           },
           packageC: {
             version: {
@@ -198,6 +273,12 @@ describe("convertDependenciesTreeToList", () => {
               version: "1.2.0",
             },
             peerDependencies: {},
+            hostModulePath: "",
+            moduleEntries: {
+              modulePath: "",
+              moduleEntryAbsPath: "",
+              moduleEntryRelPath: "",
+            },
           },
         },
       },
@@ -206,6 +287,12 @@ describe("convertDependenciesTreeToList", () => {
     expect(convertDependenciesTreeToList(tree)).toMatchInlineSnapshot(`
       [
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageA",
           "packageConfig": {
             "name": "packageA",
@@ -213,6 +300,12 @@ describe("convertDependenciesTreeToList", () => {
           },
           "peerDependencies": {
             "packageB": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageB",
               "packageConfig": {
                 "name": "packageB",
@@ -225,6 +318,12 @@ describe("convertDependenciesTreeToList", () => {
               },
             },
             "packageC": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageC",
               "packageConfig": {
                 "name": "packageC",
@@ -243,6 +342,12 @@ describe("convertDependenciesTreeToList", () => {
           },
         },
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageB",
           "packageConfig": {
             "name": "packageB",
@@ -255,6 +360,12 @@ describe("convertDependenciesTreeToList", () => {
           },
         },
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageC",
           "packageConfig": {
             "name": "packageC",
@@ -283,6 +394,12 @@ describe("convertDependenciesTreeToList", () => {
           exact: "1.0.0",
           range: "^1.0.0",
         },
+        hostModulePath: "",
+        moduleEntries: {
+          modulePath: "",
+          moduleEntryAbsPath: "",
+          moduleEntryRelPath: "",
+        },
         name: "packageA",
         packageConfig: {
           name: "packageA",
@@ -293,6 +410,12 @@ describe("convertDependenciesTreeToList", () => {
             version: {
               exact: "1.1.0",
               range: "^1.1.0",
+            },
+            hostModulePath: "",
+            moduleEntries: {
+              modulePath: "",
+              moduleEntryAbsPath: "",
+              moduleEntryRelPath: "",
             },
             name: "packageB",
             packageConfig: {
@@ -311,6 +434,12 @@ describe("convertDependenciesTreeToList", () => {
                   version: "1.2.0",
                 },
                 peerDependencies: {},
+                hostModulePath: "",
+                moduleEntries: {
+                  modulePath: "",
+                  moduleEntryAbsPath: "",
+                  moduleEntryRelPath: "",
+                },
               },
               packageD: {
                 version: {
@@ -334,7 +463,19 @@ describe("convertDependenciesTreeToList", () => {
                       version: "1.4.0",
                     },
                     peerDependencies: {},
+                    hostModulePath: "",
+                    moduleEntries: {
+                      modulePath: "",
+                      moduleEntryAbsPath: "",
+                      moduleEntryRelPath: "",
+                    },
                   },
+                },
+                hostModulePath: "",
+                moduleEntries: {
+                  modulePath: "",
+                  moduleEntryAbsPath: "",
+                  moduleEntryRelPath: "",
                 },
               },
             },
@@ -346,6 +487,12 @@ describe("convertDependenciesTreeToList", () => {
     expect(convertDependenciesTreeToList(tree)).toMatchInlineSnapshot(`
       [
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageA",
           "packageConfig": {
             "name": "packageA",
@@ -353,6 +500,12 @@ describe("convertDependenciesTreeToList", () => {
           },
           "peerDependencies": {
             "packageB": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageB",
               "packageConfig": {
                 "name": "packageB",
@@ -360,6 +513,12 @@ describe("convertDependenciesTreeToList", () => {
               },
               "peerDependencies": {
                 "packageC": {
+                  "hostModulePath": "",
+                  "moduleEntries": {
+                    "moduleEntryAbsPath": "",
+                    "moduleEntryRelPath": "",
+                    "modulePath": "",
+                  },
                   "name": "packageC",
                   "packageConfig": {
                     "name": "packageC",
@@ -372,6 +531,12 @@ describe("convertDependenciesTreeToList", () => {
                   },
                 },
                 "packageD": {
+                  "hostModulePath": "",
+                  "moduleEntries": {
+                    "moduleEntryAbsPath": "",
+                    "moduleEntryRelPath": "",
+                    "modulePath": "",
+                  },
                   "name": "packageD",
                   "packageConfig": {
                     "name": "packageD",
@@ -379,6 +544,12 @@ describe("convertDependenciesTreeToList", () => {
                   },
                   "peerDependencies": {
                     "packageE": {
+                      "hostModulePath": "",
+                      "moduleEntries": {
+                        "moduleEntryAbsPath": "",
+                        "moduleEntryRelPath": "",
+                        "modulePath": "",
+                      },
                       "name": "packageE",
                       "packageConfig": {
                         "name": "packageE",
@@ -409,6 +580,12 @@ describe("convertDependenciesTreeToList", () => {
           },
         },
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageB",
           "packageConfig": {
             "name": "packageB",
@@ -416,6 +593,12 @@ describe("convertDependenciesTreeToList", () => {
           },
           "peerDependencies": {
             "packageC": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageC",
               "packageConfig": {
                 "name": "packageC",
@@ -428,6 +611,12 @@ describe("convertDependenciesTreeToList", () => {
               },
             },
             "packageD": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageD",
               "packageConfig": {
                 "name": "packageD",
@@ -435,6 +624,12 @@ describe("convertDependenciesTreeToList", () => {
               },
               "peerDependencies": {
                 "packageE": {
+                  "hostModulePath": "",
+                  "moduleEntries": {
+                    "moduleEntryAbsPath": "",
+                    "moduleEntryRelPath": "",
+                    "modulePath": "",
+                  },
                   "name": "packageE",
                   "packageConfig": {
                     "name": "packageE",
@@ -459,6 +654,12 @@ describe("convertDependenciesTreeToList", () => {
           },
         },
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageC",
           "packageConfig": {
             "name": "packageC",
@@ -471,6 +672,12 @@ describe("convertDependenciesTreeToList", () => {
           },
         },
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageD",
           "packageConfig": {
             "name": "packageD",
@@ -478,6 +685,12 @@ describe("convertDependenciesTreeToList", () => {
           },
           "peerDependencies": {
             "packageE": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageE",
               "packageConfig": {
                 "name": "packageE",
@@ -496,6 +709,12 @@ describe("convertDependenciesTreeToList", () => {
           },
         },
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageE",
           "packageConfig": {
             "name": "packageE",
@@ -518,6 +737,12 @@ describe("convertDependenciesTreeToList", () => {
           exact: "1.0.0",
           range: "^1.0.0",
         },
+        hostModulePath: "",
+        moduleEntries: {
+          modulePath: "",
+          moduleEntryAbsPath: "",
+          moduleEntryRelPath: "",
+        },
         name: "packageA",
         packageConfig: {
           name: "packageA",
@@ -529,6 +754,12 @@ describe("convertDependenciesTreeToList", () => {
               exact: "1.1.0",
               range: "^1.1.0",
             },
+            hostModulePath: "",
+            moduleEntries: {
+              modulePath: "",
+              moduleEntryAbsPath: "",
+              moduleEntryRelPath: "",
+            },
             name: "packageB",
             packageConfig: {
               name: "packageB",
@@ -539,6 +770,12 @@ describe("convertDependenciesTreeToList", () => {
                 version: {
                   exact: "1.2.0",
                   range: "^1.2.0",
+                },
+                hostModulePath: "",
+                moduleEntries: {
+                  modulePath: "",
+                  moduleEntryAbsPath: "",
+                  moduleEntryRelPath: "",
                 },
                 name: "packageC",
                 packageConfig: {
@@ -554,6 +791,12 @@ describe("convertDependenciesTreeToList", () => {
               exact: "1.2.0",
               range: "^1.2.0",
             },
+            hostModulePath: "",
+            moduleEntries: {
+              modulePath: "",
+              moduleEntryAbsPath: "",
+              moduleEntryRelPath: "",
+            },
             name: "packageC",
             packageConfig: {
               name: "packageC",
@@ -568,6 +811,12 @@ describe("convertDependenciesTreeToList", () => {
     expect(convertDependenciesTreeToList(tree)).toMatchInlineSnapshot(`
       [
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageA",
           "packageConfig": {
             "name": "packageA",
@@ -575,6 +824,12 @@ describe("convertDependenciesTreeToList", () => {
           },
           "peerDependencies": {
             "packageB": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageB",
               "packageConfig": {
                 "name": "packageB",
@@ -582,6 +837,12 @@ describe("convertDependenciesTreeToList", () => {
               },
               "peerDependencies": {
                 "packageC": {
+                  "hostModulePath": "",
+                  "moduleEntries": {
+                    "moduleEntryAbsPath": "",
+                    "moduleEntryRelPath": "",
+                    "modulePath": "",
+                  },
                   "name": "packageC",
                   "packageConfig": {
                     "name": "packageC",
@@ -600,6 +861,12 @@ describe("convertDependenciesTreeToList", () => {
               },
             },
             "packageC": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageC",
               "packageConfig": {
                 "name": "packageC",
@@ -618,6 +885,12 @@ describe("convertDependenciesTreeToList", () => {
           },
         },
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageB",
           "packageConfig": {
             "name": "packageB",
@@ -625,6 +898,12 @@ describe("convertDependenciesTreeToList", () => {
           },
           "peerDependencies": {
             "packageC": {
+              "hostModulePath": "",
+              "moduleEntries": {
+                "moduleEntryAbsPath": "",
+                "moduleEntryRelPath": "",
+                "modulePath": "",
+              },
               "name": "packageC",
               "packageConfig": {
                 "name": "packageC",
@@ -643,6 +922,12 @@ describe("convertDependenciesTreeToList", () => {
           },
         },
         {
+          "hostModulePath": "",
+          "moduleEntries": {
+            "moduleEntryAbsPath": "",
+            "moduleEntryRelPath": "",
+            "modulePath": "",
+          },
           "name": "packageC",
           "packageConfig": {
             "name": "packageC",
