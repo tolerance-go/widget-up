@@ -17,7 +17,7 @@ describe("resolvedNpm function", () => {
     expect(() => {
       resolveModuleInfo({ name: "nonexistent-package" });
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Module 'nonexistent-package' not found in any 'node_modules' directory from current path."`
+      `"Module 'nonexistent-package' not found in any 'node_modules' directory from current path. cwd: C:\\Users\\yarnb\\widget-up\\packages\\utils"`
     );
   });
 });

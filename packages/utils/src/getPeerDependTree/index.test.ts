@@ -65,10 +65,13 @@ describe("getPeerDependTree", () => {
         "react-dom": {
           "hostModulePath": "/fake/directory/node_modules/react-dom",
           "moduleEntries": {
-            "moduleBrowserEntryPath": undefined,
-            "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\index.js",
+            "moduleBrowserEntryAbsPath": undefined,
+            "moduleBrowserEntryRelPath": undefined,
+            "moduleEntryAbsPath": "\\fake\\directory\\node_modules\\react-dom\\index.js",
+            "moduleEntryRelPath": "index.js",
             "modulePath": "/fake/directory/node_modules/react-dom",
-            "moduleStyleEntryPath": undefined,
+            "moduleStyleEntryAbsPath": undefined,
+            "moduleStyleEntryRelPath": undefined,
           },
           "name": "react-dom",
           "packageConfig": {
@@ -81,10 +84,13 @@ describe("getPeerDependTree", () => {
             "react": {
               "hostModulePath": "/fake/directory/node_modules/react-dom/node_modules/react",
               "moduleEntries": {
-                "moduleBrowserEntryPath": undefined,
-                "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\index.js",
+                "moduleBrowserEntryAbsPath": undefined,
+                "moduleBrowserEntryRelPath": undefined,
+                "moduleEntryAbsPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\index.js",
+                "moduleEntryRelPath": "index.js",
                 "modulePath": "/fake/directory/node_modules/react-dom/node_modules/react",
-                "moduleStyleEntryPath": undefined,
+                "moduleStyleEntryAbsPath": undefined,
+                "moduleStyleEntryRelPath": undefined,
               },
               "name": "react",
               "packageConfig": {
@@ -97,10 +103,13 @@ describe("getPeerDependTree", () => {
                 "other": {
                   "hostModulePath": "/fake/directory/node_modules/react-dom/node_modules/react/node_modules/other",
                   "moduleEntries": {
-                    "moduleBrowserEntryPath": undefined,
-                    "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\node_modules\\other\\index.js",
+                    "moduleBrowserEntryAbsPath": undefined,
+                    "moduleBrowserEntryRelPath": undefined,
+                    "moduleEntryAbsPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\node_modules\\other\\index.js",
+                    "moduleEntryRelPath": "index.js",
                     "modulePath": "/fake/directory/node_modules/react-dom/node_modules/react/node_modules/other",
-                    "moduleStyleEntryPath": undefined,
+                    "moduleStyleEntryAbsPath": undefined,
+                    "moduleStyleEntryRelPath": undefined,
                   },
                   "name": "other",
                   "packageConfig": {
@@ -127,10 +136,13 @@ describe("getPeerDependTree", () => {
         "utils": {
           "hostModulePath": "/fake/directory/node_modules/utils",
           "moduleEntries": {
-            "moduleBrowserEntryPath": undefined,
-            "moduleEntryPath": "\\fake\\directory\\node_modules\\utils\\index.js",
+            "moduleBrowserEntryAbsPath": undefined,
+            "moduleBrowserEntryRelPath": undefined,
+            "moduleEntryAbsPath": "\\fake\\directory\\node_modules\\utils\\index.js",
+            "moduleEntryRelPath": "index.js",
             "modulePath": "/fake/directory/node_modules/utils",
-            "moduleStyleEntryPath": undefined,
+            "moduleStyleEntryAbsPath": undefined,
+            "moduleStyleEntryRelPath": undefined,
           },
           "name": "utils",
           "packageConfig": {
@@ -161,10 +173,13 @@ describe("getPeerDependTree", () => {
         "root-package": {
           "hostModulePath": "/fake/directory",
           "moduleEntries": {
-            "moduleBrowserEntryPath": undefined,
-            "moduleEntryPath": "\\fake\\directory\\index.js",
+            "moduleBrowserEntryAbsPath": undefined,
+            "moduleBrowserEntryRelPath": undefined,
+            "moduleEntryAbsPath": "\\fake\\directory\\index.js",
+            "moduleEntryRelPath": "index.js",
             "modulePath": "/fake/directory",
-            "moduleStyleEntryPath": undefined,
+            "moduleStyleEntryAbsPath": undefined,
+            "moduleStyleEntryRelPath": undefined,
           },
           "name": "root-package",
           "packageConfig": {
@@ -179,10 +194,13 @@ describe("getPeerDependTree", () => {
             "react-dom": {
               "hostModulePath": "/fake/directory/node_modules/react-dom",
               "moduleEntries": {
-                "moduleBrowserEntryPath": undefined,
-                "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\index.js",
+                "moduleBrowserEntryAbsPath": undefined,
+                "moduleBrowserEntryRelPath": undefined,
+                "moduleEntryAbsPath": "\\fake\\directory\\node_modules\\react-dom\\index.js",
+                "moduleEntryRelPath": "index.js",
                 "modulePath": "/fake/directory/node_modules/react-dom",
-                "moduleStyleEntryPath": undefined,
+                "moduleStyleEntryAbsPath": undefined,
+                "moduleStyleEntryRelPath": undefined,
               },
               "name": "react-dom",
               "packageConfig": {
@@ -195,10 +213,13 @@ describe("getPeerDependTree", () => {
                 "react": {
                   "hostModulePath": "/fake/directory/node_modules/react-dom/node_modules/react",
                   "moduleEntries": {
-                    "moduleBrowserEntryPath": undefined,
-                    "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\index.js",
+                    "moduleBrowserEntryAbsPath": undefined,
+                    "moduleBrowserEntryRelPath": undefined,
+                    "moduleEntryAbsPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\index.js",
+                    "moduleEntryRelPath": "index.js",
                     "modulePath": "/fake/directory/node_modules/react-dom/node_modules/react",
-                    "moduleStyleEntryPath": undefined,
+                    "moduleStyleEntryAbsPath": undefined,
+                    "moduleStyleEntryRelPath": undefined,
                   },
                   "name": "react",
                   "packageConfig": {
@@ -211,10 +232,13 @@ describe("getPeerDependTree", () => {
                     "other": {
                       "hostModulePath": "/fake/directory/node_modules/react-dom/node_modules/react/node_modules/other",
                       "moduleEntries": {
-                        "moduleBrowserEntryPath": undefined,
-                        "moduleEntryPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\node_modules\\other\\index.js",
+                        "moduleBrowserEntryAbsPath": undefined,
+                        "moduleBrowserEntryRelPath": undefined,
+                        "moduleEntryAbsPath": "\\fake\\directory\\node_modules\\react-dom\\node_modules\\react\\node_modules\\other\\index.js",
+                        "moduleEntryRelPath": "index.js",
                         "modulePath": "/fake/directory/node_modules/react-dom/node_modules/react/node_modules/other",
-                        "moduleStyleEntryPath": undefined,
+                        "moduleStyleEntryAbsPath": undefined,
+                        "moduleStyleEntryRelPath": undefined,
                       },
                       "name": "other",
                       "packageConfig": {
@@ -241,10 +265,13 @@ describe("getPeerDependTree", () => {
             "utils": {
               "hostModulePath": "/fake/directory/node_modules/utils",
               "moduleEntries": {
-                "moduleBrowserEntryPath": undefined,
-                "moduleEntryPath": "\\fake\\directory\\node_modules\\utils\\index.js",
+                "moduleBrowserEntryAbsPath": undefined,
+                "moduleBrowserEntryRelPath": undefined,
+                "moduleEntryAbsPath": "\\fake\\directory\\node_modules\\utils\\index.js",
+                "moduleEntryRelPath": "index.js",
                 "modulePath": "/fake/directory/node_modules/utils",
-                "moduleStyleEntryPath": undefined,
+                "moduleStyleEntryAbsPath": undefined,
+                "moduleStyleEntryRelPath": undefined,
               },
               "name": "utils",
               "packageConfig": {
