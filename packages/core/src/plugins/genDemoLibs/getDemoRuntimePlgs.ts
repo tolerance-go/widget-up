@@ -28,7 +28,7 @@ export const getDemoRuntimePlgs = ({
   configManager: ConfigManager;
   pathManager: PathManager;
 }) => {
-  const config = configManager.getConfig();
+  const umdConfig = configManager.getModuleUMDConfig();
   const packageConfig = configManager.getPackageConfig();
   const cwdPath = pathManager.cwdPath;
 
@@ -46,7 +46,7 @@ export const getDemoRuntimePlgs = ({
         format: "umd",
         name: getGlobalNameWithDemo(
           inputItem,
-          config.umd,
+          umdConfig,
           pathManager.demosAbsPath
         ),
         sourcemap: BuildEnvIsDev,
@@ -54,7 +54,7 @@ export const getDemoRuntimePlgs = ({
           /**
            * 注意这里配合 external 是 demo 代码中不引入组件库代码
            */
-          [packageConfig.name]: config.umd.name,
+          [packageConfig.name]: umdConfig.name,
         },
       },
     };
@@ -92,27 +92,27 @@ export const getDemoRuntimePlgs = ({
             scriptContent: code,
             imports: [
               ...convertUmdConfigToAliasImports({
-                external: config.umd.external,
-                globals: config.umd.globals,
+                external: umdConfig.external,
+                globals: umdConfig.globals,
               }),
               // 加上对开发组件的依赖
               {
-                globalVar: `${config.umd.name}_${convertSemverVersionToIdentify(
+                globalVar: `${umdConfig.name}_${convertSemverVersionToIdentify(
                   packageConfig.version
                 )}`,
-                scopeVar: config.umd.name,
+                scopeVar: umdConfig.name,
               },
             ],
             exports: [
               {
                 globalVar: `${getGlobalNameWithDemo(
                   inputItem,
-                  config.umd,
+                  umdConfig,
                   pathManager.demosAbsPath
                 )}_${convertSemverVersionToIdentify(packageConfig.version)}`,
                 scopeVar: getGlobalNameWithDemo(
                   inputItem,
-                  config.umd,
+                  umdConfig,
                   pathManager.demosAbsPath
                 ),
               },

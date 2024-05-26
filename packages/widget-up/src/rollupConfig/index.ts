@@ -30,7 +30,9 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
 
   topLogger.log("schemaFormModuleInfo", schemaFormModuleInfo);
 
-  const schemaFormModuleWidgetUpConfig = ConfigManager.getWidgetUpConfig();
+  const schemaFormModuleWidgetUpConfig = ConfigManager.getWidgetUpConfig({
+    cwd: schemaFormModuleInfo.moduleEntries.modulePath,
+  });
 
   configManager.processConfig((config) => {
     if (!config) return config;
@@ -113,7 +115,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
               serverLibsUrl: corePathManager.serverLibsUrl,
               getServerScriptFileName: corePathManager.getServerScriptFileName,
               getServerStyleFileName: corePathManager.getServerStyleFileName,
-              externalDependencies: config.umd.externalDependencies,
+              dependenciesUMDConfig: config.umd,
             }),
           },
         ],

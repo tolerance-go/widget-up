@@ -29,6 +29,7 @@ function wrapMainOutput({
 
     const cwdPath = pathManager.cwdPath;
     const config = configManager.getConfig();
+    const umdConfig = configManager.getModuleUMDConfig();
     const packageConfig = configManager.getPackageConfig();
 
     // 用服务器中的资源路径做为事件 ID
@@ -39,15 +40,15 @@ function wrapMainOutput({
     const aliasCode = wrapUMDAliasCode({
       scriptContent: code,
       imports: convertUmdConfigToAliasImports({
-        external: config.umd.external,
-        globals: config.umd.globals,
+        external: umdConfig.external,
+        globals: umdConfig.globals,
       }),
       exports: [
         {
-          globalVar: `${config.umd.name}_${convertSemverVersionToIdentify(
+          globalVar: `${umdConfig.name}_${convertSemverVersionToIdentify(
             packageConfig.version
           )}`,
-          scopeVar: config.umd.name,
+          scopeVar: umdConfig.name,
         },
       ],
     });

@@ -14,7 +14,6 @@ import {
   findOnlyFrameworkModuleConfig,
   resolveModuleInfo,
 } from "widget-up-utils";
-import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
 
 export type GenStartPlgOptions = {
   processStartParams?: (params: StartParamsJSON) => StartParamsJSON;
@@ -76,17 +75,13 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
               version: packageConfig.version,
               scriptSrc: `() => '/index.js'`,
               linkHref: `() => ${config.css ? "/index.css" : ""}`,
-              depends: convertPeerDependenciesToDependencyTree(
-                peerDependTreeManager.getDependenciesTree(),
-                config.umd.allExternalDependencies
-              ),
-              asdf: convertPeerDependenciesTreeToHTMLDependencyJSONs({
+              depends: convertPeerDependenciesTreeToHTMLDependencyJSONs({
                 peerDependenciesTree:
                   peerDependTreeManager.getDependenciesTree(),
                 serverLibsUrl: pathManager.serverLibsUrl,
                 getServerScriptFileName: pathManager.getServerScriptFileName,
                 getServerStyleFileName: pathManager.getServerStyleFileName,
-                externalDependencies: config.umd.allExternalDependencies,
+                dependenciesUMDConfig: config.umd,
               }),
             },
           ],

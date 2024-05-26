@@ -8,6 +8,7 @@ export * from "./getURLSearchParams";
 export { BrowserLogger } from "./loggers/BrowserLogger";
 export { FileLogger } from "./loggers/FileLogger";
 export * from "./datas/maps";
+export * from "./datas/constants";
 export { parseConfig } from "./parseConfig";
 export * from "./rollupPlugins";
 export { convertSemverVersionToIdentify } from "./convertSemverVersionToIdentify";
@@ -28,5 +29,6 @@ export * from "./ensure";
 export * from "./getModuleAliasImports";
 export * from "./baseEnvManager";
 export * from "./convertPeerDependenciesTreeToHTMLDependencyJSONs";
+export * from "./getMainModuleUMDConfig";
 
 export type * from "@/types";

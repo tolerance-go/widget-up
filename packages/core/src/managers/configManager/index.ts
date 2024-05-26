@@ -1,7 +1,12 @@
 import { EventEmitter } from "events";
 import fs from "fs";
 import path from "path";
-import { NormalizedConfig, PackageConfig, parseConfig } from "widget-up-utils";
+import {
+  NormalizedConfig,
+  PackageConfig,
+  getMainModuleUMDConfig,
+  parseConfig,
+} from "widget-up-utils";
 import { PathManager } from "../pathManager";
 import { logger } from "./logger";
 
@@ -73,6 +78,12 @@ export class ConfigManager extends EventEmitter {
         }
       }
     );
+  }
+
+  public getModuleUMDConfig() {
+    const config = this.getConfig();
+
+    return getMainModuleUMDConfig(config.umd);
   }
 
   public getConfig() {

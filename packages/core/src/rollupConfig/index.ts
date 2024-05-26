@@ -10,6 +10,7 @@ import { getEnv } from "../utils/env";
 import { coreLogger } from "../utils/logger";
 import { getBuildPlugins, getDevPlugins } from "./getPlugins";
 import { getProdOutputs } from "./getProdOutputs";
+import { UMDSchemaConfig, UMD_NAME_PLACEHOLDER, ensure } from "widget-up-utils";
 
 export default async ({
   processStartParams,
@@ -34,6 +35,7 @@ export default async ({
   const configManager = ConfigManager.getInstance();
   const packageConfig = configManager.getPackageConfig();
   const config = configManager.getConfig();
+  const umdConfig = configManager.getModuleUMDConfig();
 
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
@@ -45,8 +47,8 @@ export default async ({
       output: {
         file: "dist/umd/index.js",
         format: "umd",
-        name: config.umd.name,
-        globals: config.umd.globals,
+        name: umdConfig.name,
+        globals: umdConfig.globals,
         sourcemap: BuildEnvIsDev ? "inline" : false,
       },
       plugins: getDevPlugins({
@@ -65,7 +67,7 @@ export default async ({
     };
   } else {
     coreLogger.info("BuildEnvIsProd is true, start to build production code");
-    rollupConfig = getProdOutputs(config).map((output) => ({
+    rollupConfig = getProdOutputs().map((output) => ({
       input: config.input,
       output,
       plugins: [

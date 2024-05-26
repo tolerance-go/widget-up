@@ -4,17 +4,21 @@
  * - 生产环境下，生成 Rollup 的 output 配置
  */
 import { RollupOptions } from "rollup";
-import { NormalizedConfig } from "widget-up-utils";
+import { config } from "yargs";
+import { ConfigManager } from "../managers/configManager";
 
-export function getProdOutputs(config: NormalizedConfig) {
+export function getProdOutputs() {
+  const configManager = ConfigManager.getInstance();
+  const config = configManager.getConfig();
+  const umdConfig = configManager.getModuleUMDConfig();
   const outputs: RollupOptions["output"] = [];
 
   // UMD 格式始终包含
   outputs.push({
     file: "dist/umd/index.js",
     format: "umd",
-    name: config.umd.name,
-    globals: config.umd.globals,
+    name: umdConfig.name,
+    globals: umdConfig.globals,
   });
 
   if (config.esm) {
