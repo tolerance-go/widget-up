@@ -28,7 +28,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
   });
 
   const schemaFormModuleWidgetUpConfig = ConfigManager.getWidgetUpConfig({
-    cwd: schemaFormModuleInfo.modulePath,
+    cwd: schemaFormModuleInfo.moduleEntries.modulePath,
   });
 
   configManager.processConfig((config) => {
@@ -65,7 +65,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
   });
 
   const schemaFormModulePeerDependTree = getPeerDependTree({
-    cwd: schemaFormModuleInfo.modulePath,
+    cwd: schemaFormModuleInfo.moduleEntries.modulePath,
     includeRootPackage: true,
   });
 
@@ -75,7 +75,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
   );
 
   const frameworkModuleConfigOfSchemaForm = findOnlyFrameworkModuleConfig({
-    cwd: schemaFormModuleInfo.modulePath,
+    cwd: schemaFormModuleInfo.moduleEntries.modulePath,
   });
 
   const connectorModuleName = convertFrameworkModuleNameToConnectorModuleName(
