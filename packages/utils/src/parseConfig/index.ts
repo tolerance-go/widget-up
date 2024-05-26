@@ -18,7 +18,11 @@ export function parseConfig(
       const browser = value.browser || packageConfig.browser;
       const style = value.style || packageConfig.style;
 
-      ensure(browser !== undefined, `${key} browser 没有定义`);
+      ensure(browser !== undefined, `${key} browser 没有定义`, "info:", {
+        browser,
+        key,
+        value,
+      });
 
       if (key === UMD_NAME_PLACEHOLDER) {
         key = packageConfig.name;
