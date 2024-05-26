@@ -4,8 +4,8 @@ import {
   FormSchemaConfig,
 } from "widget-up-utils";
 import { globalEventBus } from "../events";
-import { identifierManager } from "../identifierManager";
-import { pathManager } from "../managers/pathManager";
+import { identifierManager } from "@/src/managers/identifierManager";
+import { pathManager } from "@/src/managers/pathManager";
 
 async function fetchFormSchema(): Promise<FormSchemaConfig> {
   const response = await fetch(pathManager.formSchemaUrl);

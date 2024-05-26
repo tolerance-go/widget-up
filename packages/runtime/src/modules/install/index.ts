@@ -4,7 +4,7 @@ import {
   HTMLDependencyManager,
 } from "widget-up-utils";
 import { installLogger } from "./logger";
-import { globalEventBus } from "../events";
+import { globalEventBus } from "@/src/modules/events";
 
 // 实现`install`方法
 export async function install(

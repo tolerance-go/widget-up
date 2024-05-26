@@ -1,5 +1,5 @@
-import { globalEventBus } from "../events";
-import { insertHtml } from "../utils/insertHtml";
+import { globalEventBus } from "@/src/modules/events";
+import { insertHtml } from "@/src/utils/insertHtml";
 
 export function renderFrame({
   leftPanelId,

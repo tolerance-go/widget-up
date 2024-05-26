@@ -3,15 +3,15 @@ import {
   getURLSearchParams,
   updateURLParameters,
 } from "widget-up-utils";
-import { globalEventBus } from "..";
+import { globalEventBus } from "@/src/modules/events";
 import {
   replaceGlobalConnector,
   replaceRuntimeComponent,
   triggerGlobalCompUpdate,
-} from "../connectorRender";
-import { pathManager } from "../managers/pathManager";
-import { insertHtml } from "../utils/insertHtml";
-import { runtimeLogger } from "../utils/logger";
+} from "@/src/modules/connectorRender";
+import { pathManager } from "@/src/managers/pathManager";
+import { insertHtml } from "@/src/utils/insertHtml";
+import { runtimeLogger } from "@/src/utils/logger";
 import { findMenuItemByName } from "./findMenuItemByName";
 
 interface RenderMenusOptions {

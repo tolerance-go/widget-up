@@ -14,6 +14,7 @@ import {
   serveLivereload,
   tsDeclarationAlias,
 } from "widget-up-utils";
+import replace from "@rollup/plugin-replace";
 
 const buildEnvIsProduction = process.env.NODE_ENV === "production";
 const buildEnvIsDevelopment = process.env.NODE_ENV === "development";
@@ -27,11 +28,13 @@ export default {
   },
   plugins: [
     deleteDist({ dist: "dist", once: buildEnvIsDevelopment }),
+    replace({
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    }),
     peerDependenciesAsExternal(),
     alias({
       entries: [{ find: "@", replacement: process.cwd() }],
     }),
-    // alias({ entries: createAliases() }), // 使用 alias 插件处理路径别名
     resolve({
       preferBuiltins: true,
       mainFields: ["browser", "module", "main"],
@@ -73,8 +76,9 @@ export default {
         contentBase: ["dist", "server"],
         port: 3000,
       }),
-  ].filter(Boolean), // 使用 .filter(Boolean) 去除数组中的 falsy 值，如 undefined 或 false
+  ],
   watch: {
-    include: ["src/**", "styles/**", /widget-up\/packages\/utils/],
+    include: ["src/**", "styles/**"],
+    // include: ["src/**", "styles/**", /widget-up\/packages\/utils/],
   },
 };
