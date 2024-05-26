@@ -8,7 +8,7 @@ import fs from "fs";
 import path from "path";
 import { Plugin } from "rollup";
 import {
-  NormalizedExternalDependency,
+  NormalizedUMDConfig,
   PeerDependenciesNode,
   PeerDependenciesTree,
   convertSemverVersionToIdentify,
@@ -54,28 +54,28 @@ function generateServerLibraries({
       moduleName,
       version,
       peerDependenciesTree,
-      externalDependencyConfig,
+      umdConfig,
     }: {
       moduleName: string;
       version: string;
       peerDependenciesTree: PeerDependenciesTree;
-      externalDependencyConfig: NormalizedExternalDependency;
+      umdConfig: NormalizedUMDConfig;
     }
   ) => {
     const aliasCode = wrapUMDAliasCode({
       scriptContent: code,
       imports: getModuleAliasImports({
-        external: externalDependencyConfig.external,
-        globals: externalDependencyConfig.globals,
+        external: umdConfig.external,
+        globals: umdConfig.globals,
         peerDependenciesTree,
       }),
       exports: [
         {
-          globalVar: `${
-            externalDependencyConfig.name
-          }_${convertSemverVersionToIdentify(version)}`,
-          scopeVar: externalDependencyConfig.name,
-          scopeName: externalDependencyConfig.exportScopeObjectName,
+          globalVar: `${umdConfig.name}_${convertSemverVersionToIdentify(
+            version
+          )}`,
+          scopeVar: umdConfig.name,
+          scopeName: umdConfig.exportScopeObjectName,
         },
       ],
     });
@@ -113,13 +113,13 @@ function generateServerLibraries({
     if (item.moduleEntries.moduleBrowserEntryRelPath) {
       return item.moduleEntries.moduleBrowserEntryRelPath;
     }
-    const externalDepConfig = config.umd.allExternalDependencies[item.name];
+    const umdConfig = config.umd[item.name];
 
-    if (!externalDepConfig) {
+    if (!umdConfig) {
       throw new Error("浏览器脚本入口没有在模块定义，并且外部依赖也没有定义");
     }
 
-    return externalDepConfig.browser[BuildEnv];
+    return umdConfig.browser[BuildEnv];
   };
 
   const writeOutputFiles = () => {
@@ -152,7 +152,7 @@ function generateServerLibraries({
         moduleName: node.name,
         version: node.version.exact,
         peerDependenciesTree: node?.peerDependencies ?? {},
-        externalDependencyConfig: config.umd[node.name],
+        umdConfig: config.umd[node.name],
       });
 
       /**
