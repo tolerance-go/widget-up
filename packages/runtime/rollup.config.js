@@ -30,6 +30,7 @@ export default {
     deleteDist({ dist: "dist", once: buildEnvIsDevelopment }),
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+      "process.env.RUNTIME_ENV": JSON.stringify(process.env.RUNTIME_ENV),
     }),
     peerDependenciesAsExternal(),
     alias({

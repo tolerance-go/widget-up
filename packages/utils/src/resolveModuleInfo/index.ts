@@ -35,32 +35,32 @@ function resolveModuleInfo({
   }
 
   // 解析 package.json 文件的路径
-  const packageJsonPath = path.join(modulePath, "package.json");
+  const packageJSONPath = path.join(modulePath, "package.json");
 
-  if (!fs.existsSync(packageJsonPath)) {
+  if (!fs.existsSync(packageJSONPath)) {
     throw new Error(
       `package.json not found in resolved directory for '${name}'`
     );
   }
 
   // 读取并解析 package.json 文件
-  const packageJson: PackageConfig = JSON.parse(
-    fs.readFileSync(packageJsonPath, "utf8")
+  const packageJSON: PackageConfig = JSON.parse(
+    fs.readFileSync(packageJSONPath, "utf8")
   );
 
   // 确定模块的入口文件路径
-  const mainFile = packageJson.main || "index.js"; // 如果package.json中没有指定main，则默认为index.js
+  const mainFile = packageJSON.main || "index.js"; // 如果package.json中没有指定main，则默认为index.js
   const moduleEntryPath = path.join(modulePath, mainFile);
 
   const moduleStyleEntryPath =
-    packageJson.style && path.join(modulePath, packageJson.style);
+    packageJSON.style && path.join(modulePath, packageJSON.style);
 
   return {
     moduleEntryAbsPath: normalizePath(moduleEntryPath),
     moduleEntryRelPath: mainFile,
     modulePath: normalizePath(modulePath),
     moduleStyleEntryAbsPath: moduleStyleEntryPath,
-    packageJson,
+    packageJSON: packageJSON,
   };
 }
 

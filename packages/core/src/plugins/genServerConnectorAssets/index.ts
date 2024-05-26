@@ -89,8 +89,8 @@ export function genServerConnectorAssets({
 
       content = wrapUMDAsyncEventCode({
         eventId: pathManager.getConnectorServerUrl(
-          connectorModuleInfo.packageJson.name,
-          connectorModuleInfo.packageJson.version
+          connectorModuleInfo.packageJSON.name,
+          connectorModuleInfo.packageJSON.version
         ),
         scriptContent: content,
         eventBusPath: "WidgetUpRuntime.globalEventBus",
@@ -100,8 +100,8 @@ export function genServerConnectorAssets({
         path.join(
           outputPath,
           pathManager.getServerScriptFileName(
-            connectorModuleInfo.packageJson.name,
-            connectorModuleInfo.packageJson.version
+            connectorModuleInfo.packageJSON.name,
+            connectorModuleInfo.packageJSON.version
           )
         ),
         content,

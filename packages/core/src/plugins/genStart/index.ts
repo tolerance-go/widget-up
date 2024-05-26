@@ -11,6 +11,7 @@ import {
   convertConnectorModuleToDependencyTreeNodeJSON,
   convertFrameworkModuleNameToConnectorModuleName,
   findOnlyFrameworkModuleConfig,
+  resolveModuleInfo,
 } from "widget-up-utils";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
 
@@ -40,15 +41,22 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
       cwd: pathManager.cwdPath,
     });
 
+    const connectorModuleName = convertFrameworkModuleNameToConnectorModuleName(
+      frameworkModule.name,
+      frameworkModule.version
+    );
+
+    const connectorModuleConfig = resolveModuleInfo({
+      cwd: pathManager.modulePath,
+      name: connectorModuleName,
+    });
+
     const connectorDepNode = convertConnectorModuleToDependencyTreeNodeJSON(
       frameworkModule,
       pathManager.serverConnectorsUrl,
       pathManager.getServerScriptFileName(
-        convertFrameworkModuleNameToConnectorModuleName(
-          frameworkModule.name,
-          frameworkModule.version
-        ),
-        frameworkModule.version
+        connectorModuleName,
+        connectorModuleConfig.packageJSON.version
       )
     );
     const config = configManager.getConfig();

@@ -34,7 +34,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
   configManager.processConfig((config) => {
     if (!config) return config;
 
-    if (!schemaFormModuleInfo.packageJson.browser) {
+    if (!schemaFormModuleInfo.packageJSON.browser) {
       throw new Error("schemaFormModuleInfo.packageJson.browser not defined");
     }
 
@@ -44,13 +44,13 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
         ...config.umd,
         externalDependencies: {
           ...config.umd.externalDependencies,
-          [schemaFormModuleInfo.packageJson.name]: {
+          [schemaFormModuleInfo.packageJSON.name]: {
             name: schemaFormModuleWidgetUpConfig.umd.name,
             external: schemaFormModuleWidgetUpConfig.umd.external,
             globals: schemaFormModuleWidgetUpConfig.umd.globals,
             browser: {
-              development: schemaFormModuleInfo.packageJson.browser,
-              production: schemaFormModuleInfo.packageJson.browser,
+              development: schemaFormModuleInfo.packageJSON.browser,
+              production: schemaFormModuleInfo.packageJSON.browser,
             },
             exportScopeObjectName: "global",
           },
@@ -78,6 +78,16 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     cwd: schemaFormModuleInfo.modulePath,
   });
 
+  const connectorModuleName = convertFrameworkModuleNameToConnectorModuleName(
+    frameworkModuleConfigOfSchemaForm.name,
+    frameworkModuleConfigOfSchemaForm.version
+  );
+
+  const connectorModuleConfig = resolveModuleInfo({
+    cwd: corePathManager.modulePath,
+    name: connectorModuleName,
+  });
+
   const corePlgs = await getRollupConfig({
     processStartParams: (params) => {
       return {
@@ -85,10 +95,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
         dependencies: [
           ...params.dependencies,
           {
-            name: convertFrameworkModuleNameToConnectorModuleName(
-              frameworkModuleConfigOfSchemaForm.name,
-              frameworkModuleConfigOfSchemaForm.version
-            ),
+            name: connectorModuleName,
             version: frameworkModuleConfigOfSchemaForm.version,
             scriptSrc: `() => "${
               corePathManager.serverConnectorsUrl
@@ -97,7 +104,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
                 frameworkModuleConfigOfSchemaForm.name,
                 frameworkModuleConfigOfSchemaForm.version
               ),
-              frameworkModuleConfigOfSchemaForm.version
+              connectorModuleConfig.packageJSON.version
             )}"`,
             linkHref: `() => ''`,
             depends: convertPeerDependenciesTreeToDependencyTreeNodes(

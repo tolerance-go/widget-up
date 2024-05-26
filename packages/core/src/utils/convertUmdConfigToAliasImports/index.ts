@@ -25,7 +25,7 @@ export const convertUmdConfigToAliasImports = ({
 
     imports.push({
       globalVar: `${globalVar}_${convertSemverVersionToIdentify(
-        libData.packageJson.version
+        libData.packageJSON.version
       )}`,
       scopeVar: globalVar,
     });

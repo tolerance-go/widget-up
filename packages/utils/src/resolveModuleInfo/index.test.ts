@@ -6,7 +6,7 @@ describe("resolvedNpm function", () => {
 
     expect(result.moduleEntryAbsPath).toMatch(/dist\/rollup.js/);
     expect(result.modulePath).toMatch(/node_modules\/rollup/);
-    expect(result.packageJson).toMatchObject({
+    expect(result.packageJSON).toMatchObject({
       name: "rollup",
       version: expect.any(String),
       main: "dist/rollup.js",
