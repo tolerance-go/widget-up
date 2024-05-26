@@ -88,7 +88,7 @@ export function genServerConnectorAssets({
       });
 
       content = wrapUMDAsyncEventCode({
-        eventId: pathManager.getInputLibUrl(
+        eventId: pathManager.getConnectorServerUrl(
           connectorModuleInfo.packageJson.name,
           connectorModuleInfo.packageJson.version
         ),

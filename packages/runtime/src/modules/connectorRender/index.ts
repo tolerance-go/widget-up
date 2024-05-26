@@ -1,4 +1,4 @@
-import { globalEventBus } from "../events";
+import { globalEventBus } from "../modules/events";
 
 // 类型定义，用于 connectorRender 参数
 export type RenderCallback = ({

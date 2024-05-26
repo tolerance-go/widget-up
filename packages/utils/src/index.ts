@@ -28,5 +28,6 @@ export * from "./convertFrameworkModuleNameToConnectorModuleName";
 export * from "./getModuleEntryPaths";
 export * from "./ensure";
 export * from "./getModuleAliasImports";
+export * from "./baseEnvManager";
 
 export type * from "@/types";

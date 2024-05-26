@@ -1,7 +1,11 @@
-import { DependencyTreeNode, FormSchemaConfig } from "widget-up-utils";
+import {
+  BuildEnv,
+  DependencyTreeNode,
+  FormSchemaConfig,
+} from "widget-up-utils";
 import { globalEventBus } from "../events";
 import { identifierManager } from "../identifierManager";
-import { pathManager } from "../pathManager";
+import { pathManager } from "../managers/pathManager";
 
 async function fetchFormSchema(): Promise<FormSchemaConfig> {
   const response = await fetch(pathManager.formSchemaUrl);
@@ -53,10 +57,10 @@ export const renderSettings = () => {
 
 export const applyDependencies = (
   dependencies: DependencyTreeNode[],
-  widgetUpSchemaFormDependencyTree?: DependencyTreeNode[]
+  buildEnv: BuildEnv
 ): DependencyTreeNode[] => {
-  return [
-    ...(widgetUpSchemaFormDependencyTree || [
+  if (buildEnv === "development") {
+    return [
       {
         name: "widget-up-connector-jquery3",
         version: "0.0.0",
@@ -78,7 +82,9 @@ export const applyDependencies = (
           },
         ],
       },
-    ]),
-    ...dependencies,
-  ];
+      ...dependencies,
+    ];
+  }
+
+  return dependencies;
 };

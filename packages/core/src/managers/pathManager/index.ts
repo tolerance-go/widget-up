@@ -104,9 +104,9 @@ export class PathManager {
   }
 
   /**
-   * 获取 input lib 的服务器请求地址
+   * 获取 connector lib 的服务器请求地址
    */
-  public getInputLibUrl(depName: string, version: string) {
+  public getConnectorServerUrl(depName: string, version: string) {
     return `${this.serverConnectorsUrl}/${depName}_${convertSemverVersionToIdentify(
       version
     )}.js`;

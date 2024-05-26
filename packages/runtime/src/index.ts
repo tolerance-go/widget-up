@@ -1,7 +1,7 @@
 import "@/styles/index.less";
 import { convertSemverVersionToIdentify, getMajorVersion } from "widget-up-utils";
 
-export { globalEventBus } from "./events";
+export { globalEventBus } from "./modules/events";
 export { start } from "./start";
 export { createWindow } from "widget-up-utils";
 

@@ -9,7 +9,7 @@ import {
   replaceRuntimeComponent,
   triggerGlobalCompUpdate,
 } from "../connectorRender";
-import { pathManager } from "../pathManager";
+import { pathManager } from "../managers/pathManager";
 import { insertHtml } from "../utils/insertHtml";
 import { runtimeLogger } from "../utils/logger";
 import { findMenuItemByName } from "./findMenuItemByName";
