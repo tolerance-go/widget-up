@@ -1,7 +1,7 @@
-import path from "path";
-import fs from "fs";
 import { PackageConfig, ResolvedModuleInfo } from "@/types";
-import { normalizePath } from "../normalizePath";
+import fs from "fs";
+import path from "path";
+import { getModuleEntryPaths } from "../getModuleEntryPaths";
 
 function resolveModuleInfo({
   name,
@@ -48,19 +48,14 @@ function resolveModuleInfo({
     fs.readFileSync(packageJSONPath, "utf8")
   );
 
-  // 确定模块的入口文件路径
-  const mainFile = packageJSON.main || "index.js"; // 如果package.json中没有指定main，则默认为index.js
-  const moduleEntryPath = path.join(modulePath, mainFile);
-
-  const moduleStyleEntryPath =
-    packageJSON.style && path.join(modulePath, packageJSON.style);
+  const moduleEntryPaths = getModuleEntryPaths({
+    modulePath: cwd,
+    packageConfig: packageJSON,
+  });
 
   return {
-    moduleEntryAbsPath: normalizePath(moduleEntryPath),
-    moduleEntryRelPath: mainFile,
-    modulePath: normalizePath(modulePath),
-    moduleStyleEntryAbsPath: moduleStyleEntryPath,
-    packageJSON: packageJSON,
+    moduleEntryPaths,
+    packageJSON,
   };
 }
 

@@ -1,5 +1,6 @@
-export type ResolvedModuleInfo = ModuleEntryPathData & {
+export type ResolvedModuleInfo = {
   packageJSON: PackageConfig;
+  moduleEntryPaths: ModuleEntryPathData;
 };
 
 export type ModuleEntryPathData = {
