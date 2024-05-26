@@ -23,7 +23,14 @@ export const getModuleAliasImports = ({
 
     ensure(
       !!peerDependency,
-      "external 所定义的外部依赖没有找到对应的 peerDependency 信息"
+      `external 所定义的外部依赖 ${moduleName} 没有找到对应的 peerDependency 信息。`,
+      "info:",
+      {
+        globals,
+        external,
+        moduleName,
+        peerDependenciesTree,
+      }
     );
 
     // 提取版本号，来格式化

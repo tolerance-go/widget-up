@@ -1,6 +1,6 @@
 import { EventBus } from "@/src/eventBus";
 import {
-  DependencyListItem,
+  HTMLDependencyListItem,
   ScriptTag,
   TagEvents,
 } from "@/types/htmlDependencyManager";
@@ -11,7 +11,7 @@ export const ScriptTagManagerContainerId = "script-tag-manager-container";
 
 export class ScriptTagManager extends TagManagerBase<ScriptTag> {
   private eventBus: EventBus<TagEvents>;
-  private srcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
+  private srcBuilder: (dep: HTMLDependencyListItem) => string; // 新增参数用于自定义构造 src
 
   constructor({
     eventBus,
@@ -22,7 +22,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
     eventBus?: EventBus<TagEvents>;
     document: Document;
     container?: HTMLElement;
-    srcBuilder?: (dep: DependencyListItem) => string;
+    srcBuilder?: (dep: HTMLDependencyListItem) => string;
   }) {
     if (!container) {
       container = document.createElement("div");
@@ -43,7 +43,7 @@ export class ScriptTagManager extends TagManagerBase<ScriptTag> {
       srcBuilder || ((dep) => `${dep.name}@${dep.version.exact}.js`);
   }
 
-  protected dependencyListItemToTagItem(item: DependencyListItem): ScriptTag {
+  protected dependencyListItemToTagItem(item: HTMLDependencyListItem): ScriptTag {
     scriptManagerLogger.log("dependencyListItemToTagItem", item);
 
     const src = this.srcBuilder(item);

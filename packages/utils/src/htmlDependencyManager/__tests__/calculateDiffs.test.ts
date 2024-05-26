@@ -1,7 +1,7 @@
 import { HTMLDependencyManager } from "@/src/htmlDependencyManager";
 import { JSDOM } from "jsdom";
 import { jest } from "@jest/globals";
-import { DependencyListItem } from "@/types/htmlDependencyManager";
+import { HTMLDependencyListItem } from "@/types/htmlDependencyManager";
 
 describe("HTMLDependencyManager calculateDiffs", () => {
   let manager: HTMLDependencyManager;
@@ -37,7 +37,7 @@ describe("HTMLDependencyManager calculateDiffs", () => {
 
     // 新标签列表，改变顺序
     manager.getDependencyList = jest
-      .fn<() => DependencyListItem[]>()
+      .fn<() => HTMLDependencyListItem[]>()
       .mockReturnValue([
         {
           name: "lib2",
@@ -103,7 +103,7 @@ describe("HTMLDependencyManager calculateDiffs", () => {
 
     // 新标签列表，改变顺序
     manager.getDependencyList = jest
-      .fn<() => DependencyListItem[]>()
+      .fn<() => HTMLDependencyListItem[]>()
       .mockReturnValue([
         {
           name: "lib1",
@@ -185,7 +185,7 @@ describe("HTMLDependencyManager calculateDiffs", () => {
 
     // 新标签列表，改变顺序
     manager.getDependencyList = jest
-      .fn<() => DependencyListItem[]>()
+      .fn<() => HTMLDependencyListItem[]>()
       .mockReturnValue([
         {
           name: "lib2",
@@ -268,7 +268,7 @@ describe("HTMLDependencyManager calculateDiffs", () => {
 
     // 新标签列表，改变顺序
     manager.getDependencyList = jest
-      .fn<() => DependencyListItem[]>()
+      .fn<() => HTMLDependencyListItem[]>()
       .mockReturnValue([
         {
           name: "lib2",

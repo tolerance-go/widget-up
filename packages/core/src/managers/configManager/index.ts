@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { NormalizedConfig, PackageConfig, parseConfig } from "widget-up-utils";
 import { PathManager } from "../pathManager";
+import { logger } from "./logger";
 
 export class ConfigManager extends EventEmitter {
   private static instance: ConfigManager | null = null;
@@ -18,16 +19,32 @@ export class ConfigManager extends EventEmitter {
     return ConfigManager.instance;
   }
 
+  static getPackageConfig({ cwd }: { cwd: string }) {
+    const packageConfig = JSON.parse(
+      fs.readFileSync(path.join(cwd, "package.json"), "utf8")
+    ) as PackageConfig;
+    return packageConfig;
+  }
+
   // 根据 cwd 获取 wup 解析后的配置信息
   static getWidgetUpConfig({ cwd }: { cwd: string }) {
     const pathManager = PathManager.getInstance();
+
+    logger.log(
+      "pathManager.widgetUpConfigAbsPath",
+      pathManager.widgetUpConfigAbsPath
+    );
+
+    const packageConfig = ConfigManager.getPackageConfig({
+      cwd,
+    });
 
     const fileContents = fs.readFileSync(
       path.join(cwd, pathManager.widgetUpConfigRelativePath),
       "utf8"
     );
 
-    const newConfig = parseConfig(JSON.parse(fileContents));
+    const newConfig = parseConfig(JSON.parse(fileContents), packageConfig);
 
     return newConfig;
   }
@@ -95,10 +112,9 @@ export class ConfigManager extends EventEmitter {
   }
 
   private loadPackageConfig() {
-    const packageConfig = JSON.parse(
-      fs.readFileSync(path.resolve("package.json"), "utf8")
-    ) as PackageConfig;
-    this.packageConfig = packageConfig;
+    this.packageConfig = ConfigManager.getPackageConfig({
+      cwd: this.pathManager.cwdPath,
+    });
   }
 
   // 加载配置文件并触发事件

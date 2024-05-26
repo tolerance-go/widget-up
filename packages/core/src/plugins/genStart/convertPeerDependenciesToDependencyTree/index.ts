@@ -1,5 +1,5 @@
 import {
-  DependencyTreeNodeJSON,
+  HTMLDependencyJSON,
   NormalizedExternalDependencies,
   PeerDependenciesTree,
 } from "widget-up-utils";
@@ -7,9 +7,9 @@ import {
 export function convertPeerDependenciesToDependencyTree(
   peers: PeerDependenciesTree,
   externalDependencies: NormalizedExternalDependencies,
-  parentNode?: DependencyTreeNodeJSON
-): DependencyTreeNodeJSON[] {
-  let result: DependencyTreeNodeJSON[] = [];
+  parentNode?: HTMLDependencyJSON
+): HTMLDependencyJSON[] {
+  let result: HTMLDependencyJSON[] = [];
 
   Object.keys(peers).forEach((packageName) => {
     const { version, peerDependencies } = peers[packageName];
@@ -18,7 +18,7 @@ export function convertPeerDependenciesToDependencyTree(
     const styleEntry = externalDependencies[packageName]?.style;
     const hasStyle = styleEntry !== undefined;
 
-    const node: DependencyTreeNodeJSON = {
+    const node: HTMLDependencyJSON = {
       name: packageName,
       version: version.exact,
       scriptSrc: `dep => \`/libs/\${dep.name}_\${WidgetUpRuntime.utils.convertSemverVersionToIdentify(dep.version.exact)}.js\``,

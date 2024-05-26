@@ -1,6 +1,6 @@
 import {
-  DependencyListDiff,
-  DependencyListItem,
+  HTMLDependencyListDiff,
+  HTMLDependencyListItem,
   LinkTag,
 } from "../../../../types/htmlDependencyManager";
 import { TagManagerBase } from "../tagManagerBase";
@@ -8,7 +8,7 @@ import { TagManagerBase } from "../tagManagerBase";
 export const LinkTagManagerContainerId = "link-tag-manager-container";
 
 export class LinkTagManager extends TagManagerBase<LinkTag> {
-  private hrefBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 href
+  private hrefBuilder: (dep: HTMLDependencyListItem) => string; // 新增参数用于自定义构造 href
 
   constructor({
     document,
@@ -17,7 +17,7 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
   }: {
     container?: HTMLElement;
     document: Document;
-    hrefBuilder?: (dep: DependencyListItem) => string;
+    hrefBuilder?: (dep: HTMLDependencyListItem) => string;
   }) {
     if (!container) {
       container = document.createElement("div");
@@ -30,7 +30,7 @@ export class LinkTagManager extends TagManagerBase<LinkTag> {
       ((dep) => `https://cdn.example.com/${dep.name}@${dep.version.exact}.css`);
   }
 
-  protected dependencyListItemToTagItem(item: DependencyListItem): LinkTag {
+  protected dependencyListItemToTagItem(item: HTMLDependencyListItem): LinkTag {
     return {
       type: "link",
       name: item.name,

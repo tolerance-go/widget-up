@@ -1,13 +1,9 @@
 import { FormSchemaConfig } from "../form";
 import { ScopeObjectName } from "../wrapUMDAliasCode";
-import { CSSModuleType, StyleEntry } from "./base";
-import {
-  BrowserEntry,
-  ExternalConfig,
-  GlobalsSchemaConfig
-} from "./schema";
+import { BrowserEntry, CSSModuleType, StyleEntry } from "./base";
+import { ExternalConfig, GlobalsSchemaConfig } from "./schema";
 
-export type NormalizedExternalDependency = {
+export type NormalizedUMDConfig = {
   name: string;
   external: ExternalConfig;
   globals: GlobalsSchemaConfig;
@@ -16,21 +12,14 @@ export type NormalizedExternalDependency = {
   exportScopeObjectName: ScopeObjectName;
 };
 
-export interface NormalizedUMDConfig {
-  name: string;
-  external: ExternalConfig;
-  globals: GlobalsSchemaConfig;
-  externalDependencies: NormalizedExternalDependencies;
-}
-
-export type NormalizedExternalDependencies = Record<
+export type NormalizedDependenciesUMDConfig = Record<
   string,
-  NormalizedExternalDependency
+  NormalizedUMDConfig
 >;
 
 export interface NormalizedConfig {
   input: string;
-  umd: NormalizedUMDConfig;
+  umd: NormalizedDependenciesUMDConfig;
   cjs: boolean;
   esm: boolean;
   css: boolean | CSSModuleType;

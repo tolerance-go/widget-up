@@ -7,30 +7,30 @@ export interface TagEvents {
   allScriptsExecuted: {};
 }
 
-export interface DependencyDetail {
+export interface HTMLDependencyDetail {
   // 精确 version
   version: VersionData;
-  subDependencies: Record<string, DependencyDetail>;
+  subDependencies: Record<string, HTMLDependencyDetail>;
   isGlobal: boolean;
   name: string;
 }
 
-export type DependencyListItem = {
+export type HTMLDependencyListItem = {
   version: VersionData;
   name: string;
   data?: Record<string, any>;
 };
 
-export interface DependencyListDiff {
-  insert: DependencyListInsertionDetail[]; // 插入的标签及其位置
-  remove: DependencyListItem[]; // 需要删除的标签
-  update: DependencyListItem[]; // 需要更新的标签（如果有）
-  move: DependencyListInsertionDetail[]; // 需要更新的标签（如果有）
+export interface HTMLDependencyListDiff {
+  insert: HTMLDependencyListInsertionDetail[]; // 插入的标签及其位置
+  remove: HTMLDependencyListItem[]; // 需要删除的标签
+  update: HTMLDependencyListItem[]; // 需要更新的标签（如果有）
+  move: HTMLDependencyListInsertionDetail[]; // 需要更新的标签（如果有）
 }
 
-export interface DependencyListInsertionDetail {
-  dep: DependencyListItem;
-  prevDep: DependencyListItem | null; // 插入在哪个标签之后，null 表示添加到开头
+export interface HTMLDependencyListInsertionDetail {
+  dep: HTMLDependencyListItem;
+  prevDep: HTMLDependencyListItem | null; // 插入在哪个标签之后，null 表示添加到开头
 }
 
 export interface DependencyTag {
@@ -75,23 +75,23 @@ export type ScriptTagDiff = TagDiff<ScriptTag>;
 export type LinkTagDiff = TagDiff<LinkTag>;
 
 // 定义一个类型来表示依赖树的节点
-export interface DependencyTreeNode {
+export interface HTMLDependency {
   name: string;
   version: string;
-  scriptSrc?: (dep: DependencyListItem) => string;
-  linkHref?: (dep: DependencyListItem) => string;
-  depends?: DependencyTreeNode[];
+  scriptSrc?: (dep: HTMLDependencyListItem) => string;
+  linkHref?: (dep: HTMLDependencyListItem) => string;
+  depends?: HTMLDependency[];
 }
 
 /**
  * DependencyTreeNode 的变体，
  * scriptSrc 和 linkHref 类型是字符串
  */
-export type DependencyTreeNodeJSON = Omit<
-  DependencyTreeNode,
+export type HTMLDependencyJSON = Omit<
+  HTMLDependency,
   "scriptSrc" | "linkHref" | "depends"
 > & {
   scriptSrc: string;
   linkHref: string;
-  depends?: DependencyTreeNodeJSON[];
+  depends?: HTMLDependencyJSON[];
 };

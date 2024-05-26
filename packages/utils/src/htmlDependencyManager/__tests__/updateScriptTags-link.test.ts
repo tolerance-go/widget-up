@@ -1,7 +1,7 @@
 import { JSDOM } from "jsdom";
 import { formatElementHtml, formatHeadHtml } from "@/__tests__/_utils";
 import { HTMLDependencyManager } from "../htmlDependencyManager";
-import { DependencyListItem } from "../../../types/htmlDependencyManager";
+import { HTMLDependencyListItem } from "../../../types/htmlDependencyManager";
 
 describe("HTMLDependencyManager", () => {
   let manager: HTMLDependencyManager;
@@ -17,9 +17,9 @@ describe("HTMLDependencyManager", () => {
     manager = new HTMLDependencyManager({
       fetchVersionList: async () => ["1.0.0", "2.0.0"],
       document,
-      scriptSrcBuilder: (dep: DependencyListItem) =>
+      scriptSrcBuilder: (dep: HTMLDependencyListItem) =>
         `path/to/${dep.name}@${dep.version.exact}.js`,
-      linkHrefBuilder: (dep: DependencyListItem) =>
+      linkHrefBuilder: (dep: HTMLDependencyListItem) =>
         `path/to/${dep.name}@${dep.version.exact}.css`,
     });
     scriptContainer = manager.tagManager.getScriptContainer();

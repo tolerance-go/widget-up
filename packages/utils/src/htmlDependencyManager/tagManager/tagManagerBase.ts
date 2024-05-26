@@ -1,7 +1,7 @@
 import {
-  DependencyListDiff,
-  DependencyListInsertionDetail,
-  DependencyListItem,
+  HTMLDependencyListDiff,
+  HTMLDependencyListInsertionDetail,
+  HTMLDependencyListItem,
   DependencyTag,
   TagDiff,
 } from "@/types/htmlDependencyManager";
@@ -27,7 +27,7 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
     this.debug = debug;
   }
 
-  public applyDependencyDiffs(diffs: DependencyListDiff) {
+  public applyDependencyDiffs(diffs: HTMLDependencyListDiff) {
     const tagDiffs = this.convertDependencyListDiffToTagDiff(diffs);
     tagManagerLogger.log("计算得到tagDiffs", diffs, tagDiffs);
 
@@ -41,7 +41,7 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
   }
 
   protected abstract dependencyListItemToTagItem(
-    item: DependencyListItem
+    item: HTMLDependencyListItem
   ): TTag;
 
   getContainer(): HTMLElement {
@@ -63,10 +63,10 @@ export abstract class TagManagerBase<TTag extends DependencyTag> {
   }
 
   protected convertDependencyListDiffToTagDiff(
-    diff: DependencyListDiff
+    diff: HTMLDependencyListDiff
   ): TagDiff<TTag> {
     const dependencyListInsertionDetailToTag = (
-      detail: DependencyListInsertionDetail
+      detail: HTMLDependencyListInsertionDetail
     ) => {
       return {
         tag: this.dependencyListItemToTagItem(detail.dep),

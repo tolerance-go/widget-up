@@ -7,18 +7,19 @@ import {
 import {
   NormalizedConfig,
   convertFrameworkModuleNameToConnectorModuleName,
+  convertPeerDependenciesTreeToHTMLDependencyJSONs,
   findOnlyFrameworkModuleConfig,
   getPeerDependTree,
   resolveModuleInfo,
 } from "widget-up-utils";
 import { PathManager } from "../managers/pathManager";
 import { topLogger } from "../utils/logger";
-import { convertPeerDependenciesTreeToDependencyTreeNodes } from "./convertPeerDependenciesTreeToDependencyTreeNodes";
 
 export default async (): Promise<RollupOptions | RollupOptions[]> => {
   const pathManager = PathManager.getInstance();
   const corePathManager = CorePathManager.getInstance();
   const configManager = ConfigManager.getInstance();
+  const config = configManager.getConfig();
 
   topLogger.log("pathManager.modulePath", pathManager.modulePath);
 
@@ -27,9 +28,9 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     cwd: pathManager.modulePath,
   });
 
-  const schemaFormModuleWidgetUpConfig = ConfigManager.getWidgetUpConfig({
-    cwd: schemaFormModuleInfo.moduleEntries.modulePath,
-  });
+  topLogger.log("schemaFormModuleInfo", schemaFormModuleInfo);
+
+  const schemaFormModuleWidgetUpConfig = ConfigManager.getWidgetUpConfig();
 
   configManager.processConfig((config) => {
     if (!config) return config;
@@ -107,9 +108,13 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
               connectorModuleConfig.packageJSON.version
             )}"`,
             linkHref: `() => ''`,
-            depends: convertPeerDependenciesTreeToDependencyTreeNodes(
-              schemaFormModulePeerDependTree
-            ),
+            depends: convertPeerDependenciesTreeToHTMLDependencyJSONs({
+              peerDependenciesTree: schemaFormModulePeerDependTree,
+              serverLibsUrl: corePathManager.serverLibsUrl,
+              getServerScriptFileName: corePathManager.getServerScriptFileName,
+              getServerStyleFileName: corePathManager.getServerStyleFileName,
+              externalDependencies: config.umd.externalDependencies,
+            }),
           },
         ],
       };

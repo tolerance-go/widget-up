@@ -2,23 +2,23 @@
   "$schema": "./node_modules/widget-up/dist-schema/config-schema.json",
   "input": "src/index.tsx",
   "umd": {
-    "name": "Button_antd3",
-    "external": ["react", "react-dom"],
-    "globals": { "react": "React", "react-dom": "ReactDOM" },
-    "externalDependencies": {
-      "react": {
-        "name": "React",
-        "browser": {
-          "development": "/umd/react.development.js",
-          "production": "/umd/react.production.min.js"
-        }
-      },
-      "react-dom": {
-        "name": "ReactDOM",
-        "browser": {
-          "development": "/umd/react-dom.development.js",
-          "production": "/umd/react-dom.production.min.js"
-        }
+    "$NAME": {
+      "name": "Button_antd3",
+      "external": ["react", "react-dom"],
+      "globals": { "react": "React", "react-dom": "ReactDOM" }
+    },
+    "react": {
+      "name": "React",
+      "browser": {
+        "development": "/umd/react.development.js",
+        "production": "/umd/react.production.min.js"
+      }
+    },
+    "react-dom": {
+      "name": "ReactDOM",
+      "browser": {
+        "development": "/umd/react-dom.development.js",
+        "production": "/umd/react-dom.production.min.js"
       }
     }
   },

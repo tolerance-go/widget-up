@@ -1,9 +1,9 @@
 import { isExactVersion } from "@/src/isExactVersion";
 import semver from "semver";
-import { DependencyDetail } from "../../../types/htmlDependencyManager";
+import { HTMLDependencyDetail } from "../../../types/htmlDependencyManager";
 
 class DependencyManager {
-  private dependencies: { [key: string]: DependencyDetail[] };
+  private dependencies: { [key: string]: HTMLDependencyDetail[] };
   public versionList: { [key: string]: string[] };
 
   constructor(versionList: { [key: string]: string[] } = {}) {

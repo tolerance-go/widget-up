@@ -9,3 +9,8 @@ export type StyleEntry = {
   development: string;
   production: string;
 };
+
+export type BrowserEntry = {
+  development: string;
+  production: string;
+};

@@ -50,7 +50,7 @@ function resolveModuleInfo({
   );
 
   const moduleEntries = getModuleEntryPaths({
-    modulePath: cwd,
+    modulePath,
     packageConfig: packageJSON,
   });
 

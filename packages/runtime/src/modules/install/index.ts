@@ -1,6 +1,6 @@
 import {
-  DependencyListItem,
-  DependencyTreeNode,
+  HTMLDependencyListItem,
+  HTMLDependency,
   HTMLDependencyManager,
 } from "widget-up-utils";
 import { installLogger } from "./logger";
@@ -8,7 +8,7 @@ import { globalEventBus } from "@/src/modules/events";
 
 // 实现`install`方法
 export async function install(
-  dependencies: DependencyTreeNode[],
+  dependencies: HTMLDependency[],
   document: Document
 ) {
   installLogger.log("开始安装依赖", dependencies);
@@ -28,12 +28,12 @@ export async function install(
   const srcMap = new Map<
     string,
     {
-      scriptSrc?: (dep: DependencyListItem) => string;
-      linkHref?: (dep: DependencyListItem) => string;
+      scriptSrc?: (dep: HTMLDependencyListItem) => string;
+      linkHref?: (dep: HTMLDependencyListItem) => string;
     }
   >();
 
-  const fillSrcMap = (node: DependencyTreeNode) => {
+  const fillSrcMap = (node: HTMLDependency) => {
     const key = `${node.name}@${node.version}`;
     srcMap.set(key, {
       scriptSrc: node.scriptSrc,
@@ -73,7 +73,7 @@ export async function install(
   window.__manager = manager;
 
   // 递归函数用于处理依赖树
-  const processDependency = async (node: DependencyTreeNode) => {
+  const processDependency = async (node: HTMLDependency) => {
     installLogger.log("处理依赖", node.name, node.version);
     let subDependencies: { [key: string]: string } = {};
     if (node.depends) {

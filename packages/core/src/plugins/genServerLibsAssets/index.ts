@@ -8,6 +8,7 @@ import fs from "fs";
 import path from "path";
 import { Plugin } from "rollup";
 import {
+  NormalizedExternalDependency,
   PeerDependenciesNode,
   PeerDependenciesTree,
   convertSemverVersionToIdentify,
@@ -53,15 +54,14 @@ function generateServerLibraries({
       moduleName,
       version,
       peerDependenciesTree,
+      externalDependencyConfig,
     }: {
       moduleName: string;
       version: string;
       peerDependenciesTree: PeerDependenciesTree;
+      externalDependencyConfig: NormalizedExternalDependency;
     }
   ) => {
-    const externalDependencyConfig =
-      config.umd.externalDependencies[moduleName];
-
     const aliasCode = wrapUMDAliasCode({
       scriptContent: code,
       imports: getModuleAliasImports({
@@ -92,12 +92,16 @@ function generateServerLibraries({
   // 遍历依赖树
   const traverseDependencies = (
     tree: PeerDependenciesTree,
-    handler: (item: PeerDependenciesNode) => void
+    handler: (
+      item: PeerDependenciesNode,
+      parent: PeerDependenciesNode | null
+    ) => void,
+    parent: PeerDependenciesNode | null = null
   ) => {
     Object.entries(tree).forEach(([name, lib]) => {
-      handler(lib); // 处理当前节点
+      handler(lib, parent); // 处理当前节点
       if (lib.peerDependencies) {
-        traverseDependencies(lib.peerDependencies, handler); // 递归处理子节点
+        traverseDependencies(lib.peerDependencies, handler, lib); // 递归处理子节点
       }
     });
   };
@@ -109,7 +113,7 @@ function generateServerLibraries({
     if (item.moduleEntries.moduleBrowserEntryRelPath) {
       return item.moduleEntries.moduleBrowserEntryRelPath;
     }
-    const externalDepConfig = config.umd.externalDependencies[item.name];
+    const externalDepConfig = config.umd.allExternalDependencies[item.name];
 
     if (!externalDepConfig) {
       throw new Error("浏览器脚本入口没有在模块定义，并且外部依赖也没有定义");
@@ -122,7 +126,10 @@ function generateServerLibraries({
     const tree = peerDependTreeManager.getDependenciesTree();
     logger.log("tree", tree);
 
-    const handler = (node: PeerDependenciesNode) => {
+    const handler = (
+      node: PeerDependenciesNode,
+      parent: PeerDependenciesNode | null
+    ) => {
       // 确保输出目录存在
       if (!fs.existsSync(pathManager.distServerLibsAbsPath)) {
         fs.mkdirSync(pathManager.distServerLibsAbsPath, { recursive: true });
@@ -144,7 +151,8 @@ function generateServerLibraries({
       scriptContent = wrapScriptContent(scriptContent, {
         moduleName: node.name,
         version: node.version.exact,
-        peerDependenciesTree: node.peerDependencies ?? {},
+        peerDependenciesTree: node?.peerDependencies ?? {},
+        externalDependencyConfig: config.umd[node.name],
       });
 
       /**

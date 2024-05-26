@@ -1,6 +1,6 @@
-import { DependencyTreeNode } from "widget-up-utils";
+import { HTMLDependency } from "widget-up-utils";
 
 export type StartParams = {
-  dependencies: DependencyTreeNode[];
-  widgetUpSchemaFormDependencyTree?: DependencyTreeNode[];
+  dependencies: HTMLDependency[];
+  widgetUpSchemaFormDependencyTree?: HTMLDependency[];
 };

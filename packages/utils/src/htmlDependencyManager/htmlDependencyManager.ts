@@ -2,9 +2,9 @@ import { DependencyManager } from "./dependencyManager";
 import { TagManager } from "./tagManager";
 import {
   DependencyTag,
-  DependencyListDiff,
-  DependencyDetail,
-  DependencyListItem,
+  HTMLDependencyListDiff,
+  HTMLDependencyDetail,
+  HTMLDependencyListItem,
   TagEvents,
 } from "../../types/htmlDependencyManager";
 import { HTMLDependencyManagerLogger } from "./logger";
@@ -14,8 +14,8 @@ import { EventBus } from "../eventBus";
 interface ConstructorOptions {
   fetchVersionList: (dependencyName: string) => Promise<string[]>;
   document: Document;
-  scriptSrcBuilder?: (dep: DependencyListItem) => string;
-  linkHrefBuilder?: (dep: DependencyListItem) => string;
+  scriptSrcBuilder?: (dep: HTMLDependencyListItem) => string;
+  linkHrefBuilder?: (dep: HTMLDependencyListItem) => string;
   debug?: boolean;
   eventBus?: EventBus<TagEvents>;
 }
@@ -25,9 +25,9 @@ class HTMLDependencyManager {
   private fetchVersionList: (dependencyName: string) => Promise<string[]>;
   private versionCache: { [key: string]: string[] };
   public tagManager: TagManager;
-  public lastDependencies: DependencyListItem[] = []; // 上次的依赖详情列表
-  private scriptSrcBuilder: (dep: DependencyListItem) => string; // 新增参数用于自定义构造 src
-  private linkHrefBuilder: (dep: DependencyListItem) => string; // 现在是可选的，返回 string 或 false
+  public lastDependencies: HTMLDependencyListItem[] = []; // 上次的依赖详情列表
+  private scriptSrcBuilder: (dep: HTMLDependencyListItem) => string; // 新增参数用于自定义构造 src
+  private linkHrefBuilder: (dep: HTMLDependencyListItem) => string; // 现在是可选的，返回 string 或 false
 
   constructor(options: ConstructorOptions) {
     this.fetchVersionList = options.fetchVersionList;
@@ -82,9 +82,9 @@ class HTMLDependencyManager {
       "getSortedDependencies_dependencies",
       dependencies
     );
-    const allDependencies: DependencyDetail[] = [];
+    const allDependencies: HTMLDependencyDetail[] = [];
     const visited: { [key: string]: boolean } = {};
-    const result: DependencyDetail[] = [];
+    const result: HTMLDependencyDetail[] = [];
 
     // 将依赖项从嵌套的结构转换为单个数组，方便处理
     for (const depKey in dependencies) {
@@ -92,7 +92,7 @@ class HTMLDependencyManager {
     }
 
     // DFS 助手函数，用于递归访问每一个依赖及其子依赖
-    const dfs = (dep: DependencyDetail) => {
+    const dfs = (dep: HTMLDependencyDetail) => {
       // 生成唯一标识符，格式为“名称@版本”
       const depIdentifier = dep.name + "@" + dep.version.exact;
       // 如果已访问过，则跳过
@@ -177,7 +177,7 @@ class HTMLDependencyManager {
   }
 
   // 新方法：转换依赖项到 DependencyTag 列表
-  getDependencyList(): DependencyListItem[] {
+  getDependencyList(): HTMLDependencyListItem[] {
     const dependencies = this.getSortedDependencies();
 
     // 遍历排序后的依赖列表，创建对应的 tag 对象
@@ -191,7 +191,7 @@ class HTMLDependencyManager {
 
   // 新方法：计算依赖标签的差异
   // 新方法：计算依赖详情的差异
-  calculateDiffs(): DependencyListDiff {
+  calculateDiffs(): HTMLDependencyListDiff {
     const currentDependencies = this.getDependencyList(); // 获取当前排序后的依赖详情
     HTMLDependencyManagerLogger.log("currentDependencies", currentDependencies);
     const oldDependenciesMap = new Map(
@@ -207,7 +207,7 @@ class HTMLDependencyManager {
       ])
     ); // 创建映射以快速访问当前依赖
 
-    const diff: DependencyListDiff = {
+    const diff: HTMLDependencyListDiff = {
       insert: [],
       remove: [],
       update: [],
@@ -260,7 +260,7 @@ class HTMLDependencyManager {
   }
 
   // 新方法：根据差异信息更新 head 中的标签
-  applyDiffs(diff: DependencyListDiff): void {
+  applyDiffs(diff: HTMLDependencyListDiff): void {
     HTMLDependencyManagerLogger.log("获得diff数据", diff);
     HTMLDependencyManagerLogger.log(
       "获得diff插入数据",

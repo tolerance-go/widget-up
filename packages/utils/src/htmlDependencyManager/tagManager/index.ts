@@ -1,7 +1,7 @@
 import { EventBus } from "@/src/eventBus";
 import {
-  DependencyListDiff,
-  DependencyListItem,
+  HTMLDependencyListDiff,
+  HTMLDependencyListItem,
   TagEvents,
 } from "@/types/htmlDependencyManager";
 import { ScriptTagManager } from "./scriptTagManager";
@@ -19,8 +19,8 @@ export class TagManager {
   }: {
     eventBus?: EventBus<TagEvents>;
     document: Document;
-    scriptSrcBuilder?: (dep: DependencyListItem) => string;
-    linkSrcBuilder?: (dep: DependencyListItem) => string;
+    scriptSrcBuilder?: (dep: HTMLDependencyListItem) => string;
+    linkSrcBuilder?: (dep: HTMLDependencyListItem) => string;
     debug?: boolean;
   }) {
     this.scriptTagManager = new ScriptTagManager({
@@ -52,7 +52,7 @@ export class TagManager {
   }
 
   // 处理传入的标签差异
-  applyDependencyDiffs(diffs: DependencyListDiff) {
+  applyDependencyDiffs(diffs: HTMLDependencyListDiff) {
     this.linkTagManager.applyDependencyDiffs(diffs);
     this.scriptTagManager.applyDependencyDiffs(diffs);
   }

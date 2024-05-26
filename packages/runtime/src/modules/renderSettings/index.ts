@@ -1,6 +1,6 @@
 import {
   BuildEnv,
-  DependencyTreeNode,
+  HTMLDependency,
   FormSchemaConfig,
 } from "widget-up-utils";
 import { globalEventBus } from "../events";
@@ -56,9 +56,9 @@ export const renderSettings = () => {
 };
 
 export const applyDependencies = (
-  dependencies: DependencyTreeNode[],
+  dependencies: HTMLDependency[],
   buildEnv: BuildEnv
-): DependencyTreeNode[] => {
+): HTMLDependency[] => {
   if (buildEnv === "development") {
     return [
       {

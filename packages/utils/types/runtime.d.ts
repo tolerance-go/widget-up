@@ -1,4 +1,4 @@
-import { DependencyTreeNodeJSON } from "./htmlDependencyManager";
+import { HTMLDependencyJSON } from "./htmlDependencyManager";
 
 export interface DemoMenuItem {
   globals: {
@@ -10,5 +10,5 @@ export interface DemoMenuItem {
 }
 
 export type StartParamsJSON = {
-  dependencies: DependencyTreeNodeJSON[];
+  dependencies: HTMLDependencyJSON[];
 };

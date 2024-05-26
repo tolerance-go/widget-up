@@ -7,11 +7,14 @@ describe("parseConfig", () => {
     const inputConfig: SchemaConfig = {
       input: "src/index.tsx",
       umd: {
-        name: "MyComponent",
-        external: ["react", "react-dom"],
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
+        $NAME: {
+          name: "MyComponent",
+          external: ["react", "react-dom"],
+          globals: {
+            react: "React",
+            "react-dom": "ReactDOM",
+          },
+          browser: "",
         },
       },
       cjs: true,
@@ -23,13 +26,19 @@ describe("parseConfig", () => {
     const expectedOutput: NormalizedConfig = {
       input: "src/index.tsx",
       umd: {
-        name: "MyComponent",
-        external: ["react", "react-dom"],
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
+        xxx: {
+          name: "MyComponent",
+          external: ["react", "react-dom"],
+          globals: {
+            react: "React",
+            "react-dom": "ReactDOM",
+          },
+          browser: {
+            development: "",
+            production: "",
+          },
+          exportScopeObjectName: "global",
         },
-        externalDependencies: {}
       },
       cjs: true,
       esm: true,
@@ -37,18 +46,28 @@ describe("parseConfig", () => {
       form: {},
     };
 
-    const result = parseConfig(inputConfig);
+    const result = parseConfig(inputConfig, {
+      name: "xxx",
+      version: "0.0.0",
+    });
     expect(result).toEqual(expectedOutput);
   });
 
   it("should handle configurations without UMD correctly", () => {
     const inputConfig: SchemaConfig = {
       umd: {
-        name: "MyComponent",
-        external: ["react", "react-dom"],
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
+        $NAME: {
+          name: "MyComponent",
+          external: ["react", "react-dom"],
+          globals: {
+            react: "React",
+            "react-dom": "ReactDOM",
+          },
+          browser: {
+            development: "",
+            production: "",
+          },
+          exportScopeObjectName: "global",
         },
       },
       input: "src/index.tsx",
@@ -59,13 +78,19 @@ describe("parseConfig", () => {
 
     const expectedOutput: NormalizedConfig = {
       umd: {
-        name: "MyComponent",
-        external: ["react", "react-dom"],
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
+        xxx: {
+          name: "MyComponent",
+          external: ["react", "react-dom"],
+          globals: {
+            react: "React",
+            "react-dom": "ReactDOM",
+          },
+          browser: {
+            development: "",
+            production: "",
+          },
+          exportScopeObjectName: "global",
         },
-        externalDependencies: {},
       },
       input: "src/index.tsx",
       cjs: false,
@@ -74,7 +99,10 @@ describe("parseConfig", () => {
       form: {},
     };
 
-    const result = parseConfig(inputConfig);
+    const result = parseConfig(inputConfig, {
+      name: "xxx",
+      version: "0.0.0",
+    });
     expect(result).toEqual(expectedOutput);
   });
 });

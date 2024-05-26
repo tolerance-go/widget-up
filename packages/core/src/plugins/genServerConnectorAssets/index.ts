@@ -61,7 +61,7 @@ export function genServerConnectorAssets({
       });
 
       let content = fs.readFileSync(
-        connectorModuleInfo.moduleEntryAbsPath,
+        connectorModuleInfo.moduleEntries.moduleEntryAbsPath,
         "utf-8"
       );
 

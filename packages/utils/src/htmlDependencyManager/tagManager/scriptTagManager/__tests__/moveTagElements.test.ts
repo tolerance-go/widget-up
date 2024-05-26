@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom";
 import {
-  DependencyListInsertionDetail,
+  HTMLDependencyListInsertionDetail,
   ScriptTag,
   TagListInsertionDetail,
 } from "../../../../../types/htmlDependencyManager";

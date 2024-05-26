@@ -6,10 +6,11 @@ import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
 import {
-  DependencyTreeNodeJSON,
+  HTMLDependencyJSON,
   StartParamsJSON,
   convertConnectorModuleToDependencyTreeNodeJSON,
   convertFrameworkModuleNameToConnectorModuleName,
+  convertPeerDependenciesTreeToHTMLDependencyJSONs,
   findOnlyFrameworkModuleConfig,
   resolveModuleInfo,
 } from "widget-up-utils";
@@ -74,14 +75,22 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
               name: packageConfig.name,
               version: packageConfig.version,
               scriptSrc: `() => '/index.js'`,
-              linkHref: `() => ''`,
+              linkHref: `() => ${config.css ? "/index.css" : ""}`,
               depends: convertPeerDependenciesToDependencyTree(
                 peerDependTreeManager.getDependenciesTree(),
-                config.umd.externalDependencies
+                config.umd.allExternalDependencies
               ),
+              asdf: convertPeerDependenciesTreeToHTMLDependencyJSONs({
+                peerDependenciesTree:
+                  peerDependTreeManager.getDependenciesTree(),
+                serverLibsUrl: pathManager.serverLibsUrl,
+                getServerScriptFileName: pathManager.getServerScriptFileName,
+                getServerStyleFileName: pathManager.getServerStyleFileName,
+                externalDependencies: config.umd.allExternalDependencies,
+              }),
             },
           ],
-        })) as DependencyTreeNodeJSON[],
+        })) as HTMLDependencyJSON[],
       };
     });
 

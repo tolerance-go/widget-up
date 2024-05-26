@@ -23,7 +23,7 @@ export function genRuntimeLib(): Plugin {
       initialized = true;
 
       // 使用resolveModuleInfo函数获取运行时库的信息
-      const wupRuntimeLibNpm = resolveModuleInfo({
+      const wupRuntimeModuleInfo = resolveModuleInfo({
         name: "widget-up-runtime", // 包名
         cwd: pathManager.modulePath, // 当前工作目录，设置为根路径
       });
@@ -31,7 +31,7 @@ export function genRuntimeLib(): Plugin {
       const copyJS = () => {
         // 读取模块的入口文件内容
         const content = fs.readFileSync(
-          wupRuntimeLibNpm.moduleEntryAbsPath,
+          wupRuntimeModuleInfo.moduleEntries.moduleEntryAbsPath,
           "utf-8"
         );
 
@@ -49,11 +49,11 @@ export function genRuntimeLib(): Plugin {
       };
 
       const copyStyle = () => {
-        if (!wupRuntimeLibNpm.moduleStyleEntryAbsPath) return;
+        if (!wupRuntimeModuleInfo.moduleEntries.moduleStyleEntryAbsPath) return;
 
         // 根据是否存在样式入口路径，读取样式文件内容
         const styleContent = fs.readFileSync(
-          wupRuntimeLibNpm.moduleStyleEntryAbsPath,
+          wupRuntimeModuleInfo.moduleEntries.moduleStyleEntryAbsPath,
           "utf-8"
         );
 
@@ -67,16 +67,19 @@ export function genRuntimeLib(): Plugin {
       };
 
       // 监听JavaScript文件和CSS文件的变化
-      fs.watch(wupRuntimeLibNpm.moduleEntryAbsPath, (eventType, filename) => {
-        if (eventType === "change") {
-          console.log(`${filename} has been changed, copying...`);
-          copyJS();
+      fs.watch(
+        wupRuntimeModuleInfo.moduleEntries.moduleEntryAbsPath,
+        (eventType, filename) => {
+          if (eventType === "change") {
+            console.log(`${filename} has been changed, copying...`);
+            copyJS();
+          }
         }
-      });
+      );
 
-      if (wupRuntimeLibNpm.moduleStyleEntryAbsPath) {
+      if (wupRuntimeModuleInfo.moduleEntries.moduleStyleEntryAbsPath) {
         fs.watch(
-          wupRuntimeLibNpm.moduleStyleEntryAbsPath,
+          wupRuntimeModuleInfo.moduleEntries.moduleStyleEntryAbsPath,
           (eventType, filename) => {
             if (eventType === "change") {
               console.log(`${filename} has been changed, copying...`);

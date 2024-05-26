@@ -27,5 +27,6 @@ export * from "./getModuleEntryPaths";
 export * from "./ensure";
 export * from "./getModuleAliasImports";
 export * from "./baseEnvManager";
+export * from "./convertPeerDependenciesTreeToHTMLDependencyJSONs";
 
 export type * from "@/types";

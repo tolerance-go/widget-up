@@ -2,7 +2,7 @@ import { EventBus } from "@/src/eventBus";
 import { JSDOM } from "jsdom";
 import { ScriptTagManager } from "..";
 import {
-  DependencyListDiff,
+  HTMLDependencyListDiff,
   TagEvents,
 } from "@/types/htmlDependencyManager";
 
@@ -23,7 +23,7 @@ describe("ScriptTagManager base", () => {
   });
 
   it("should handle insertion correctly", () => {
-    const diffs: DependencyListDiff = {
+    const diffs: HTMLDependencyListDiff = {
       insert: [
         {
           dep: {
