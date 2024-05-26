@@ -35,7 +35,7 @@ export default async ({
   const configManager = ConfigManager.getInstance();
   const packageConfig = configManager.getPackageConfig();
   const config = configManager.getConfig();
-  const umdConfig = configManager.getModuleUMDConfig();
+  const umdConfig = configManager.getMainModuleUMDConfig();
 
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 

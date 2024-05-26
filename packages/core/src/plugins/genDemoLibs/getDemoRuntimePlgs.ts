@@ -28,7 +28,7 @@ export const getDemoRuntimePlgs = ({
   configManager: ConfigManager;
   pathManager: PathManager;
 }) => {
-  const umdConfig = configManager.getModuleUMDConfig();
+  const umdConfig = configManager.getMainModuleUMDConfig();
   const packageConfig = configManager.getPackageConfig();
   const cwdPath = pathManager.cwdPath;
 

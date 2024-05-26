@@ -10,7 +10,7 @@ import { ConfigManager } from "../managers/configManager";
 export function getProdOutputs() {
   const configManager = ConfigManager.getInstance();
   const config = configManager.getConfig();
-  const umdConfig = configManager.getModuleUMDConfig();
+  const umdConfig = configManager.getMainModuleUMDConfig();
   const outputs: RollupOptions["output"] = [];
 
   // UMD 格式始终包含

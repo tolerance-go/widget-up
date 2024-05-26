@@ -4,16 +4,22 @@ import { ensure } from "../ensure";
 
 /**
  * 获取主模块的 umd 配置
- * 
- * @param dependenciesUMDConfig 
- * @returns 
+ *
+ * @param dependenciesUMDConfig
+ * @returns
  */
 export const getMainModuleUMDConfig = (
-  dependenciesUMDConfig: NormalizedDependenciesUMDConfig
+  dependenciesUMDConfig: NormalizedDependenciesUMDConfig,
+  modeName: string
 ) => {
   ensure(
-    UMD_NAME_PLACEHOLDER in dependenciesUMDConfig,
-    `${UMD_NAME_PLACEHOLDER} 不存在于配置中`
+    modeName in dependenciesUMDConfig,
+    `${modeName} 不存在于配置中`,
+    "info:",
+    {
+      modeName,
+      dependenciesUMDConfig,
+    }
   );
 
   return dependenciesUMDConfig[UMD_NAME_PLACEHOLDER];

@@ -19,7 +19,7 @@ export const genMenus = ({
     options(options) {
       const menus = convertDemoDataToMenu(
         demosManager.getDemoDatas(),
-        configManager.getModuleUMDConfig(),
+        configManager.getMainModuleUMDConfig(),
         configManager.getPackageConfig(),
         pathManager
       );

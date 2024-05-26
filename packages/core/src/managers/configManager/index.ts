@@ -80,10 +80,11 @@ export class ConfigManager extends EventEmitter {
     );
   }
 
-  public getModuleUMDConfig() {
+  public getMainModuleUMDConfig() {
     const config = this.getConfig();
+    const packageConfig = this.getPackageConfig();
 
-    return getMainModuleUMDConfig(config.umd);
+    return getMainModuleUMDConfig(config.umd, packageConfig.name);
   }
 
   public getConfig() {

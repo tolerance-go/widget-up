@@ -29,7 +29,7 @@ function wrapMainOutput({
 
     const cwdPath = pathManager.cwdPath;
     const config = configManager.getConfig();
-    const umdConfig = configManager.getModuleUMDConfig();
+    const umdConfig = configManager.getMainModuleUMDConfig();
     const packageConfig = configManager.getPackageConfig();
 
     // 用服务器中的资源路径做为事件 ID
