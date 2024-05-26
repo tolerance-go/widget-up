@@ -29,8 +29,9 @@ function resolveModuleInfo({
   }
 
   if (!modulePath) {
+    console.log(cwd);
     throw new Error(
-      `Module '${name}' not found in any 'node_modules' directory from current path. cwd: ${cwd}`
+      `Module '${name}' not found in any 'node_modules' directory from current path.`
     );
   }
 
@@ -48,13 +49,13 @@ function resolveModuleInfo({
     fs.readFileSync(packageJSONPath, "utf8")
   );
 
-  const moduleEntryPaths = getModuleEntryPaths({
+  const moduleEntries = getModuleEntryPaths({
     modulePath: cwd,
     packageConfig: packageJSON,
   });
 
   return {
-    moduleEntryPaths,
+    moduleEntries,
     packageJSON,
   };
 }
