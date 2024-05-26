@@ -8,7 +8,8 @@ import { Plugin } from "rollup";
 import {
   DependencyTreeNodeJSON,
   StartParamsJSON,
-  convertConnectorModuleToDependencyTreeNode,
+  convertConnectorModuleToDependencyTreeNodeJSON,
+  convertFrameworkModuleNameToConnectorModuleName,
   findOnlyFrameworkModuleConfig,
 } from "widget-up-utils";
 import { convertPeerDependenciesToDependencyTree } from "./convertPeerDependenciesToDependencyTree";
@@ -39,11 +40,14 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
       cwd: pathManager.cwdPath,
     });
 
-    const connectorDepNode = convertConnectorModuleToDependencyTreeNode(
+    const connectorDepNode = convertConnectorModuleToDependencyTreeNodeJSON(
       frameworkModule,
       pathManager.serverConnectorsUrl,
       pathManager.getServerScriptFileName(
-        frameworkModule.name,
+        convertFrameworkModuleNameToConnectorModuleName(
+          frameworkModule.name,
+          frameworkModule.version
+        ),
         frameworkModule.version
       )
     );

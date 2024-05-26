@@ -11,5 +11,4 @@ export interface DemoMenuItem {
 
 export type StartParamsJSON = {
   dependencies: DependencyTreeNodeJSON[];
-  widgetUpSchemaFormDependencyTree?: DependencyTreeNodeJSON[];
 };

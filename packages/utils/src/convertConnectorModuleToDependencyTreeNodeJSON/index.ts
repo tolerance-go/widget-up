@@ -1,13 +1,16 @@
 import { DependencyTreeNodeJSON, PackageConfig } from "@/types";
-import { getConnectorModuleName } from "../getConnectorModuleName";
+import { convertFrameworkModuleNameToConnectorModuleName } from "../convertFrameworkModuleNameToConnectorModuleName";
 
-export const convertConnectorModuleToDependencyTreeNode = (
+export const convertConnectorModuleToDependencyTreeNodeJSON = (
   config: PackageConfig,
   serverConnectorsUrl: string,
   scriptFileName: string
 ): DependencyTreeNodeJSON => {
   return {
-    name: getConnectorModuleName(config.name, config.version),
+    name: convertFrameworkModuleNameToConnectorModuleName(
+      config.name,
+      config.version
+    ),
     version: config.version,
     scriptSrc: `() => "${serverConnectorsUrl}/${scriptFileName}"`,
     linkHref: `() => ''`,

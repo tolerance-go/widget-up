@@ -6,15 +6,14 @@ import {
 } from "widget-up-core";
 import {
   NormalizedConfig,
-  convertDependenciesTreeToList,
+  convertFrameworkModuleNameToConnectorModuleName,
   findOnlyFrameworkModuleConfig,
-  getConnectorModuleName,
   getPeerDependTree,
   resolveModuleInfo,
 } from "widget-up-utils";
 import { PathManager } from "../managers/pathManager";
-import { convertPeerDependenciesTreeToDependencyTreeNodes } from "./convertPeerDependenciesTreeToDependencyTreeNodes";
 import { topLogger } from "../utils/logger";
+import { convertPeerDependenciesTreeToDependencyTreeNodes } from "./convertPeerDependenciesTreeToDependencyTreeNodes";
 
 export default async (): Promise<RollupOptions | RollupOptions[]> => {
   const pathManager = PathManager.getInstance();
@@ -70,7 +69,10 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     includeRootPackage: true,
   });
 
-  topLogger.log('schemaFormModulePeerDependTree', schemaFormModulePeerDependTree)
+  topLogger.log(
+    "schemaFormModulePeerDependTree",
+    schemaFormModulePeerDependTree
+  );
 
   const frameworkModuleConfigOfSchemaForm = findOnlyFrameworkModuleConfig({
     cwd: schemaFormModuleInfo.modulePath,
@@ -80,9 +82,10 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
     processStartParams: (params) => {
       return {
         ...params,
-        widgetUpSchemaFormDependencyTree: [
+        dependencies: [
+          ...params.dependencies,
           {
-            name: getConnectorModuleName(
+            name: convertFrameworkModuleNameToConnectorModuleName(
               frameworkModuleConfigOfSchemaForm.name,
               frameworkModuleConfigOfSchemaForm.version
             ),
@@ -90,7 +93,10 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
             scriptSrc: `() => "${
               corePathManager.serverConnectorsUrl
             }/${corePathManager.getServerScriptFileName(
-              frameworkModuleConfigOfSchemaForm.name,
+              convertFrameworkModuleNameToConnectorModuleName(
+                frameworkModuleConfigOfSchemaForm.name,
+                frameworkModuleConfigOfSchemaForm.version
+              ),
               frameworkModuleConfigOfSchemaForm.version
             )}"`,
             linkHref: `() => ''`,
