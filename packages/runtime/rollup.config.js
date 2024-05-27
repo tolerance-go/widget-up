@@ -65,7 +65,7 @@ export default {
         },
       },
     }),
-    buildEnvIsProduction && terser(), // 生产环境下压缩代码
+    // buildEnvIsProduction && terser(), // 生产环境下压缩代码
     tsDeclarationAlias(),
     buildEnvIsDevelopment &&
       htmlRender({
