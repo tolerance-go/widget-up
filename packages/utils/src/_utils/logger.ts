@@ -1,3 +1,3 @@
-import { ProgramLogger } from "../loggers/ProgramLogger";
+import { FileLogger } from "../loggers/FileLogger";
 
-export const utilsLogger = new ProgramLogger("utils");
+export const utilsLogger = new FileLogger("utils");

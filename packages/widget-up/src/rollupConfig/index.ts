@@ -45,20 +45,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
       ...config,
       umd: {
         ...config.umd,
-        externalDependencies: {
-          ...config.umd.externalDependencies,
-          [schemaFormModuleInfo.packageJSON.name]: {
-            name: schemaFormModuleWidgetUpConfig.umd.name,
-            external: schemaFormModuleWidgetUpConfig.umd.external,
-            globals: schemaFormModuleWidgetUpConfig.umd.globals,
-            browser: {
-              development: schemaFormModuleInfo.packageJSON.browser,
-              production: schemaFormModuleInfo.packageJSON.browser,
-            },
-            exportScopeObjectName: "global",
-          },
-          ...schemaFormModuleWidgetUpConfig.umd.externalDependencies,
-        },
+        ...schemaFormModuleWidgetUpConfig.umd,
       },
     };
 
@@ -121,7 +108,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
         ],
       };
     },
-    extraPeerDependenciesTree: () => schemaFormModulePeerDependTree,
+    getExtraPeerDependenciesTree: () => schemaFormModulePeerDependTree,
     additionalFrameworkModules: () => {
       return [frameworkModuleConfigOfSchemaForm];
     },

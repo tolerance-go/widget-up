@@ -43,7 +43,7 @@ export const getDevPlugins = async ({
   demosManager,
   pathManager,
   processStartParams,
-  extraPeerDependenciesTree,
+  getExtraPeerDependenciesTree: extraPeerDependenciesTree,
   additionalFrameworkModules,
 }: {
   pathManager: PathManager;
@@ -92,7 +92,7 @@ export const getDevPlugins = async ({
       devBuildPlugins: coreDevBuildPlugins,
     }),
     genServerLibs({
-      extraPeerDependenciesTree,
+      getExtraPeerDependenciesTree: extraPeerDependenciesTree,
     }),
     genRuntimeLib(),
     genServerConnectorAssets({

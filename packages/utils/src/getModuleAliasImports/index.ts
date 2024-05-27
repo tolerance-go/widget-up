@@ -2,6 +2,7 @@ import { PeerDependenciesTree } from "@/types";
 import { convertSemverVersionToIdentify } from "../convertSemverVersionToIdentify";
 import { ensure } from "../ensure";
 import { UMDAliasOptions } from "../wrapUMDAliasCode";
+import { logger } from "./logger";
 
 export const getModuleAliasImports = ({
   external,
@@ -12,6 +13,8 @@ export const getModuleAliasImports = ({
   globals: Record<string, string>;
   peerDependenciesTree: PeerDependenciesTree;
 }): UMDAliasOptions["imports"] => {
+  logger.log("getModuleAliasImports start");
+
   const imports: UMDAliasOptions["imports"] = [];
 
   /**

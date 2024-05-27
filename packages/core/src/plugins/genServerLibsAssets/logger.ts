@@ -6,3 +6,6 @@ const identifierManager = IdentifierManager.getInstance();
 export const logger = plgLogger.extendNamespace(
   identifierManager.serverLibsPlgName
 );
+
+export const wrapScriptContentLogger =
+  logger.extendNamespace("wrapScriptContent");

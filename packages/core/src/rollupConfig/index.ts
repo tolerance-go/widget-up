@@ -14,7 +14,7 @@ import { UMDSchemaConfig, UMD_NAME_PLACEHOLDER, ensure } from "widget-up-utils";
 
 export default async ({
   processStartParams,
-  extraPeerDependenciesTree,
+  getExtraPeerDependenciesTree: extraPeerDependenciesTree,
   additionalFrameworkModules,
 }: GenStartPlgOptions &
   ServerLibsPluginOptions &
@@ -58,7 +58,7 @@ export default async ({
         packageConfig,
         configManager,
         processStartParams,
-        extraPeerDependenciesTree,
+        getExtraPeerDependenciesTree: extraPeerDependenciesTree,
         additionalFrameworkModules,
       }),
       watch: {

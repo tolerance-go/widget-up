@@ -15,16 +15,16 @@ import {
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
-import { logger } from "./logger";
+import { logger, wrapScriptContentLogger } from "./logger";
 
 // 插件接收的参数类型定义
 export interface ServerLibsPluginOptions {
-  extraPeerDependenciesTree?: () => PeerDependenciesTree;
+  getExtraPeerDependenciesTree?: () => PeerDependenciesTree;
 }
 
 // 主插件函数
 function generateServerLibraries({
-  extraPeerDependenciesTree,
+  getExtraPeerDependenciesTree,
 }: ServerLibsPluginOptions): Plugin {
   const envManager = EnvManager.getInstance();
   const configManager = ConfigManager.getInstance();
@@ -61,13 +61,30 @@ function generateServerLibraries({
       umdConfig: NormalizedUMDConfig;
     }
   ) => {
+    wrapScriptContentLogger.log("getModuleAliasImports start");
+
+    wrapScriptContentLogger.info({
+      umdConfig,
+      peerDependenciesTree,
+    });
+
+    const moduleAliasImportParams = {
+      external: umdConfig.external,
+      globals: umdConfig.globals,
+      peerDependenciesTree,
+    };
+
+    wrapScriptContentLogger.info({ moduleAliasImportParams });
+
+    const imports = getModuleAliasImports(moduleAliasImportParams);
+
+    wrapScriptContentLogger.info({
+      imports,
+    });
+
     const aliasCode = wrapUMDAliasCode({
       scriptContent: code,
-      imports: getModuleAliasImports({
-        external: umdConfig.external,
-        globals: umdConfig.globals,
-        peerDependenciesTree,
-      }),
+      imports,
       exports: [
         {
           globalVar: `${umdConfig.name}_${convertSemverVersionToIdentify(
@@ -78,6 +95,8 @@ function generateServerLibraries({
         },
       ],
     });
+
+    wrapScriptContentLogger.log("wrapUMDAliasCode end");
 
     const asyncEventCode = wrapUMDAsyncEventCode({
       eventId: pathManager.getDependsLibServerUrl(moduleName, version),
@@ -142,9 +161,14 @@ function generateServerLibraries({
         getModuleBrowserScriptPath(node)
       );
 
-      logger.log("scriptFilePath", scriptFilePath);
+      logger.log("readFileSync start");
 
       let scriptContent = fs.readFileSync(scriptFilePath, "utf8");
+
+      logger.info({
+        "config.umd": config.umd,
+        "node.name": node.name,
+      });
 
       // 包裹文件内容
       scriptContent = wrapScriptContent(scriptContent, {
@@ -153,6 +177,8 @@ function generateServerLibraries({
         peerDependenciesTree: node?.peerDependencies ?? {},
         umdConfig: config.umd[node.name],
       });
+
+      logger.log("wrapScriptContent end");
 
       /**
        * 找到样式文件
@@ -197,9 +223,10 @@ function generateServerLibraries({
 
     traverseDependencies(tree, handler);
 
-    logger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
+    const extraPeerDependenciesTree = getExtraPeerDependenciesTree?.();
+    logger.info({ extraPeerDependenciesTree });
     if (extraPeerDependenciesTree) {
-      traverseDependencies(extraPeerDependenciesTree(), handler);
+      traverseDependencies(extraPeerDependenciesTree, handler);
     }
   };
 
