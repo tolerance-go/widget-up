@@ -19,7 +19,7 @@ import { logger } from "./logger";
 
 // 插件接收的参数类型定义
 export interface ServerLibsPluginOptions {
-  extraPeerDependenciesTree?: PeerDependenciesTree;
+  extraPeerDependenciesTree?: () => PeerDependenciesTree;
 }
 
 // 主插件函数
@@ -197,10 +197,10 @@ function generateServerLibraries({
 
     traverseDependencies(tree, handler);
 
-    // logger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
-    // if (extraPeerDependenciesTree) {
-    //   traverseDependencies(extraPeerDependenciesTree, handler);
-    // }
+    logger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
+    if (extraPeerDependenciesTree) {
+      traverseDependencies(extraPeerDependenciesTree(), handler);
+    }
   };
 
   configManager.watch(() => {

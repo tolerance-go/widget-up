@@ -1,8 +1,8 @@
 import { IdentifierManager } from "@/src/managers/identifierManager";
-import { coreLogger } from "@/src/utils/logger";
+import { plgLogger } from "../_utils/logger";
 
 const identifierManager = IdentifierManager.getInstance();
 
-export const logger = coreLogger.extendNamespace(
+export const logger = plgLogger.extendNamespace(
   identifierManager.serverLibsPlgName
 );

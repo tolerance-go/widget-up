@@ -121,7 +121,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
         ],
       };
     },
-    extraPeerDependenciesTree: schemaFormModulePeerDependTree,
+    extraPeerDependenciesTree: () => schemaFormModulePeerDependTree,
     additionalFrameworkModules: () => {
       return [frameworkModuleConfigOfSchemaForm];
     },
