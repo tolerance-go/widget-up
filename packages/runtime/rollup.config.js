@@ -5,7 +5,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import autoprefixer from "autoprefixer";
 import postcss from "rollup-plugin-postcss";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import tailwindcss from "tailwindcss";
 import {
   deleteDist,
@@ -65,7 +65,7 @@ export default {
         },
       },
     }),
-    // buildEnvIsProduction && terser(), // 生产环境下压缩代码
+    buildEnvIsProduction && terser(), // 生产环境下压缩代码
     tsDeclarationAlias(),
     buildEnvIsDevelopment &&
       htmlRender({

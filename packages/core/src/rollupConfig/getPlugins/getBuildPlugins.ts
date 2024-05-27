@@ -4,11 +4,10 @@ import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
 import typescript from "@rollup/plugin-typescript";
-import { InputPluginOption, OutputOptions, Plugin } from "rollup";
+import { InputPluginOption, OutputOptions } from "rollup";
 import del from "rollup-plugin-delete";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import { NormalizedConfig, tsDeclarationAlias } from "widget-up-utils";
-import { getEnv } from "../../utils/env.js";
 import { getExternalPlugin } from "./getExternalPlugin.js";
 import { getPostCSSPlg } from "./getPostCSSPlg.js";
 

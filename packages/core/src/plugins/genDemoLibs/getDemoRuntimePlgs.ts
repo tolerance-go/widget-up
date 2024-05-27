@@ -49,7 +49,7 @@ export const getDemoRuntimePlgs = ({
           umdConfig,
           pathManager.demosAbsPath
         ),
-        sourcemap: BuildEnvIsDev,
+        // sourcemap: BuildEnvIsDev,
         globals: {
           /**
            * 注意这里配合 external 是 demo 代码中不引入组件库代码

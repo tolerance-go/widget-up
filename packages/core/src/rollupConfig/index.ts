@@ -49,7 +49,7 @@ export default async ({
         format: "umd",
         name: umdConfig.name,
         globals: umdConfig.globals,
-        sourcemap: BuildEnvIsDev ? "inline" : false,
+        // sourcemap: BuildEnvIsDev ? "inline" : false,
       },
       plugins: getDevPlugins({
         pathManager,

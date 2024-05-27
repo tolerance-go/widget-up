@@ -3,7 +3,6 @@ import { EnvManager } from "@/src/managers/envManager";
 import { IdentifierManager } from "@/src/managers/identifierManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { PeerDependTreeManager } from "@/src/managers/peerDependTreeManager";
-import { convertUmdConfigToAliasImports } from "@/src/utils/convertUmdConfigToAliasImports";
 import fs from "fs";
 import path from "path";
 import { Plugin } from "rollup";
@@ -198,10 +197,10 @@ function generateServerLibraries({
 
     traverseDependencies(tree, handler);
 
-    logger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
-    if (extraPeerDependenciesTree) {
-      traverseDependencies(extraPeerDependenciesTree, handler);
-    }
+    // logger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
+    // if (extraPeerDependenciesTree) {
+    //   traverseDependencies(extraPeerDependenciesTree, handler);
+    // }
   };
 
   configManager.watch(() => {

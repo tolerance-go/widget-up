@@ -71,7 +71,7 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-serve": "^3.0.0",
-    "rollup-plugin-terser": "^7.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
     "semver": "^7.6.0",
     "tailwindcss": "^3.4.3",
     "widget-up-core": "workspace:^",
