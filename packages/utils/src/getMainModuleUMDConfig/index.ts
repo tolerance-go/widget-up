@@ -1,5 +1,4 @@
 import { NormalizedDependenciesUMDConfig } from "@/types";
-import { UMD_NAME_PLACEHOLDER } from "../datas/constants";
 import { ensure } from "../ensure";
 
 /**
@@ -22,5 +21,5 @@ export const getMainModuleUMDConfig = (
     }
   );
 
-  return dependenciesUMDConfig[UMD_NAME_PLACEHOLDER];
+  return dependenciesUMDConfig[modeName];
 };
