@@ -109,7 +109,7 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
               ),
               connectorModuleConfig.packageJSON.version
             )}"`,
-            linkHref: `() => ''`,
+            linkHref: `() => ""`,
             depends: convertPeerDependenciesTreeToHTMLDependencyJSONs({
               peerDependenciesTree: schemaFormModulePeerDependTree,
               serverLibsUrl: corePathManager.serverLibsUrl,

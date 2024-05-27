@@ -29,14 +29,14 @@ export function convertPeerDependenciesTreeToHTMLDependencyJSONs(options: {
     return {
       name,
       version: version.exact,
-      scriptSrc: `(dep) => \`${serverLibsUrl}/${getServerScriptFileName(
+      scriptSrc: `(dep) => "${serverLibsUrl}/${getServerScriptFileName(
         name,
         version.exact
-      )}\``, // 根据需求填充此字段
+      )}"`, // 根据需求填充此字段
       linkHref: `() => ${
         hasStyle
-          ? `${serverLibsUrl}/${getServerStyleFileName(name, version.exact)}`
-          : ""
+          ? `"${serverLibsUrl}/${getServerStyleFileName(name, version.exact)}"`
+          : '""'
       }`, // 根据需求填充此字段
       depends: peerDependencies
         ? convertPeerDependenciesTreeToHTMLDependencyJSONs({
