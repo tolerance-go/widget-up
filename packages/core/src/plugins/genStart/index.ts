@@ -73,8 +73,8 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
             {
               name: packageConfig.name,
               version: packageConfig.version,
-              scriptSrc: `() => '/index.js'`,
-              linkHref: `() => ${config.css ? "'/index.css'" : ""}`,
+              scriptSrc: `() => "/index.js"`,
+              linkHref: `() => ${config.css ? '"/index.css"' : '""'}`,
               depends: convertPeerDependenciesTreeToHTMLDependencyJSONs({
                 peerDependenciesTree:
                   peerDependTreeManager.getDependenciesTree(),

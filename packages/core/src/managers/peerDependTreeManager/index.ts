@@ -8,6 +8,7 @@ import {
   PeerDependenciesTree,
 } from "widget-up-utils";
 import { PathManager } from "../pathManager";
+import { logger } from "./logger";
 
 export class PeerDependTreeManager extends EventEmitter {
   private static instance: PeerDependTreeManager | null = null;
@@ -37,8 +38,17 @@ export class PeerDependTreeManager extends EventEmitter {
   constructor(cwd: string) {
     super();
     this.cwd = cwd;
-    this.updateDependenciesTree();
+    this.loadPeerDependenciesTree();
     this.watchPackageJson();
+  }
+
+  private loadPeerDependenciesTree() {
+    this.updateDependenciesTree();
+
+    logger.log("loadPeerDependenciesTree start");
+    logger.info({
+      "this.peerDependenciesTree": this.peerDependenciesTree,
+    });
   }
 
   private updateDependenciesTree(): void {
