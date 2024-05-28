@@ -21,17 +21,5 @@
   "css": {
     "modules": false,
     "useTailwind": true
-  },
-  "form": {
-    "inputs": [
-      {
-        "type": "string",
-        "name": "string"
-      },
-      {
-        "type": "boolean",
-        "name": "boolean"
-      }
-    ]
   }
 }

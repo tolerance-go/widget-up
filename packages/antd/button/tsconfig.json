@@ -6,7 +6,12 @@
     "jsx": "react",
     "declaration": true,
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@widget-up-antd/button": ["./src/index.tsx"],
+      "@/*": ["*"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "demos/**/*"]
 }

@@ -15,18 +15,21 @@ export function parseConfig(
   // 首先处理 UMD 配置的解析，特别是 external 字段
   const normalizedUMD: NormalizedDependenciesUMDConfig = Object.fromEntries(
     Object.entries(config.umd ?? {}).map(([key, value]) => {
-      const browser = value.browser || packageConfig.browser;
-      const style = value.style || packageConfig.style;
+      let browser = value.browser;
+      let style = value.style;
+
+      if (key === UMD_NAME_PLACEHOLDER) {
+        key = packageConfig.name;
+
+        browser = packageConfig.browser;
+        style = packageConfig.style;
+      }
 
       ensure(browser !== undefined, `${key} browser 没有定义`, "info:", {
         browser,
         key,
         value,
       });
-
-      if (key === UMD_NAME_PLACEHOLDER) {
-        key = packageConfig.name;
-      }
 
       const obj: NormalizedUMDConfig = {
         name: value.name,

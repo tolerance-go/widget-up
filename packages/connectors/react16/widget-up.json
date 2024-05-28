@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/widget-up/dist-schema/config-schema.json",
+  "input": "src/index.tsx",
+  "umd": {
+    "$NAME": {
+      "name": "Connector_react16",
+      "external": ["react", "react-dom", "runtime-component"],
+      "globals": {
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "runtime-component": "RuntimeComponent"
+      }
+    }
+  }
+}

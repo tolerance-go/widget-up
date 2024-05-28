@@ -6,6 +6,7 @@ import {
   PackageConfig,
   findOnlyFrameworkModuleConfig,
   convertSemverVersionToIdentify,
+  getMajorVersion,
 } from "widget-up-utils";
 
 export const convertDemoDataToMenu = (
@@ -28,7 +29,9 @@ export const convertDemoDataToMenu = (
           umdConfig,
           pathManager.demosAbsPath
         )}_${convertSemverVersionToIdentify(packageConfig.version)}`,
-        connector: `Connector_${frameworkModule.name}`,
+        connector: `Connector_${frameworkModule.name}${getMajorVersion(
+          frameworkModule.version
+        )}`,
       },
       children: convertDemoDataToMenu(
         children || [],

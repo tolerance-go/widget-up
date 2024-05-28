@@ -35,21 +35,34 @@ export class ConfigManager extends EventEmitter {
   static getWidgetUpConfig({ cwd }: { cwd: string }) {
     const pathManager = PathManager.getInstance();
 
-    logger.log(
-      "pathManager.widgetUpConfigAbsPath",
-      pathManager.widgetUpConfigAbsPath
-    );
+    logger.log("getPackageConfig prepare");
 
     const packageConfig = ConfigManager.getPackageConfig({
       cwd,
     });
 
-    const fileContents = fs.readFileSync(
-      path.join(cwd, pathManager.widgetUpConfigRelativePath),
-      "utf8"
-    );
+    const configPath = path.join(cwd, pathManager.widgetUpConfigRelativePath);
 
-    const newConfig = parseConfig(JSON.parse(fileContents), packageConfig);
+    logger.log("getConfigPath");
+
+    const fileContents = fs.readFileSync(configPath, "utf8");
+
+    logger.log("readConfigContents");
+
+    const parsed = JSON.parse(fileContents);
+
+    logger.log("parse");
+
+    const newConfig = parseConfig(parsed, packageConfig);
+
+    logger.log("parseConfig");
+
+    logger.info({
+      cwd,
+      configPath,
+      fileContents,
+      newConfig,
+    });
 
     return newConfig;
   }

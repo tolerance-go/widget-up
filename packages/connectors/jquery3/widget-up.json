@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/widget-up/dist-schema/config-schema.json",
+  "input": "src/index.ts",
+  "umd": {
+    "$NAME": {
+      "name": "Connector_jquery3",
+      "external": ["jquery", "runtime-component"],
+      "globals": { "jquery": "jQuery", "runtime-component": "RuntimeComponent" }
+    }
+  }
+}

@@ -19,9 +19,23 @@
       "browser": {
         "development": "/umd/react-dom.development.js",
         "production": "/umd/react-dom.production.min.js"
-      }
+      },
+      "external": ["react"],
+      "globals": { "react": "React" }
     }
   },
   "cjs": true,
-  "esm": true
+  "esm": true,
+  "form": {
+    "inputs": [
+      {
+        "type": "string",
+        "name": "string"
+      },
+      {
+        "type": "boolean",
+        "name": "boolean"
+      }
+    ]
+  }
 }

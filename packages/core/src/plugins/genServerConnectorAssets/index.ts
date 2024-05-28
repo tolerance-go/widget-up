@@ -8,11 +8,15 @@ import {
   PackageConfig,
   convertFrameworkModuleNameToConnectorModuleName,
   findOnlyFrameworkModuleConfig,
+  getMainModuleUMDConfig,
+  getModuleAliasImports,
+  getPeerDependTree,
+  parseConfig,
   resolveModuleInfo,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
-import { plgLogger } from "./logger";
+import { logger } from "./logger";
 import { IdentifierManager } from "@/src/managers/identifierManager";
 
 export interface GenServerConnectorsOptions {
@@ -36,7 +40,7 @@ export function genServerConnectorAssets({
       ...additionalFrameworkModules(),
     ];
 
-    plgLogger.log("frameworkModules:", frameworkModules);
+    logger.info({ frameworkModules });
 
     // Filter out duplicate framework modules
     const uniqueModules = new Map<string, PackageConfig>();
@@ -60,6 +64,42 @@ export function genServerConnectorAssets({
         ),
       });
 
+      logger.log("prepare getWidgetUpConfig", {
+        connectorModuleInfo,
+      });
+
+      const wupConfig = ConfigManager.getWidgetUpConfig({
+        cwd: connectorModuleInfo.moduleEntries.modulePath,
+      });
+
+      logger.log("getWidgetUpConfig", {
+        wupConfig,
+      });
+
+      const mainUMDConfig = getMainModuleUMDConfig(
+        wupConfig.umd,
+        connectorModuleInfo.packageJSON.name
+      );
+
+      logger.log("getMainModuleUMDConfig", {
+        mainUMDConfig,
+      });
+
+      const peerDependenciesTree = getPeerDependTree({
+        cwd: connectorModuleInfo.moduleEntries.modulePath,
+      });
+
+      logger.log("getPeerDependTree", {
+        peerDependenciesTree,
+      });
+
+      const imports = getModuleAliasImports({
+        external: mainUMDConfig.external,
+        globals: mainUMDConfig.globals,
+        peerDependenciesTree,
+        ignorePeerDependencyCheck: ["runtime-component"],
+      });
+
       let content = fs.readFileSync(
         connectorModuleInfo.moduleEntries.moduleEntryAbsPath,
         "utf-8"
@@ -67,12 +107,7 @@ export function genServerConnectorAssets({
 
       content = wrapUMDAliasCode({
         scriptContent: content,
-        imports: [
-          {
-            globalVar: "RuntimeComponent",
-            scopeVar: "RuntimeComponent",
-          },
-        ],
+        imports,
         exports: [
           {
             globalVar: getConnectorGlobalName(

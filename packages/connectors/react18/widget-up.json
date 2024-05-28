@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/widget-up/dist-schema/config-schema.json",
+  "input": "src/index.tsx",
+  "umd": {
+    "$NAME": {
+      "name": "Connector_react18",
+      "external": ["react", "react-dom/client", "runtime-component"],
+      "globals": {
+        "react": "React",
+        "react-dom/client": "ReactDOM",
+        "runtime-component": "RuntimeComponent"
+      }
+    }
+  }
+}
