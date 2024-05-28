@@ -1,3 +1,3 @@
-import { utilsLogger } from "../_utils/logger";
+import { utilsFileLogger } from "../_utils/utilsFileLogger";
 
-export const logger = utilsLogger.extendNamespace("getModuleEntryPaths");
+export const logger = utilsFileLogger.extendNamespace("getModuleEntryPaths");

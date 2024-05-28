@@ -8,3 +8,4 @@ export * from "./htmlDependencyManager";
 export * from "./dependency";
 export * from "./module";
 export * from "./env";
+export * from "./wrapUMDAliasCode";

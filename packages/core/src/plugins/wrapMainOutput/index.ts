@@ -42,6 +42,7 @@ function wrapMainOutput({
       imports: convertUmdConfigToAliasImports({
         external: umdConfig.external,
         globals: umdConfig.globals,
+        importScopeObjectName: umdConfig.importScopeObjectName,
       }),
       exports: [
         {

@@ -9,6 +9,7 @@ import {
 } from "widget-up-utils";
 import { PathManager } from "../pathManager";
 import { logger } from "./logger";
+import { ConfigManager } from "../configManager";
 
 export class PeerDependTreeManager extends EventEmitter {
   private static instance: PeerDependTreeManager | null = null;
@@ -16,6 +17,7 @@ export class PeerDependTreeManager extends EventEmitter {
   private peerDependenciesTree: PeerDependenciesTree = {};
   private cwd: string;
   private fsWatcher: fs.FSWatcher | null = null;
+  private configManager: ConfigManager;
 
   public static getInstance(): PeerDependTreeManager {
     if (!PeerDependTreeManager.instance) {
@@ -38,6 +40,7 @@ export class PeerDependTreeManager extends EventEmitter {
   constructor(cwd: string) {
     super();
     this.cwd = cwd;
+    this.configManager = ConfigManager.getInstance();
     this.loadPeerDependenciesTree();
     this.watchPackageJson();
   }
@@ -52,7 +55,13 @@ export class PeerDependTreeManager extends EventEmitter {
   }
 
   private updateDependenciesTree(): void {
-    this.peerDependenciesTree = getPeerDependTree({ cwd: this.cwd });
+    const config = this.configManager.getConfig();
+    this.peerDependenciesTree = getPeerDependTree({
+      cwd: this.cwd,
+      getExtraPeerDependencies(name) {
+        return config.umd[name]?.extraPeerDependencies ?? {};
+      },
+    });
     this.emit("dependenciesUpdated", this.peerDependenciesTree);
   }
 

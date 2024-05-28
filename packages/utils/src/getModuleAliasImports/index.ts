@@ -1,19 +1,24 @@
-import { PeerDependenciesTree } from "@/types";
+import {
+  PeerDependenciesTree,
+  ScopeObjectName,
+  UMDAliasOptions,
+} from "@/types";
 import { convertSemverVersionToIdentify } from "../convertSemverVersionToIdentify";
 import { ensure } from "../ensure";
-import { UMDAliasOptions } from "../wrapUMDAliasCode";
 import { logger } from "./logger";
 
 export const getModuleAliasImports = ({
   external,
   globals,
   peerDependenciesTree,
+  importScopeObjectName,
   ignorePeerDependencyCheck = [],
 }: {
   external: string[];
   globals: Record<string, string>;
   peerDependenciesTree: PeerDependenciesTree;
   ignorePeerDependencyCheck?: string[];
+  importScopeObjectName: ScopeObjectName;
 }): UMDAliasOptions["imports"] => {
   logger.log("getModuleAliasImports start");
 
@@ -58,6 +63,7 @@ export const getModuleAliasImports = ({
       imports.push({
         globalVar: id,
         scopeVar: globalName,
+        scopeName: importScopeObjectName,
       });
     }
   });

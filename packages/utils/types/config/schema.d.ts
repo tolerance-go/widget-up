@@ -16,6 +16,8 @@ export type UMDSchemaConfig = {
   browser?: BrowserEntry | string;
   style?: StyleEntry | string;
   exportScopeObjectName?: ScopeObjectName;
+  importScopeObjectName?: ScopeObjectName;
+  extraPeerDependencies?: Record<string, string>;
 };
 
 export type DependenciesUMDSchemaConfig = Record<string, UMDSchemaConfig>;

@@ -5,7 +5,6 @@ import { createWindow } from ".";
 import { jest } from "@jest/globals";
 import { MockInstance } from "jest-mock";
 
-// types.d.ts
 declare global {
   interface Window {
     someNewProperty?: any;

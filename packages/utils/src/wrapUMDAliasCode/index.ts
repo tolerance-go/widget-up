@@ -1,23 +1,4 @@
-import { ScopeObjectName } from "@/types/wrapUMDAliasCode";
-
-// 写入文件的 UMDAliasOptions，是UMDAliasOptions 的 required 模式
-export type UMDAliasJSONOptions = Required<UMDAliasOptions>;
-
-export type UMDAliasOptions = {
-  imports?: {
-    globalVar: string;
-    scopeVar: string;
-  }[];
-  exports?: {
-    globalVar: string;
-    scopeVar: string;
-    scopeName?: ScopeObjectName;
-  }[];
-};
-
-export type ModifyUMDOptions = {
-  scriptContent: string;
-} & UMDAliasOptions;
+import { ModifyUMDOptions } from "@/types/wrapUMDAliasCode";
 
 export function wrapUMDAliasCode(options: ModifyUMDOptions): string {
   const {
@@ -29,8 +10,14 @@ export function wrapUMDAliasCode(options: ModifyUMDOptions): string {
   // 生成导入变量的代码
   const importsCode = imports
     .map(
-      ({ globalVar, scopeVar }) =>
-        `customGlobal['${scopeVar}'] = global['${globalVar}'];`
+      ({ globalVar, scopeVar, scopeName = "global" }) =>
+        `${
+          scopeName === "global"
+            ? "customGlobal"
+            : scopeName === "window"
+            ? "customWindow"
+            : "customGlobal"
+        }['${scopeVar}'] = global['${globalVar}'];`
     )
     .join("\n");
 

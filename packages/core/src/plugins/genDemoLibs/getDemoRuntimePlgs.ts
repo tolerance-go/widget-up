@@ -94,6 +94,7 @@ export const getDemoRuntimePlgs = ({
               ...convertUmdConfigToAliasImports({
                 external: umdConfig.external,
                 globals: umdConfig.globals,
+                importScopeObjectName: umdConfig.importScopeObjectName,
               }),
               // 加上对开发组件的依赖
               {

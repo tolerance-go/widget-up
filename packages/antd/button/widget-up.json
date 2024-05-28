@@ -4,8 +4,8 @@
   "umd": {
     "$NAME": {
       "name": "Button_antd3",
-      "external": ["react", "react-dom"],
-      "globals": { "react": "React", "react-dom": "ReactDOM" }
+      "external": ["react", "react-dom", "antd"],
+      "globals": { "react": "React", "react-dom": "ReactDOM", "antd": "antd" }
     },
     "react": {
       "name": "React",
@@ -22,6 +22,31 @@
       },
       "external": ["react"],
       "globals": { "react": "React" }
+    },
+    "antd": {
+      "name": "antd",
+      "external": ["react", "react-dom", "moment"],
+      "importScopeObjectName": "window",
+      "exportScopeObjectName": "window",
+      "globals": {
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "moment": "moment"
+      },
+      "browser": {
+        "production": "dist/antd.min.js",
+        "development": "dist/antd.js"
+      },
+      "extraPeerDependencies": {
+        "moment": "^2.30.1"
+      }
+    },
+    "moment": {
+      "name": "moment",
+      "browser": {
+        "production": "moment.js",
+        "development": "moment.js"
+      }
     }
   },
   "cjs": true,

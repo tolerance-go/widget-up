@@ -1,10 +1,11 @@
 import React from "react";
 import { useState } from "react";
+import { Button as AntdButton } from "antd";
 
 const Button = () => {
   const [color, setColor] = useState("red");
   return (
-    <button
+    <AntdButton
       style={{
         color,
       }}
@@ -13,8 +14,8 @@ const Button = () => {
       }}
     >
       hi button
-    </button>
-  );
+    </AntdButton>
+  ); 
 };
 
 export default Button;

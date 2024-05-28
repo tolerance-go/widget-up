@@ -21,12 +21,16 @@
   "devDependencies": {
     "@types/react": "^16.14.60",
     "@types/react-dom": "^16.9.24",
+    "antd": "^3.26.20",
+    "moment": "^2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "typescript": "^5.4.5",
     "widget-up": "workspace:^"
   },
   "peerDependencies": {
+    "antd": "^3.26.20",
+    "moment": "^2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0"
   },

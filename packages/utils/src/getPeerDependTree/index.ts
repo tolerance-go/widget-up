@@ -8,7 +8,11 @@ import {
 import { getModuleEntryPaths } from "../getModuleEntryPaths";
 
 export function getPeerDependTree(
-  options: { cwd: string; includeRootPackage?: boolean },
+  options: {
+    cwd: string;
+    includeRootPackage?: boolean;
+    getExtraPeerDependencies?: (name: string) => Record<string, string>;
+  },
   {
     fs = nodeFs,
     path = nodePath,
@@ -17,7 +21,7 @@ export function getPeerDependTree(
     path?: typeof import("path");
   } = {}
 ): PeerDependenciesTree {
-  const { cwd, includeRootPackage = false } = options;
+  const { cwd, includeRootPackage = false, getExtraPeerDependencies } = options;
 
   function findPeerDependencies(
     dir: string,
@@ -37,7 +41,13 @@ export function getPeerDependTree(
       return parentTree;
     }
 
-    const peerDependencies = packageJson?.peerDependencies || {};
+    let peerDependencies = packageJson.peerDependencies || {};
+
+    peerDependencies = {
+      ...peerDependencies,
+      ...getExtraPeerDependencies?.(packageJson.name),
+    };
+
     for (const [pkg, range] of Object.entries(peerDependencies)) {
       if (!parentTree[pkg]) {
         let dependencyDir = path.join(dir, "node_modules", pkg);

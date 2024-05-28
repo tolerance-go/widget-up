@@ -10,6 +10,8 @@ export type NormalizedUMDConfig = {
   browser: BrowserEntry;
   style?: StyleEntry;
   exportScopeObjectName: ScopeObjectName;
+  importScopeObjectName: ScopeObjectName;
+  extraPeerDependencies?: Record<string, string>;
 };
 
 export type NormalizedDependenciesUMDConfig = Record<

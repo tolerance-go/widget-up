@@ -68,11 +68,13 @@ function generateServerLibraries({
       peerDependenciesTree,
     });
 
-    const moduleAliasImportParams = {
-      external: umdConfig.external,
-      globals: umdConfig.globals,
-      peerDependenciesTree,
-    };
+    const moduleAliasImportParams: Parameters<typeof getModuleAliasImports>[0] =
+      {
+        external: umdConfig.external,
+        globals: umdConfig.globals,
+        peerDependenciesTree,
+        importScopeObjectName: umdConfig.importScopeObjectName,
+      };
 
     wrapScriptContentLogger.info({ moduleAliasImportParams });
 

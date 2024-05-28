@@ -1,16 +1,18 @@
 import {
   NormalizedUMDConfig,
   UMDAliasOptions,
-  resolveModuleInfo,
   convertSemverVersionToIdentify,
+  resolveModuleInfo,
 } from "widget-up-utils";
 
 export const convertUmdConfigToAliasImports = ({
   external,
   globals,
+  importScopeObjectName,
 }: {
   external: NormalizedUMDConfig["external"];
   globals: NormalizedUMDConfig["globals"];
+  importScopeObjectName: NormalizedUMDConfig["importScopeObjectName"];
 }) => {
   const imports: UMDAliasOptions["imports"] = [];
 
@@ -28,6 +30,7 @@ export const convertUmdConfigToAliasImports = ({
         libData.packageJSON.version
       )}`,
       scopeVar: globalVar,
+      scopeName: importScopeObjectName,
     });
   });
 

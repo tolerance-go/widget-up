@@ -47,6 +47,8 @@ export function parseConfig(
             ? { development: style, production: style }
             : style,
         exportScopeObjectName: value.exportScopeObjectName || "global",
+        importScopeObjectName: value.importScopeObjectName || 'global',
+        extraPeerDependencies: value.extraPeerDependencies,
       };
       return [key, obj];
     })

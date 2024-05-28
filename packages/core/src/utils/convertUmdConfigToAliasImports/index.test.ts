@@ -7,6 +7,7 @@ describe("convertConfigUmdToAliasImports", () => {
       globals: {
         rollup: "Rollup",
       },
+      importScopeObjectName: "global",
     });
 
     expect(result).toEqual([

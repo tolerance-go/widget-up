@@ -1,4 +1,5 @@
 import { ConfigManager } from "@/src/managers/configManager";
+import { IdentifierManager } from "@/src/managers/identifierManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { getConnectorGlobalName } from "@/src/utils/getConnectorGlobalName";
 import fs from "fs-extra";
@@ -11,13 +12,11 @@ import {
   getMainModuleUMDConfig,
   getModuleAliasImports,
   getPeerDependTree,
-  parseConfig,
   resolveModuleInfo,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 import { logger } from "./logger";
-import { IdentifierManager } from "@/src/managers/identifierManager";
 
 export interface GenServerConnectorsOptions {
   additionalFrameworkModules?: () => PackageConfig[];
@@ -87,6 +86,10 @@ export function genServerConnectorAssets({
 
       const peerDependenciesTree = getPeerDependTree({
         cwd: connectorModuleInfo.moduleEntries.modulePath,
+        getExtraPeerDependencies(name) {
+          const config = configManager.getConfig();
+          return config.umd[name]?.extraPeerDependencies ?? {};
+        },
       });
 
       logger.log("getPeerDependTree", {
@@ -98,6 +101,7 @@ export function genServerConnectorAssets({
         globals: mainUMDConfig.globals,
         peerDependenciesTree,
         ignorePeerDependencyCheck: ["runtime-component"],
+        importScopeObjectName: mainUMDConfig.importScopeObjectName,
       });
 
       let content = fs.readFileSync(
