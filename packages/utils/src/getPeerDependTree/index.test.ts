@@ -42,6 +42,7 @@ describe("getPeerDependTree", () => {
           });
         }
       }),
+      existsSync: jest.fn(() => true),
     }));
     jest.unstable_mockModule("path", async () => ({
       join: (...args: any[]) => args.join("/"),

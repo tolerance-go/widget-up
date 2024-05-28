@@ -21,8 +21,8 @@ export function parseConfig(
       if (key === UMD_NAME_PLACEHOLDER) {
         key = packageConfig.name;
 
-        browser = packageConfig.browser;
-        style = packageConfig.style;
+        browser = browser || packageConfig.browser;
+        style = style || packageConfig.style;
       }
 
       ensure(browser !== undefined, `${key} browser 没有定义`, "info:", {
