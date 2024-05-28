@@ -30,11 +30,13 @@
     "inputs": [
       {
         "type": "string",
-        "name": "string"
+        "name": "string",
+        "label": "string"
       },
       {
         "type": "boolean",
-        "name": "boolean"
+        "name": "boolean",
+        "label": "boolean"
       }
     ]
   }
