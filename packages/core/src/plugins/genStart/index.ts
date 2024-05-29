@@ -79,8 +79,10 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
                 peerDependenciesTree:
                   peerDependTreeManager.getDependenciesTree(),
                 serverLibsUrl: pathManager.serverLibsUrl,
-                getServerScriptFileName: pathManager.getServerScriptFileName,
-                getServerStyleFileName: pathManager.getServerStyleFileName,
+                getServerScriptFileName:
+                  pathManager.getServerScriptFileName.bind(pathManager),
+                getServerStyleFileName:
+                  pathManager.getServerStyleFileName.bind(pathManager),
                 dependenciesUMDConfig: config.umd,
               }),
             },

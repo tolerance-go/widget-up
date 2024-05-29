@@ -100,8 +100,10 @@ export default async (): Promise<RollupOptions | RollupOptions[]> => {
             depends: convertPeerDependenciesTreeToHTMLDependencyJSONs({
               peerDependenciesTree: schemaFormModulePeerDependTree,
               serverLibsUrl: corePathManager.serverLibsUrl,
-              getServerScriptFileName: corePathManager.getServerScriptFileName,
-              getServerStyleFileName: corePathManager.getServerStyleFileName,
+              getServerScriptFileName:
+                corePathManager.getServerScriptFileName.bind(corePathManager),
+              getServerStyleFileName:
+                corePathManager.getServerStyleFileName.bind(corePathManager),
               dependenciesUMDConfig: config.umd,
             }),
           },

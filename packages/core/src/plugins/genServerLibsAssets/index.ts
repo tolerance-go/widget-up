@@ -16,6 +16,7 @@ import {
   wrapUMDAsyncEventCode,
 } from "widget-up-utils";
 import { logger, wrapScriptContentLogger } from "./logger";
+import { compileCssWithOuterClass } from "./compileCssWithOuterClass";
 
 // 插件接收的参数类型定义
 export interface ServerLibsPluginOptions {
@@ -148,7 +149,7 @@ function generateServerLibraries({
     logger.log("writeOutputFiles");
     logger.info({ tree });
 
-    const handler = (
+    const handler = async (
       node: PeerDependenciesNode,
       parent: PeerDependenciesNode | null
     ) => {
@@ -187,8 +188,7 @@ function generateServerLibraries({
       /**
        * 找到样式文件
        */
-      const styleFileRelativePath =
-        node.moduleEntries.moduleStyleEntryRelPath;
+      const styleFileRelativePath = node.moduleEntries.moduleStyleEntryRelPath;
       const styleFileAbsPath = styleFileRelativePath
         ? path.join(node.moduleEntries.modulePath, styleFileRelativePath)
         : undefined;
@@ -198,7 +198,7 @@ function generateServerLibraries({
         styleFileAbsPath,
       });
 
-      const styleContent = styleFileAbsPath
+      let styleContent = styleFileAbsPath
         ? fs.readFileSync(styleFileAbsPath, "utf8")
         : "";
 
@@ -212,10 +212,15 @@ function generateServerLibraries({
         pathManager.getServerScriptFileName(node.name, node.version.exact)
       );
 
+      const styleFileName = pathManager.getServerStyleFileName(
+        node.name,
+        node.version.exact
+      );
+
       // 找到样式目标地址
       const destStylePath = path.join(
         pathManager.distServerLibsAbsPath,
-        pathManager.getServerStyleFileName(node.name, node.version.exact)
+        styleFileName
       );
 
       // 写入脚本文件
@@ -223,6 +228,16 @@ function generateServerLibraries({
 
       // 当样式文件存在
       if (styleFileAbsPath && fs.existsSync(styleFileAbsPath)) {
+        const styleFileBaseName = pathManager.getServerFileBaseName(
+          node.name,
+          node.version.exact
+        );
+
+        styleContent = await compileCssWithOuterClass(
+          styleContent,
+          styleFileBaseName
+        );
+
         // 写入样式文件
         fs.writeFileSync(destStylePath, styleContent, "utf8");
       }
