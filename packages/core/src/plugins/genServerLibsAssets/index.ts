@@ -11,6 +11,7 @@ import {
   PeerDependenciesNode,
   PeerDependenciesTree,
   convertSemverVersionToIdentify,
+  ensure,
   getModuleAliasImports,
   wrapUMDAliasCode,
   wrapUMDAsyncEventCode,
@@ -67,6 +68,10 @@ function generateServerLibraries({
     wrapScriptContentLogger.info({
       umdConfig,
       peerDependenciesTree,
+    });
+
+    ensure(umdConfig !== undefined, "umdConfig 没有定义", {
+      moduleName,
     });
 
     const moduleAliasImportParams: Parameters<typeof getModuleAliasImports>[0] =

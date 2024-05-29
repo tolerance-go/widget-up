@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/widget-up/dist-schema/config-schema.json",
+  "input": "src/index.tsx",
+  "umd": {
+    "$NAME": {
+      "name": "WidgetUpLib",
+      "external": [],
+      "globals": {}
+    }
+  }
+}

@@ -9,6 +9,9 @@
 - [x] libs 中没有 jquery 包
 - [] 考虑去除所有 version 的 range
 - [] 优化 resolveModuleInfo
+- [] demos 改造为多入口
+- [] utils 改为 rollup 打包，支持 umd
+
 
 # 2024/5/19
 

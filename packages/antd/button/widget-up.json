@@ -4,8 +4,13 @@
   "umd": {
     "$NAME": {
       "name": "Button_antd3",
-      "external": ["react", "react-dom", "antd"],
-      "globals": { "react": "React", "react-dom": "ReactDOM", "antd": "antd" }
+      "external": ["react", "react-dom", "antd", "widget-up-lib"],
+      "globals": {
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "antd": "antd",
+        "widget-up-lib": "WidgetUpLib"
+      }
     },
     "react": {
       "name": "React",
@@ -47,6 +52,13 @@
       "browser": {
         "production": "moment.js",
         "development": "moment.js"
+      }
+    },
+    "widget-up-lib": {
+      "name": "WidgetUpLib",
+      "browser": {
+        "production": "dist/index.js",
+        "development": "dist/index.js"
       }
     }
   },
