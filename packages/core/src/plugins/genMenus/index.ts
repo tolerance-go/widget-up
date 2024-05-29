@@ -1,5 +1,5 @@
 import { ConfigManager } from "@/src/managers/configManager";
-import { DemosManager } from "@/src/managers/demoManager";
+import { DemoManager } from "@/src/managers/demoManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import { Plugin } from "rollup";
 import { convertDemoDataToMenu } from "./convertDemoDataToMenu";
@@ -11,14 +11,14 @@ export const genMenus = ({
   configManager,
 }: {
   pathManager: PathManager;
-  demosManager: DemosManager;
+  demosManager: DemoManager;
   configManager: ConfigManager;
 }): Plugin => {
   return {
     name: "gen-menus",
     options(options) {
       const menus = convertDemoDataToMenu(
-        demosManager.getDemoDatas(),
+        demosManager.getDemos(),
         configManager.getMainModuleUMDConfig(),
         configManager.getPackageConfig(),
         pathManager

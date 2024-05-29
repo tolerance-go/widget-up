@@ -1,4 +1,4 @@
-import { DemoData, DemoFileConfig } from "@/types";
+import { DemoFileData, DemoFileConfig } from "@/types";
 import realFs from "fs";
 import { default as path, default as realPath } from "path";
 import { DirectoryStructure } from "widget-up-utils";
@@ -26,7 +26,7 @@ export const convertDirectoryToDemoData = (
   pathManager: PathManager,
   fs = realFs,
   path = realPath
-): DemoData[] => {
+): DemoFileData[] => {
   return directory
     .map((item) => {
       // 如果是文件，直接读取文件同级的文件的 json 版本获取 meta 数据，如果不存在就报错
@@ -40,7 +40,7 @@ export const convertDirectoryToDemoData = (
         const config = getDemoConfig(item, fs);
 
         // Create the basic menu item from the directory item
-        const menuItem: DemoData = {
+        const menuItem: DemoFileData = {
           config: normalizeDemoFileConfig(config, item, pathManager),
           path: item.path,
           type: item.type,
@@ -57,7 +57,7 @@ export const convertDirectoryToDemoData = (
        */
       const config = getDemoConfig(item, fs);
 
-      const menuItem: DemoData = {
+      const menuItem: DemoFileData = {
         config: normalizeDemoFileConfig(config, item, pathManager),
         children: convertDirectoryToDemoData(
           item.children ?? [],
@@ -71,5 +71,5 @@ export const convertDirectoryToDemoData = (
 
       return menuItem;
     })
-    .filter(Boolean) as DemoData[];
+    .filter(Boolean) as DemoFileData[];
 };

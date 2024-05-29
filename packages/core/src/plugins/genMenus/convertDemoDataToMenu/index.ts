@@ -1,6 +1,6 @@
 import { PathManager } from "@/src/managers/pathManager";
 import { getGlobalNameWithDemo } from "@/src/utils/getGlobalNameWithDemo";
-import { DemoData, DemoMenuItem } from "@/types";
+import { DemoFileData, DemoMenuItem } from "@/types";
 import {
   NormalizedUMDConfig,
   PackageConfig,
@@ -10,7 +10,7 @@ import {
 } from "widget-up-utils";
 
 export const convertDemoDataToMenu = (
-  demosData: DemoData[],
+  demosData: DemoFileData[],
   umdConfig: NormalizedUMDConfig,
   packageConfig: PackageConfig,
   pathManager: PathManager

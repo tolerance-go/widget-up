@@ -1,5 +1,5 @@
 import { convertPathToVariableName } from "@/src/utils/convertPathToVariableName";
-import { DemoData } from "@/types";
+import { DemoFileData } from "@/types";
 import path from "path";
 import { NormalizedUMDConfig } from "widget-up-utils";
 
@@ -12,7 +12,7 @@ import { NormalizedUMDConfig } from "widget-up-utils";
  * @returns
  */
 export const getGlobalNameWithDemo = (
-  demoData: DemoData,
+  demoData: DemoFileData,
   umdConfig: NormalizedUMDConfig,
   demoAbsPath: string
 ): string => {

@@ -15,9 +15,9 @@ export type DemoFileNormalizedConfig = Required<DemoFileConfig>;
  *
  * - 用户 demos 文件夹下的目录结构所对应的结构元数据
  */
-export interface DemoData {
+export interface DemoFileData {
   path: string;
   type: "directory" | "file";
   config: DemoFileNormalizedConfig;
-  children?: DemoData[];
+  children?: DemoFileData[];
 }

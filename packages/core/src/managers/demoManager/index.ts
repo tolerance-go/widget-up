@@ -1,5 +1,5 @@
 import { parseDirectoryStructure } from "widget-up-utils";
-import { DemoData } from "@/types";
+import { DemoFileData } from "@/types";
 import { EventEmitter } from "events";
 import nodeFs from "fs";
 import nodePath from "path";
@@ -7,20 +7,20 @@ import { IdentifierManager } from "../identifierManager";
 import { PathManager } from "../pathManager";
 import { convertDirectoryToDemoData } from "./convertDirectoryToDemoData";
 
-export class DemosManager extends EventEmitter {
-  private static instance: DemosManager | null = null;
+export class DemoManager extends EventEmitter {
+  private static instance: DemoManager | null = null;
   private folderPath: string;
-  private demoDatas: DemoData[] = [];
+  private demos: DemoFileData[] = [];
   private fs: typeof nodeFs;
   private path: typeof nodePath;
   private pathManager: PathManager;
   private fsWatcher: nodeFs.FSWatcher | null = null;
 
-  public static getInstance(): DemosManager {
-    if (!DemosManager.instance) {
-      DemosManager.instance = new DemosManager();
+  public static getInstance(): DemoManager {
+    if (!DemoManager.instance) {
+      DemoManager.instance = new DemoManager();
     }
-    return DemosManager.instance;
+    return DemoManager.instance;
   }
 
   // 解除所有监听配置变化的回调函数
@@ -42,7 +42,7 @@ export class DemosManager extends EventEmitter {
     this.fs = fs;
     this.path = path;
     this.folderPath = this.path.resolve(identifierManager.demosFolderName);
-    this.demoDatas = [];
+    this.demos = [];
     this.pathManager = pathManager;
 
     this.loadInitialDirectoryStructure();
@@ -52,7 +52,7 @@ export class DemosManager extends EventEmitter {
   private async loadInitialDirectoryStructure(): Promise<void> {
     try {
       this.convertDatas();
-      this.emit("initialized", this.demoDatas);
+      this.emit("initialized", this.demos);
     } catch (error) {
       this.emit("error", error);
     }
@@ -68,7 +68,7 @@ export class DemosManager extends EventEmitter {
             // 当检测到变化时重新加载目录结构
             try {
               this.convertDatas();
-              this.emit("change", this.demoDatas);
+              this.emit("change", this.demos);
             } catch (error) {
               this.emit("error", error);
             }
@@ -78,18 +78,18 @@ export class DemosManager extends EventEmitter {
     }
   }
 
-  public getDemoDatas(): DemoData[] {
-    return this.demoDatas;
+  public getDemos(): DemoFileData[] {
+    return this.demos;
   }
 
   /**
    * @returns 返回叶子节点的 demo 数据列表
    */
-  public getDemoDataList(): DemoData[] {
-    const leafDatas: DemoData[] = [];
+  public getDemoList(): DemoFileData[] {
+    const leafDatas: DemoFileData[] = [];
 
     // 递归检查每个 DemoData，判断是否为叶子节点
-    const checkLeaves = (demoData: DemoData) => {
+    const checkLeaves = (demoData: DemoFileData) => {
       if (!demoData.children || demoData.children.length === 0) {
         // 没有子节点，是叶子节点
         leafDatas.push(demoData);
@@ -100,7 +100,7 @@ export class DemosManager extends EventEmitter {
     };
 
     // 对所有存储的 DemoData 进行检查
-    this.demoDatas.forEach((demoData) => checkLeaves(demoData));
+    this.demos.forEach((demoData) => checkLeaves(demoData));
 
     return leafDatas;
   }
@@ -109,7 +109,7 @@ export class DemosManager extends EventEmitter {
     if (this.fs.existsSync(this.folderPath)) {
       const directoryStructure = parseDirectoryStructure(this.folderPath);
 
-      this.demoDatas = convertDirectoryToDemoData(
+      this.demos = convertDirectoryToDemoData(
         directoryStructure?.children ?? [],
         this.pathManager,
         this.fs,
@@ -119,7 +119,7 @@ export class DemosManager extends EventEmitter {
   }
 
   // 注册监听依赖树变化的回调函数
-  public watch(callback: (data: DemoData[]) => void): () => void {
+  public watch(callback: (data: DemoFileData[]) => void): () => void {
     this.on("change", callback);
     return () => this.removeListener("change", callback); // 返回一个取消监听的函数
   }

@@ -1,5 +1,5 @@
 import { WupFolderName } from "@/src/constants";
-import { DemosManager } from "@/src/managers/demoManager";
+import { DemoManager } from "@/src/managers/demoManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { genAssert } from "@/src/utils/rollupPlugins/genAssert";
 import path from "path";
@@ -13,7 +13,7 @@ export const genDemoIndexHtml = ({
   configManager,
 }: {
   pathManager: PathManager;
-  demosManager: DemosManager;
+  demosManager: DemoManager;
   configManager: ConfigManager;
 }): Plugin => {
   return {

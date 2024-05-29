@@ -7,7 +7,7 @@ import { coreLogger } from "@/src/utils/logger";
 import runtimeRollup, {
   RuntimeRollupOptions,
 } from "@/src/utils/rollupPlugins/runtimeRollup";
-import { DemoData } from "@/types";
+import { DemoFileData } from "@/types";
 import path from "path";
 import { InputPluginOption } from "rollup";
 import {
@@ -23,7 +23,7 @@ export const getDemoRuntimePlgs = ({
   configManager,
   pathManager,
 }: {
-  demoInputList: DemoData[];
+  demoInputList: DemoFileData[];
   devBuildPlugins: InputPluginOption[];
   configManager: ConfigManager;
   pathManager: PathManager;
@@ -34,7 +34,7 @@ export const getDemoRuntimePlgs = ({
 
   const { BuildEnvIsDev } = getEnv();
 
-  const createRuntimePlg = (inputItem: DemoData) => {
+  const createRuntimePlg = (inputItem: DemoFileData) => {
     const input = normalizePath(path.relative(cwdPath, inputItem.path));
 
     const base: RuntimeRollupOptions = {

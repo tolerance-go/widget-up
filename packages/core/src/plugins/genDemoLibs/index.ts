@@ -1,5 +1,5 @@
 import { ConfigManager } from "@/src/managers/configManager";
-import { DemosManager } from "@/src/managers/demoManager";
+import { DemoManager } from "@/src/managers/demoManager";
 import { coreLogger } from "@/src/utils/logger";
 import { InputPluginOption, Plugin } from "rollup";
 import { getDemoInputList } from "./getDemoInputList";
@@ -13,14 +13,14 @@ export const genDemoLibs = ({
   devBuildPlugins,
 }: {
   pathManager: PathManager;
-  demosManager: DemosManager;
+  demosManager: DemoManager;
   configManager: ConfigManager;
   devBuildPlugins: InputPluginOption[];
 }): Plugin => {
   return {
     name: "gen-demo-libs",
     options(options) {
-      const demoDatas = demosManager.getDemoDatas();
+      const demoDatas = demosManager.getDemos();
       const demoInputList = getDemoInputList(demoDatas ?? []);
       coreLogger.info("demoInputList: ", demoInputList);
 

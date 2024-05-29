@@ -23,7 +23,7 @@ import {
 } from "widget-up-utils";
 import { WupFolderName } from "../../constants";
 import { ConfigManager } from "../../managers/configManager";
-import { DemosManager } from "../../managers/demoManager";
+import { DemoManager } from "../../managers/demoManager";
 import { PathManager } from "../../managers/pathManager";
 import { PeerDependTreeManager } from "../../managers/peerDependTreeManager";
 import { genServerConfigAssets } from "../../plugins/genServerConfigAssets";
@@ -47,7 +47,7 @@ export const getDevPlugins = async ({
   additionalFrameworkModules,
 }: {
   pathManager: PathManager;
-  demosManager: DemosManager;
+  demosManager: DemoManager;
   configManager: ConfigManager;
   config: NormalizedConfig;
   packageConfig: PackageConfig;

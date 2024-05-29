@@ -1,5 +1,5 @@
 import { ConfigManager } from "@/src/managers/configManager";
-import { DemosManager } from "@/src/managers/demoManager";
+import { DemoManager } from "@/src/managers/demoManager";
 import { PathManager } from "@/src/managers/pathManager";
 import { PeerDependTreeManager } from "@/src/managers/peerDependTreeManager";
 import fs from "fs-extra";
@@ -23,7 +23,7 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
   let once = false;
 
   const peerDependTreeManager = PeerDependTreeManager.getInstance();
-  const demosManager = DemosManager.getInstance();
+  const demosManager = DemoManager.getInstance();
 
   const build = () => {
     const pathManager = PathManager.getInstance();
@@ -36,7 +36,7 @@ export function genStart({ processStartParams }: GenStartPlgOptions): Plugin {
       "start.js"
     );
 
-    const demoDatas = demosManager.getDemoDataList();
+    const demoDatas = demosManager.getDemoList();
     const frameworkModule = findOnlyFrameworkModuleConfig({
       cwd: pathManager.cwdPath,
     });

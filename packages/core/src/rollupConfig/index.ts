@@ -1,6 +1,6 @@
 import { RollupOptions } from "rollup";
 import { ConfigManager } from "../managers/configManager";
-import { DemosManager } from "../managers/demoManager";
+import { DemoManager } from "../managers/demoManager";
 import { PathManager } from "../managers/pathManager";
 import { PeerDependTreeManager } from "../managers/peerDependTreeManager";
 import { GenServerConnectorsOptions } from "../plugins/genServerConnectorAssets";
@@ -40,7 +40,7 @@ export default async ({
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
   if (BuildEnvIsDev) {
-    const demosManager = DemosManager.getInstance();
+    const demosManager = DemoManager.getInstance();
 
     rollupConfig = {
       input: config.input,
@@ -82,7 +82,7 @@ export default async ({
             console.log("buildEnd");
             ConfigManager.dispose();
             PeerDependTreeManager.dispose();
-            DemosManager.dispose();
+            DemoManager.dispose();
           },
         },
       ],
