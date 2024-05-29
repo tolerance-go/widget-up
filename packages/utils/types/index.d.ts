@@ -9,3 +9,4 @@ export * from "./dependency";
 export * from "./module";
 export * from "./env";
 export * from "./wrapUMDAliasCode";
+export * from "./lib";

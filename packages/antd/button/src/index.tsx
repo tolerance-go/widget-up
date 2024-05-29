@@ -4,11 +4,13 @@ import { Button as AntdButton } from "antd";
 import { formSettings } from "widget-up-lib";
 
 const Button = ({ settings }: { settings?: Record<string, any> }) => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState("hi button");
 
   useEffect(() => {
-    return formSettings.on("text:changed", ({ value }) => {
-      setText(value);
+    return formSettings.on("changed", ({ name, value }) => {
+      if (name === "string") {
+        setText(value);
+      }
     });
   }, []);
 
@@ -24,7 +26,7 @@ const Button = ({ settings }: { settings?: Record<string, any> }) => {
           setColor((prev) => (prev === "red" ? "blue" : "red"));
         }}
       >
-        hi button
+        {text}
       </AntdButton>
     </span>
   );

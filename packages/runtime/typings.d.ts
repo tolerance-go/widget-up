@@ -1,4 +1,9 @@
-import { HTMLDependencyManager, SchemaFormProps } from "widget-up-utils";
+import {
+  EventBus,
+  FormSettingsEvents,
+  HTMLDependencyManager,
+  SchemaFormProps,
+} from "widget-up-utils";
 
 export {};
 
@@ -23,5 +28,9 @@ declare global {
     ) => JQuery<HTMLElement>;
 
     SchemaForm_v1_0_0: (props: SchemaFormProps) => JQuery<HTMLElement>;
+
+    WidgetUpLib_v0_0_0?: {
+      formSettings: EventBus<FormSettingsEvents>;
+    };
   }
 }

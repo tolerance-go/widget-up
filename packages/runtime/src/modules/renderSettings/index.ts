@@ -27,6 +27,13 @@ const init = async () => {
     component: window[schemaFormComponentGlobal]({
       formSchema,
       onChange(name, value, event) {
+        if (window.WidgetUpLib_v0_0_0) {
+          window.WidgetUpLib_v0_0_0.formSettings.emit("changed", {
+            name,
+            value,
+            event,
+          });
+        }
         console.log(name, value, event);
       },
     }).get(0),
@@ -45,7 +52,7 @@ export const renderSettings = () => {
           if (
             event.id ===
             (envManager.BuildEnv === "development"
-              ? "/connectors/input.jquery3.alias-wrap.async-wrap.js"
+              ? "/connectors/connector.jquery3.alias-wrap.async-wrap.js"
               : "/connectors/widget-up-connector-jquery3_v0_0_0.js")
           ) {
             init();
