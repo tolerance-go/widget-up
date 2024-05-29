@@ -5,17 +5,19 @@ import { Button as AntdButton } from "antd";
 const Button = () => {
   const [color, setColor] = useState("red");
   return (
-    <AntdButton
-      style={{
-        color,
-      }}
-      onClick={() => {
-        setColor((prev) => (prev === "red" ? "blue" : "red"));
-      }}
-    >
-      hi button
-    </AntdButton>
-  ); 
+    <span className="antd_v3_26_20">
+      <AntdButton
+        style={{
+          color,
+        }}
+        onClick={() => {
+          setColor((prev) => (prev === "red" ? "blue" : "red"));
+        }}
+      >
+        hi button
+      </AntdButton>
+    </span>
+  );
 };
 
 export default Button;
