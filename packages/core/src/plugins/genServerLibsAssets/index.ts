@@ -33,8 +33,8 @@ function generateServerLibraries({
   const identifierManager = IdentifierManager.getInstance();
 
   const config = configManager.getConfig();
-  const { umd: umdConfig } = configManager.getConfig();
-  logger.log("umdConfig", umdConfig);
+
+  logger.log("build");
 
   const { BuildEnv } = envManager;
 
@@ -144,7 +144,9 @@ function generateServerLibraries({
 
   const writeOutputFiles = () => {
     const tree = peerDependTreeManager.getDependenciesTree();
-    logger.log("tree", tree);
+
+    logger.log("writeOutputFiles");
+    logger.info({ tree });
 
     const handler = (
       node: PeerDependenciesNode,
@@ -186,12 +188,15 @@ function generateServerLibraries({
        * 找到样式文件
        */
       const styleFileRelativePath =
-        node.moduleEntries.moduleBrowserEntryRelPath;
+        node.moduleEntries.moduleStyleEntryRelPath;
       const styleFileAbsPath = styleFileRelativePath
         ? path.join(node.moduleEntries.modulePath, styleFileRelativePath)
         : undefined;
 
-      logger.log("styleFileRelativePath", styleFileRelativePath);
+      logger.log("styleFileRelativePath done", {
+        styleFileRelativePath,
+        styleFileAbsPath,
+      });
 
       const styleContent = styleFileAbsPath
         ? fs.readFileSync(styleFileAbsPath, "utf8")

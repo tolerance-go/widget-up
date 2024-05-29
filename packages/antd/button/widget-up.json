@@ -28,6 +28,7 @@
       "external": ["react", "react-dom", "moment"],
       "importScopeObjectName": "window",
       "exportScopeObjectName": "window",
+      "style": "dist/antd.min.css",
       "globals": {
         "react": "React",
         "react-dom": "ReactDOM",

@@ -12,6 +12,10 @@ export function getPeerDependTree(
     cwd: string;
     includeRootPackage?: boolean;
     getExtraPeerDependencies?: (name: string) => Record<string, string>;
+    getCustomEntries?: (name: string) => {
+      browser?: string;
+      style?: string;
+    };
   },
   {
     fs = nodeFs,
@@ -21,7 +25,12 @@ export function getPeerDependTree(
     path?: typeof import("path");
   } = {}
 ): PeerDependenciesTree {
-  const { cwd, includeRootPackage = false, getExtraPeerDependencies } = options;
+  const {
+    cwd,
+    includeRootPackage = false,
+    getExtraPeerDependencies,
+    getCustomEntries,
+  } = options;
 
   function findPeerDependencies(
     dir: string,
@@ -83,6 +92,7 @@ export function getPeerDependTree(
           moduleEntries: getModuleEntryPaths({
             modulePath: dependencyDir,
             packageConfig: depPackageJson,
+            customConfig: getCustomEntries?.(depPackageJson.name),
           }),
         };
 
@@ -134,6 +144,7 @@ export function getPeerDependTree(
         moduleEntries: getModuleEntryPaths({
           modulePath: cwd,
           packageConfig: rootPackageJson,
+          customConfig: getCustomEntries?.(rootPackageJson.name),
         }),
       };
       return { [rootPackageName]: rootPackageNode };

@@ -10,7 +10,7 @@ export class IdentifierManager {
   private constructor() {
     this.formSchemaAssetFileName = "formSchema.json";
     this.demosFolderName = "demos";
-    this.serverLibsPlgName = "server-libs";
+    this.serverLibsPlgName = "generateServerLibraries";
     this.genServerConnectorAssetsPlgName = "genServerConnectorAssets";
   }
 

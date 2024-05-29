@@ -3,14 +3,13 @@ import util from "util";
 import path from "path";
 
 export class FileLogger {
-  private filePath: string;
-  private initialized: boolean = false;
+  private baseFilePath: string;
   private namespaces: string[] = [];
 
   constructor(...namespaces: string[]) {
     this.namespaces = namespaces;
 
-    this.filePath = path.join(
+    this.baseFilePath = path.join(
       process.cwd(),
       ".logs",
       ...this.namespaces,
@@ -22,27 +21,17 @@ export class FileLogger {
     return new FileLogger(...this.namespaces, additionalNamespace);
   }
 
-  private ensureInitialized(): void {
-    if (!this.initialized) {
-      this.initializeLogFile();
-      this.initialized = true;
-    }
-  }
-
-  private initializeLogFile(): void {
-    const dir = path.dirname(this.filePath);
+  private ensureDirectoryExists(filePath: string): void {
+    const dir = path.dirname(filePath);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-
-    if (!fs.existsSync(this.filePath)) {
-      fs.closeSync(fs.openSync(this.filePath, "w"));
-    }
   }
 
-  private write(message: string): void {
-    this.ensureInitialized();
-    fs.appendFileSync(this.filePath, message + "\n", "utf-8");
+  private write(message: string, level: string): void {
+    const filePath = path.join(this.baseFilePath, level);
+    this.ensureDirectoryExists(filePath);
+    fs.appendFileSync(filePath, message + "\n", "utf-8");
   }
 
   private formatArgs(args: any[]): string {
@@ -59,7 +48,7 @@ export class FileLogger {
       new Date().toISOString(),
       this.formatArgs(args)
     );
-    this.write(formattedMessage);
+    this.write(formattedMessage, "log");
   }
 
   public info(...args: any[]): void {
@@ -68,7 +57,7 @@ export class FileLogger {
       new Date().toISOString(),
       this.formatArgs(args)
     );
-    this.write(formattedMessage);
+    this.write(formattedMessage, "info");
   }
 
   public error(...args: any[]): void {
@@ -77,7 +66,7 @@ export class FileLogger {
       new Date().toISOString(),
       this.formatArgs(args)
     );
-    this.write(formattedMessage);
+    this.write(formattedMessage, "error");
   }
 
   public warn(...args: any[]): void {
@@ -86,6 +75,6 @@ export class FileLogger {
       new Date().toISOString(),
       this.formatArgs(args)
     );
-    this.write(formattedMessage);
+    this.write(formattedMessage, "warn");
   }
 }

@@ -10,6 +10,7 @@ import {
 import { PathManager } from "../pathManager";
 import { logger } from "./logger";
 import { ConfigManager } from "../configManager";
+import { EnvManager } from "../envManager";
 
 export class PeerDependTreeManager extends EventEmitter {
   private static instance: PeerDependTreeManager | null = null;
@@ -18,6 +19,7 @@ export class PeerDependTreeManager extends EventEmitter {
   private cwd: string;
   private fsWatcher: fs.FSWatcher | null = null;
   private configManager: ConfigManager;
+  private envManager: EnvManager;
 
   public static getInstance(): PeerDependTreeManager {
     if (!PeerDependTreeManager.instance) {
@@ -41,6 +43,7 @@ export class PeerDependTreeManager extends EventEmitter {
     super();
     this.cwd = cwd;
     this.configManager = ConfigManager.getInstance();
+    this.envManager = EnvManager.getInstance();
     this.loadPeerDependenciesTree();
     this.watchPackageJson();
   }
@@ -56,10 +59,17 @@ export class PeerDependTreeManager extends EventEmitter {
 
   private updateDependenciesTree(): void {
     const config = this.configManager.getConfig();
+    const { BuildEnv } = this.envManager;
     this.peerDependenciesTree = getPeerDependTree({
       cwd: this.cwd,
       getExtraPeerDependencies(name) {
         return config.umd[name]?.extraPeerDependencies ?? {};
+      },
+      getCustomEntries(name) {
+        return {
+          browser: config.umd[name]?.browser[BuildEnv],
+          style: config.umd[name]?.style?.[BuildEnv],
+        };
       },
     });
     this.emit("dependenciesUpdated", this.peerDependenciesTree);
