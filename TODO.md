@@ -11,6 +11,7 @@
 - [] 优化 resolveModuleInfo
 - [] demos 改造为多入口
 - [] utils 改为 rollup 打包，支持 umd
+- [] wrapMainOutput 和 internalPlugin 合并，都是处理包裹打包后代码的
 
 
 # 2024/5/19

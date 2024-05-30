@@ -6,6 +6,7 @@ import nodePath from "path";
 import { IdentifierManager } from "../identifierManager";
 import { PathManager } from "../pathManager";
 import { convertDirectoryToDemoData } from "./convertDirectoryToDemoData";
+import { logger } from "./logger";
 
 export class DemoManager extends EventEmitter {
   private static instance: DemoManager | null = null;
@@ -52,6 +53,12 @@ export class DemoManager extends EventEmitter {
   private async loadInitialDirectoryStructure(): Promise<void> {
     try {
       this.convertDatas();
+
+      logger.log("loadInitialDirectoryStructure");
+      logger.info({
+        "this.demos": this.demos,
+      });
+
       this.emit("initialized", this.demos);
     } catch (error) {
       this.emit("error", error);

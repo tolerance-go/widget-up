@@ -5,6 +5,7 @@ export interface DirectoryStructure {
   name: string;
   type: "file" | "directory";
   path: string;
+  relPath: string;
   children?: DirectoryStructure[];
 }
 
@@ -19,19 +20,27 @@ export function parseDirectoryStructure(
   }
 
   // Helper function to recursively parse the directory
-  function parseDirectory(currentPath: string): DirectoryStructure {
+  function parseDirectory(
+    currentPath: string,
+    basePath: string
+  ): DirectoryStructure {
     const entryStats = fs.statSync(currentPath);
+    const relativePath =
+      currentPath === basePath ? "" : path.relative(basePath, currentPath);
 
     if (entryStats.isDirectory()) {
       const directory: DirectoryStructure = {
         name: path.basename(currentPath),
         type: "directory",
-        children: [],
         path: currentPath,
+        relPath: relativePath,
+        children: [],
       };
       // Read all items in the directory
       fs.readdirSync(currentPath).forEach((entry) => {
-        directory.children?.push(parseDirectory(path.join(currentPath, entry)));
+        directory.children?.push(
+          parseDirectory(path.join(currentPath, entry), basePath)
+        );
       });
       return directory;
     } else {
@@ -39,9 +48,10 @@ export function parseDirectoryStructure(
         name: path.basename(currentPath),
         type: "file",
         path: currentPath,
+        relPath: relativePath,
       };
     }
   }
 
-  return parseDirectory(dirPath);
+  return parseDirectory(dirPath, dirPath);
 }

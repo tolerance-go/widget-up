@@ -17,6 +17,7 @@ export type DemoFileNormalizedConfig = Required<DemoFileConfig>;
  */
 export interface DemoFileData {
   path: string;
+  relPath: string;
   type: "directory" | "file";
   config: DemoFileNormalizedConfig;
   children?: DemoFileData[];

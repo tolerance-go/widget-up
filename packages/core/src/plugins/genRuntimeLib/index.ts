@@ -3,6 +3,7 @@ import { resolveModuleInfo } from "widget-up-utils";
 import fs from "fs-extra";
 import path from "path";
 import { Plugin } from "rollup";
+import { IdentifierManager } from "@/src/managers/identifierManager";
 
 // 定义genRuntimeLib函数，用于生成运行时库的Rollup插件
 export function genRuntimeLib(): Plugin {
@@ -10,6 +11,7 @@ export function genRuntimeLib(): Plugin {
   let initialized = false;
 
   const pathManager = PathManager.getInstance();
+  const identifierManager = IdentifierManager.getInstance();
 
   return {
     name: "gen-runtime-lib", // 插件名称
@@ -38,7 +40,7 @@ export function genRuntimeLib(): Plugin {
         // 设置JavaScript文件和CSS文件的目标路径
         const destJsFile = path.join(
           pathManager.distServerScriptsAbsPath,
-          `${pathManager.widgetUpRuntimeName}.js`
+          `${identifierManager.widgetUpRuntimeName}.js`
         );
 
         // 确保目标目录存在，不存在则创建
@@ -59,7 +61,7 @@ export function genRuntimeLib(): Plugin {
 
         const destStyleFile = path.join(
           pathManager.distServerScriptsAbsPath,
-          `${pathManager.widgetUpRuntimeName}.css`
+          `${identifierManager.widgetUpRuntimeName}.css`
         );
 
         fs.ensureDirSync(path.dirname(destStyleFile));

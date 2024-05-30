@@ -3,6 +3,11 @@ export class IdentifierManager {
   public demosFolderName: string;
   public serverLibsPlgName: string;
   public genServerConnectorAssetsPlgName: string;
+  public widgetUpConfigFileName: string = "widget-up";
+
+  public connectorsFolderName: string = "connectors";
+
+  public widgetUpRuntimeName: string = "runtime";
 
   private static instance: IdentifierManager;
 

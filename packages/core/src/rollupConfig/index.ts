@@ -8,9 +8,10 @@ import { ServerLibsPluginOptions } from "../plugins/genServerLibsAssets";
 import { GenStartPlgOptions } from "../plugins/genStart";
 import { getEnv } from "../utils/env";
 import { coreLogger } from "../utils/logger";
+import { getDemoRollupOptions } from "./getDemoRollupOptions";
 import { getBuildPlugins, getDevPlugins } from "./getPlugins";
+import { getCoreDevBuildPlugins } from "./getPlugins/getCoreDevBuildPlugins";
 import { getProdOutputs } from "./getProdOutputs";
-import { UMDSchemaConfig, UMD_NAME_PLACEHOLDER, ensure } from "widget-up-utils";
 
 export default async ({
   processStartParams,
@@ -24,49 +25,45 @@ export default async ({
   coreLogger.log("extraPeerDependenciesTree", extraPeerDependenciesTree);
 
   const pathManager = PathManager.getInstance();
-
-  const demosPath = pathManager.demosAbsPath;
-
-  coreLogger.info(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
-  coreLogger.info(`rootPath is ${pathManager.modulePath}`);
-  coreLogger.info(`cwdPath is ${pathManager.cwdPath}`);
-  coreLogger.info(`demosPath is ${demosPath}`);
-
   const configManager = ConfigManager.getInstance();
-  const packageConfig = configManager.getPackageConfig();
+
+  coreLogger.log(`${"=".repeat(10)} ${BuildEnv} ${"=".repeat(10)}`);
+
   const config = configManager.getConfig();
   const umdConfig = configManager.getMainModuleUMDConfig();
 
   let rollupConfig: RollupOptions[] | RollupOptions = [];
 
   if (BuildEnvIsDev) {
-    const demosManager = DemoManager.getInstance();
+    const coreDevBuildPlugins = getCoreDevBuildPlugins();
 
-    rollupConfig = {
-      input: config.input,
-      output: {
-        file: "dist/umd/index.js",
-        format: "umd",
-        name: umdConfig.name,
-        globals: umdConfig.globals,
-        // sourcemap: BuildEnvIsDev ? "inline" : false,
+    rollupConfig = [
+      {
+        input: config.input,
+        output: {
+          file: "dist/umd/index.js",
+          format: "umd",
+          name: umdConfig.name,
+          globals: umdConfig.globals,
+          // sourcemap: BuildEnvIsDev ? "inline" : false,
+        },
+        plugins: getDevPlugins({
+          processStartParams,
+          getExtraPeerDependenciesTree: extraPeerDependenciesTree,
+          additionalFrameworkModules,
+          coreDevBuildPlugins,
+        }),
+        watch: {
+          include: ["src/**", "styles/**"],
+        },
       },
-      plugins: getDevPlugins({
-        pathManager,
-        demosManager,
-        config,
-        packageConfig,
-        configManager,
-        processStartParams,
-        getExtraPeerDependenciesTree: extraPeerDependenciesTree,
-        additionalFrameworkModules,
+      ...getDemoRollupOptions({
+        devBuildPlugins: coreDevBuildPlugins,
       }),
-      watch: {
-        include: ["src/**", "styles/**"],
-      },
-    };
+    ];
   } else {
-    coreLogger.info("BuildEnvIsProd is true, start to build production code");
+    coreLogger.log("BuildEnvIsProd is true, start to build production code");
+
     rollupConfig = getProdOutputs().map((output) => ({
       input: config.input,
       output,

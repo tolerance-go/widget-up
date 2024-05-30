@@ -1,23 +1,13 @@
 import { genDemoIndexHtml } from "@/src/plugins/genDemoIndexHtml";
-import { genDemoLibs } from "@/src/plugins/genDemoLibs";
 import { genMenus } from "@/src/plugins/genMenus";
 import { genRuntimeLib } from "@/src/plugins/genRuntimeLib";
 import {
   GenServerConnectorsOptions,
   genServerConnectorAssets,
 } from "@/src/plugins/genServerConnectorAssets";
-import alias from "@rollup/plugin-alias";
-import commonjs from "@rollup/plugin-commonjs";
-import json from "@rollup/plugin-json";
-import resolve from "@rollup/plugin-node-resolve";
-import replace from "@rollup/plugin-replace";
-import typescript from "@rollup/plugin-typescript";
 import { InputPluginOption } from "rollup";
 import {
-  NormalizedConfig,
-  PackageConfig,
   deleteDist,
-  peerDependenciesAsExternal,
   serveLivereload,
   tsDeclarationAlias,
 } from "widget-up-utils";
@@ -25,50 +15,29 @@ import { WupFolderName } from "../../constants";
 import { ConfigManager } from "../../managers/configManager";
 import { DemoManager } from "../../managers/demoManager";
 import { PathManager } from "../../managers/pathManager";
-import { PeerDependTreeManager } from "../../managers/peerDependTreeManager";
-import { genServerConfigAssets } from "../../plugins/genServerConfigAssets";
 import { genFormConfig } from "../../plugins/genFormConfig";
 import { genPackageConfig } from "../../plugins/genPackageConfig";
+import { genServerConfigAssets } from "../../plugins/genServerConfigAssets";
 import genServerLibs, {
   ServerLibsPluginOptions,
 } from "../../plugins/genServerLibsAssets";
 import { GenStartPlgOptions, genStart } from "../../plugins/genStart";
 import wrapMainOutput from "../../plugins/wrapMainOutput";
-import { getPostCSSPlg } from "./getPostCSSPlg";
 
 export const getDevPlugins = async ({
-  config,
-  packageConfig,
-  configManager,
-  demosManager,
-  pathManager,
   processStartParams,
   getExtraPeerDependenciesTree: extraPeerDependenciesTree,
   additionalFrameworkModules,
+  coreDevBuildPlugins,
 }: {
-  pathManager: PathManager;
-  demosManager: DemoManager;
-  configManager: ConfigManager;
-  config: NormalizedConfig;
-  packageConfig: PackageConfig;
+  coreDevBuildPlugins: InputPluginOption[];
 } & GenStartPlgOptions &
   ServerLibsPluginOptions &
   GenServerConnectorsOptions): Promise<InputPluginOption[]> => {
-  const coreDevBuildPlugins: InputPluginOption[] = [
-    peerDependenciesAsExternal(),
-    replace({
-      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-      preventAssignment: true,
-    }),
-    alias({
-      entries: [{ find: "@", replacement: process.cwd() }],
-    }),
-    resolve(),
-    commonjs(),
-    json(),
-    typescript(),
-    getPostCSSPlg({ config }),
-  ];
+  const pathManager = PathManager.getInstance();
+  const demoManager = DemoManager.getInstance();
+  const configManager = ConfigManager.getInstance();
+  const packageConfig = configManager.getPackageConfig();
 
   const devBuildPlugins: InputPluginOption[] = [
     ...coreDevBuildPlugins,
@@ -85,12 +54,6 @@ export const getDevPlugins = async ({
       pathManager,
       configManager,
     }),
-    genDemoLibs({
-      pathManager,
-      demosManager,
-      configManager,
-      devBuildPlugins: coreDevBuildPlugins,
-    }),
     genServerLibs({
       getExtraPeerDependenciesTree: extraPeerDependenciesTree,
     }),
@@ -103,12 +66,12 @@ export const getDevPlugins = async ({
     }),
     genDemoIndexHtml({
       pathManager,
-      demosManager,
+      demosManager: demoManager,
       configManager,
     }),
     genMenus({
       pathManager,
-      demosManager,
+      demosManager: demoManager,
       configManager,
     }),
     genPackageConfig({

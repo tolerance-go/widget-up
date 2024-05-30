@@ -43,6 +43,7 @@ export const convertDirectoryToDemoData = (
         const menuItem: DemoFileData = {
           config: normalizeDemoFileConfig(config, item, pathManager),
           path: item.path,
+          relPath: item.relPath,
           type: item.type,
         };
         return menuItem;
@@ -66,6 +67,7 @@ export const convertDirectoryToDemoData = (
           path
         ),
         path: item.path,
+        relPath: item.relPath,
         type: item.type,
       };
 

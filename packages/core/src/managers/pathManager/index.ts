@@ -2,6 +2,7 @@ import path from "path";
 import { normalizePath, convertSemverVersionToIdentify } from "widget-up-utils";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { IdentifierManager } from "../identifierManager";
 interface PathManagerOptions {
   cwdPath: string;
   modulePath: string;
@@ -26,11 +27,7 @@ export class PathManager {
     return PathManager.instance;
   }
 
-  public widgetUpConfigFileName: string = "widget-up";
-
-  public connectorsFolderName: string = "connectors";
-
-  public widgetUpRuntimeName: string = "runtime";
+  private identifierManager: IdentifierManager;
 
   public widgetUpConfigAbsPath: string;
   public widgetUpConfigRelativePath: string;
@@ -38,6 +35,8 @@ export class PathManager {
   public cwdPath: string;
   public modulePath: string;
   public demosAbsPath: string;
+  public demosRelPath: string;
+
   public distAbsPath: string;
   public distServerAbsPath: string;
   public tplsAbsPath: string;
@@ -59,16 +58,22 @@ export class PathManager {
   public distServerConnectorsRelativePath: string;
 
   constructor(options: PathManagerOptions) {
+    this.identifierManager = IdentifierManager.getInstance();
+
     this.cwdPath = options.cwdPath;
     this.modulePath = options.modulePath;
-    this.demosAbsPath = path.join(this.cwdPath, "demos");
+    this.demosAbsPath = path.join(
+      this.cwdPath,
+      this.identifierManager.demosFolderName
+    );
+    this.demosRelPath = path.join(".", this.identifierManager.demosFolderName);
     this.distAbsPath = path.join(this.cwdPath, "dist");
     this.distServerAbsPath = path.join(this.distAbsPath, "server");
     this.tplsAbsPath = path.join(this.modulePath, "tpls");
     this.distServerLibsAbsPath = path.join(this.distServerAbsPath, "libs");
     this.distServerConnectorsAbsPath = path.join(
       this.distServerAbsPath,
-      this.connectorsFolderName
+      this.identifierManager.connectorsFolderName
     );
     this.distServerAssetsAbsPath = path.join(this.distServerAbsPath, "assets");
     this.distServerScriptsAbsPath = path.join(
@@ -76,7 +81,7 @@ export class PathManager {
       "scripts"
     );
     this.serverLibsUrl = "/libs";
-    this.serverConnectorsUrl = `/${this.connectorsFolderName}`;
+    this.serverConnectorsUrl = `/${this.identifierManager.connectorsFolderName}`;
     this.distServerRelativePath = path.relative(
       this.cwdPath,
       this.distServerAbsPath
@@ -89,7 +94,7 @@ export class PathManager {
       this.cwdPath,
       this.distServerConnectorsAbsPath
     );
-    this.widgetUpConfigRelativePath = `./${this.widgetUpConfigFileName}.json`;
+    this.widgetUpConfigRelativePath = `./${this.identifierManager.widgetUpConfigFileName}.json`;
     this.widgetUpConfigAbsPath = path.join(
       this.cwdPath,
       this.widgetUpConfigRelativePath
@@ -129,7 +134,7 @@ export class PathManager {
   /**
    * 获取生成 demo lib 的服务器本地文件相对路径
    */
-  public getDemoLibServerRelativePath(
+  public convertDemoAbsPathToDemoLibServerRelativePath(
     /**
      * 这个路径是本地 demos 用例下文件的路径
      *
